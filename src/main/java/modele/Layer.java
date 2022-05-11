@@ -1,12 +1,22 @@
 package modele;
 
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 
 public class Layer {
 
-    ArrayList<Integer> data = new ArrayList<>();
+    private JSONObject layer;
+    private ArrayList<Integer> data = new ArrayList<>();
 
-    public Layer(String mapPath, int layerNumber){
+    public Layer(JSONObject layer){
 
     }
+
+    /*
+    for (int j = 0; j < data.size(); j++) {
+            data.add((Integer) layerData.get(j));
+            System.out.println("for loop");
+        }
+     */
 }
