@@ -8,9 +8,13 @@ import org.json.simple.parser.ParseException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Map {
+
+    private ArrayList<Layer> layers;
+    private JSONObject map;
 
     public Map(){
 
@@ -44,8 +48,15 @@ public class Map {
 
     private static void parseMap(JSONObject map) {
         //Get employee object within list
-        JSONArray mapData = (JSONArray) map.get("layers");
-        Iterator<JSONArray> layers = mapData.iterator();
+        JSONArray layersData = (JSONArray) map.get("layers");
+        JSONObject layer = (JSONObject)layersData.get(0); //gives data of layer 0
+        JSONArray layerData = (JSONArray) layer.get("data");
+        System.out.println(layerData.get(1));
 
+        ArrayList<Integer> data = new ArrayList<>();
+
+        for (int j = 0; j < data.size(); j++) {
+            data.add((Integer) layerData.get(j));
+        }
     }
 }
