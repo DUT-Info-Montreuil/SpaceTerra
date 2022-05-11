@@ -12,6 +12,7 @@ import org.json.simple.parser.ParseException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Iterator;
 
 public class HelloApplication extends Application {
     @Override
@@ -51,7 +52,8 @@ public class HelloApplication extends Application {
     private static void parseMap(JSONObject map)
     {
         //Get employee object within list
-        map.get("layers");
+        JSONArray mapData = (JSONArray) map.get("layers");
+        Iterator<JSONArray> layers = mapData.iterator();
 
     }
 }
