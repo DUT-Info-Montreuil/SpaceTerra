@@ -24,7 +24,7 @@ public class HelloApplication extends Application {
         //JSON parser object to parse read file
         JSONParser jsonParser = new JSONParser();
 
-        try (FileReader reader = new FileReader(".json"))
+        try (FileReader reader = new FileReader("map.json"))
         {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
