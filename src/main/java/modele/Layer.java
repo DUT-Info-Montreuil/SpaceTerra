@@ -1,22 +1,26 @@
 package modele;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-import java.util.ArrayList;
 
 public class Layer {
 
-    private JSONObject layer;
-    private ArrayList<Integer> data = new ArrayList<>();
+    private int[] data; // la taille ne change pas donc pas d'arrayList
+    private int width, height; // je suis pas sur de a quoi ça sert vu que c'est a 0 0 mais peut etre que certains layers couvrent pas toute la map
+    private int xPos, yPos;
 
     public Layer(JSONObject layer){
-
+        width = ((Long) layer.get("width")).intValue();
+        height = ((Long) layer.get("height")).intValue();
+        data = new int[width*height];
+        fillData((JSONArray) layer.get("data"));
+        System.out.println("Layer loaded");
     }
 
-    /*
-    for (int j = 0; j < data.size(); j++) {
-            data.add((Integer) layerData.get(j));
-            System.out.println("for loop");
+    public void fillData(JSONArray layerData){
+        for (int j = 0; j < data.length; j++) {
+            data[j] = ((Long) layerData.get(j)).intValue();
         }
-     */
+        System.out.println("data filled");
+    }
 }
