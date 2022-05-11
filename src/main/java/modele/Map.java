@@ -8,44 +8,55 @@ import org.json.simple.parser.ParseException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Map {
 
-    public Map(){
+    private JSONObject map;
+    private ArrayList<Layer> layers;
+    private int height, width;
 
+    public Map(String mapPath){
+        loadMap(mapPath);
+        parseLayers(this.map);
+        height = ((Long) map.get("height")).intValue();
+        width = ((Long) map.get("width")).intValue();
     }
 
-    public void loadMap(){
-    //JSON parser object to parse read file
-    JSONParser jsonParser = new JSONParser();
 
-        try (FileReader reader = new FileReader("src/main/resources/Map/map.json")) {
-        //Read JSON file
-        Object obj = jsonParser.parse(reader);
+    public void loadMap(String mapPath){
+        //JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
 
-        JSONObject map = (JSONObject) obj;
-        System.out.println(map);
+        //  src/main/resources/Map/map.json
+        try (FileReader reader = new FileReader(mapPath)) {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
 
-        //Iterate over employee array
-        parseMap(map);
+            map = (JSONObject) obj;
+            System.out.println(map);
+            System.out.println("Map loaded");
 
-    } catch (
-    FileNotFoundException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
-    } catch (ParseException e) {
-        e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
-}
 
+    private void parseLayers(JSONObject map) {
+        layers = new ArrayList<>();
+        JSONArray layersData = (JSONArray) map.get("layers");
 
+        Iterator<JSONObject> layersIterator =  layersData.iterator();
 
-    private static void parseMap(JSONObject map) {
-        //Get employee object within list
-        JSONArray mapData = (JSONArray) map.get("layers");
-        Iterator<JSONArray> layers = mapData.iterator();
-
+        while(layersIterator.hasNext()){
+            JSONObject currentLayer = layersIterator.next();
+            layers.add(new Layer(currentLayer));
+        }
+        System.out.println("All layers loaded");
     }
 }
