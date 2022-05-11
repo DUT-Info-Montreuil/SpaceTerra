@@ -16,24 +16,21 @@ public class Map {
     private ArrayList<Layer> layers;
     private JSONObject map;
 
-    public Map(){
-
+    public Map(String mapPath){
+        this.map = loadMap(mapPath);
     }
 
-    public void loadMap(){
+    public JSONObject loadMap(String mapPath){
     //JSON parser object to parse read file
     JSONParser jsonParser = new JSONParser();
 
-        try (FileReader reader = new FileReader("src/main/resources/Map/map.json")) {
+    //  src/main/resources/Map/map.json
+    try (FileReader reader = new FileReader(mapPath)) {
         //Read JSON file
         Object obj = jsonParser.parse(reader);
 
         JSONObject map = (JSONObject) obj;
         System.out.println(map);
-
-        //Iterate over employee array
-        parseMap(map);
-
     } catch (
     FileNotFoundException e) {
         e.printStackTrace();
@@ -42,6 +39,7 @@ public class Map {
     } catch (ParseException e) {
         e.printStackTrace();
     }
+    return map;
 }
 
 
