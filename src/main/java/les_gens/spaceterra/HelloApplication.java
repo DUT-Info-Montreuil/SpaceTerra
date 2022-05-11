@@ -24,7 +24,7 @@ public class HelloApplication extends Application {
         //JSON parser object to parse read file
         JSONParser jsonParser = new JSONParser();
 
-        try (FileReader reader = new FileReader("map.json"))
+        try (FileReader reader = new FileReader("src/main/resources/les_gens/spaceterra/map.json"))
         {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
@@ -51,7 +51,7 @@ public class HelloApplication extends Application {
     private static void parseMap(JSONObject map)
     {
         //Get employee object within list
-        map.get("employee");
+        map.get("layers");
 
     }
 }
