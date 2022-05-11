@@ -1,2 +1,3 @@
 # SpaceTerra
-bruh
+Now building...
+![](/src/main/resources/Sprites/MC/MCSpace_Idle_left.gif)
