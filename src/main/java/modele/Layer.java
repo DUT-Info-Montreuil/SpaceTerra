@@ -8,12 +8,14 @@ public class Layer {
     private int[] data; // la taille ne change pas donc pas d'arrayList
     private int width, height; // je suis pas sur de a quoi ça sert vu que c'est a 0 0 mais peut etre que certains layers couvrent pas toute la map
     private int xPos, yPos;
+    private boolean isVisibile;
 
     public Layer(JSONObject layer){
         width = ((Long) layer.get("width")).intValue();
         height = ((Long) layer.get("height")).intValue();
         data = new int[width*height];
         fillData((JSONArray) layer.get("data"));
+        isVisibile = (boolean) layer.get("visible");
         System.out.println("Layer loaded");
     }
 
