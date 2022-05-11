@@ -1,0 +1,17 @@
+package les_gens.spaceterra;
+
+public class Protagoniste {
+
+    private int vie;
+    private String main1;
+    private String main2;
+    private String armure;
+
+    public Protagoniste(){
+        this.vie = 20;
+        this.main1 = None;
+        this.main2 = None;
+        this.armure = None;
+    }
+
+}
