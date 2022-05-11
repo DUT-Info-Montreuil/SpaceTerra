@@ -9,9 +9,9 @@ public class Protagoniste {
 
     public Protagoniste(){
         this.vie = 20;
-        this.main1 = None;
-        this.main2 = None;
-        this.armure = None;
+        this.main1 = null;
+        this.main2 = null;
+        this.armure = null;
     }
 
 }
