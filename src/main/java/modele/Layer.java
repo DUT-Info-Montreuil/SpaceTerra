@@ -11,12 +11,14 @@ public class Layer {
     private boolean isVisibile;
 
     public Layer(JSONObject layer){
-        width = ((Long) layer.get("width")).intValue();
-        height = ((Long) layer.get("height")).intValue();
-        data = new int[width*height];
-        fillData((JSONArray) layer.get("data"));
-        isVisibile = (boolean) layer.get("visible");
-        System.out.println("Layer loaded");
+        if(((String)layer.get("type")).equals("tilelayer")){
+            width = ((Long) layer.get("width")).intValue();
+            height = ((Long) layer.get("height")).intValue();
+            data = new int[width*height];
+            fillData((JSONArray) layer.get("data"));
+            isVisibile = (boolean) layer.get("visible");
+            System.out.println("Layer loaded");
+        }
     }
 
     public void fillData(JSONArray layerData){
