@@ -80,9 +80,4 @@ public class Controleur implements Initializable {
         }
         return blocks;
     }
-
-
-
-
-
 }

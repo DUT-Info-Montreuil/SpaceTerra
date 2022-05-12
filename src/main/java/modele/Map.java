@@ -15,6 +15,7 @@ public class Map {
 
     private JSONObject map;
     private ArrayList<Layer> layers;
+    private Tile[] tileSet;
     private int height, width;
 
     public Map(String mapPath){
@@ -22,6 +23,7 @@ public class Map {
         parseLayers(this.map);
         height = ((Long) map.get("height")).intValue();
         width = ((Long) map.get("width")).intValue();
+        tileSet = new Tile[];
     }
 
 
