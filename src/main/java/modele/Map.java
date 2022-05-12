@@ -15,7 +15,7 @@ public class Map {
 
     private JSONObject map;
     private ArrayList<Layer> layers;
-    private Tile[] tileSet;
+    private Tileset tileSets;
     private int height, width;
 
     public Map(String mapPath){
@@ -23,7 +23,7 @@ public class Map {
         parseLayers(this.map);
         height = ((Long) map.get("height")).intValue();
         width = ((Long) map.get("width")).intValue();
-        tileSet = new Tile[];
+        tileSets = new Tileset((JSONObject) ((JSONArray) map.get("tilesets")).get(0));
     }
 
 
@@ -65,5 +65,4 @@ public class Map {
     public ArrayList<Layer> getLayers(){
         return layers;
     }
-
 }
