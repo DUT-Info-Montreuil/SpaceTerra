@@ -26,4 +26,8 @@ public class Tileset {
         }
         System.out.println("All Tiles loaded");
     }
+
+    public ArrayList<Tile> getTiles(){
+        return tiles;
+    }
 }

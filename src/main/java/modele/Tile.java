@@ -18,9 +18,20 @@ public class Tile {
         image = new Image(String.valueOf(getClass().getResource("/Sprites/TileSet/" + findTileFileName(tile))));
     }
 
-    //((String) tile.get("image")).replace("\\", "")
     public String findTileFileName(JSONObject tile){
         Path p = Paths.get(((String) tile.get("image")).replace("\\", ""));
         return p.getFileName().toString();
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public Image getImage(){
+        return image;
+    }
+
+    public int getTileWidth(){
+        return tileWidth;
     }
 }
