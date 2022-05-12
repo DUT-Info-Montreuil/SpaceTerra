@@ -27,4 +27,9 @@ public class Layer {
         }
         System.out.println("data filled");
     }
+
+    public int[] getData(){
+        return data;
+    }
+
 }

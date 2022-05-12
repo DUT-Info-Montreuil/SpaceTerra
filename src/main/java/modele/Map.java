@@ -59,4 +59,9 @@ public class Map {
         }
         System.out.println("All layers loaded");
     }
+
+    public ArrayList<Layer> getLayers(){
+        return layers;
+    }
+
 }
