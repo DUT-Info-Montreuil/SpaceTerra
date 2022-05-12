@@ -31,5 +31,23 @@ public class Layer {
     public int[] getData(){
         return data;
     }
+    public int getxPos(){
+        return xPos;
+    }
+    public int getyPos(){
+        return yPos;
+    }
+
+    public int getWidth(){
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+
+    public boolean getIsVisible(){
+        return isVisibile;
+    }
 
 }
