@@ -2,13 +2,14 @@ package controleur;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import modele.Layer;
 import modele.Map;
 
-import javax.swing.text.html.ImageView;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -39,9 +40,8 @@ public class Controleur implements Initializable {
                             y += 32;
                             currentWidth = 0;
                         }
-                            Rectangle r = new Rectangle(x, y, 32, 32);
-                            x += 32;
-                            currentWidth++;
+                        Rectangle r = new Rectangle(x, y, 32, 32);
+                        ImageView img = null;
                             switch(data[t]){
                                 case 0:
                                     r.setFill(Color.TRANSPARENT);
@@ -66,6 +66,9 @@ public class Controleur implements Initializable {
                                 default:
                                   //  r.setFill(Color.BLACK);
                             }
+
+                        x += 32;
+                        currentWidth++;
 
                             panneauDeJeu.getChildren().add(r);
                     }
