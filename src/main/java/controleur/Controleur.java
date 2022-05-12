@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import modele.Layer;
 import modele.Map;
 
 import javax.swing.text.html.ImageView;
@@ -24,51 +25,50 @@ public class Controleur implements Initializable {
     public ArrayList<Integer> blockMap(Map map) {
         ArrayList<Integer> blocks = new ArrayList<>();
 
-        for(int i = 0; i < map.getLayers().size(); i++){
-            if(map.getLayers().get(i).getIsVisible()){
-                int x = map.getLayers().get(i).getxPos();
-                int y = map.getLayers().get(i).getyPos();;
-                int[] data = map.getLayers().get(i).getData();
+        for(int l = 0; l < map.getLayers().size(); l++){
+            if(map.getLayers().get(l).getIsVisible()){
+                Layer currentLayer = map.getLayers().get(l);
+                int x = currentLayer.getxPos();
+                int y = currentLayer.getyPos();
+                int[] data = currentLayer.getData();
+                int currentWidth = 0;
                 try{
-                    int currentWidth = 0;
-                    for(int j = 0; j < data.length; j++){
-                        if(currentWidth < map.getLayers().get(i).getWidth()){
-                            Rectangle r = new Rectangle(x, y, 32, 32);
-                            x += 32;
-                            currentWidth++;
-                            switch(data[j]){
-                                case 0:
-                                    r.setFill(Color.TRANSPARENT);
-                                    r.setStroke(Color.RED);
-                                    break;
-                                case 1:
-                                    r.setFill(Color.RED);
-                                    r.setStroke(Color.RED);
-                                    break;
-                                case 2:
-                                    r.setFill(Color.YELLOW);
-                                    r.setStroke(Color.RED);
-                                    break;
-                                case 3:
-                                    r.setFill(Color.PINK);
-                                    r.setStroke(Color.RED);
-                                    break;
-                                case 4:
-                                    r.setFill(Color.GREEN);
-                                    r.setStroke(Color.RED);
-                                    break;
-                                default:
-                                    r.setFill(Color.BLACK);
-                            }
-                            panneauDeJeu.getChildren().add(r);
-                        } else {
-                            x = map.getLayers().get(i).getxPos();
+                    for(int t = 0; t < data.length; t++){
+                        if(!(currentWidth < currentLayer.getWidth())){
+                            x = currentLayer.getxPos();
                             y += 32;
                             currentWidth = 0;
                         }
+                            Rectangle r = new Rectangle(x, y, 32, 32);
+                            x += 32;
+                            currentWidth++;
+                            switch(data[t]){
+                                case 0:
+                                    r.setFill(Color.TRANSPARENT);
+                                   // r.setStroke(Color.RED);
+                                    break;
+                                case 1:
+                                    r.setFill(Color.RED);
+                                  //  r.setStroke(Color.RED);
+                                    break;
+                                case 2:
+                                    r.setFill(Color.YELLOW);
+                                  //  r.setStroke(Color.RED);
+                                    break;
+                                case 3:
+                                    r.setFill(Color.PINK);
+                                  //  r.setStroke(Color.RED);
+                                    break;
+                                case 4:
+                                    r.setFill(Color.GREEN);
+                                 //   r.setStroke(Color.RED);
+                                    break;
+                                default:
+                                  //  r.setFill(Color.BLACK);
+                            }
+
+                            panneauDeJeu.getChildren().add(r);
                     }
-
-
                 } catch (NullPointerException e){
                     System.out.println("null");
                 }
