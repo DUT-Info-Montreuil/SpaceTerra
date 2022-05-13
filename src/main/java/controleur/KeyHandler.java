@@ -4,8 +4,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
-import java.beans.EventHandler;
 
 public class KeyHandler {
     private static boolean rightPressed, leftPressed, upPressed, downPressed;
@@ -25,6 +25,7 @@ public class KeyHandler {
             if(e.getCode() == KeyCode.D) {
                 System.out.println("Key Pressed: avancer : " + e.getCode());
                 rightPressed = true;
+
             }
             else if (e.getCode() == KeyCode.Q) {
                 System.out.println("Key Pressed: reculer : " + e.getCode());
