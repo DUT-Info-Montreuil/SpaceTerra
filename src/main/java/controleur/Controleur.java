@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.ParallelCamera;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -14,6 +15,7 @@ import modele.Terrain;
 import modele.Protagoniste;
 import vue.TerrainView;
 
+import javax.naming.PartialResultException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,6 +45,9 @@ public class Controleur implements Initializable {
         rectangle.setFill(Color.PINK);
         rectangle.setStroke(Color.BLACK);
 
+        rectangle.xProperty().bind(joueur.getXProperty());
+        rectangle.yProperty().bind(joueur.getYProperty());
+
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -58,15 +63,13 @@ public class Controleur implements Initializable {
                 if (KeyHandler.downPressed){
                     joueur.setYProperty(joueur.getYProperty().intValue() + 1);
                 }
-                rectangle.xProperty().bind(joueur.getXProperty());
-                rectangle.yProperty().bind(joueur.getYProperty());
+                panneauDeJeu.getScene().getCamera().setLayoutX(joueur.getXProperty().intValue());
+                panneauDeJeu.getScene().getCamera().setLayoutY(joueur.getYProperty().intValue());
             }
         }));
         panneauDeJeu.getChildren().add(rectangle);
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-
-
     }
 
 }
