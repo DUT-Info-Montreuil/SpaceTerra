@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -14,6 +16,7 @@ import modele.Terrain;
 import modele.Protagoniste;
 import vue.TerrainView;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -36,12 +39,10 @@ public class Controleur implements Initializable {
 
     public void creerJoueur() {
         Protagoniste joueur = new Protagoniste();
-        joueur.setXProperty(200);
-        joueur.setYProperty(200);
+        joueur.setXProperty(80);
+        joueur.setYProperty(80);
 
-        Rectangle rectangle = new Rectangle(joueur.getXProperty().intValue(), joueur.getYProperty().intValue(), 48, 48);
-        rectangle.setFill(Color.PINK);
-        rectangle.setStroke(Color.BLACK);
+        ImageView imageView = new ImageView(new Image(new File("Sprites/MC/MCSpace_Idle_right.gif").toString()));
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
             @Override
@@ -58,14 +59,13 @@ public class Controleur implements Initializable {
                 if (KeyHandler.downPressed){
                     joueur.setYProperty(joueur.getYProperty().intValue() + 1);
                 }
-                rectangle.xProperty().bind(joueur.getXProperty());
-                rectangle.yProperty().bind(joueur.getYProperty());
+                imageView.xProperty().bind(joueur.getXProperty());
+                imageView.yProperty().bind(joueur.getYProperty());
             }
         }));
-        panneauDeJeu.getChildren().add(rectangle);
+        panneauDeJeu.getChildren().add(imageView);
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-
 
     }
 
