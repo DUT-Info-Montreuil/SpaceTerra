@@ -11,14 +11,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Map {
+public class Terrain {
 
     private JSONObject map;
     private ArrayList<Layer> layers;
     private Tileset tileSet;
     private int height, width;
 
-    public Map(String mapPath){
+    public Terrain(String mapPath){
         loadMap(mapPath);
         parseLayers(this.map);
         height = ((Long) map.get("height")).intValue();

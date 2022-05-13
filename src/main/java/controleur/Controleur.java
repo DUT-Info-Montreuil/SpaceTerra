@@ -1,58 +1,71 @@
 package controleur;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import modele.Layer;
-import modele.Map;
-import modele.Tile;
+import javafx.util.Duration;
+import modele.Terrain;
+import modele.Protagoniste;
+import vue.TerrainView;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controleur implements Initializable {
+
     @FXML
     private Pane panneauDeJeu;
-    private Map map;
+    private TerrainView terrainView;
+
+    boolean rightPressed, leftPressed, upPressed, downPressed;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        map = new Map("src/main/resources/Map/Test.json");
-        readMap(map);
+        terrainView = new TerrainView(new Terrain("src/main/resources/Map/Test.json"), panneauDeJeu);
+        terrainView.addBlockMap();
+        creerJoueur();
+
     }
-    public void readMap(Map map) {
-        for(int l = 0; l < map.getLayers().size(); l++){
-            if(map.getLayers().get(l).getIsVisible()){
-                Layer currentLayer = map.getLayers().get(l);
-                int x = currentLayer.getxPos();
-                int y = currentLayer.getyPos();
-                int[] data = currentLayer.getData();
-                int currentWidth = 0;
-                try{
-                    for(int t = 0; t < data.length; t++){
-                        if(!(currentWidth < currentLayer.getWidth())){
-                            x = currentLayer.getxPos();
-                            y += 32;
-                            currentWidth = 0;
-                        }
-                        for(Tile currTile : map.getTileset().getTiles())
-                            if(data[t] == currTile.getId()){
-                                ImageView sprite = new ImageView(currTile.getImage());
-                                sprite.setX(x);
-                                sprite.setY(y);
-                                panneauDeJeu.getChildren().add(sprite);
-                            }
-                        x += 32;
-                        currentWidth++;
-                    }
-                } catch (NullPointerException e){
-                    System.out.println("null");
+
+    public void creerJoueur() {
+        Protagoniste joueur = new Protagoniste();
+        joueur.setXProperty(200);
+        joueur.setYProperty(200);
+
+        Rectangle rectangle = new Rectangle(joueur.getXProperty().intValue(), joueur.getYProperty().intValue(), 48, 48);
+        rectangle.setFill(Color.PINK);
+        rectangle.setStroke(Color.BLACK);
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(KeyHandler.rightPressed){
+                    joueur.setXProperty(joueur.getXProperty().intValue() + 1);
                 }
+                if (KeyHandler.leftPressed){
+                    joueur.setXProperty(joueur.getXProperty().intValue() - 1);
+                }
+                if (KeyHandler.upPressed){
+                    joueur.setYProperty(joueur.getYProperty().intValue() - 1);
+                }
+                if (KeyHandler.downPressed){
+                    joueur.setYProperty(joueur.getYProperty().intValue() + 1);
+                }
+                rectangle.xProperty().bind(joueur.getXProperty());
+                rectangle.yProperty().bind(joueur.getYProperty());
             }
-        }
+        }));
+        panneauDeJeu.getChildren().add(rectangle);
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+
+
     }
+
 }
