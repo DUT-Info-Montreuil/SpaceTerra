@@ -38,8 +38,8 @@ public class Controleur implements Initializable {
 
     public void creerJoueur() {
         Protagoniste joueur = new Protagoniste();
-        joueur.setXProperty(200);
-        joueur.setYProperty(200);
+        joueur.setXProperty(10);
+        joueur.setYProperty(10);
 
         Rectangle rectangle = new Rectangle(joueur.getXProperty().intValue(), joueur.getYProperty().intValue(), 48, 48);
         rectangle.setFill(Color.PINK);
@@ -52,16 +52,16 @@ public class Controleur implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if(KeyHandler.rightPressed){
-                    joueur.setXProperty(joueur.getXProperty().intValue() + 1);
+                    joueur.setXProperty(joueur.getXProperty().intValue() + 50);
                 }
                 if (KeyHandler.leftPressed){
-                    joueur.setXProperty(joueur.getXProperty().intValue() - 1);
+                    joueur.setXProperty(joueur.getXProperty().intValue() - 50);
                 }
                 if (KeyHandler.upPressed){
-                    joueur.setYProperty(joueur.getYProperty().intValue() - 1);
+                    joueur.setYProperty(joueur.getYProperty().intValue() - 50);
                 }
                 if (KeyHandler.downPressed){
-                    joueur.setYProperty(joueur.getYProperty().intValue() + 1);
+                    joueur.setYProperty(joueur.getYProperty().intValue() + 50);
                 }
                 panneauDeJeu.getScene().getCamera().setLayoutX(joueur.getXProperty().intValue());
                 panneauDeJeu.getScene().getCamera().setLayoutY(joueur.getYProperty().intValue());
