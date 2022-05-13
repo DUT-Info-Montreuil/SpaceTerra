@@ -1,9 +1,8 @@
 package modele;
 
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
 
-public class KeyHandler2 {
+public class KeyHandler {
 
    public static void keyTyped(Scene scene) {
        scene.setOnKeyTyped(e -> {
