@@ -22,13 +22,15 @@ public class Controleur implements Initializable {
     @FXML
     private Pane panneauDeJeu;
     private TerrainView terrainView;
+    private Terrain terrain;
 
     boolean rightPressed, leftPressed, upPressed, downPressed;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        terrainView = new TerrainView(new Terrain("src/main/resources/Map/Test.json"), panneauDeJeu);
-        terrainView.addBlockMap();
+        terrain = new Terrain("src/main/resources/Map/Test.json");
+        terrainView = new TerrainView(panneauDeJeu);
+        terrainView.readMap(terrain);
         creerJoueur();
 
     }
