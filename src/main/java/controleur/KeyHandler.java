@@ -63,9 +63,27 @@ public class KeyHandler {
         });
     }
 
+
+
     public void keyWorking(){
         keyPressed();
         keyReleased();
+    }
+
+    public static boolean isRightPressed() {
+        return rightPressed;
+    }
+
+    public static boolean isLeftPressed() {
+        return leftPressed;
+    }
+
+    public static boolean isUpPressed() {
+        return upPressed;
+    }
+
+    public static boolean isDownPressed() {
+        return downPressed;
     }
 
 }
