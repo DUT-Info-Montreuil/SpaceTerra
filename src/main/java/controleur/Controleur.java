@@ -106,11 +106,12 @@ public class Controleur implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 joueur.setXProperty(joueur.getXProperty().intValue() + 1);
-                //rectangle.xProperty().bind(joueur.getXProperty());
+                rectangle.xProperty().bind(joueur.getXProperty());
                 //rectangle.yProperty().bind(joueur.getYProperty());
             }
         }));
         panneauDeJeu.getChildren().add(rectangle);
+        timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
 
