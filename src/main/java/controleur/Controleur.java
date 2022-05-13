@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -18,10 +19,13 @@ public class Controleur implements Initializable {
     @FXML
     private Pane panneauDeJeu;
     private Map map;
+
+    boolean rightPressed, leftPressed, upPressed, downPressed;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         map = new Map("src/main/resources/Map/Test.json");
         blockMap(map);
+
     }
     public ArrayList<Integer> blockMap(Map map) {
         ArrayList<Integer> blocks = new ArrayList<>();
@@ -80,8 +84,6 @@ public class Controleur implements Initializable {
         }
         return blocks;
     }
-
-
 
 
 
