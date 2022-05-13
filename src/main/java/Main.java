@@ -12,7 +12,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Pane root = FXMLLoader.load(getClass().getResource("vueMap.fxml"));
-        Scene scene = new Scene(root, 32*10,32*10, Color.LIGHTSKYBLUE);
+        Scene scene = new Scene(root, 32*10,32*10, Color.DARKBLUE);
         ParallelCamera camera = new ParallelCamera();
         scene.setCamera(camera);
         stage.setScene(scene);
