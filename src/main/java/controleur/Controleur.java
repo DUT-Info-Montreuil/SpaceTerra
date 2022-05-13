@@ -7,6 +7,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -16,6 +18,7 @@ import modele.Protagoniste;
 import vue.TerrainView;
 
 import javax.naming.PartialResultException;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -41,12 +44,9 @@ public class Controleur implements Initializable {
         joueur.setXProperty(10);
         joueur.setYProperty(10);
 
-        Rectangle rectangle = new Rectangle(joueur.getXProperty().intValue(), joueur.getYProperty().intValue(), 48, 48);
-        rectangle.setFill(Color.PINK);
-        rectangle.setStroke(Color.BLACK);
-
-        rectangle.xProperty().bind(joueur.getXProperty());
-        rectangle.yProperty().bind(joueur.getYProperty());
+        ImageView spriteJoueur = new ImageView(new Image(String.valueOf(getClass().getResource("/Sprites/MC/MCSpace_Idle_right.gif")))); // je laisse ça comme exemple qui utilise le dossier resources comme ça quand on gerera les animations on pourra faire le meme delire mais changer le nom de fichier.gif
+        spriteJoueur.xProperty().bind(joueur.getXProperty());
+        spriteJoueur.yProperty().bind(joueur.getYProperty());
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
             @Override
@@ -67,7 +67,7 @@ public class Controleur implements Initializable {
                 panneauDeJeu.getScene().getCamera().setLayoutY(joueur.getYProperty().intValue());
             }
         }));
-        panneauDeJeu.getChildren().add(rectangle);
+        panneauDeJeu.getChildren().add(spriteJoueur);
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
