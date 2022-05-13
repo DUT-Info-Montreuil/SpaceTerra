@@ -30,7 +30,8 @@ public class Controleur implements Initializable {
         terrainView = new TerrainView(new Terrain("src/main/resources/Map/Test.json"), panneauDeJeu);
         terrainView.addBlockMap();
         creerJoueur();
-
+        KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
+        keyHandler.keyWorking();
     }
 
     public void creerJoueur() {
