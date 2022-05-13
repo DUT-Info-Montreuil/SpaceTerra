@@ -24,15 +24,14 @@ public class Controleur implements Initializable {
     private TerrainView terrainView;
     private Terrain terrain;
 
-    boolean rightPressed, leftPressed, upPressed, downPressed;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         terrain = new Terrain("src/main/resources/Map/Test.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
         creerJoueur();
-
+        KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
+        keyHandler.keyWorking();
     }
 
     public void creerJoueur() {

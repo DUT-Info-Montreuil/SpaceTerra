@@ -2,26 +2,25 @@ package controleur;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 
 public class KeyHandler {
     public static boolean rightPressed, leftPressed, upPressed, downPressed;
-    private Scene scene;
 
-    public KeyHandler(Scene scene) {
+    private Pane pane;
+
+    public KeyHandler(Pane pane) {
         rightPressed = false;
         leftPressed = false;
         upPressed = false;
         downPressed = false;
-        this.scene = scene;
+        this.pane = pane;
 
     }
 
     private void keyPressed() {
-        scene.setOnKeyPressed(e -> {
+        pane.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.D) {
                 System.out.println("Key Pressed: avancer : " + e.getCode());
                 rightPressed = true;
@@ -43,7 +42,7 @@ public class KeyHandler {
    }
 
     private void keyReleased() {
-        scene.setOnKeyReleased(e -> {
+        pane.setOnKeyReleased(e -> {
             if(e.getCode() == KeyCode.D) {
                 System.out.println("Key Released: ne plus avancer : " + e.getCode());
                 rightPressed = false;
