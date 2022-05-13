@@ -21,6 +21,7 @@ public class Controleur implements Initializable {
     private Map map;
 
     boolean rightPressed, leftPressed, upPressed, downPressed;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         map = new Map("src/main/resources/Map/Test.json");

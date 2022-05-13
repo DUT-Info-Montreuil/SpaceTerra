@@ -18,5 +18,7 @@ public class Main extends Application {
         KeyHandler keyHandler = new KeyHandler(scene);
         keyHandler.keyWorking();
 
+        
+
     }
 }
