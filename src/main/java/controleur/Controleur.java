@@ -32,7 +32,8 @@ public class Controleur implements Initializable {
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
         creerJoueur();
-
+        KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
+        keyHandler.keyWorking();
     }
 
     public void creerJoueur() {

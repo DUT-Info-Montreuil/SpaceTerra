@@ -14,8 +14,6 @@ public class Main extends Application {
         Scene scene = new Scene(root, 32*10,32*10, Color.LIGHTSKYBLUE);
         stage.setScene(scene);
         stage.show();
-        KeyHandler keyHandler = new KeyHandler(scene);
-        keyHandler.keyWorking();
         root.requestFocus();
 
     }
