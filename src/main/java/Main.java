@@ -16,6 +16,7 @@ public class Main extends Application {
         stage.show();
         KeyHandler keyHandler = new KeyHandler(scene);
         keyHandler.keyWorking();
+        root.requestFocus();
 
     }
 
