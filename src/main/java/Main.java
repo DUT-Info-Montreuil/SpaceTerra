@@ -19,6 +19,4 @@ public class Main extends Application {
         root.requestFocus();
 
     }
-
-
 }
