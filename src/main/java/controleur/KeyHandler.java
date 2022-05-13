@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 
 
 public class KeyHandler {
-    private static boolean rightPressed, leftPressed, upPressed, downPressed;
+    public static boolean rightPressed, leftPressed, upPressed, downPressed;
     private Scene scene;
 
     public KeyHandler(Scene scene) {

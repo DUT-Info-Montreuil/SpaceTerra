@@ -5,16 +5,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import modele.Layer;
-import modele.Map;
+import modele.Terrain;
 
 import java.util.ArrayList;
 
 public class TerrainView {
-    private Map map;
+    private Terrain terrain;
     private Pane panneau;
 
-    public TerrainView(Map map, Pane panneau) {
-        this.map = map;
+    public TerrainView(Terrain terrain, Pane panneau) {
+        this.terrain = terrain;
         this.panneau = panneau;
 
     }
@@ -22,9 +22,9 @@ public class TerrainView {
     public ArrayList<Integer> addBlockMap() {
         ArrayList<Integer> blocks = new ArrayList<>();
 
-        for(int l = 0; l < map.getLayers().size(); l++){
-            if(map.getLayers().get(l).getIsVisible()){
-                Layer currentLayer = map.getLayers().get(l);
+        for(int l = 0; l < terrain.getLayers().size(); l++){
+            if(terrain.getLayers().get(l).getIsVisible()){
+                Layer currentLayer = terrain.getLayers().get(l);
                 int x = currentLayer.getxPos();
                 int y = currentLayer.getyPos();
                 int[] data = currentLayer.getData();

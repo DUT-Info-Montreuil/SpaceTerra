@@ -6,18 +6,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import modele.Layer;
-import modele.Map;
+import modele.Terrain;
 import modele.Protagoniste;
 import vue.TerrainView;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controleur implements Initializable {
@@ -30,7 +27,7 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        terrainView = new TerrainView(new Map("src/main/resources/Map/Test.json"), panneauDeJeu);
+        terrainView = new TerrainView(new Terrain("src/main/resources/Map/Test.json"), panneauDeJeu);
         terrainView.addBlockMap();
         creerJoueur();
 
@@ -48,9 +45,20 @@ public class Controleur implements Initializable {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                joueur.setXProperty(joueur.getXProperty().intValue() + 1);
+                if(KeyHandler.rightPressed){
+                    joueur.setXProperty(joueur.getXProperty().intValue() + 1);
+                }
+                if (KeyHandler.leftPressed){
+                    joueur.setXProperty(joueur.getXProperty().intValue() - 1);
+                }
+                if (KeyHandler.upPressed){
+                    joueur.setYProperty(joueur.getYProperty().intValue() - 1);
+                }
+                if (KeyHandler.downPressed){
+                    joueur.setYProperty(joueur.getYProperty().intValue() + 1);
+                }
                 rectangle.xProperty().bind(joueur.getXProperty());
-                //rectangle.yProperty().bind(joueur.getYProperty());
+                rectangle.yProperty().bind(joueur.getYProperty());
             }
         }));
         panneauDeJeu.getChildren().add(rectangle);
