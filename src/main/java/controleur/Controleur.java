@@ -27,6 +27,13 @@ public class Controleur implements Initializable {
     private TerrainView terrainView;
     private Terrain terrain;
 
+    private double vmarche;
+    private double vitesseY;
+
+    private static double timerSaut;
+
+    private static double g = 0.1;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         terrain = new Terrain("src/main/resources/Map/Test.json");
@@ -35,12 +42,16 @@ public class Controleur implements Initializable {
         creerJoueur();
         KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyWorking();
+        vitesseY = 5;
+        vmarche = 1;
     }
 
     public void creerJoueur() {
         Protagoniste joueur = new Protagoniste();
         joueur.setXProperty(80);
         joueur.setYProperty(80);
+        System.out.println(panneauDeJeu.getBoundsInLocal().getWidth());
+        System.out.println(panneauDeJeu.getBoundsInLocal().getHeight());
 
         ImageView imageView = new ImageView(new Image(new File("Sprites/MC/MCSpace_Idle_right.gif").toString()));
 
@@ -48,24 +59,30 @@ public class Controleur implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if(KeyHandler.rightPressed){
-                    joueur.setXProperty(joueur.getXProperty().intValue() + 1);
+                    joueur.setXProperty(joueur.getXProperty().doubleValue() + vmarche);
                 }
                 if (KeyHandler.leftPressed){
-                    joueur.setXProperty(joueur.getXProperty().intValue() - 1);
+                    joueur.setXProperty(joueur.getXProperty().doubleValue() - vmarche);
                 }
                 if (KeyHandler.upPressed){
-                    joueur.setYProperty(joueur.getYProperty().intValue() - 1);
+                    joueur.setYProperty(joueur.getYProperty().doubleValue() - vitesseY);
+                    vitesseY -= g;
                 }
                 if (KeyHandler.downPressed){
-                    joueur.setYProperty(joueur.getYProperty().intValue() + 1);
+                    joueur.setYProperty(joueur.getYProperty().doubleValue() + vmarche);
+                }
+                if (joueur.getYProperty().doubleValue() > 80) {
+                    vitesseY = 0;
                 }
                 imageView.xProperty().bind(joueur.getXProperty());
                 imageView.yProperty().bind(joueur.getYProperty());
+
             }
         }));
         panneauDeJeu.getChildren().add(imageView);
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+
 
     }
 
