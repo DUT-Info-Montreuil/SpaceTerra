@@ -13,9 +13,15 @@ public class Player {
     private String armure;
     private DoubleProperty xProperty;
     private DoubleProperty yProperty;
-    private final double walkSpeed = 10;
     private Image image;
-    private final double jumpForce = 30;
+
+    private final double walkSpeed = 10;
+    private final double jumpForce = 100;
+    private static double gravity = 9.81;
+    private double fallMultiplier = 1.01;
+    private double lowJumpMultiplier = 2.5;
+    // v = pos - prevPos / diffTemp
+    // this.setYProperty(gravity * fallMultiplier)
 
     public Player(){
         this.vie = 20;
@@ -24,7 +30,6 @@ public class Player {
         xProperty = new SimpleDoubleProperty(0);
         yProperty = new SimpleDoubleProperty(0);
         image = new Image(String.valueOf(getClass().getResource("/Sprites/MC/MCSpace_Idle_right.gif")));
-
     }
 
     public void horizontalMovement(boolean left, boolean right) {
@@ -37,9 +42,13 @@ public class Player {
     }
 
     public void jump() {
-        if (isGrounded()) {
+        if (isGrounded())
             this.setYProperty(this.yProperty.getValue() - jumpForce);
-        }
+    }
+
+    public void applyGrav(){
+        if(!isGrounded())
+            this.setYProperty(this.yProperty.getValue() + gravity);
     }
 
     public boolean isGrounded() {

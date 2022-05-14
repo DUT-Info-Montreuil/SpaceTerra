@@ -27,7 +27,6 @@ public class Controleur implements Initializable {
     private double vmarche;
     private double vitesseY;
 
-    private static double g = 0.1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,6 +66,8 @@ public class Controleur implements Initializable {
                     //joueur.setYProperty(joueur.getYProperty().doubleValue() - vitesseY);
                     //vitesseY -= g;
                 }
+                player.applyGrav();
+
 
                 panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty());
                 panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty());
