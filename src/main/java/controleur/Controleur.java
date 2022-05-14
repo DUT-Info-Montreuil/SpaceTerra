@@ -36,26 +36,27 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        terrain = new Terrain("src/main/resources/Map/Test.json");
+        terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
         creerJoueur();
         KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyWorking();
         vitesseY = 5;
-        vmarche = 1;
+        vmarche = 10;
     }
 
     public void creerJoueur() {
         Protagoniste joueur = new Protagoniste();
-        joueur.setXProperty(80);
-        joueur.setYProperty(80);
-        System.out.println(panneauDeJeu.getBoundsInLocal().getWidth());
-        System.out.println(panneauDeJeu.getBoundsInLocal().getHeight());
+        joueur.setXProperty(10);
+        joueur.setYProperty(10);
 
-        ImageView imageView = new ImageView(new Image(new File("Sprites/MC/MCSpace_Idle_right.gif").toString()));
+        ImageView spriteJoueur = new ImageView(new Image(String.valueOf(getClass().getResource("/Sprites/MC/MCSpace_Idle_right.gif"))));
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
+        spriteJoueur.xProperty().bind(joueur.getXProperty());
+        spriteJoueur.yProperty().bind(joueur.getYProperty());
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if(KeyHandler.rightPressed){
@@ -74,12 +75,11 @@ public class Controleur implements Initializable {
                 if (joueur.getYProperty().doubleValue() > 80) {
                     vitesseY = 0;
                 }
-                imageView.xProperty().bind(joueur.getXProperty());
-                imageView.yProperty().bind(joueur.getYProperty());
-
+                panneauDeJeu.getScene().getCamera().layoutXProperty().bind(joueur.getXProperty());
+                panneauDeJeu.getScene().getCamera().layoutYProperty().bind(joueur.getYProperty());
             }
         }));
-        panneauDeJeu.getChildren().add(imageView);
+        panneauDeJeu.getChildren().add(spriteJoueur);
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
