@@ -25,7 +25,7 @@ public class Controleur implements Initializable {
     private Timeline timeline;
     private Player player;
 
-    private static double g = 0.7;
+    private static double g = 0.3;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,14 +58,18 @@ public class Controleur implements Initializable {
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
                     player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
                 }
+
                 if (KeyHandler.upPressed){
                     player.jump();
                     if (player.isGrounded()) {
                         player.setVitesseY(0);
+                        KeyHandler.upPressed = false;
                     }
                 }
-                else if (!KeyHandler.upPressed && player.isGrounded())
-                    player.setVitesseY(5);
+                else if (!KeyHandler.upPressed && player.isGrounded()) {
+                    player.setVitesseY(3);
+                }
+
                 panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty());
                 panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty());
             }

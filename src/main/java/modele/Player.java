@@ -17,7 +17,7 @@ public class Player {
     private final double walkSpeed = 10;
     private Image image;
     private double vitesseY;
-    private static double g = 0.1;
+    private static double g = 0.23;
 
     public Player(){
         this.vie = 20;
@@ -26,7 +26,7 @@ public class Player {
         xProperty = new SimpleDoubleProperty(0);
         yProperty = new SimpleDoubleProperty(0);
         image = new Image(String.valueOf(getClass().getResource("/Sprites/MC/MCSpace_Idle_right.gif")));
-        vitesseY = 5;
+        vitesseY = 3;
 
     }
 
