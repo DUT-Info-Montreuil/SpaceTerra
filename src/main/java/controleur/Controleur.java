@@ -25,8 +25,6 @@ public class Controleur implements Initializable {
     private Timeline timeline;
     private Player player;
 
-    private static double g = 0.3;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
@@ -66,8 +64,8 @@ public class Controleur implements Initializable {
                         KeyHandler.upPressed = false;
                     }
                 }
-                else if (!KeyHandler.upPressed && player.isGrounded()) {
-                    player.setVitesseY(3);
+                else if (player.isGrounded()) {
+                    player.setVitesseY(6);
                 }
 
                 panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty());
