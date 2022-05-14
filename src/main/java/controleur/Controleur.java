@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.ParallelCamera;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -17,7 +16,6 @@ import modele.Terrain;
 import modele.Protagoniste;
 import vue.TerrainView;
 
-import javax.naming.PartialResultException;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,47 +27,63 @@ public class Controleur implements Initializable {
     private TerrainView terrainView;
     private Terrain terrain;
 
+    private double vmarche;
+    private double vitesseY;
+
+    private static double timerSaut;
+
+    private static double g = 0.1;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        terrain = new Terrain("src/main/resources/Map/bigTest.json");
+        terrain = new Terrain("src/main/resources/Map/Test.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
         creerJoueur();
         KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyWorking();
+        vitesseY = 5;
+        vmarche = 1;
     }
 
     public void creerJoueur() {
         Protagoniste joueur = new Protagoniste();
-        joueur.setXProperty(10);
-        joueur.setYProperty(10);
+        joueur.setXProperty(80);
+        joueur.setYProperty(80);
+        System.out.println(panneauDeJeu.getBoundsInLocal().getWidth());
+        System.out.println(panneauDeJeu.getBoundsInLocal().getHeight());
 
-        ImageView spriteJoueur = new ImageView(new Image(String.valueOf(getClass().getResource("/Sprites/MC/MCSpace_Idle_right.gif")))); // je laisse ça comme exemple qui utilise le dossier resources comme ça quand on gerera les animations on pourra faire le meme delire mais changer le nom de fichier.gif
-        spriteJoueur.xProperty().bind(joueur.getXProperty());
-        spriteJoueur.yProperty().bind(joueur.getYProperty());
+        ImageView imageView = new ImageView(new Image(new File("Sprites/MC/MCSpace_Idle_right.gif").toString()));
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if(KeyHandler.rightPressed){
-                    joueur.setXProperty(joueur.getXProperty().intValue() + 50);
+                    joueur.setXProperty(joueur.getXProperty().doubleValue() + vmarche);
                 }
                 if (KeyHandler.leftPressed){
-                    joueur.setXProperty(joueur.getXProperty().intValue() - 50);
+                    joueur.setXProperty(joueur.getXProperty().doubleValue() - vmarche);
                 }
                 if (KeyHandler.upPressed){
-                    joueur.setYProperty(joueur.getYProperty().intValue() - 50);
+                    joueur.setYProperty(joueur.getYProperty().doubleValue() - vitesseY);
+                    vitesseY -= g;
                 }
                 if (KeyHandler.downPressed){
-                    joueur.setYProperty(joueur.getYProperty().intValue() + 50);
+                    joueur.setYProperty(joueur.getYProperty().doubleValue() + vmarche);
                 }
-                panneauDeJeu.getScene().getCamera().setLayoutX(joueur.getXProperty().intValue());
-                panneauDeJeu.getScene().getCamera().setLayoutY(joueur.getYProperty().intValue());
+                if (joueur.getYProperty().doubleValue() > 80) {
+                    vitesseY = 0;
+                }
+                imageView.xProperty().bind(joueur.getXProperty());
+                imageView.yProperty().bind(joueur.getYProperty());
+
             }
         }));
-        panneauDeJeu.getChildren().add(spriteJoueur);
+        panneauDeJeu.getChildren().add(imageView);
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+
+
     }
 
 }
