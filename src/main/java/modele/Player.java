@@ -18,6 +18,7 @@ public class Player {
     private Image image;
     private double vitesseY;
     private static double g = 0.1;
+    private double gravite = 9.81;
 
     public Player(){
         this.vie = 20;
@@ -41,7 +42,8 @@ public class Player {
 
     public void jump() {
         this.setYProperty(this.yProperty.getValue() - vitesseY);
-        vitesseY -= g;
+        if(vitesseY > 0)
+            vitesseY -= g;
     }
 
 

@@ -54,7 +54,6 @@ public class Controleur implements Initializable {
         timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println(player.isGrounded());
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
                     player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
                 }
