@@ -15,7 +15,7 @@ public class Main extends Application {
         Pane root = FXMLLoader.load(getClass().getResource("vueMap.fxml"));
         Scene scene = new Scene(root, 500,500, Color.DARKBLUE);
         GameCam camera = new GameCam();
-        scene.setCamera(camera);
+        scene.setCamera(camera.getGameCam());
         stage.setScene(scene);
         stage.show();
         root.requestFocus();

@@ -28,6 +28,7 @@ public class Controleur implements Initializable {
     private Pane panneauDeJeu;
     private TerrainView terrainView;
     private Terrain terrain;
+    Timeline timeline;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -37,6 +38,7 @@ public class Controleur implements Initializable {
         creerJoueur();
         KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyWorking();
+
     }
 
     public void creerJoueur() {
@@ -48,7 +50,7 @@ public class Controleur implements Initializable {
         spriteJoueur.xProperty().bind(joueur.getXProperty());
         spriteJoueur.yProperty().bind(joueur.getYProperty());
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() { // 16.33ms envion = 60fps
+        timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() { // 16.33ms envion = 60fps
             @Override
             public void handle(ActionEvent actionEvent) {
                 if(KeyHandler.rightPressed){
