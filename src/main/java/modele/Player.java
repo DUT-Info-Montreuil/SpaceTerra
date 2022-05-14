@@ -17,7 +17,7 @@ public class Player {
     private final double walkSpeed = 10;
     private Image image;
     private double vitesseY;
-    private static double g = 0.2;
+    private static double g = 0.5;
 
     public Player(){
         this.vie = 20;
@@ -45,7 +45,7 @@ public class Player {
 
 
     public boolean isGrounded() {
-        return this.yProperty.getValue() >= 80;
+        return this.yProperty.getValue() >= 2063;
     }
 
     public void setVitesseY(double vitesseY) {

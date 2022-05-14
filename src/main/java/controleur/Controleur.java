@@ -39,7 +39,7 @@ public class Controleur implements Initializable {
     public void creerJoueur() {
         player = new Player();
         player.setXProperty(10);
-        player.setYProperty(80);
+        player.setYProperty(2063);
 
         ImageView spriteJoueur = new ImageView(player.getImage());
         spriteJoueur.xProperty().bind(player.getXProperty());
@@ -52,7 +52,6 @@ public class Controleur implements Initializable {
         timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println(player.isGrounded());
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
                     player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
                 }
@@ -72,6 +71,8 @@ public class Controleur implements Initializable {
                 panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty());
             }
         }));
+
+
 
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
