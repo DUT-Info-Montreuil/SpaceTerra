@@ -48,7 +48,7 @@ public class Controleur implements Initializable {
         spriteJoueur.xProperty().bind(joueur.getXProperty());
         spriteJoueur.yProperty().bind(joueur.getYProperty());
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() { // 16.33ms envion = 60fps
             @Override
             public void handle(ActionEvent actionEvent) {
                 if(KeyHandler.rightPressed){
