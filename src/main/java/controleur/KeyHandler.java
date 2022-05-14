@@ -23,7 +23,6 @@ public class KeyHandler {
                 case D -> rightPressed = true;
                 case Q -> leftPressed = true;
                 case S -> downPressed = true;
-                case Z -> upPressed = true;
             }
        });
    }
@@ -39,10 +38,19 @@ public class KeyHandler {
         });
     }
 
+    public void keyTyped(){
+        pane.setOnKeyTyped(e -> {
+            if (e.getCharacter().equalsIgnoreCase("Z")) {
+                upPressed = true;
+            }
+        });
+    }
+
 
     public void keyManager(){
         keyPressed();
         keyReleased();
+        keyTyped();
     }
 
 }

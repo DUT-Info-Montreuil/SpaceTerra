@@ -24,10 +24,8 @@ public class Controleur implements Initializable {
     private Terrain terrain;
     private Timeline timeline;
     private Player player;
-    private double vmarche;
-    private double vitesseY;
 
-    private static double g = 0.1;
+    private static double g = 0.7;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -38,8 +36,6 @@ public class Controleur implements Initializable {
         creerTimeline();
         KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
-        vitesseY = 5;
-        vmarche = 10;
     }
 
     public void creerJoueur() {
@@ -64,10 +60,12 @@ public class Controleur implements Initializable {
                 }
                 if (KeyHandler.upPressed){
                     player.jump();
-                    //joueur.setYProperty(joueur.getYProperty().doubleValue() - vitesseY);
-                    //vitesseY -= g;
+                    if (player.isGrounded()) {
+                        player.setVitesseY(0);
+                    }
                 }
-
+                else if (!KeyHandler.upPressed && player.isGrounded())
+                    player.setVitesseY(5);
                 panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty());
                 panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty());
             }

@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.KeyHandler;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -15,7 +16,8 @@ public class Player {
     private DoubleProperty yProperty;
     private final double walkSpeed = 10;
     private Image image;
-    private final double jumpForce = 30;
+    private double vitesseY;
+    private static double g = 0.1;
 
     public Player(){
         this.vie = 20;
@@ -24,6 +26,7 @@ public class Player {
         xProperty = new SimpleDoubleProperty(0);
         yProperty = new SimpleDoubleProperty(0);
         image = new Image(String.valueOf(getClass().getResource("/Sprites/MC/MCSpace_Idle_right.gif")));
+        vitesseY = 5;
 
     }
 
@@ -37,13 +40,17 @@ public class Player {
     }
 
     public void jump() {
-        if (isGrounded()) {
-            this.setYProperty(this.yProperty.getValue() - jumpForce);
-        }
+        this.setYProperty(this.yProperty.getValue() - vitesseY);
+        vitesseY -= g;
     }
+
 
     public boolean isGrounded() {
         return this.yProperty.getValue() >= 80;
+    }
+
+    public void setVitesseY(double vitesseY) {
+        this.vitesseY = vitesseY;
     }
 
     public Image getImage() {
