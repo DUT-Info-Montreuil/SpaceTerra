@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import controleur.KeyHandler;
+import modele.Player;
 
 public class Main extends Application {
     @Override

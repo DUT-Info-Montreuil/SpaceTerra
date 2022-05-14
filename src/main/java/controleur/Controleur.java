@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.util.Duration;
 import modele.Terrain;
 import modele.Player;
@@ -67,12 +68,10 @@ public class Controleur implements Initializable {
                     player.setVitesseY(6);
                 }
 
-                panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty());
-                panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty());
+                panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
+                panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
             }
         }));
-
-
 
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
