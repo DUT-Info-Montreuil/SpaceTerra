@@ -74,6 +74,7 @@ public class Controleur implements Initializable {
                 }
                 if (joueur.getYProperty().doubleValue() > 80) {
                     vitesseY = 0;
+                    vitesseY = 5;
                 }
                 panneauDeJeu.getScene().getCamera().layoutXProperty().bind(joueur.getXProperty());
                 panneauDeJeu.getScene().getCamera().layoutYProperty().bind(joueur.getYProperty());
