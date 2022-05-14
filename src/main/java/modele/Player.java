@@ -11,16 +11,11 @@ public class Player {
     private int vie;
     private String main1;
     private String armure;
-
-    private boolean isgrounded; //= joueur.getYProperty().getValue()==80;
-
     private DoubleProperty xProperty;
-
     private DoubleProperty yProperty;
-
     private final double walkSpeed = 10;
-
     private Image image;
+    private final double jumpForce = 30;
 
     public Player(){
         this.vie = 20;
@@ -29,15 +24,26 @@ public class Player {
         xProperty = new SimpleDoubleProperty(0);
         yProperty = new SimpleDoubleProperty(0);
         image = new Image(String.valueOf(getClass().getResource("/Sprites/MC/MCSpace_Idle_right.gif")));
+
     }
 
     public void horizontalMovement(boolean left, boolean right) {
         if (left) {
-            this.setXProperty(this.getXProperty().doubleValue() - walkSpeed);
+            this.setXProperty(this.xProperty.getValue() - walkSpeed);
         }
         else {
-            this.setXProperty(this.getXProperty().doubleValue() + walkSpeed);
+            this.setXProperty(this.xProperty.getValue() + walkSpeed);
         }
+    }
+
+    public void jump() {
+        if (isGrounded()) {
+            this.setYProperty(this.yProperty.getValue() - jumpForce);
+        }
+    }
+
+    public boolean isGrounded() {
+        return this.yProperty.getValue() >= 80;
     }
 
     public Image getImage() {

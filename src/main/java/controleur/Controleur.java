@@ -6,17 +6,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import modele.Terrain;
 import modele.Player;
 import vue.TerrainView;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -41,7 +37,7 @@ public class Controleur implements Initializable {
         creerJoueur();
         creerTimeline();
         KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
-        keyHandler.keyWorking();
+        keyHandler.keyManager();
         vitesseY = 5;
         vmarche = 10;
     }
@@ -49,7 +45,7 @@ public class Controleur implements Initializable {
     public void creerJoueur() {
         player = new Player();
         player.setXProperty(10);
-        player.setYProperty(10);
+        player.setYProperty(80);
 
         ImageView spriteJoueur = new ImageView(player.getImage());
         spriteJoueur.xProperty().bind(player.getXProperty());
@@ -62,12 +58,12 @@ public class Controleur implements Initializable {
         timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                System.out.println(player.isGrounded());
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
                     player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
-                    //joueur.setXProperty(joueur.getXProperty().doubleValue() + vmarche);
                 }
-                    //joueur.setXProperty(joueur.getXProperty().doubleValue() - vmarche);
                 if (KeyHandler.upPressed){
+                    player.jump();
                     //joueur.setYProperty(joueur.getYProperty().doubleValue() - vitesseY);
                     //vitesseY -= g;
                 }
