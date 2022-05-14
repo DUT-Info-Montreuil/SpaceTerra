@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.util.Duration;
 import modele.Terrain;
 import modele.Player;
@@ -25,8 +26,6 @@ public class Controleur implements Initializable {
     private Timeline timeline;
     private Player player;
 
-    private static double g = 0.7;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
@@ -41,7 +40,7 @@ public class Controleur implements Initializable {
     public void creerJoueur() {
         player = new Player();
         player.setXProperty(10);
-        player.setYProperty(80);
+        player.setYProperty(2063);
 
         ImageView spriteJoueur = new ImageView(player.getImage());
         spriteJoueur.xProperty().bind(player.getXProperty());
@@ -57,16 +56,20 @@ public class Controleur implements Initializable {
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
                     player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
                 }
+
                 if (KeyHandler.upPressed){
                     player.jump();
                     if (player.isGrounded()) {
                         player.setVitesseY(0);
+                        KeyHandler.upPressed = false;
                     }
                 }
-                else if (!KeyHandler.upPressed && player.isGrounded())
-                    player.setVitesseY(5);
-                panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty());
-                panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty());
+                else if (player.isGrounded()) {
+                    player.setVitesseY(6);
+                }
+
+                panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
+                panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
             }
         }));
 
