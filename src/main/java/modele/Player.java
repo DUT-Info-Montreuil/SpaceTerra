@@ -5,7 +5,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class Protagoniste {
+public class Player {
 
     private int vie;
     private String main1;
@@ -15,7 +15,7 @@ public class Protagoniste {
 
     private DoubleProperty yProperty;
 
-    public Protagoniste(){
+    public Player(){
         this.vie = 20;
         this.main1 = null;
         this.armure = null;

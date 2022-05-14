@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import modele.Terrain;
-import modele.Protagoniste;
+import modele.Player;
 import vue.TerrainView;
 
 import java.io.File;
@@ -47,7 +47,7 @@ public class Controleur implements Initializable {
     }
 
     public void creerJoueur() {
-        Protagoniste joueur = new Protagoniste();
+        Player joueur = new Player();
         joueur.setXProperty(10);
         joueur.setYProperty(10);
 
