@@ -67,14 +67,9 @@ public class Controleur implements Initializable {
                     //joueur.setYProperty(joueur.getYProperty().doubleValue() - vitesseY);
                     //vitesseY -= g;
                 }
-                //if (KeyHandler.downPressed){
-                    //joueur.setYProperty(joueur.getYProperty().doubleValue() + vmarche);
-                //}
-                //if (joueur.getYProperty().doubleValue() > 80) {
-                    //vitesseY = 0;
-                //}
-                //panneauDeJeu.getScene().getCamera().layoutXProperty().bind(joueur.getXProperty());
-                //panneauDeJeu.getScene().getCamera().layoutYProperty().bind(joueur.getYProperty());
+
+                panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty());
+                panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty());
             }
         }));
 
