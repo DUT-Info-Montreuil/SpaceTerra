@@ -2,13 +2,8 @@ package vue;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import modele.Layer;
-import modele.Terrain;
-import modele.Tile;
+import modele.*;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class TerrainView {
@@ -41,6 +36,7 @@ public class TerrainView {
                             Tile currTile = (Tile) var9.next();
                             if (data[t] == currTile.getId()) {
                                 ImageView sprite = new ImageView(currTile.getImage());
+                                createBlock(currTile.getId(), x, y);
                                 sprite.setX((double) x);
                                 sprite.setY((double) y);
                                 this.panneau.getChildren().add(sprite);
@@ -55,5 +51,8 @@ public class TerrainView {
                 }
             }
         }
+    }
+    public void createBlock(int id, int x, int y){
+
     }
 }

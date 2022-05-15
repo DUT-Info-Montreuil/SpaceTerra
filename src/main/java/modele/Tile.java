@@ -16,6 +16,7 @@ public class Tile {
         tileWidth = ((Long)tile.get("imagewidth")).intValue();
         tileHeight = ((Long)tile.get("imageheight")).intValue();
         image = new Image(String.valueOf(getClass().getResource("/Sprites/TileSet/" + findTileFileName(tile))));
+       // createBlock(tile);
     }
 
     public String findTileFileName(JSONObject tile){
