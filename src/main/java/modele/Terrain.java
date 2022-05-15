@@ -17,12 +17,16 @@ public class Terrain {
     private JSONObject map;
     private ArrayList<Layer> layers;
     private ArrayList<Block> blocks;
+
+    private ArrayList<Block> solidBlocks;
     private Tileset tileSet;
     private int height, width;
 
     public ArrayList<Block> getBlocks() {
         return blocks;
     }
+
+
 
     public Terrain(String mapPath){
         loadMap(mapPath);
@@ -77,8 +81,13 @@ public class Terrain {
         return tileSet;
     }
 
+    public ArrayList<Block> getSolidBlocks() {
+        return solidBlocks;
+    }
+
     public void loadBlocks(){
         blocks  = new ArrayList<>();
+        solidBlocks = new ArrayList<>();
         for (int l = 0; l < layers.size(); ++l) {
             if (((Layer) layers.get(l)).getIsVisible()) {
                 Layer currentLayer = (Layer) layers.get(l);
@@ -100,7 +109,11 @@ public class Terrain {
                         while (var9.hasNext()) {
                             Tile currTile = (Tile) var9.next();
                             if (data[t] == currTile.getId()) {
-                                blocks.add(new Block(currTile, x, y));
+                                Block b = new Block(currTile, x, y);
+                                blocks.add(b);
+                                if(b.getTile().getHitbox().isSolid()){
+                                    solidBlocks.add(b);
+                                }
                             }
                         }
 
