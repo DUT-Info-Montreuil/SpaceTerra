@@ -77,6 +77,11 @@ public class Player {
         return height;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+
     public Image getImage() {
         return image;
     }

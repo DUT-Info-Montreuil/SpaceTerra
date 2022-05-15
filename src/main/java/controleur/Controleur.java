@@ -46,6 +46,7 @@ public class Controleur implements Initializable {
         creerTimeline();
         KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
+        //terrainView.displayCollision(true, terrain, player);
     }
 
     public void creerJoueur() {

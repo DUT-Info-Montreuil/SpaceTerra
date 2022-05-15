@@ -22,7 +22,6 @@ public class TerrainView {
             imgView.setX(block.getX());
             imgView.setY(block.getY());
             panneau.getChildren().add(imgView);
-
         }
     }
 
@@ -33,7 +32,6 @@ public class TerrainView {
                 r.setFill(Color.TRANSPARENT);
                 r.setStroke(Color.BLACK);
                 panneau.getChildren().add(r);
-
             }
             Rectangle r = new Rectangle(player.getXProperty().intValue(), player.getYProperty().intValue(), player.getWidth(), player.getHeight());
             r.yProperty().bind(player.getYProperty());
