@@ -18,7 +18,7 @@ public class Player {
     private final int width = 48;
     private final double walkSpeed = 10;
     private Image image;
-    private final double gravite = 2;
+    private final double gravite = 1;
     private final int jumpForce = 100;
 
     public Player(){
@@ -28,7 +28,6 @@ public class Player {
         xProperty = new SimpleDoubleProperty(0);
         yProperty = new SimpleDoubleProperty(0);
         image = new Image(String.valueOf(getClass().getResource("/Sprites/MC/MCSpace_Idle_right.gif")));
-
     }
 
     public void horizontalMovement(boolean left, boolean right) {
@@ -49,9 +48,9 @@ public class Player {
     }
 
 
-    public boolean isGrounded(int y, int x, int width) {
+    public boolean isGrounded(int x, int y, int width) {
         if(this.yProperty.intValue() + this.height == y)
-            return (xProperty.intValue() >= x) && (xProperty.intValue() < x + width);
+            return (xProperty.intValue() >= x) && (xProperty.intValue() < x + width) || (xProperty.intValue() + width >= x) && (xProperty.intValue() + width < x + width);
         return false;
     }
 
