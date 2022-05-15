@@ -4,38 +4,30 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
 
-public abstract class Block {
-    private String name;
-    private int id;
-    private boolean isSolid;
-    private DoubleProperty xProperty;
-    private DoubleProperty yProperty;
+public class Block {
+    private int x;
+    private int y;
 
-    public Block(String name, int id, boolean isSolid) {
-        this.name = name;
-        this.id = id;
-        this.isSolid = isSolid;
-        this.xProperty = new SimpleDoubleProperty(0);
-        this.yProperty = new SimpleDoubleProperty(0);
+    private Tile tile;
+
+    public int getX() {
+        return x;
     }
 
-    public final DoubleProperty getXProperty() {
-        return xProperty;
+    public int getY() {
+        return y;
     }
 
-    public  final DoubleProperty getYProperty() {
-        return yProperty;
+    public Tile getTile() {
+        return tile;
     }
 
-    public final void setXProperty(double nb) {
-        xProperty.setValue(nb);
+    public Block(Tile tile, int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.tile = tile;
     }
 
-    public final void setYProperty(double nb) {
-        yProperty.setValue(nb);
-    }
 
-    public boolean isSolid(){
-        return  this.isSolid;
-    }
+
 }
