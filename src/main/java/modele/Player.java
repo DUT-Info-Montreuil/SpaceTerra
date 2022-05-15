@@ -60,21 +60,18 @@ public class Player {
 
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
-    // si haut du block
 
-    /*
     public int sideCollisions(Block block){
-        if((yProperty.intValue() + height >= block.getHitY()) && (yProperty.intValue() >)) {
-            if (xProperty.intValue() == block.getHitX() + width) { // cote droit d'un block
-                return 1;
-            } else if (xProperty.intValue() + width == block.getHitX()) { // cote gauche d'un block
+        if((yProperty.intValue() > block.getHitY() && yProperty.intValue() <= block.getHitY() + block.getTile().getHitbox().getHeight()) || (yProperty.intValue() + height > block.getHitY() && yProperty.intValue() + height <= block.getHitY() + block.getTile().getHitbox().getHeight())) {
+            if (xProperty.intValue() <= block.getHitX() + block.getTile().getHitbox().getWidth() && xProperty.intValue() >= block.getHitX() + block.getTile().getHitbox().getWidth() - block.getInsideOffset()) { // cote droit d'un block
                 return -1;
+            } else if (xProperty.intValue() + width >= block.getHitX() && xProperty.intValue() + width <= block.getHitX() + block.getInsideOffset()) { // cote gauche d'un block
+                return 1;
             }
         }
-        else
-            return 0;
+        return 0;
     }
-    */
+
 
     public int getHeight(){
         return height;

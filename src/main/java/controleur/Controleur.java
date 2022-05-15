@@ -61,9 +61,8 @@ public class Controleur implements Initializable {
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), new EventHandler<ActionEvent>() { // 16.33 = 60 fps
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println(player.getYProperty().intValue() + player.getHeight());
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
-                    player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
+                    player.horizontalMovement(KeyHandler.leftPressed && !(getSideBlock() == -1), KeyHandler.rightPressed && !(getSideBlock() == 1));
                 }
                 if(KeyHandler.upPressed)
                     if(getGroundBlock())
@@ -79,41 +78,21 @@ public class Controleur implements Initializable {
     public boolean getGroundBlock(){
         for (Block b: terrain.getSolidBlocks())
             if(player.isGrounded(b)){
-                System.out.println(player.isGrounded(b));
                 return true;
             }
         return false;
     }
-    /*
+
     // J'utilise des int parce que c'est plus leger que des string donc niveau opti c'est un peu mieu (meme si la différence est minime)
     public int getSideBlock(){ // -1 = left, 1 = right, 0 = none
         for(Block b : terrain.getSolidBlocks()){
-            switch (player.sideCollisions(b)){
-                case 1 :
-                    return 1;
-                case -1 :
-                    return -1;
-                default:
-                    return 2;
+            if(player.sideCollisions(b) == 1){
+                return 1;
+            }
+            else if (player.sideCollisions(b) == -1){
+                return -1;
             }
         }
         return 0;
     }
-
-     */
-    /*
-    public String getxBlock(){
-        for (Block b: terrain.getSolidBlocks()) {
-            if (player.touchSideBlock(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight()).equals("left")) {
-                System.out.println(b.getX());
-                return "left";
-            }
-            if (player.touchSideBlock(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight()).equals("right")) {
-                System.out.println(b.getX());
-                return "right";
-            }
-        }
-        return "none";
-    }
-    */
 }
