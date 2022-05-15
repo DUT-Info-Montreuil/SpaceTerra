@@ -15,6 +15,11 @@ public class Player {
     private DoubleProperty xProperty;
     private DoubleProperty yProperty;
     private final int height = 48;
+
+    public int getWidth() {
+        return width;
+    }
+
     private final int width = 48;
     private final double walkSpeed = 10;
     private Image image;
@@ -54,12 +59,12 @@ public class Player {
         return false;
     }
 
-    public String touchSideBlock(int  x, int y, int height, int width){
-        if(((this.yProperty.intValue() + this.height > y) && (this.yProperty.intValue() + this.height < y + height)) || ((this.yProperty.intValue() + this.height/2 > y) && (this.yProperty.intValue() + this.height/2 < y + height)) || ((this.yProperty.intValue() > y) && (this.yProperty.intValue() < y + height))){
+    public String touchSideBlock(int  x, int y, int blockHeight, int blockWidth){
+        if(((this.yProperty.intValue() + this.height > y) && (this.yProperty.intValue() + this.height < y + blockHeight)) || ((this.yProperty.intValue() + this.height/2 > y) && (this.yProperty.intValue() + this.height/2 < y + blockHeight)) || ((this.yProperty.intValue() > y) && (this.yProperty.intValue() < y + blockHeight))){
             if((this.xProperty.intValue() + this.width == x)){
                 return "right";
             }
-            else if (this.xProperty.intValue() == x + width){
+            else if (this.xProperty.intValue() == x + blockWidth){
                 return "left";
             }
         }

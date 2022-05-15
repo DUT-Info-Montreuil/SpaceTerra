@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 import modele.Block;
@@ -39,6 +40,7 @@ public class Controleur implements Initializable {
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
         creerJoueur();
+        terrainView.displayCollision(false, terrain, player); // afficher ou non les collisions
         panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
         creerTimeline();
@@ -50,7 +52,6 @@ public class Controleur implements Initializable {
         player = new Player();
         player.setXProperty(10);
         player.setYProperty(2030);
-
         ImageView spriteJoueur = new ImageView(player.getImage());
         spriteJoueur.xProperty().bind(player.getXProperty());
         spriteJoueur.yProperty().bind(player.getYProperty());
