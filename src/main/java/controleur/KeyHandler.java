@@ -14,7 +14,6 @@ public class KeyHandler {
         upPressed = false;
         downPressed = false;
         this.pane = pane;
-
     }
 
     private void keyPressed() {
@@ -23,6 +22,7 @@ public class KeyHandler {
                 case D -> rightPressed = true;
                 case Q -> leftPressed = true;
                 case S -> downPressed = true;
+                case Z -> upPressed = true;
             }
        });
    }
@@ -33,25 +33,15 @@ public class KeyHandler {
                 case D -> rightPressed = false;
                 case Q -> leftPressed = false;
                 case S -> downPressed = false;
-                //case Z -> upPressed = false;
+                case Z -> upPressed = false;
             }
         });
     }
 
-    public void keyTyped(){
-        pane.setOnKeyTyped(e -> {
-            if (e.getCharacter().equalsIgnoreCase("Z")) {
-                upPressed = true;
-                //saut = true;
-            }
-        });
-    }
 
 
     public void keyManager(){
         keyPressed();
         keyReleased();
-        keyTyped();
     }
-
 }

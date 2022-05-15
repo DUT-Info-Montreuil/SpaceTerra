@@ -47,7 +47,7 @@ public class Controleur implements Initializable {
     public void creerJoueur() {
         player = new Player();
         player.setXProperty(10);
-        player.setYProperty(2063);
+        player.setYProperty(2030);
 
         ImageView spriteJoueur = new ImageView(player.getImage());
         spriteJoueur.xProperty().bind(player.getXProperty());
@@ -65,22 +65,11 @@ public class Controleur implements Initializable {
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
                     player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
                 }
-
-                if (KeyHandler.upPressed){
-                    player.jump();
-                    if (getyBlock()) {
-                        player.setVitesseY(0);
-                        KeyHandler.upPressed = false;
-                    }
-                }
-                else if (getyBlock()) {
-                    player.setVitesseY(10);
-                }
-                else if (!getyBlock()){
-                    player.setVitesseY(0);
-                }
-
-
+                if(KeyHandler.upPressed)
+                    if(getyBlock())
+                        player.jump();
+                if(!getyBlock())
+                    player.applyGrav();
             }
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -89,10 +78,10 @@ public class Controleur implements Initializable {
 
     public boolean getyBlock(){
         for (Block b: terrain.getBlocks())
-            if(player.isGrounded(b.getY()))
+            if(player.isGrounded(b.getY())){
+                System.out.println("landed");
                 return true;
-
-
+            }
         return false;
     }
 

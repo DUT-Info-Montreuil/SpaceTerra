@@ -18,8 +18,8 @@ public class Player {
     private final int width = 48;
     private final double walkSpeed = 10;
     private Image image;
-    private double vitesseY;
-    private static double g = 0.5;
+    private final double gravite = 9.81;
+    private final int jumpForce = 100;
 
     public Player(){
         this.vie = 20;
@@ -41,8 +41,11 @@ public class Player {
     }
 
     public void jump() {
-        this.setYProperty(this.yProperty.getValue() - vitesseY);
-        vitesseY -= g;
+        yProperty.setValue(yProperty.getValue() - jumpForce);
+    }
+
+    public void applyGrav(){
+        yProperty.setValue(yProperty.getValue() + gravite);
     }
 
 
@@ -50,9 +53,6 @@ public class Player {
         return this.yProperty.getValue() + this.height == y;
     }
 
-    public void setVitesseY(double vitesseY) {
-        this.vitesseY = vitesseY;
-    }
 
     public Image getImage() {
         return image;
