@@ -1,14 +1,10 @@
 package controleur;
 
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-
-import java.util.ArrayList;
 
 
 public class KeyHandler {
-    public static boolean rightPressed, leftPressed, upPressed, downPressed;
+    public static boolean rightPressed, leftPressed, upPressed, downPressed, saut;
 
     private Pane pane;
 
@@ -37,22 +33,25 @@ public class KeyHandler {
                 case D -> rightPressed = false;
                 case Q -> leftPressed = false;
                 case S -> downPressed = false;
+                //case Z -> upPressed = false;
             }
         });
     }
 
-    private void KeyTyped() {
+    public void keyTyped(){
         pane.setOnKeyTyped(e -> {
             if (e.getCharacter().equalsIgnoreCase("Z")) {
                 upPressed = true;
+                //saut = true;
             }
         });
     }
 
-    public void keyWorking(){
+
+    public void keyManager(){
         keyPressed();
         keyReleased();
-        KeyTyped();
+        keyTyped();
     }
 
 }

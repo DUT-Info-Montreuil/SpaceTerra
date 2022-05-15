@@ -7,15 +7,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import controleur.KeyHandler;
+import modele.Player;
 
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Pane root = FXMLLoader.load(getClass().getResource("vueMap.fxml"));
-        Scene scene = new Scene(root, 500,500, Color.DARKBLUE);
-        ParallelCamera camera = new ParallelCamera();
-        scene.setCamera(camera);
-        stage.setScene(scene);
+        stage.setScene(root.getScene());
+        stage.setResizable(false);
+        stage.setTitle("Meilleur jeu du monde");
         stage.show();
         root.requestFocus();
     }
