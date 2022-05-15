@@ -55,13 +55,15 @@ public class Player {
     }
 
     public String touchSideBlock(int  x, int y, int height, int width){
-        if((this.xProperty.intValue() == x + width) && (((this.yProperty.intValue() + this.height > y) && (this.yProperty.intValue() + this.height < y + height)) || ((this.yProperty.intValue() + this.height/2 > y) && (this.yProperty.intValue() + this.height/2 < y + height)) || ((this.yProperty.intValue() > y) && (this.yProperty.intValue() < y + height)))){
-            return "left";
+        if(((this.yProperty.intValue() + this.height > y) && (this.yProperty.intValue() + this.height < y + height)) || ((this.yProperty.intValue() + this.height/2 > y) && (this.yProperty.intValue() + this.height/2 < y + height)) || ((this.yProperty.intValue() > y) && (this.yProperty.intValue() < y + height))){
+            if((this.xProperty.intValue() + this.width == x)){
+                return "right";
+            }
+            else if (this.xProperty.intValue() == x + width){
+                return "left";
+            }
         }
 
-        else if((this.xProperty.intValue() + this.width == x) && (((this.yProperty.intValue() + this.height > y) && (this.yProperty.intValue() + this.height < y + height)) || ((this.yProperty.intValue() + this.height/2 > y) && (this.yProperty.intValue() + this.height/2 < y + height)) || ((this.yProperty.intValue() > y) && (this.yProperty.intValue() < y + height)))){
-            return "right";
-        }
 
 
         return "none";
