@@ -49,41 +49,32 @@ public class Player {
 
 
     public boolean isGrounded(Block block) {
-        if((this.yProperty.intValue() + this.height >= block.getHitY()) && (this.yProperty.intValue() + this.height <= block.getHitY() + block.getInsideOffset()))
-            if(((xProperty.intValue() >= block.getHitX()) && (xProperty.intValue() < block.getHitX() + width) || (xProperty.intValue() + width >= block.getHitX()) && (xProperty.intValue() + width < block.getHitX() + width))){
+        if(this.yProperty.intValue() + this.height >= block.getHitY() && this.yProperty.intValue() + this.height <= block.getHitY() + block.getInsideOffset())
+            if((xProperty.intValue() >= block.getHitX() && xProperty.intValue() < block.getHitX() + block.getTile().getHitbox().getWidth()) || (xProperty.intValue() + width >= block.getHitX() && xProperty.intValue() + width < block.getHitX() + block.getTile().getHitbox().getWidth())){
                 setYProperty(block.getHitY() - height);
                 return true;
             }
         return false;
     }
 
-    /*
-    public boolean sideCollisions(int x, int width){
-        if(xProperty.intValue() == x + width){
 
-        }
-        else if(xProperty.intValue() + width == x){
-
-        }
-    }
-
-     */
-
+    // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
+    // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
+    // si haut du block
 
     /*
-    public String touchSideBlock(int  x, int y, int height, int width){
-        if(((this.yProperty.intValue() + this.height > y) && (this.yProperty.intValue() + this.height < y + height)) || ((this.yProperty.intValue() + this.height/2 > y) && (this.yProperty.intValue() + this.height/2 < y + height)) || ((this.yProperty.intValue() > y) && (this.yProperty.intValue() < y + height))){
-            if((this.xProperty.intValue() + this.width == x)){
-                return "right";
-            }
-            else if (this.xProperty.intValue() == x + width){
-                return "left";
+    public int sideCollisions(Block block){
+        if((yProperty.intValue() + height >= block.getHitY()) && (yProperty.intValue() >)) {
+            if (xProperty.intValue() == block.getHitX() + width) { // cote droit d'un block
+                return 1;
+            } else if (xProperty.intValue() + width == block.getHitX()) { // cote gauche d'un block
+                return -1;
             }
         }
-        return "none";
+        else
+            return 0;
     }
     */
-
 
     public int getHeight(){
         return height;
@@ -108,6 +99,4 @@ public class Player {
     public final void setYProperty(double nb) {
         yProperty.setValue(nb);
     }
-
-
 }

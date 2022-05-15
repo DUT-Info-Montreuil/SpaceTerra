@@ -63,7 +63,7 @@ public class Controleur implements Initializable {
             public void handle(ActionEvent actionEvent) {
                 System.out.println(player.getYProperty().intValue() + player.getHeight());
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
-                    player.horizontalMovement(KeyHandler.leftPressed/* && !getxBlock().equals("left")*/, KeyHandler.rightPressed/* && !getxBlock().equals("right")*/);
+                    player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
                 }
                 if(KeyHandler.upPressed)
                     if(getGroundBlock())
@@ -78,13 +78,29 @@ public class Controleur implements Initializable {
 
     public boolean getGroundBlock(){
         for (Block b: terrain.getSolidBlocks())
-                if(player.isGrounded(b)){
-                    System.out.println(player.isGrounded(b));
-                    return true;
-                }
-
+            if(player.isGrounded(b)){
+                System.out.println(player.isGrounded(b));
+                return true;
+            }
         return false;
     }
+    /*
+    // J'utilise des int parce que c'est plus leger que des string donc niveau opti c'est un peu mieu (meme si la différence est minime)
+    public int getSideBlock(){ // -1 = left, 1 = right, 0 = none
+        for(Block b : terrain.getSolidBlocks()){
+            switch (player.sideCollisions(b)){
+                case 1 :
+                    return 1;
+                case -1 :
+                    return -1;
+                default:
+                    return 2;
+            }
+        }
+        return 0;
+    }
+
+     */
     /*
     public String getxBlock(){
         for (Block b: terrain.getSolidBlocks()) {
