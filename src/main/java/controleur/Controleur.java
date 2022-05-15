@@ -63,7 +63,7 @@ public class Controleur implements Initializable {
             public void handle(ActionEvent actionEvent) {
                 System.out.println(player.getYProperty().intValue() + player.getHeight());
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
-                    player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
+                    player.horizontalMovement(KeyHandler.leftPressed && !getxBlock().equals("left"), KeyHandler.rightPressed && !getxBlock().equals("right"));
                 }
                 if(KeyHandler.upPressed)
                     if(getyBlock())
@@ -78,11 +78,25 @@ public class Controleur implements Initializable {
 
     public boolean getyBlock(){
         for (Block b: terrain.getSolidBlocks())
-                if(player.isGrounded(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth())){
+                if(player.isGrounded(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight())){
                     System.out.println(b.getY());
                     return true;
                 }
 
         return false;
     }
+    public String getxBlock(){
+        for (Block b: terrain.getSolidBlocks()) {
+            if (player.touchSideBlock(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight()).equals("left")) {
+                System.out.println(b.getX());
+                return "left";
+            }
+            if (player.touchSideBlock(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight()).equals("right")) {
+                System.out.println(b.getX());
+                return "right";
+            }
+        }
+        return "none";
+    }
+
 }

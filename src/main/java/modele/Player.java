@@ -34,7 +34,7 @@ public class Player {
         if (left) {
             this.setXProperty(this.xProperty.getValue() - walkSpeed);
         }
-        else {
+        else if (right){
             this.setXProperty(this.xProperty.getValue() + walkSpeed);
         }
     }
@@ -48,10 +48,23 @@ public class Player {
     }
 
 
-    public boolean isGrounded(int x, int y, int width) {
-        if(this.yProperty.intValue() + this.height == y)
-            return (xProperty.intValue() >= x) && (xProperty.intValue() < x + width) || (xProperty.intValue() + width >= x) && (xProperty.intValue() + width < x + width);
+    public boolean isGrounded(int x, int y, int width,  int height) {
+        if(this.yProperty.intValue() + this.height == y && ((xProperty.intValue() >= x) && (xProperty.intValue() < x + width) || (xProperty.intValue() + width >= x) && (xProperty.intValue() + width < x + width)))
+            return true;
         return false;
+    }
+
+    public String touchSideBlock(int  x, int y, int height, int width){
+        if((this.xProperty.intValue() == x + width) && (((this.yProperty.intValue() + this.height > y) && (this.yProperty.intValue() + this.height < y + height)) || ((this.yProperty.intValue() + this.height/2 > y) && (this.yProperty.intValue() + this.height/2 < y + height)) || ((this.yProperty.intValue() > y) && (this.yProperty.intValue() < y + height)))){
+            return "left";
+        }
+
+        else if((this.xProperty.intValue() + this.width == x) && (((this.yProperty.intValue() + this.height > y) && (this.yProperty.intValue() + this.height < y + height)) || ((this.yProperty.intValue() + this.height/2 > y) && (this.yProperty.intValue() + this.height/2 < y + height)) || ((this.yProperty.intValue() > y) && (this.yProperty.intValue() < y + height)))){
+            return "right";
+        }
+
+
+        return "none";
     }
 
 
