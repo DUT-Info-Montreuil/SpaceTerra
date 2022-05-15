@@ -9,13 +9,12 @@ public class Hitbox {
     private int width;
     private int height;
     private int x, y;
-    public Hitbox(JSONObject group) {
-        isSolid = ((String) group.get("type")).equals("collisions");
-        JSONObject jsonHitbox = (JSONObject) ((JSONArray) group.get("objects")).get(0);
-        width = ((Long) jsonHitbox.get("width")).intValue();
-        height = ((Long) jsonHitbox.get("height")).intValue();
-        x = ((Long) jsonHitbox.get("x")).intValue();
-        y = ((Long) jsonHitbox.get("y")).intValue();
+    public Hitbox(JSONObject hitbox) {
+        isSolid = ((String) hitbox.get("type")).equals("collisions");
+        width = ((Long) hitbox.get("width")).intValue();
+        height = ((Long) hitbox.get("height")).intValue();
+        x = ((Long) hitbox.get("x")).intValue();
+        y = ((Long) hitbox.get("y")).intValue();
     }
     public boolean isSolid() {
         return isSolid;

@@ -1,6 +1,7 @@
 package modele;
 
 import javafx.scene.image.Image;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.nio.file.Path;
@@ -18,7 +19,7 @@ public class Tile {
         tileWidth = ((Long)tile.get("imagewidth")).intValue();
         tileHeight = ((Long)tile.get("imageheight")).intValue();
         image = new Image(String.valueOf(getClass().getResource("/Sprites/TileSet/" + findTileFileName(tile))));
-        hitbox = new Hitbox((JSONObject) tile.get("objectgroup"));
+        hitbox = new Hitbox((JSONObject) ((JSONArray)((JSONObject) tile.get("objectgroup")).get("objects")).get(0));
        // createBlock(tile);
     }
 
