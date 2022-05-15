@@ -550,229 +550,1120 @@
                  "id":0,
                  "image":"..\/Sprites\/TileSet\/Dirt1.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":29,
+                             "x":3,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":1,
                  "image":"..\/Sprites\/TileSet\/Dirt2.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":29,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":2,
                  "image":"..\/Sprites\/TileSet\/Dirt3.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":9,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"noCol",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":23
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    }
                 }, 
                 {
                  "id":3,
                  "image":"..\/Sprites\/TileSet\/Dirt4.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":18,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":14
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":4,
                  "image":"..\/Sprites\/TileSet\/Dirt5.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":15,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":17
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":5,
                  "image":"..\/Sprites\/TileSet\/Dirt6.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":5,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":6,
                  "image":"..\/Sprites\/TileSet\/Dirt7.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":7,
                  "image":"..\/Sprites\/TileSet\/Dirt8.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":3,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":8,
                  "image":"..\/Sprites\/TileSet\/Dirt9.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":9,
                  "image":"..\/Sprites\/TileSet\/Dirt10.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":2,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":10,
                  "image":"..\/Sprites\/TileSet\/Dirt11.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":5,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":11,
                  "image":"..\/Sprites\/TileSet\/Dirt12.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":12,
                  "image":"..\/Sprites\/TileSet\/Dirt13.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":5,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":13,
                  "image":"..\/Sprites\/TileSet\/Dirt14.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":14,
                  "image":"..\/Sprites\/TileSet\/Dirt15.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":15,
                  "image":"..\/Sprites\/TileSet\/Dirt16.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":5,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":16,
                  "image":"..\/Sprites\/TileSet\/Dirt17.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":17,
                  "image":"..\/Sprites\/TileSet\/Dirt18.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":18,
                  "image":"..\/Sprites\/TileSet\/Dirt19.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":19,
                  "image":"..\/Sprites\/TileSet\/Dirt20.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":20,
                  "image":"..\/Sprites\/TileSet\/Dirt21.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":25,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":5,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":21,
                  "image":"..\/Sprites\/TileSet\/Dirt22.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":25,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":22,
                  "image":"..\/Sprites\/TileSet\/Dirt23.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":25,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":23,
                  "image":"..\/Sprites\/TileSet\/Dirt24.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":25,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":24,
                  "image":"..\/Sprites\/TileSet\/Dirt25.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":25,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"collisions"
                 }, 
                 {
                  "id":25,
                  "image":"..\/Sprites\/TileSet\/treeTile1.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":27,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":5,
+                             "y":5
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":26,
                  "image":"..\/Sprites\/TileSet\/treeTile2.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":27,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":5
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":27,
                  "image":"..\/Sprites\/TileSet\/treeTile3.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":27,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":0,
+                             "y":5
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":28,
                  "image":"..\/Sprites\/TileSet\/treeTile4.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":5,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":29,
                  "image":"..\/Sprites\/TileSet\/treeTile5.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":30,
                  "image":"..\/Sprites\/TileSet\/treeTile6.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":31,
                  "image":"..\/Sprites\/TileSet\/treeTile7.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":27,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":5,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":32,
                  "image":"..\/Sprites\/TileSet\/treeTile8.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":33,
                  "image":"..\/Sprites\/TileSet\/treeTile9.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":27,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":34,
                  "image":"..\/Sprites\/TileSet\/treeTile10.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":27,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":35,
                  "image":"..\/Sprites\/TileSet\/treeTile11.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":2,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":36,
                  "image":"..\/Sprites\/TileSet\/treeTile12.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27,
+                             "x":4,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }, 
                 {
                  "id":37,
                  "image":"..\/Sprites\/TileSet\/treeTile13.png",
                  "imageheight":32,
-                 "imagewidth":32
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":32,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":32,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "type":"noCol"
                 }],
          "tilewidth":32
         }],
