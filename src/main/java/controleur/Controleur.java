@@ -29,6 +29,7 @@ public class Controleur implements Initializable {
     private Terrain terrain;
     private Timeline timeline;
     private Player player;
+    private static double g = 0.5;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,18 +68,19 @@ public class Controleur implements Initializable {
                 }
 
                 if (KeyHandler.upPressed){
-                    player.jump();
                     if (getyBlock()) {
                         player.setVitesseY(0);
                         KeyHandler.upPressed = false;
+                    }
+                    else if (!getyBlock()){
+                        player.setYProperty(player.getYProperty().getValue() - player.getVitesseY());
+                        player.setVitesseY(player.getYProperty().getValue()-g);
                     }
                 }
                 else if (getyBlock()) {
                     player.setVitesseY(10);
                 }
-                else if (!getyBlock()){
-                    player.setVitesseY(0);
-                }
+
 
 
             }

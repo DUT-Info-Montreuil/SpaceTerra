@@ -19,7 +19,10 @@ public class Player {
     private final double walkSpeed = 10;
     private Image image;
     private double vitesseY;
-    private static double g = 0.5;
+
+    public double getVitesseY() {
+        return vitesseY;
+    }
 
     public Player(){
         this.vie = 20;
@@ -40,10 +43,6 @@ public class Player {
         }
     }
 
-    public void jump() {
-        this.setYProperty(this.yProperty.getValue() - vitesseY);
-        vitesseY -= g;
-    }
 
 
     public boolean isGrounded(int y) {
