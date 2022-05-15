@@ -9,6 +9,7 @@ public class Block {
     private int y;
     private int hitX;
     private int hitY;
+    private final int insideOffset = 10;
 
     private Tile tile;
 
@@ -38,5 +39,9 @@ public class Block {
 
     public int getHitY() {
         return hitY;
+    }
+
+    public int getInsideOffset() {
+        return insideOffset;
     }
 }

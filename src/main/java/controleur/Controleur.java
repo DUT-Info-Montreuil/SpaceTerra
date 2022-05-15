@@ -62,14 +62,13 @@ public class Controleur implements Initializable {
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), new EventHandler<ActionEvent>() { // 16.33 = 60 fps
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println(player.getYProperty().intValue() + player.getHeight());
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
-                    player.horizontalMovement(KeyHandler.leftPressed && !getxBlock().equals("left"), KeyHandler.rightPressed && !getxBlock().equals("right"));
+                    player.horizontalMovement(KeyHandler.leftPressed && !(getSideBlock() == -1), KeyHandler.rightPressed && !(getSideBlock() == 1));
                 }
                 if(KeyHandler.upPressed)
-                    if(getyBlock())
+                    if(getGroundBlock())
                         player.jump();
-                if(!getyBlock())
+                if(!getGroundBlock())
                     player.applyGrav();
             }
         }));
@@ -77,27 +76,24 @@ public class Controleur implements Initializable {
         timeline.play();
     }
 
-    public boolean getyBlock(){
+    public boolean getGroundBlock(){
         for (Block b: terrain.getSolidBlocks())
-                if(player.isGrounded(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight())){
-                    System.out.println(b.getY());
-                    return true;
-                }
-
+            if(player.isGrounded(b)){
+                return true;
+            }
         return false;
     }
-    public String getxBlock(){
-        for (Block b: terrain.getSolidBlocks()) {
-            if (player.touchSideBlock(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight()).equals("left")) {
-                System.out.println(b.getX());
-                return "left";
+
+    // J'utilise des int parce que c'est plus leger que des string donc niveau opti c'est un peu mieu (meme si la différence est minime)
+    public int getSideBlock(){ // -1 = left, 1 = right, 0 = none
+        for(Block b : terrain.getSolidBlocks()){
+            if(player.sideCollisions(b) == 1){
+                return 1;
             }
-            if (player.touchSideBlock(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight()).equals("right")) {
-                System.out.println(b.getX());
-                return "right";
+            else if (player.sideCollisions(b) == -1){
+                return -1;
             }
         }
-        return "none";
+        return 0;
     }
-
 }

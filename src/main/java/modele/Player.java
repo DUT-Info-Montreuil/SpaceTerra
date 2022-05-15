@@ -15,15 +15,10 @@ public class Player {
     private DoubleProperty xProperty;
     private DoubleProperty yProperty;
     private final int height = 48;
-
-    public int getWidth() {
-        return width;
-    }
-
     private final int width = 48;
     private final double walkSpeed = 10;
     private Image image;
-    private final double gravite = 1;
+    private final double gravite = 9.81;
     private final int jumpForce = 100;
 
     public Player(){
@@ -53,25 +48,28 @@ public class Player {
     }
 
 
-    public boolean isGrounded(int x, int y, int width,  int height) {
-        if((this.yProperty.intValue() + this.height == y) && ((xProperty.intValue() >= x) && (xProperty.intValue() < x + width) || (xProperty.intValue() + width >= x) && (xProperty.intValue() + width < x + width)))
-            return true;
+    public boolean isGrounded(Block block) {
+        if(this.yProperty.intValue() + this.height >= block.getHitY() && this.yProperty.intValue() + this.height <= block.getHitY() + block.getInsideOffset())
+            if((xProperty.intValue() >= block.getHitX() && xProperty.intValue() < block.getHitX() + block.getTile().getHitbox().getWidth()) || (xProperty.intValue() + width >= block.getHitX() && xProperty.intValue() + width < block.getHitX() + block.getTile().getHitbox().getWidth())){
+                setYProperty(block.getHitY() - height);
+                return true;
+            }
         return false;
     }
 
-    public String touchSideBlock(int  x, int y, int blockHeight, int blockWidth){
-        if(((this.yProperty.intValue() + this.height > y) && (this.yProperty.intValue() + this.height < y + blockHeight)) || ((this.yProperty.intValue() + this.height/2 > y) && (this.yProperty.intValue() + this.height/2 < y + blockHeight)) || ((this.yProperty.intValue() > y) && (this.yProperty.intValue() < y + blockHeight))){
-            if((this.xProperty.intValue() + this.width == x)){
-                return "right";
-            }
-            else if (this.xProperty.intValue() == x + blockWidth){
-                return "left";
+
+    // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
+    // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
+
+    public int sideCollisions(Block block){
+        if((yProperty.intValue() > block.getHitY() && yProperty.intValue() <= block.getHitY() + block.getTile().getHitbox().getHeight()) || (yProperty.intValue() + height > block.getHitY() && yProperty.intValue() + height <= block.getHitY() + block.getTile().getHitbox().getHeight())) {
+            if (xProperty.intValue() <= block.getHitX() + block.getTile().getHitbox().getWidth() && xProperty.intValue() >= block.getHitX() + block.getTile().getHitbox().getWidth() - block.getInsideOffset()) { // cote droit d'un block
+                return -1;
+            } else if (xProperty.intValue() + width >= block.getHitX() && xProperty.intValue() + width <= block.getHitX() + block.getInsideOffset()) { // cote gauche d'un block
+                return 1;
             }
         }
-
-
-
-        return "none";
+        return 0;
     }
 
 
@@ -98,6 +96,4 @@ public class Player {
     public final void setYProperty(double nb) {
         yProperty.setValue(nb);
     }
-
-
 }
