@@ -49,8 +49,9 @@ public class Player {
 
 
     public boolean isGrounded(int x, int y, int width) {
-        if(((this.yProperty.intValue() + this.height >= y) && (this.yProperty.intValue() + this.height <= y + 10)) && ((xProperty.intValue() >= x) && (xProperty.intValue() < x + width) || (xProperty.intValue() + width >= x) && (xProperty.intValue() + width < x + width)))
-            return true;
+        if((this.yProperty.intValue() + this.height >= y) && (this.yProperty.intValue() + this.height <= y + 10))
+            if(((xProperty.intValue() >= x) && (xProperty.intValue() < x + width) || (xProperty.intValue() + width >= x) && (xProperty.intValue() + width < x + width)))
+                return true;
         return false;
     }
 
