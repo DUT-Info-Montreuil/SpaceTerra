@@ -79,7 +79,7 @@ public class Controleur implements Initializable {
 
     public boolean getyBlock(){
         for (Block b: terrain.getBlocks())
-            if(player.isGrounded(b.getY())){
+            if(player.isGrounded(b.getY(), b.getX(), b.getTile().getTileWidth())){
                 System.out.println(b.getY());
                 return true;
             }

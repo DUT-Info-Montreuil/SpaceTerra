@@ -49,8 +49,10 @@ public class Player {
     }
 
 
-    public boolean isGrounded(int y) {
-        return this.yProperty.getValue() + this.height == y;
+    public boolean isGrounded(int y, int x, int width) {
+        if(this.yProperty.intValue() + this.height == y)
+            return (xProperty.intValue() >= x) && (xProperty.intValue() < x + width);
+        return false;
     }
 
 
