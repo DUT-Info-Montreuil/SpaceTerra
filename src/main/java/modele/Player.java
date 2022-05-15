@@ -64,9 +64,11 @@ public class Player {
     public int sideCollisions(Block block){
         if((yProperty.intValue() > block.getHitY() && yProperty.intValue() <= block.getHitY() + block.getTile().getHitbox().getHeight()) || (yProperty.intValue() + height > block.getHitY() && yProperty.intValue() + height <= block.getHitY() + block.getTile().getHitbox().getHeight())) {
             if (xProperty.intValue() <= block.getHitX() + block.getTile().getHitbox().getWidth() && xProperty.intValue() >= block.getHitX() + block.getTile().getHitbox().getWidth() - block.getInsideOffset()) { // cote droit d'un block
-                return -1;
+                setXProperty(block.getHitX() + block.getTile().getHitbox().getWidth() + 1);
+                return -1; // joueur bloque a gauche
             } else if (xProperty.intValue() + width >= block.getHitX() && xProperty.intValue() + width <= block.getHitX() + block.getInsideOffset()) { // cote gauche d'un block
-                return 1;
+                setXProperty(block.getHitX() - width - 1);
+                return 1; // joueur bloque a droite
             }
         }
         return 0;
