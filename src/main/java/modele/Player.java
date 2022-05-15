@@ -18,7 +18,7 @@ public class Player {
     private final int width = 48;
     private final double walkSpeed = 10;
     private Image image;
-    private final double gravite = 9.81;
+    private final double gravite = 2;
     private final int jumpForce = 100;
 
     public Player(){
@@ -53,6 +53,10 @@ public class Player {
         return this.yProperty.getValue() + this.height == y;
     }
 
+
+    public int getHeight(){
+        return height;
+    }
 
     public Image getImage() {
         return image;

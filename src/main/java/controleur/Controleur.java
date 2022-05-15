@@ -62,6 +62,7 @@ public class Controleur implements Initializable {
         timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                System.out.println(player.getYProperty().intValue() + player.getHeight());
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
                     player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
                 }
@@ -79,12 +80,9 @@ public class Controleur implements Initializable {
     public boolean getyBlock(){
         for (Block b: terrain.getBlocks())
             if(player.isGrounded(b.getY())){
-                System.out.println("landed");
+                System.out.println(b.getY());
                 return true;
             }
         return false;
     }
-
-
-
 }
