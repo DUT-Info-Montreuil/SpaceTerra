@@ -48,10 +48,12 @@ public class Player {
     }
 
 
-    public boolean isGrounded(int x, int y, int width) {
-        if((this.yProperty.intValue() + this.height >= y) && (this.yProperty.intValue() + this.height <= y + 10))
-            if(((xProperty.intValue() >= x) && (xProperty.intValue() < x + width) || (xProperty.intValue() + width >= x) && (xProperty.intValue() + width < x + width)))
+    public boolean isGrounded(Block block) {
+        if((this.yProperty.intValue() + this.height >= block.getHitY()) && (this.yProperty.intValue() + this.height <= block.getHitY() + block.getInsideOffset()))
+            if(((xProperty.intValue() >= block.getHitX()) && (xProperty.intValue() < block.getHitX() + width) || (xProperty.intValue() + width >= block.getHitX()) && (xProperty.intValue() + width < block.getHitX() + width))){
+                setYProperty(block.getHitY() - height);
                 return true;
+            }
         return false;
     }
 
