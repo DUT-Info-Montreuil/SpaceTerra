@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.util.Duration;
+import modele.Block;
 import modele.Terrain;
 import modele.Player;
 import vue.TerrainView;
@@ -67,13 +68,16 @@ public class Controleur implements Initializable {
 
                 if (KeyHandler.upPressed){
                     player.jump();
-                    if (player.isGrounded()) {
+                    if (getyBlock()) {
                         player.setVitesseY(0);
                         KeyHandler.upPressed = false;
                     }
                 }
-                else if (player.isGrounded()) {
-                    player.setVitesseY(6);
+                else if (getyBlock()) {
+                    player.setVitesseY(10);
+                }
+                else if (!getyBlock()){
+                    player.setVitesseY(0);
                 }
 
 
@@ -82,5 +86,16 @@ public class Controleur implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
+
+    public boolean getyBlock(){
+        for (Block b: terrain.getBlocks())
+            if(player.isGrounded(b.getY()))
+                return true;
+
+
+        return false;
+    }
+
+
 
 }

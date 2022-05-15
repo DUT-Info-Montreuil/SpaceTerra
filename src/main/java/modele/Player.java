@@ -14,6 +14,8 @@ public class Player {
     private String armure;
     private DoubleProperty xProperty;
     private DoubleProperty yProperty;
+    private final int height = 48;
+    private final int width = 48;
     private final double walkSpeed = 10;
     private Image image;
     private double vitesseY;
@@ -44,8 +46,8 @@ public class Player {
     }
 
 
-    public boolean isGrounded() {
-        return this.yProperty.getValue() >= 2063;
+    public boolean isGrounded(int y) {
+        return this.yProperty.getValue() + this.height == y;
     }
 
     public void setVitesseY(double vitesseY) {
