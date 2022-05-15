@@ -39,6 +39,8 @@ public class Controleur implements Initializable {
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
         creerJoueur();
+        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
+        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
         creerTimeline();
         KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
@@ -55,11 +57,8 @@ public class Controleur implements Initializable {
         panneauDeJeu.getChildren().add(spriteJoueur);
     }
 
-    public void creerTimeline() {
-        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
-        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
-
-        timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() {
+    public void creerTimeline() { // peut etre creer un nouveau thread pour opti ?
+        timeline = new Timeline(new KeyFrame(Duration.millis(32.66), new EventHandler<ActionEvent>() { // 16.33 = 60 fps
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println(player.getYProperty().intValue() + player.getHeight());
