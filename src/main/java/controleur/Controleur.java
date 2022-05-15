@@ -6,8 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.ParallelCamera;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 import modele.Terrain;
@@ -28,6 +31,9 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Scene scene = new Scene(panneauDeJeu, 1000,1000, Color.DARKBLUE);
+        ParallelCamera camera = new ParallelCamera();
+        scene.setCamera(camera);
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
@@ -49,6 +55,8 @@ public class Controleur implements Initializable {
     }
 
     public void creerTimeline() {
+        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
+        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
 
         timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() {
             @Override
@@ -68,15 +76,11 @@ public class Controleur implements Initializable {
                     player.setVitesseY(6);
                 }
 
-                panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
-                panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
+
             }
         }));
-
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-
-
     }
 
 }
