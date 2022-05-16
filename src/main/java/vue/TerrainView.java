@@ -13,7 +13,7 @@ import java.util.Iterator;
 public class TerrainView {
     private Pane panneau;
 
-    private ArrayList entites;
+    private ArrayList<Entite> entites;
     public TerrainView(Pane panneau) {
 
         this.panneau = panneau;
@@ -33,8 +33,15 @@ public class TerrainView {
         }
     }
 
-    public void readEntite(Terrain terrain){
-
+    public void readEntite(){
+        for (Entite entite : entites){
+            ImageView imgView = new ImageView(entite.getImage());
+            imgView.xProperty().bind(entite.getHitbox().getX());
+            imgView.yProperty().bind(entite.getHitbox().getY());
+            //imgView.setX(entite.getHitbox().getX());
+            //imgView.setY(entite.getHitbox().getY());
+            panneau.getChildren().add(imgView);
+        }
     }
 
     public void displayCollision(boolean display, Terrain terrain, Player player){
