@@ -30,6 +30,7 @@ public class Controleur implements Initializable {
     private Terrain terrain;
     private Timeline timeline;
     private Player player;
+    private KeyHandler keyHandler;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -44,7 +45,7 @@ public class Controleur implements Initializable {
         panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
         creerTimeline();
-        KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
+        keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         //terrainView.displayCollision(true, terrain, player);
     }
@@ -63,14 +64,14 @@ public class Controleur implements Initializable {
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), new EventHandler<ActionEvent>() { // 16.33 = 60 fps
             @Override
             public void handle(ActionEvent actionEvent) {
-                if(KeyHandler.rightPressed || KeyHandler.leftPressed){
-                    player.horizontalMovement(KeyHandler.leftPressed && !(getSideBlock() == -1), KeyHandler.rightPressed && !(getSideBlock() == 1));
-                }
-                if(KeyHandler.upPressed)
-                    if(getGroundBlock())
+                if(keyHandler.isUpPressed())
+                    if(checkGroundBlock())
                         player.jump();
-                getSideBlock(); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
-                if(!getGroundBlock())
+                if(keyHandler.isRightPressed() || keyHandler.isLeftPressed()){
+                    player.horizontalMovement(keyHandler.isLeftPressed() && !(checkSideBlock() == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
+                }
+                checkSideBlock(); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
+                if(!checkGroundBlock())
                     player.applyGrav();
             }
         }));
@@ -78,7 +79,7 @@ public class Controleur implements Initializable {
         timeline.play();
     }
 
-    public boolean getGroundBlock(){
+    public boolean checkGroundBlock(){
         for (Block b: terrain.getSolidBlocks())
             if(player.isGrounded(b)){
                 return true;
@@ -87,7 +88,7 @@ public class Controleur implements Initializable {
     }
 
     // J'utilise des int parce que c'est plus leger que des string donc niveau opti c'est un peu mieu (meme si la différence est minime)
-    public int getSideBlock(){ // -1 = left, 1 = right, 0 = none
+    public int checkSideBlock(){ // -1 = left, 1 = right, 0 = none
         for(Block b : terrain.getSolidBlocks()){
             if(player.sideCollisions(b) == 1){
                 return 1;

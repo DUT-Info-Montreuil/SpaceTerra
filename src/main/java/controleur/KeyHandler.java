@@ -4,7 +4,23 @@ import javafx.scene.layout.Pane;
 
 
 public class KeyHandler {
-    public static boolean rightPressed, leftPressed, upPressed, downPressed, saut;
+    public boolean rightPressed, leftPressed, upPressed, downPressed;
+
+    public boolean isRightPressed() {
+        return rightPressed;
+    }
+
+    public boolean isLeftPressed() {
+        return leftPressed;
+    }
+
+    public boolean isUpPressed() {
+        return upPressed;
+    }
+
+    public boolean isDownPressed() {
+        return downPressed;
+    }
 
     private Pane pane;
 
