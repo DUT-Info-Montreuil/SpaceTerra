@@ -28,7 +28,7 @@ public class MouseHandler {
             System.out.println(mouseY);
         });
 
-        pane.setOnKeyReleased(e-> {
+        pane.setOnMouseReleased(e-> {
             hasClicked = false;
         });
     }

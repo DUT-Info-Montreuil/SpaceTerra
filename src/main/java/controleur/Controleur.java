@@ -19,6 +19,7 @@ import vue.PlayerView;
 import vue.TerrainView;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controleur implements Initializable {
@@ -50,9 +51,7 @@ public class Controleur implements Initializable {
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
-        //mouseHandler.mouseManager();
-        //checkOnClicked();
-        //breackingManager();
+        mouseHandler.mouseManager();
 
         //terrainView.displayCollision(true, terrain, player);
     }
@@ -61,11 +60,11 @@ public class Controleur implements Initializable {
     public void creerTimeline() { // peut etre creer un nouveau thread pour opti ?
         // 16.33 = 60 fps
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), actionEvent -> {
-           /* if (mouseHandler.isHasClicked()){
+           if (mouseHandler.isHasClicked()){
                 checkOnClicked();
                 breackingManager();
             }
-            */
+
 
 
             if(keyHandler.isUpPressed())//mouvements a mettre avec le player
@@ -116,35 +115,40 @@ public class Controleur implements Initializable {
             while (change.next()) {
                 for (Block b : change.getRemoved()) {
                     this.terrainView.deleteBlock(b);
-                    System.out.println("oui");
+                    System.out.println("oui1");
                 }
             }
         });
 
         this.terrain.getSolidBlocks().addListener((ListChangeListener<Block>) change -> {
-            System.out.println("oui");
             while (change.next()) {
                 for (Block b : change.getRemoved()) {
                     this.terrainView.deleteSolidBlock(b);
+                    System.out.println("oui2");
                 }
             }
         });
     }
 
     public void checkOnClicked() {
-            System.out.println("ok");
-            if(mouseHandler.isHasClicked()){
+        ArrayList<Block> deletedBlocks = new ArrayList<>();
                 for (Block b : terrain.getBlocks()) {
                     if (mouseHandler.getMouseX() < b.getX()) {
-                        terrain.deleteBlock(b);
+                        deletedBlocks.add(b);
+                        System.out.println(b);
+                        System.out.println("oui3");
                     }
+
                 }
+        terrain.deleteBlock(deletedBlocks);
                 for (Block b : terrain.getSolidBlocks()) {
                     if (mouseHandler.getMouseX() < b.getX()) {
-                        terrain.deleteSolidBlock(b);
+                        deletedBlocks.add(b);
+                        System.out.println("oui4");
                     }
                 }
-            }
+
+        terrain.deleteSolidBlock(deletedBlocks);
 
     }
 }
