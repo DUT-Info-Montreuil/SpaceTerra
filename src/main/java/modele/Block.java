@@ -7,11 +7,13 @@ import javafx.scene.image.Image;
 public class Block {
     private int x;
     private int y;
-    private int hitX;
-    private int hitY;
+
     private final int insideOffset = 10;
 
     private Tile tile;
+    private int hitX; //
+    private int hitY;
+
 
     public Block(Tile tile, int x, int y) {
         this.x = x;

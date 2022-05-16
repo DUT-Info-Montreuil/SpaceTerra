@@ -18,12 +18,12 @@ public class Bingus extends Entite{
     }
 
     public void deplacement(Player player, boolean leftCheck, boolean rightCheck) {
-        if(this.getHitbox().getX().intValue() < player.getXProperty().intValue()){
+        if(this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue()){
             if (leftCheck)
                 this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getVitesse());
         }
 
-        else if(this.getHitbox().getX().intValue() > player.getXProperty().intValue()){
+        else if(this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue()){
             if(rightCheck)
                 this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getVitesse());
         }

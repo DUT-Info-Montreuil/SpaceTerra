@@ -1,6 +1,5 @@
 package vue;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -58,9 +57,9 @@ public class TerrainView {
                 r.setStroke(Color.BLACK);
                 panneau.getChildren().add(r);
             }
-            Rectangle r = new Rectangle(player.getXProperty().intValue(), player.getYProperty().intValue(), player.getWidth(), player.getHeight());
-            r.yProperty().bind(player.getYProperty());
-            r.xProperty().bind(player.getXProperty());
+            Rectangle r = new Rectangle(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue(), player.getWidth(), player.getHeight());
+            r.yProperty().bind(player.getHitbox().getY());
+            r.xProperty().bind(player.getHitbox().getX());
             r.setFill(Color.TRANSPARENT);
             r.setStroke(Color.BLACK);
             panneau.getChildren().add(r);

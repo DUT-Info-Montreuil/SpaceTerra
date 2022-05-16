@@ -1,79 +1,67 @@
 package modele;
 
-import controleur.KeyHandler;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 
-public class Player{
+public class Player extends Entite{
 
     private int vie;
     private String main1;
     private String armure;
-    private DoubleProperty xProperty;
-    private DoubleProperty yProperty;
     private final int height = 48;
     private final int width = 48;
     private final double walkSpeed = 10;
     private Image image;
     private final double gravite = 9.81;
-    private final int jumpForce = 100;
+    private final int jumpForce = 20;
+    public int jumpCount = 0;
+    private boolean isJumping;
 
-    public Player(){
+
+    public Player(int x,int y){
+        super(20, 10, new Hitbox(42,42,x,y),"/Sprites/MC/MCSpace_Idle_right.gif");
         this.vie = 20;
         this.main1 = null;
         this.armure = null;
-        xProperty = new SimpleDoubleProperty(0);
-        yProperty = new SimpleDoubleProperty(0);
-        image = new Image(String.valueOf(getClass().getResource("/Sprites/MC/MCSpace_Idle_right.gif")));
     }
 
-    public void horizontalMovement(boolean left, boolean right) {
+    public void deplacement(Player player, boolean left, boolean right) {
         if (left) {
-            this.setXProperty(this.xProperty.getValue() - walkSpeed);
+            getHitbox().setX(this.getHitbox().getX().intValue() - walkSpeed);
         }
         else if (right){
-            this.setXProperty(this.xProperty.getValue() + walkSpeed);
+            getHitbox().setX(this.getHitbox().getX().intValue() + walkSpeed);
         }
     }
 
     public void jump() {
-        yProperty.setValue(yProperty.getValue() - jumpForce);
-    }
-
-    public void applyGrav(){
-        yProperty.setValue(yProperty.getValue() + gravite);
-    }
-
-
-    public boolean isGrounded(Block block) {
-        if(this.yProperty.intValue() + this.height >= block.getHitY() && this.yProperty.intValue() + this.height <= block.getHitY() + block.getInsideOffset())
-            if((xProperty.intValue() >= block.getHitX() && xProperty.intValue() < block.getHitX() + block.getTile().getHitbox().getWidth()) || (xProperty.intValue() + width >= block.getHitX() && xProperty.intValue() + width < block.getHitX() + block.getTile().getHitbox().getWidth())){
-                setYProperty(block.getHitY() - height);
-                return true;
+        if(!isJumping){
+            isJumping = true;
+            getHitbox().setY(getHitbox().getY().intValue() - ++jumpCount);
+        }
+        else{
+            if(jumpCount >= jumpForce){
+                System.out.println("over 100");
+                stopJump();
             }
-        return false;
-    }
-
-
-    // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
-    // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
-
-    public int sideCollisions(Block block){
-        if((yProperty.intValue() > block.getHitY() && yProperty.intValue() <= block.getHitY() + block.getTile().getHitbox().getHeight()) || (yProperty.intValue() + height > block.getHitY() && yProperty.intValue() + height <= block.getHitY() + block.getTile().getHitbox().getHeight())) {
-            if (xProperty.intValue() <= block.getHitX() + block.getTile().getHitbox().getWidth() && xProperty.intValue() >= block.getHitX() + block.getTile().getHitbox().getWidth() - block.getInsideOffset()) { // cote droit d'un block
-                setXProperty(block.getHitX() + block.getTile().getHitbox().getWidth() + 1);
-                return -1; // joueur bloque a gauche
-            } else if (xProperty.intValue() + width >= block.getHitX() && xProperty.intValue() + width <= block.getHitX() + block.getInsideOffset()) { // cote gauche d'un block
-                setXProperty(block.getHitX() - width - 1);
-                return 1; // joueur bloque a droite
+            else{
+                System.out.println(jumpCount);
+                getHitbox().setY(getHitbox().getY().intValue() - ++jumpCount);
             }
         }
-        return 0;
-    }
 
+    }
+    public void stopJump(){
+        System.out.println("Stopped func");
+        jumpCount = 0;
+        isJumping = false;
+    }
+    public boolean isJumping() {
+        return isJumping;
+    }
+    // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
+    // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
 
     public int getHeight(){
         return height;
@@ -81,26 +69,5 @@ public class Player{
 
     public int getWidth() {
         return width;
-    }
-
-
-    public Image getImage() {
-        return image;
-    }
-
-    public final DoubleProperty getXProperty() {
-        return xProperty;
-    }
-
-    public  final DoubleProperty getYProperty() {
-        return yProperty;
-    }
-
-    public final void setXProperty(double nb) {
-        xProperty.setValue(nb);
-    }
-
-    public final void setYProperty(double nb) {
-        yProperty.setValue(nb);
     }
 }

@@ -8,13 +8,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
 import javafx.util.Duration;
 import modele.*;
+import modele.Block;
+import modele.Terrain;
+import modele.Player;
+import vue.PlayerView;
 import vue.TerrainView;
 
 import java.net.URL;
@@ -44,25 +45,19 @@ public class Controleur implements Initializable {
         terrainView.readMap(terrain);
         bingus = creerBingus();
         terrainView.readEntite();
-        creerJoueur();
+        PlayerView playerView = new PlayerView(player = new Player(2030,10), panneauDeJeu);
+        playerView.displayPlayer();
         terrainView.displayCollision(false, terrain, player); // afficher ou non les collisions
-        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
-        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
+        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
+        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
         creerTimeline();
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         //terrainView.displayCollision(true, terrain, player);
     }
 
-    public void creerJoueur() {
-        player = new Player();
-        player.setXProperty(10);
-        player.setYProperty(2030);
-        ImageView spriteJoueur = new ImageView(player.getImage());
-        spriteJoueur.xProperty().bind(player.getXProperty());
-        spriteJoueur.yProperty().bind(player.getYProperty());
-        panneauDeJeu.getChildren().add(spriteJoueur);
-    }
+
+
 
     public Bingus creerBingus(){
         Bingus bingus = new Bingus(10,2030);
@@ -76,13 +71,13 @@ public class Controleur implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                     if (keyHandler.isUpPressed())
-                        if (checkGroundBlock())
+                        if (checkGroundBlock2(player))
                             player.jump();
                     if (keyHandler.isRightPressed() || keyHandler.isLeftPressed()) {
-                        player.horizontalMovement(keyHandler.isLeftPressed() && !(checkSideBlock() == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
+                        player.deplacement(null,keyHandler.isLeftPressed() && !(checkSideBlock2(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
                     }
-                    checkSideBlock(); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
-                    if (!checkGroundBlock())
+                    checkSideBlock2(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
+                    if (!checkGroundBlock2(player))
                         player.applyGrav();
 
                     for(Entite ent : entites) {
@@ -90,6 +85,24 @@ public class Controleur implements Initializable {
                         if (!checkGroundBlock2(ent))
                             ent.applyGrav();
                     }
+                if(keyHandler.isUpPressed())//mouvements a mettre avec le player
+                    if(checkGroundBlock2(player))
+                        player.jump();
+
+                    else if(player.isJumping())
+                        player.jump();
+
+                if(!keyHandler.isUpPressed())
+                    if(player.isJumping())
+                        player.stopJump();
+
+                if(keyHandler.isRightPressed() || keyHandler.isLeftPressed())
+                    player.deplacement(null,keyHandler.isLeftPressed() && !(checkSideBlock() == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
+
+                checkSideBlock2(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
+                if(!checkGroundBlock2(player) && !player.isJumping())
+                    player.applyGrav();
+
             }
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
