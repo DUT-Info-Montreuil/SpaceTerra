@@ -46,12 +46,12 @@ public abstract class Entite {
     }
 
     public int sideCollisions(Block block){
-        if((this.hitbox.getY().intValue() > block.getHitY() && this.hitbox.getY().intValue() <= block.getHitY() + block.getTile().getHitbox().getHeight()) || (this.getHitbox().getY().intValue() + this.hitbox.getHeight() > block.getHitY() && this.hitbox.getY().intValue() + this.hitbox.getHeight() <= block.getHitY() + block.getTile().getHitbox().getHeight())) {
+        if((hitbox.getY().intValue() > block.getHitY() && hitbox.getY().intValue() <= block.getHitY() + block.getTile().getHitbox().getHeight()) || (hitbox.getY().intValue() + hitbox.getHeight() > block.getHitY() && hitbox.getY().intValue() + hitbox.getHeight() <= block.getHitY() + block.getTile().getHitbox().getHeight())) {
             if (hitbox.getX().intValue() <= block.getHitX() + block.getTile().getHitbox().getWidth() && hitbox.getX().intValue() >= block.getHitX() + block.getTile().getHitbox().getWidth() - block.getInsideOffset()) { // cote droit d'un block
-                this.getHitbox().setX(block.getHitX() + block.getTile().getHitbox().getWidth() + 1);
+                hitbox.setX(block.getHitX() + block.getTile().getHitbox().getWidth() + 1);
                 return -1; // joueur bloque a gauche
             } else if (hitbox.getX().intValue() + hitbox.getWidth() >= block.getHitX() && hitbox.getX().intValue() + hitbox.getWidth() <= block.getHitX() + block.getInsideOffset()) { // cote gauche d'un block
-                hitbox.getX().set(block.getHitX() - hitbox.getWidth() - 1);
+                hitbox.setX(block.getHitX() - hitbox.getWidth() - 1);
                 return 1; // joueur bloque a droite
             }
         }
@@ -65,6 +65,10 @@ public abstract class Entite {
                 return true;
             }
         return false;
+    }
+
+    public void applyGrav(){
+        hitbox.getY().set(hitbox.getY().getValue() + 9.81);
     }
 
     public abstract void deplacement(Player player, boolean leftCheck, boolean rightCheck);

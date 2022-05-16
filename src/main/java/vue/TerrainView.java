@@ -36,8 +36,8 @@ public class TerrainView {
     public void readEntite(){
         for (Entite entite : entites){
             ImageView imgView = new ImageView(entite.getImage());
-            imgView.xProperty().bind(entite.getHitbox().getX());
-            imgView.yProperty().bind(entite.getHitbox().getY());
+            imgView.xProperty().bind(entite.getHitbox().getX().subtract(entite.getHitbox().getWidth()/2));
+            imgView.yProperty().bind(entite.getHitbox().getY().subtract(entite.getHitbox().getHeight()/2));
             //imgView.setX(entite.getHitbox().getX());
             //imgView.setY(entite.getHitbox().getY());
             panneau.getChildren().add(imgView);
@@ -48,6 +48,14 @@ public class TerrainView {
         if(display){
             for (Block block : terrain.getBlocks()) {
                 Rectangle r = new Rectangle(block.getHitX(), block.getHitY(), block.getTile().getHitbox().getWidth(), block.getTile().getHitbox().getHeight());
+                r.setFill(Color.TRANSPARENT);
+                r.setStroke(Color.BLACK);
+                panneau.getChildren().add(r);
+            }
+            for(Entite ent : entites){
+                Rectangle r = new Rectangle(ent.getHitbox().getX().intValue(), ent.getHitbox().getY().intValue(), ent.getHitbox().getWidth(), ent.getHitbox().getHeight());
+                r.xProperty().bind(ent.getHitbox().getX());
+                r.yProperty().bind(ent.getHitbox().getY());
                 r.setFill(Color.TRANSPARENT);
                 r.setStroke(Color.BLACK);
                 panneau.getChildren().add(r);

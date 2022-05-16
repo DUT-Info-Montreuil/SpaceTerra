@@ -5,7 +5,7 @@ public class Bingus extends Entite{
     private int force;
 
     public Bingus(int x, int y) {
-        super(10, 5, new Hitbox(0,0,x,y), "/Sprites/Enemies/YinYang.png");
+        super(10, 5, new Hitbox(50,50,x,y), "/Sprites/Enemies/YinYang.png");
         this.force = 3;
     }
 
@@ -28,4 +28,6 @@ public class Bingus extends Entite{
                 this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getVitesse());
         }
     }
+
+
 }

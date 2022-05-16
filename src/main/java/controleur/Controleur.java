@@ -85,8 +85,11 @@ public class Controleur implements Initializable {
                     if (!checkGroundBlock())
                         player.applyGrav();
 
-                    for(Entite ent : entites)
+                    for(Entite ent : entites) {
                         bingus.deplacement(player, (checkSideBlock2(ent) != -1), (checkSideBlock2(ent) != 1));
+                        if (!checkGroundBlock2(ent))
+                            ent.applyGrav();
+                    }
             }
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -123,5 +126,13 @@ public class Controleur implements Initializable {
             }
         }
         return 0;
+    }
+
+    public boolean checkGroundBlock2(Entite ent){
+        for (Block b: terrain.getSolidBlocks())
+            if(ent.isGrounded(b)){
+                return true;
+            }
+        return false;
     }
 }
