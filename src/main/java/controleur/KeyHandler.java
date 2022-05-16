@@ -18,9 +18,6 @@ public class KeyHandler {
         return upPressed;
     }
 
-    public boolean isDownPressed() {
-        return downPressed;
-    }
 
     private Pane pane;
 

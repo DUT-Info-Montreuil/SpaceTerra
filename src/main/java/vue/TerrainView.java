@@ -40,4 +40,14 @@ public class TerrainView {
         }
     }
 
+
+    public void deleteBlock(Block b) {
+        System.out.println("oui");
+        panneau.getChildren().remove(b);
+    }
+
+    public void deleteSolidBlock(Block b) {
+        System.out.println("oui");
+        panneau.getChildren().remove(b);
+    }
 }

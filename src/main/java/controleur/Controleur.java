@@ -2,6 +2,7 @@ package controleur;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,6 +31,8 @@ public class Controleur implements Initializable {
     private Player player;
     private KeyHandler keyHandler;
 
+    private MouseHandler mouseHandler;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Scene scene = new Scene(panneauDeJeu, 1000,1000, Color.DARKBLUE);
@@ -46,32 +49,42 @@ public class Controleur implements Initializable {
         creerTimeline();
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
+        mouseHandler = new MouseHandler(panneauDeJeu);
+        //mouseHandler.mouseManager();
+        //checkOnClicked();
+        //breackingManager();
+
         //terrainView.displayCollision(true, terrain, player);
     }
 
 
     public void creerTimeline() { // peut etre creer un nouveau thread pour opti ?
-        timeline = new Timeline(new KeyFrame(Duration.millis(32.66), new EventHandler<ActionEvent>() { // 16.33 = 60 fps
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if(keyHandler.isUpPressed())//mouvements a mettre avec le player
-                    if(checkGroundBlock())
-                        player.jump();
-
-                    else if(player.isJumping())
-                        player.jump();
-
-                if(!keyHandler.isUpPressed())
-                    if(player.isJumping())
-                        player.stopJump();
-
-                if(keyHandler.isRightPressed() || keyHandler.isLeftPressed())
-                    player.horizontalMovement(keyHandler.isLeftPressed() && !(checkSideBlock() == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
-
-                checkSideBlock(); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
-                if(!checkGroundBlock() && !player.isJumping())
-                    player.applyGrav();
+        // 16.33 = 60 fps
+        timeline = new Timeline(new KeyFrame(Duration.millis(32.66), actionEvent -> {
+           /* if (mouseHandler.isHasClicked()){
+                checkOnClicked();
+                breackingManager();
             }
+            */
+
+
+            if(keyHandler.isUpPressed())//mouvements a mettre avec le player
+                if(checkGroundBlock())
+                    player.jump();
+
+                else if(player.isJumping())
+                    player.jump();
+
+            if(!keyHandler.isUpPressed())
+                if(player.isJumping())
+                    player.stopJump();
+
+            if(keyHandler.isRightPressed() || keyHandler.isLeftPressed())
+                player.horizontalMovement(keyHandler.isLeftPressed() && !(checkSideBlock() == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
+
+            checkSideBlock(); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
+            if(!checkGroundBlock() && !player.isJumping())
+                player.applyGrav();
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -96,5 +109,42 @@ public class Controleur implements Initializable {
             }
         }
         return 0;
+    }
+
+    public void breackingManager() {
+        this.terrain.getBlocks().addListener((ListChangeListener<Block>) change -> {
+            while (change.next()) {
+                for (Block b : change.getRemoved()) {
+                    this.terrainView.deleteBlock(b);
+                    System.out.println("oui");
+                }
+            }
+        });
+
+        this.terrain.getSolidBlocks().addListener((ListChangeListener<Block>) change -> {
+            System.out.println("oui");
+            while (change.next()) {
+                for (Block b : change.getRemoved()) {
+                    this.terrainView.deleteSolidBlock(b);
+                }
+            }
+        });
+    }
+
+    public void checkOnClicked() {
+            System.out.println("ok");
+            if(mouseHandler.isHasClicked()){
+                for (Block b : terrain.getBlocks()) {
+                    if (mouseHandler.getMouseX() < b.getX()) {
+                        terrain.deleteBlock(b);
+                    }
+                }
+                for (Block b : terrain.getSolidBlocks()) {
+                    if (mouseHandler.getMouseX() < b.getX()) {
+                        terrain.deleteSolidBlock(b);
+                    }
+                }
+            }
+
     }
 }

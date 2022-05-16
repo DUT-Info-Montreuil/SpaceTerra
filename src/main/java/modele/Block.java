@@ -42,8 +42,8 @@ public class Block {
     public int getHitY() {
         return hitY;
     }
-
     public int getInsideOffset() {
         return insideOffset;
     }
+
 }
