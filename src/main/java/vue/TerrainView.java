@@ -38,8 +38,6 @@ public class TerrainView {
             ImageView imgView = new ImageView(entite.getImage());
             imgView.xProperty().bind(entite.getHitbox().getX().subtract(entite.getHitbox().getWidth()/2));
             imgView.yProperty().bind(entite.getHitbox().getY().subtract(entite.getHitbox().getHeight()/2));
-            //imgView.setX(entite.getHitbox().getX());
-            //imgView.setY(entite.getHitbox().getY());
             panneau.getChildren().add(imgView);
         }
     }
