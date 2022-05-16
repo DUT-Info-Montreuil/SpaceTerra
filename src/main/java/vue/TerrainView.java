@@ -7,13 +7,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import modele.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class TerrainView {
     private Pane panneau;
 
+    private ArrayList entites;
     public TerrainView(Pane panneau) {
+
         this.panneau = panneau;
+        this.entites = new ArrayList();
+    }
+
+    public void addEntite(Entite entite){
+        this.entites.add(entite);
     }
 
     public void readMap(Terrain terrain) {
@@ -23,6 +31,10 @@ public class TerrainView {
             imgView.setY(block.getY());
             panneau.getChildren().add(imgView);
         }
+    }
+
+    public void readEntite(Terrain terrain){
+
     }
 
     public void displayCollision(boolean display, Terrain terrain, Player player){

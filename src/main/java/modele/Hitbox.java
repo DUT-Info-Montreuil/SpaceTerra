@@ -16,6 +16,14 @@ public class Hitbox {
         x = ((Long) hitbox.get("x")).intValue();
         y = ((Long) hitbox.get("y")).intValue();
     }
+
+    public Hitbox(int width, int height, int x, int y){
+        this.isSolid = false;
+        this.width = width;
+        this.height = height;
+        this.x = x;
+        this.y = y;
+    }
     public boolean isSolid() {
         return isSolid;
     }
