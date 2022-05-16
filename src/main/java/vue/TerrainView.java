@@ -41,29 +41,32 @@ public class TerrainView {
         }
     }
 
-    public void displayCollision(boolean display, Terrain terrain, Player player){
-        if(display){
+    public void displayCollision(boolean blocks, boolean entities, boolean playerColl, Terrain terrain, Player player){
+        if(blocks) {
             for (Block block : terrain.getBlocks()) {
                 Rectangle r = new Rectangle(block.getHitX(), block.getHitY(), block.getTile().getHitbox().getWidth(), block.getTile().getHitbox().getHeight());
                 r.setFill(Color.TRANSPARENT);
                 r.setStroke(Color.BLACK);
                 panneau.getChildren().add(r);
             }
-            for(Entite ent : entites){
+        }
+        if(entities) {
+            for (Entite ent : entites) {
                 Rectangle r = new Rectangle(ent.getHitbox().getX().intValue(), ent.getHitbox().getY().intValue(), ent.getHitbox().getWidth(), ent.getHitbox().getHeight());
                 r.xProperty().bind(ent.getHitbox().getX());
                 r.yProperty().bind(ent.getHitbox().getY());
                 r.setFill(Color.TRANSPARENT);
-                r.setStroke(Color.BLACK);
+                r.setStroke(Color.RED);
                 panneau.getChildren().add(r);
             }
+        }
+        if(playerColl){
             Rectangle r = new Rectangle(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue(), player.getWidth(), player.getHeight());
             r.yProperty().bind(player.getHitbox().getY());
             r.xProperty().bind(player.getHitbox().getX());
             r.setFill(Color.TRANSPARENT);
-            r.setStroke(Color.BLACK);
+            r.setStroke(Color.GREEN);
             panneau.getChildren().add(r);
-
         }
     }
 

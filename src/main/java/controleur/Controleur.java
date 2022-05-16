@@ -47,7 +47,7 @@ public class Controleur implements Initializable {
         terrainView.readEntite();
         PlayerView playerView = new PlayerView(player = new Player(2030,10), panneauDeJeu);
         playerView.displayPlayer();
-        terrainView.displayCollision(false, terrain, player); // afficher ou non les collisions
+        terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
         panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
         creerTimeline();
