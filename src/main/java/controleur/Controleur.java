@@ -6,12 +6,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 import javafx.util.Duration;
 import modele.Terrain;
-import modele.Protagoniste;
+import modele.Player;
 import vue.TerrainView;
 
 import java.net.URL;
@@ -23,46 +23,56 @@ public class Controleur implements Initializable {
     private Pane panneauDeJeu;
     private TerrainView terrainView;
     private Terrain terrain;
+    private Timeline timeline;
+    private Player player;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        terrain = new Terrain("src/main/resources/Map/Test.json");
+        terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
         creerJoueur();
+        creerTimeline();
         KeyHandler keyHandler = new KeyHandler(panneauDeJeu);
-        keyHandler.keyWorking();
+        keyHandler.keyManager();
     }
 
     public void creerJoueur() {
-        Protagoniste joueur = new Protagoniste();
-        joueur.setXProperty(200);
-        joueur.setYProperty(200);
+        player = new Player();
+        player.setXProperty(10);
+        player.setYProperty(2063);
 
-        Rectangle rectangle = new Rectangle(joueur.getXProperty().intValue(), joueur.getYProperty().intValue(), 48, 48);
-        rectangle.setFill(Color.PINK);
-        rectangle.setStroke(Color.BLACK);
+        ImageView spriteJoueur = new ImageView(player.getImage());
+        spriteJoueur.xProperty().bind(player.getXProperty());
+        spriteJoueur.yProperty().bind(player.getYProperty());
+        panneauDeJeu.getChildren().add(spriteJoueur);
+    }
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
+    public void creerTimeline() {
+
+        timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if(KeyHandler.rightPressed){
-                    joueur.setXProperty(joueur.getXProperty().intValue() + 1);
+                if(KeyHandler.rightPressed || KeyHandler.leftPressed){
+                    player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
                 }
-                if (KeyHandler.leftPressed){
-                    joueur.setXProperty(joueur.getXProperty().intValue() - 1);
-                }
+
                 if (KeyHandler.upPressed){
-                    joueur.setYProperty(joueur.getYProperty().intValue() - 1);
+                    player.jump();
+                    if (player.isGrounded()) {
+                        player.setVitesseY(0);
+                        KeyHandler.upPressed = false;
+                    }
                 }
-                if (KeyHandler.downPressed){
-                    joueur.setYProperty(joueur.getYProperty().intValue() + 1);
+                else if (player.isGrounded()) {
+                    player.setVitesseY(6);
                 }
-                rectangle.xProperty().bind(joueur.getXProperty());
-                rectangle.yProperty().bind(joueur.getYProperty());
+
+                panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
+                panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
             }
         }));
-        panneauDeJeu.getChildren().add(rectangle);
+
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
