@@ -3,6 +3,8 @@ package modele;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+
+
 public class Layer {
 
     private int[] data; // la taille ne change pas donc pas d'arrayList
@@ -17,6 +19,7 @@ public class Layer {
             data = new int[width*height];
             fillData((JSONArray) layer.get("data"));
             isVisibile = (boolean) layer.get("visible");
+
             System.out.println("Layer loaded");
         }
     }
@@ -27,4 +30,27 @@ public class Layer {
         }
         System.out.println("data filled");
     }
+
+    public int[] getData(){
+        return data;
+    }
+    public int getxPos(){
+        return xPos;
+    }
+    public int getyPos(){
+        return yPos;
+    }
+
+    public int getWidth(){
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+
+    public boolean getIsVisible(){
+        return isVisibile;
+    }
+
 }
