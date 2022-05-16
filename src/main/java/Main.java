@@ -13,10 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Pane root = FXMLLoader.load(getClass().getResource("vueMap.fxml"));
-        Scene scene = new Scene(root, 1000,1000, Color.DARKBLUE);
-        ParallelCamera camera = new ParallelCamera();
-        scene.setCamera(camera);
-        stage.setScene(scene);
+        stage.setScene(root.getScene());
         stage.setResizable(false);
         stage.setTitle("Meilleur jeu du monde");
         stage.show();
