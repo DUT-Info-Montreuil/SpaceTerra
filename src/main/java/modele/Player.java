@@ -1,10 +1,7 @@
 package modele;
 
-import controleur.KeyHandler;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 
 public class Player {
@@ -12,8 +9,8 @@ public class Player {
     private int vie;
     private String main1;
     private String armure;
-    private DoubleProperty xProperty;
-    private DoubleProperty yProperty;
+    private DoubleProperty x;
+    private DoubleProperty y;
     private final int height = 48;
     private final int width = 48;
     private final double walkSpeed = 10;
@@ -28,24 +25,24 @@ public class Player {
         this.vie = 20;
         this.main1 = null;
         this.armure = null;
-        xProperty = new SimpleDoubleProperty(0);
-        yProperty = new SimpleDoubleProperty(0);
+        x = new SimpleDoubleProperty(0);
+        y = new SimpleDoubleProperty(0);
         image = new Image(String.valueOf(getClass().getResource("/Sprites/MC/MCSpace_Idle_right.gif")));
     }
 
     public void horizontalMovement(boolean left, boolean right) {
         if (left) {
-            this.setXProperty(this.xProperty.getValue() - walkSpeed);
+            this.setX(this.x.getValue() - walkSpeed);
         }
         else if (right){
-            this.setXProperty(this.xProperty.getValue() + walkSpeed);
+            this.setX(this.x.getValue() + walkSpeed);
         }
     }
 
     public void jump() {
         if(!isJumping){
             isJumping = true;
-            yProperty.setValue(yProperty.getValue() - ++jumpCount);
+            y.setValue(y.getValue() - ++jumpCount);
         }
         else{
             if(jumpCount >= jumpForce){
@@ -54,7 +51,7 @@ public class Player {
             }
             else{
                 System.out.println(jumpCount);
-                yProperty.setValue(yProperty.getValue() - ++jumpCount);
+                y.setValue(y.getValue() - ++jumpCount);
             }
         }
 
@@ -69,14 +66,14 @@ public class Player {
     }
 
     public void applyGrav(){
-        yProperty.setValue(yProperty.getValue() + gravite);
+        y.setValue(y.getValue() + gravite);
     }
 
 
     public boolean isGrounded(Block block) {
-        if(this.yProperty.intValue() + this.height >= block.getHitY() && this.yProperty.intValue() + this.height <= block.getHitY() + block.getInsideOffset())
-            if((xProperty.intValue() >= block.getHitX() && xProperty.intValue() < block.getHitX() + block.getTile().getHitbox().getWidth()) || (xProperty.intValue() + width >= block.getHitX() && xProperty.intValue() + width < block.getHitX() + block.getTile().getHitbox().getWidth())){
-                setYProperty(block.getHitY() - height);
+        if(this.y.intValue() + this.height >= block.getHitY() && this.y.intValue() + this.height <= block.getHitY() + block.getInsideOffset())
+            if((x.intValue() >= block.getHitX() && x.intValue() < block.getHitX() + block.getTile().getHitbox().getWidth()) || (x.intValue() + width >= block.getHitX() && x.intValue() + width < block.getHitX() + block.getTile().getHitbox().getWidth())){
+                setY(block.getHitY() - height);
                 return true;
             }
         return false;
@@ -87,12 +84,12 @@ public class Player {
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
 
     public int sideCollisions(Block block){
-        if((yProperty.intValue() > block.getHitY() && yProperty.intValue() <= block.getHitY() + block.getTile().getHitbox().getHeight()) || (yProperty.intValue() + height > block.getHitY() && yProperty.intValue() + height <= block.getHitY() + block.getTile().getHitbox().getHeight())) {
-            if (xProperty.intValue() <= block.getHitX() + block.getTile().getHitbox().getWidth() && xProperty.intValue() >= block.getHitX() + block.getTile().getHitbox().getWidth() - block.getInsideOffset()) { // cote droit d'un block
-                setXProperty(block.getHitX() + block.getTile().getHitbox().getWidth() + 1);
+        if((y.intValue() > block.getHitY() && y.intValue() <= block.getHitY() + block.getTile().getHitbox().getHeight()) || (y.intValue() + height > block.getHitY() && y.intValue() + height <= block.getHitY() + block.getTile().getHitbox().getHeight())) {
+            if (x.intValue() <= block.getHitX() + block.getTile().getHitbox().getWidth() && x.intValue() >= block.getHitX() + block.getTile().getHitbox().getWidth() - block.getInsideOffset()) { // cote droit d'un block
+                setX(block.getHitX() + block.getTile().getHitbox().getWidth() + 1);
                 return -1; // joueur bloque a gauche
-            } else if (xProperty.intValue() + width >= block.getHitX() && xProperty.intValue() + width <= block.getHitX() + block.getInsideOffset()) { // cote gauche d'un block
-                setXProperty(block.getHitX() - width - 1);
+            } else if (x.intValue() + width >= block.getHitX() && x.intValue() + width <= block.getHitX() + block.getInsideOffset()) { // cote gauche d'un block
+                setX(block.getHitX() - width - 1);
                 return 1; // joueur bloque a droite
             }
         }
@@ -113,19 +110,19 @@ public class Player {
         return image;
     }
 
-    public final DoubleProperty getXProperty() {
-        return xProperty;
+    public final DoubleProperty xProperty() {
+        return x;
     }
 
-    public  final DoubleProperty getYProperty() {
-        return yProperty;
+    public  final DoubleProperty yProperty() {
+        return y;
     }
 
-    public final void setXProperty(double nb) {
-        xProperty.setValue(nb);
+    public final void setX(double nb) {
+        x.setValue(nb);
     }
 
-    public final void setYProperty(double nb) {
-        yProperty.setValue(nb);
+    public final void setY(double nb) {
+        y.setValue(nb);
     }
 }

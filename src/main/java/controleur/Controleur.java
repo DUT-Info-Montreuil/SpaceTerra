@@ -8,15 +8,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
 import javafx.util.Duration;
 import modele.Block;
 import modele.Terrain;
 import modele.Player;
+import vue.PlayerView;
 import vue.TerrainView;
 
 import java.net.URL;
@@ -40,31 +38,23 @@ public class Controleur implements Initializable {
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
-        creerJoueur();
+        PlayerView playerView = new PlayerView(player = new Player(), panneauDeJeu);
+        playerView.displayPlayer();
         terrainView.displayCollision(false, terrain, player); // afficher ou non les collisions
-        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getXProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
-        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
+        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.xProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
+        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.yProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
         creerTimeline();
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         //terrainView.displayCollision(true, terrain, player);
     }
 
-    public void creerJoueur() {
-        player = new Player();
-        player.setXProperty(10);
-        player.setYProperty(2030);
-        ImageView spriteJoueur = new ImageView(player.getImage());
-        spriteJoueur.xProperty().bind(player.getXProperty());
-        spriteJoueur.yProperty().bind(player.getYProperty());
-        panneauDeJeu.getChildren().add(spriteJoueur);
-    }
 
     public void creerTimeline() { // peut etre creer un nouveau thread pour opti ?
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), new EventHandler<ActionEvent>() { // 16.33 = 60 fps
             @Override
             public void handle(ActionEvent actionEvent) {
-                if(keyHandler.isUpPressed())
+                if(keyHandler.isUpPressed())//mouvements a mettre avec le player
                     if(checkGroundBlock())
                         player.jump();
 
