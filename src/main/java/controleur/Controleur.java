@@ -52,6 +52,7 @@ public class Controleur implements Initializable {
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
         mouseHandler.mouseManager();
+        breackingManager();
 
         //terrainView.displayCollision(true, terrain, player);
     }
@@ -112,10 +113,11 @@ public class Controleur implements Initializable {
 
     public void breackingManager() {
         this.terrain.getBlocks().addListener((ListChangeListener<Block>) change -> {
+            System.out.println("oui1");
             while (change.next()) {
                 for (Block b : change.getRemoved()) {
                     this.terrainView.deleteBlock(b);
-                    System.out.println("oui1");
+
                 }
             }
         });
@@ -133,7 +135,7 @@ public class Controleur implements Initializable {
     public void checkOnClicked() {
         ArrayList<Block> deletedBlocks = new ArrayList<>();
                 for (Block b : terrain.getBlocks()) {
-                    if (mouseHandler.getMouseX() < b.getX()) {
+                    if (mouseHandler.getMouseX() < b.getX()+100 && mouseHandler.getMouseX() > b.getX()) {
                         deletedBlocks.add(b);
                         System.out.println(b);
                         System.out.println("oui3");
@@ -142,12 +144,11 @@ public class Controleur implements Initializable {
                 }
         terrain.deleteBlock(deletedBlocks);
                 for (Block b : terrain.getSolidBlocks()) {
-                    if (mouseHandler.getMouseX() < b.getX()) {
+                    if (mouseHandler.getMouseX() < b.getX()+100 && mouseHandler.getMouseX() > b.getX()) {
                         deletedBlocks.add(b);
                         System.out.println("oui4");
                     }
                 }
-
         terrain.deleteSolidBlock(deletedBlocks);
 
     }

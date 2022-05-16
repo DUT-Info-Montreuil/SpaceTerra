@@ -14,10 +14,13 @@ public class TerrainView {
     }
 
     public void readMap(Terrain terrain) {
+        int id = 0;
         for (Block block : terrain.getBlocks()) {
             ImageView imgView = new ImageView(block.getTile().getImage());
+            imgView.setId(block.getId());
             imgView.setX(block.getX());
             imgView.setY(block.getY());
+            System.out.println(imgView.getId());
             panneau.getChildren().add(imgView);
         }
     }
@@ -41,13 +44,13 @@ public class TerrainView {
     }
 
 
-    public void deleteBlock(Block b) {
+    public void deleteBlock(Block block) {
         System.out.println("oui5");
-        panneau.getChildren().remove(b);
+        panneau.getChildren().remove(panneau.lookup("#" + block.getId()));
     }
 
-    public void deleteSolidBlock(Block b) {
-        panneau.getChildren().remove(b);
+    public void deleteSolidBlock(Block block) {
+        panneau.getChildren().remove(panneau.lookup("#" + block.getId()));
         System.out.println("oui6");
     }
 }
