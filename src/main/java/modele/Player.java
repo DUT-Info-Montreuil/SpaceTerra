@@ -19,7 +19,10 @@ public class Player {
     private final double walkSpeed = 10;
     private Image image;
     private final double gravite = 9.81;
-    private final int jumpForce = 100;
+    private final int jumpForce = 20;
+    public int jumpCount = 0;
+    private boolean isJumping;
+
 
     public Player(){
         this.vie = 20;
@@ -40,7 +43,29 @@ public class Player {
     }
 
     public void jump() {
-        yProperty.setValue(yProperty.getValue() - jumpForce);
+        if(!isJumping){
+            isJumping = true;
+            yProperty.setValue(yProperty.getValue() - ++jumpCount);
+        }
+        else{
+            if(jumpCount >= jumpForce){
+                System.out.println("over 100");
+                stopJump();
+            }
+            else{
+                System.out.println(jumpCount);
+                yProperty.setValue(yProperty.getValue() - ++jumpCount);
+            }
+        }
+
+    }
+    public void stopJump(){
+        System.out.println("Stopped func");
+        jumpCount = 0;
+        isJumping = false;
+    }
+    public boolean isJumping() {
+        return isJumping;
     }
 
     public void applyGrav(){

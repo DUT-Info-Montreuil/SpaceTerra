@@ -67,11 +67,19 @@ public class Controleur implements Initializable {
                 if(keyHandler.isUpPressed())
                     if(checkGroundBlock())
                         player.jump();
-                if(keyHandler.isRightPressed() || keyHandler.isLeftPressed()){
+
+                    else if(player.isJumping())
+                        player.jump();
+
+                if(!keyHandler.isUpPressed())
+                    if(player.isJumping())
+                        player.stopJump();
+
+                if(keyHandler.isRightPressed() || keyHandler.isLeftPressed())
                     player.horizontalMovement(keyHandler.isLeftPressed() && !(checkSideBlock() == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
-                }
+
                 checkSideBlock(); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
-                if(!checkGroundBlock())
+                if(!checkGroundBlock() && !player.isJumping())
                     player.applyGrav();
             }
         }));
