@@ -9,7 +9,6 @@ import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import modele.*;
 import modele.Block;
@@ -60,7 +59,7 @@ public class Controleur implements Initializable {
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
         mouseHandler.mouseManager();
-        breackingManager();
+        breakingManager();
 
         //terrainView.displayCollision(true, terrain, player);
     }
@@ -166,17 +165,15 @@ public class Controleur implements Initializable {
         }
     }
 
-    public void breackingManager() {
+    public void breakingManager() {
         this.terrain.getBlocks().addListener((ListChangeListener<Block>) change -> {
             //System.out.println("oui1");
             while (change.next()) {
                 for (Block b : change.getRemoved()) {
                     this.terrainView.deleteBlock(b);
-
                 }
             }
         });
-
     }
 
     public void checkOnClicked() {
