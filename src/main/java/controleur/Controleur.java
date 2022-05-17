@@ -78,8 +78,7 @@ public class Controleur implements Initializable {
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), actionEvent -> {
             if (mouseHandler.isHasClickedLeft()){
                 checkOnClicked();
-                System.out.println(mouseHandler.isHasClickedLeft());
-                mouseHandler.setHasClickedLeft(false);
+                //System.out.println(mouseHandler.isHasClickedLeft());
             }
             playerMovement();
             entityLoop();
@@ -136,12 +135,12 @@ public class Controleur implements Initializable {
             if (!checkGroundBlock(ent)){
                 if(ent instanceof Player) {
                     if (!player.isJumping()) {
-                        System.out.println("player grav");
+                       // System.out.println("player grav");
                         player.applyGrav();
                     }
                 }
                 else {
-                    System.out.println("Entity grav");
+                    //System.out.println("Entity grav");
                     ent.applyGrav();
                 }
             }
@@ -150,7 +149,7 @@ public class Controleur implements Initializable {
 
     public void breackingManager() {
         this.terrain.getBlocks().addListener((ListChangeListener<Block>) change -> {
-            System.out.println("oui1");
+            //System.out.println("oui1");
             while (change.next()) {
                 for (Block b : change.getRemoved()) {
                     this.terrainView.deleteBlock(b);
@@ -172,25 +171,20 @@ public class Controleur implements Initializable {
                         panneauDeJeu.getChildren().add(r);
 
                          */
-                        System.out.println(b);
+                       // System.out.println(b);
                         if(b.getPvs() > 0){
+                            System.out.println(b.getPvs());
                             b.setPvs(b.getPvs()-1);
                         }
                         else {
                             deletedBlocks.add(b);
                         }
 
-                        System.out.println("oui3");
+                        //System.out.println("oui3");
                     }
 
                 }
         terrain.deleteBlock(deletedBlocks);
-                for (Block b : terrain.getSolidBlocks()) {
-                    if (mouseHandler.getMouseX() < b.getHitX()+b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY()+b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
-                        deletedBlocks.add(b);
-                        System.out.println("oui4");
-                    }
-                }
         terrain.deleteSolidBlock(deletedBlocks);
 
     }

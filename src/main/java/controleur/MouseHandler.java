@@ -30,22 +30,29 @@ public class MouseHandler {
     }
 
     public void mouseManager() {
-        pane.setOnMouseClicked(e -> {
+        pane.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 mouseX = (int) e.getX();
                 mouseY = (int) e.getY();
                 hasClickedLeft = true;
-                System.out.println(hasClickedLeft);
-                System.out.println(mouseX);
-                System.out.println(mouseY);
             }
             else if(e.getButton() == MouseButton.SECONDARY){
                     mouseX = (int) e.getX();
                     mouseY = (int) e.getY();
                     hasClickedRight = true;
-                    System.out.println(hasClickedRight);
-                    System.out.println(mouseX);
-                    System.out.println(mouseY);
+            }
+        });
+
+        pane.setOnMouseReleased(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                mouseX = (int) e.getX();
+                mouseY = (int) e.getY();
+                hasClickedLeft = false;
+            }
+            else if(e.getButton() == MouseButton.SECONDARY){
+                mouseX = (int) e.getX();
+                mouseY = (int) e.getY();
+                hasClickedRight = false;
             }
         });
     }
