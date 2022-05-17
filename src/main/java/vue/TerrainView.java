@@ -78,8 +78,4 @@ public class TerrainView {
         panneau.getChildren().remove(panneau.lookup("#" + block.getId()));
     }
 
-    public void deleteSolidBlock(Block block) {
-        panneau.getChildren().remove(panneau.lookup("#" + block.getId()));
-        System.out.println("oui6");
-    }
 }

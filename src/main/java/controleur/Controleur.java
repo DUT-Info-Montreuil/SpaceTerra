@@ -157,14 +157,6 @@ public class Controleur implements Initializable {
             }
         });
 
-        this.terrain.getSolidBlocks().addListener((ListChangeListener<Block>) change -> {
-            while (change.next()) {
-                for (Block b : change.getRemoved()) {
-                    this.terrainView.deleteSolidBlock(b);
-                    System.out.println("oui2");
-                }
-            }
-        });
     }
 
     public void checkOnClicked() {
