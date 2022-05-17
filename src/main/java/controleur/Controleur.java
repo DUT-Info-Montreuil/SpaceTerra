@@ -76,7 +76,7 @@ public class Controleur implements Initializable {
         // 16.33 = 60 fps
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), actionEvent -> {
            if (mouseHandler.isHasClickedLeft()){
-                checkOnClicked();
+                checkOnLeftClicked();
                 breackingManager();
                System.out.println(mouseHandler.isHasClickedLeft());
                 mouseHandler.setHasClickedLeft(false);
@@ -156,7 +156,6 @@ public class Controleur implements Initializable {
                 }
             }
         });
-
         this.terrain.getSolidBlocks().addListener((ListChangeListener<Block>) change -> {
             while (change.next()) {
                 for (Block b : change.getRemoved()) {
@@ -166,8 +165,27 @@ public class Controleur implements Initializable {
             }
         });
     }
+    public void placingManager() {
+        this.terrain.getBlocks().addListener((ListChangeListener<Block>) change -> {
+            System.out.println("oui9");
+            while (change.next()) {
+                for (Block b : change.getAddedSubList()) {
+                    this.terrainView.placeBlock(b);
 
-    public void checkOnClicked() {
+                }
+            }
+        });
+        this.terrain.getSolidBlocks().addListener((ListChangeListener<Block>) change -> {
+            while (change.next()) {
+                for (Block b : change.getAddedSubList()) {
+                    this.terrainView.placeBlock(b);
+                    System.out.println("oui10");
+                }
+            }
+        });
+    }
+
+    public void checkOnLeftClicked() {
         ArrayList<Block> deletedBlocks = new ArrayList<>();
                 for (Block b : terrain.getBlocks()) {
                     if (mouseHandler.getMouseX() < b.getHitX()+b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY()+b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
@@ -190,5 +208,22 @@ public class Controleur implements Initializable {
                 }
         terrain.deleteSolidBlock(deletedBlocks);
 
+    }
+
+   public void checkOnRightClicked() {
+        if(isBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY())){
+            //Block b = new Block();
+        }
+    }
+
+
+
+    public boolean isBlock(int x, int y){
+        for(Block b : terrain.getBlocks()){
+            if(x > b.getHitX() && x < b.getHitX() + b.getTile().getHitbox().getWidth() && y > b.getHitY() && y < b.getHitY() + b.getTile().getHitbox().getHeight()){
+                return true;
+            }
+        }
+        return  false;
     }
 }

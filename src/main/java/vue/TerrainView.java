@@ -82,4 +82,13 @@ public class TerrainView {
         panneau.getChildren().remove(panneau.lookup("#" + block.getId()));
         System.out.println("oui6");
     }
+
+    public void placeBlock(Block b) {
+        ImageView imgView = new ImageView(b.getTile().getImage());
+        imgView.setId(b.getId());
+        imgView.setX(b.getX());
+        imgView.setY(b.getY());
+        panneau.getChildren().add(imgView);
+
+    }
 }

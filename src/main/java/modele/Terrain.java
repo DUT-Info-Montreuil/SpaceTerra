@@ -113,6 +113,7 @@ public class Terrain {
                             Tile currTile = (Tile) var9.next();
                             if (data[t] == currTile.getId()) {
                                 Block b = new Block(currTile, x, y);
+                                System.out.println(currTile);
                                 blocks.add(b);
                                 if(b.getTile().getHitbox().isSolid()){
                                     solidBlocks.add(b);
@@ -136,5 +137,9 @@ public class Terrain {
 
     public void deleteSolidBlock(ArrayList<Block> blocks) {
         this.getSolidBlocks().removeAll(blocks);
+    }
+
+    public void addBlock(ArrayList<Block> addedBlocks) {
+
     }
 }
