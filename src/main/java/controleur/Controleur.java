@@ -172,8 +172,14 @@ public class Controleur implements Initializable {
                         panneauDeJeu.getChildren().add(r);
 
                          */
-                        deletedBlocks.add(b);
                         System.out.println(b);
+                        if(b.getPvs() > 0){
+                            b.setPvs(b.getPvs()-1);
+                        }
+                        else {
+                            deletedBlocks.add(b);
+                        }
+
                         System.out.println("oui3");
                     }
 
