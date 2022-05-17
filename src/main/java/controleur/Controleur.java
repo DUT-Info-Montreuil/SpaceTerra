@@ -53,7 +53,7 @@ public class Controleur implements Initializable {
         terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
         panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth() / 2));
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight() / 2));
-        createTimeline();
+        createTimelines();
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
@@ -64,14 +64,13 @@ public class Controleur implements Initializable {
     }
 
 
-    public Bingus createBingus() {
+    public void createBingus() {
         Bingus bingus = new Bingus(10, 2030);
         terrainView.addEntite(bingus);
         entities.add(bingus);
-        return bingus;
     }
 
-    public void createTimeline() { // peut etre creer un nouveau thread pour opti ?
+    public void createTimelines() { // peut etre creer un nouveau thread pour opti ?
         // 16.33 = 60 fps
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(32.66), actionEvent -> {
