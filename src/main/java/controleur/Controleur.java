@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -19,6 +20,7 @@ import modele.Player;
 import vue.PlayerView;
 import vue.TerrainView;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -189,6 +191,7 @@ public class Controleur implements Initializable {
                 if (b.getPvs() <= 0) {
                     deletedBlocks.add(b);
                 }
+                break;
             }
         }
         terrain.deleteBlock(deletedBlocks);
