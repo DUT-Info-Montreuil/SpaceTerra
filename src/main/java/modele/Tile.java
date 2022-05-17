@@ -20,7 +20,14 @@ public class Tile {
         tileHeight = ((Long)tile.get("imageheight")).intValue();
         image = new Image(String.valueOf(getClass().getResource("/Sprites/TileSet/" + findTileFileName(tile))));
         hitbox = new Hitbox((JSONObject) ((JSONArray)((JSONObject) tile.get("objectgroup")).get("objects")).get(0));
-       // createBlock(tile);
+    }
+
+    public Tile(int id, String path, int tileWidth, int tileHeight, Hitbox hitbox){
+        this.id = id;
+        image = new Image(String.valueOf(getClass().getResource(path)));
+        this.tileWidth = tileWidth;
+        this.tileHeight = tileHeight;
+        this.hitbox = hitbox;
     }
 
     public String findTileFileName(JSONObject tile){

@@ -76,10 +76,6 @@ public class Controleur implements Initializable {
         // 16.33 = 60 fps
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(32.66), actionEvent -> {
-                    /*if (mouseHandler.isHasClickedLeft()) {
-                        checkOnClicked();
-                        //System.out.println(mouseHandler.isHasClickedLeft());
-                    } */
                     playerMovement();
                     entityLoop();
                 }));
@@ -90,7 +86,6 @@ public class Controleur implements Initializable {
                 (new KeyFrame(Duration.millis(1000), actionEvent -> {
                     if (mouseHandler.isHasClickedLeft()) {
                         checkOnClicked();
-                        //System.out.println(mouseHandler.isHasClickedLeft());
                     }
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
@@ -154,11 +149,9 @@ public class Controleur implements Initializable {
             if (!checkGroundBlock(ent)) {
                 if (ent instanceof Player) {
                     if (!player.isJumping()) {
-                        // System.out.println("player grav");
                         player.applyGrav();
                     }
                 } else {
-                    //System.out.println("Entity grav");
                     ent.applyGrav();
                 }
             }
@@ -167,7 +160,6 @@ public class Controleur implements Initializable {
 
     public void breakingManager() {
         this.terrain.getBlocks().addListener((ListChangeListener<Block>) change -> {
-            //System.out.println("oui1");
             while (change.next()) {
                 for (Block b : change.getRemoved()) {
                     this.terrainView.deleteBlock(b);
@@ -189,14 +181,12 @@ public class Controleur implements Initializable {
                     }
                     break;
                 }
-                //System.out.println(true);
                 /*
                 Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
                 r.setFill(Color.TRANSPARENT);
                 r.setStroke(Color.BLACK);
                 panneauDeJeu.getChildren().add(r);
-
-                 */
+                */
             }
         }
         terrain.deleteBlock(deletedBlocks);
