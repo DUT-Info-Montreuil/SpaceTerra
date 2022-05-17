@@ -3,8 +3,6 @@ package controleur;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
@@ -31,6 +29,8 @@ public class Controleur implements Initializable {
     private TerrainView terrainView;
     private Terrain terrain;
     private Timeline timeline;
+
+    private Timeline timelineClick;
     private Player player;
     private KeyHandler keyHandler;
     private ArrayList<Entity> entities;
@@ -41,7 +41,7 @@ public class Controleur implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         entities = new ArrayList<>();
-        Scene scene = new Scene(panneauDeJeu, 1000,1000, Color.DARKBLUE);
+        Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
         ParallelCamera camera = new ParallelCamera();
         scene.setCamera(camera);
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
@@ -53,8 +53,8 @@ public class Controleur implements Initializable {
         entities.add(player);
         playerView.displayPlayer();
         terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
-        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
-        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
+        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth() / 2));
+        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight() / 2));
         creerTimeline();
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
@@ -66,10 +66,8 @@ public class Controleur implements Initializable {
     }
 
 
-
-
-    public Bingus creerBingus(){
-        Bingus bingus = new Bingus(10,2030);
+    public Bingus creerBingus() {
+        Bingus bingus = new Bingus(10, 2030);
         terrainView.addEntite(bingus);
         entities.add(bingus);
         return bingus;
@@ -77,74 +75,91 @@ public class Controleur implements Initializable {
 
     public void creerTimeline() { // peut etre creer un nouveau thread pour opti ?
         // 16.33 = 60 fps
-        timeline = new Timeline(new KeyFrame(Duration.millis(32.66), actionEvent -> {
-            if (mouseHandler.isHasClickedLeft()){
-                checkOnClicked();
-                breackingManager();
-                System.out.println(mouseHandler.isHasClickedLeft());
-                mouseHandler.setHasClickedLeft(false);
-            }
-            playerMovement();
-            entityLoop();
-        }));
+        timeline = new Timeline
+                (new KeyFrame(Duration.millis(32.66), actionEvent -> {
+                    /*if (mouseHandler.isHasClickedLeft()) {
+                        checkOnClicked();
+                        //System.out.println(mouseHandler.isHasClickedLeft());
+                    } */
+                    playerMovement();
+                    entityLoop();
+                }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+
+        timelineClick = new Timeline
+                (new KeyFrame(Duration.millis(1000), actionEvent -> {
+                    if (mouseHandler.isHasClickedLeft()) {
+                        checkOnClicked();
+                        //System.out.println(mouseHandler.isHasClickedLeft());
+                    }
+                }));
+        timelineClick.setCycleCount(Timeline.INDEFINITE);
+        timelineClick.play();
+
     }
 
 
-    public int checkSideBlock(Entity ent){ // -1 = left, 1 = right, 0 = none
-        for(Block b : terrain.getSolidBlocks()){
-            if(ent.sideCollisions(b) == 1){
+    public int checkSideBlock(Entity ent) { // -1 = left, 1 = right, 0 = none
+        for (Block b : terrain.getSolidBlocks()) {
+            if (ent.sideCollisions(b) == 1) {
                 return 1;
-            }
-            else if (ent.sideCollisions(b) == -1){
+            } else if (ent.sideCollisions(b) == -1) {
                 return -1;
             }
         }
         return 0;
     }
 
-    public boolean checkGroundBlock(Entity ent){
-        for (Block b: terrain.getSolidBlocks())
-            if(ent.isGrounded(b)){
+    public boolean checkGroundBlock(Entity ent) {
+        for (Block b : terrain.getSolidBlocks())
+            if (ent.isGrounded(b)) {
                 return true;
             }
         return false;
     }
 
-    public void playerMovement(){
-        if(keyHandler.isUpPressed())//mouvements a mettre avec le player
-            if(checkGroundBlock(player))
-                player.jump();
-
-            else if(player.isJumping())
-                player.jump();
-
-        if(!keyHandler.isUpPressed())
-            if(player.isJumping())
-                player.stopJump();
-
-        if(keyHandler.isRightPressed() || keyHandler.isLeftPressed())
-            player.movement(null,keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
+    public boolean checkDistanceBlock(Entity ent, Block b){
+        System.out.println(ent.distanceToBlock(b));
+            if (ent.distanceToBlock(b) < 4) {
+                return true;
+            }
+        return false;
     }
 
-    public void entityLoop(){
-        for(Entity ent : entities) {
-            if(ent instanceof Player)
+
+    public void playerMovement() {
+        if (keyHandler.isUpPressed())//mouvements a mettre avec le player
+            if (checkGroundBlock(player))
+                player.jump();
+
+            else if (player.isJumping())
+                player.jump();
+
+        if (!keyHandler.isUpPressed())
+            if (player.isJumping())
+                player.stopJump();
+
+        if (keyHandler.isRightPressed() || keyHandler.isLeftPressed())
+            player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
+    }
+
+    public void entityLoop() {
+        for (Entity ent : entities) {
+            if (ent instanceof Player)
                 checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
                 ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
                 checkSideBlock(ent);
             }
-            if (!checkGroundBlock(ent)){
-                if(ent instanceof Player) {
+            if (!checkGroundBlock(ent)) {
+                if (ent instanceof Player) {
                     if (!player.isJumping()) {
-                        System.out.println("player grav");
+                        // System.out.println("player grav");
                         player.applyGrav();
                     }
-                }
-                else {
-                    System.out.println("Entity grav");
+                } else {
+                    //System.out.println("Entity grav");
                     ent.applyGrav();
                 }
             }
@@ -153,30 +168,40 @@ public class Controleur implements Initializable {
 
     public void breackingManager() {
         this.terrain.getBlocks().addListener((ListChangeListener<Block>) change -> {
-            System.out.println("oui1");
+            //System.out.println("oui1");
             while (change.next()) {
                 for (Block b : change.getRemoved()) {
                     this.terrainView.deleteBlock(b);
+
                 }
             }
         });
+
     }
 
     public void checkOnClicked() {
         ArrayList<Block> deletedBlocks = new ArrayList<>();
-                for (Block b : terrain.getBlocks()) {
-                    if (mouseHandler.getMouseX() < b.getHitX()+b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY()+b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
-                        /*Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
-                        r.setFill(Color.TRANSPARENT);
-                        r.setStroke(Color.BLACK);
-                        panneauDeJeu.getChildren().add(r);
-                         */
+        for (Block b : terrain.getBlocks()) {
+            if (mouseHandler.getMouseX() < b.getHitX() + b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY() + b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
+                if(checkDistanceBlock(player, b)){
+                    System.out.println("ok");
+                    b.setPvs(b.getPvs() - 1);
+                    System.out.println(b.getPvs());
+                    if (b.getPvs() <= 0) {
                         deletedBlocks.add(b);
-                        System.out.println(b);
-                        System.out.println("oui3");
                     }
-
+                    break;
                 }
+                //System.out.println(true);
+                /*
+                Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
+                r.setFill(Color.TRANSPARENT);
+                r.setStroke(Color.BLACK);
+                panneauDeJeu.getChildren().add(r);
+
+                 */
+            }
+        }
         terrain.deleteBlock(deletedBlocks);
                 for (Block b : terrain.getSolidBlocks()) {
                     if (mouseHandler.getMouseX() < b.getHitX()+b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY()+b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
@@ -185,5 +210,6 @@ public class Controleur implements Initializable {
                     }
                 }
         terrain.deleteSolidBlock(deletedBlocks);
+
     }
 }
