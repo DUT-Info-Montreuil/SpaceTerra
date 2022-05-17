@@ -70,23 +70,13 @@ public class Controleur implements Initializable {
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), new EventHandler<ActionEvent>() { // 16.33 = 60 fps
             @Override
             public void handle(ActionEvent actionEvent) {
-                    if (keyHandler.isUpPressed())
-                        if (checkGroundBlock2(player))
-                            player.jump();
-                    if (keyHandler.isRightPressed() || keyHandler.isLeftPressed()) {
-                        player.movement(null,keyHandler.isLeftPressed() && !(checkSideBlock2(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
-                    }
-                    checkSideBlock2(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
-                    if (!checkGroundBlock2(player))
-                        player.applyGrav();
-
-                    for(Entity ent : entities) {
-                        bingus.movement(player, (checkSideBlock2(ent) != -1), (checkSideBlock2(ent) != 1));
-                        if (!checkGroundBlock2(ent))
-                            ent.applyGrav();
-                    }
+                for(Entity ent : entities) {
+                    ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
+                    if (!checkGroundBlock(ent))
+                        ent.applyGrav();
+                }
                 if(keyHandler.isUpPressed())//mouvements a mettre avec le player
-                    if(checkGroundBlock2(player))
+                    if(checkGroundBlock(player))
                         player.jump();
 
                     else if(player.isJumping())
@@ -97,10 +87,10 @@ public class Controleur implements Initializable {
                         player.stopJump();
 
                 if(keyHandler.isRightPressed() || keyHandler.isLeftPressed())
-                    player.movement(null,keyHandler.isLeftPressed() && !(checkSideBlock() == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
+                    player.movement(null,keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
 
-                checkSideBlock2(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
-                if(!checkGroundBlock2(player) && !player.isJumping())
+                checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
+                if(!checkGroundBlock(player) && !player.isJumping())
                     player.applyGrav();
 
             }
@@ -109,27 +99,8 @@ public class Controleur implements Initializable {
         timeline.play();
     }
 
-    public boolean checkGroundBlock(){
-        for (Block b: terrain.getSolidBlocks())
-            if(player.isGrounded(b)){
-                return true;
-            }
-        return false;
-    }
 
-    // J'utilise des int parce que c'est plus leger que des string donc niveau opti c'est un peu mieu (meme si la différence est minime)
-    public int checkSideBlock(){ // -1 = left, 1 = right, 0 = none
-        for(Block b : terrain.getSolidBlocks()){
-            if(player.sideCollisions(b) == 1){
-                return 1;
-            }
-            else if (player.sideCollisions(b) == -1){
-                return -1;
-            }
-        }
-        return 0;
-    }
-    public int checkSideBlock2(Entity ent){ // -1 = left, 1 = right, 0 = none
+    public int checkSideBlock(Entity ent){ // -1 = left, 1 = right, 0 = none
         for(Block b : terrain.getSolidBlocks()){
             if(ent.sideCollisions(b) == 1){
                 return 1;
@@ -141,7 +112,7 @@ public class Controleur implements Initializable {
         return 0;
     }
 
-    public boolean checkGroundBlock2(Entity ent){
+    public boolean checkGroundBlock(Entity ent){
         for (Block b: terrain.getSolidBlocks())
             if(ent.isGrounded(b)){
                 return true;
