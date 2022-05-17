@@ -1,5 +1,6 @@
 package controleur;
 
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 
 public class MouseHandler {
@@ -10,26 +11,42 @@ public class MouseHandler {
 
     private int mouseY;
 
-    private boolean hasClicked;
+    private boolean hasClickedLeft;
+    private boolean hasClickedRight;
+
+    public void setHasClickedLeft(boolean hasClickedLeft) {
+        this.hasClickedLeft = hasClickedLeft;
+    }
+
+    public void setHasClickedRight(boolean hasClickedRight) {
+        this.hasClickedRight = hasClickedRight;
+    }
 
     public MouseHandler(Pane pane) {
 
         this.pane = pane;
-        hasClicked = false;
+        hasClickedLeft = false;
+        hasClickedRight = false;
     }
 
     public void mouseManager() {
-        pane.setOnMousePressed(e -> {
-            mouseX = (int) e.getX();
-            mouseY = (int) e.getY();
-            hasClicked = true;
-            System.out.println(hasClicked);
-            System.out.println(mouseX);
-            System.out.println(mouseY);
-        });
-
-        pane.setOnMouseReleased(e-> {
-            hasClicked = false;
+        pane.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                mouseX = (int) e.getX();
+                mouseY = (int) e.getY();
+                hasClickedLeft = true;
+                System.out.println(hasClickedLeft);
+                System.out.println(mouseX);
+                System.out.println(mouseY);
+            }
+            else if(e.getButton() == MouseButton.SECONDARY){
+                    mouseX = (int) e.getX();
+                    mouseY = (int) e.getY();
+                    hasClickedRight = true;
+                    System.out.println(hasClickedRight);
+                    System.out.println(mouseX);
+                    System.out.println(mouseY);
+            }
         });
     }
 
@@ -41,7 +58,11 @@ public class MouseHandler {
         return mouseY;
     }
 
-    public boolean isHasClicked() {
-        return hasClicked;
+    public boolean isHasClickedLeft() {
+        return hasClickedLeft;
+    }
+
+    public boolean isHasClickedRight(){
+        return hasClickedRight;
     }
 }

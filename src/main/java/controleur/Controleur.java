@@ -3,8 +3,6 @@ package controleur;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
@@ -77,9 +75,11 @@ public class Controleur implements Initializable {
     public void creerTimeline() { // peut etre creer un nouveau thread pour opti ?
         // 16.33 = 60 fps
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), actionEvent -> {
-           if (mouseHandler.isHasClicked()){
+           if (mouseHandler.isHasClickedLeft()){
                 checkOnClicked();
                 breackingManager();
+               System.out.println(mouseHandler.isHasClickedLeft());
+                mouseHandler.setHasClickedLeft(false);
             }
 
 
