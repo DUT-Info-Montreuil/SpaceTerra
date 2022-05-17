@@ -77,7 +77,6 @@ public class Controleur implements Initializable {
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), actionEvent -> {
            if (mouseHandler.isHasClickedLeft()){
                 checkOnClicked();
-                breackingManager();
                System.out.println(mouseHandler.isHasClickedLeft());
                 mouseHandler.setHasClickedLeft(false);
             }
