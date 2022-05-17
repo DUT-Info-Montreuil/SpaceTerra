@@ -200,13 +200,6 @@ public class Controleur implements Initializable {
             }
         }
         terrain.deleteBlock(deletedBlocks);
-                for (Block b : terrain.getSolidBlocks()) {
-                    if (mouseHandler.getMouseX() < b.getHitX()+b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY()+b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
-                        deletedBlocks.add(b);
-                        System.out.println("oui4");
-                    }
-                }
         terrain.deleteSolidBlock(deletedBlocks);
-
     }
 }
