@@ -71,4 +71,13 @@ public abstract class Entity {
     }
 
     public abstract void movement(Player player, boolean leftCheck, boolean rightCheck);
+
+    public int distanceToBlock(Block b) {
+        double centerPX = this.hitbox.getX().intValue() + this.hitbox.getWidth()/2;
+        double centerPY = this.hitbox.getY().intValue() + this.hitbox.getHeight()/2;
+        double centerBX = b.getHitX() + b.getTile().getHitbox().getWidth()/2;
+        double centerBY = b.getHitY() + b.getTile().getHitbox().getHeight()/2;
+        System.out.println("distance block : " + Math.sqrt(Math.pow(centerBX-centerPX,2.0)+Math.pow(centerBY-centerPY,2.0))/32);
+        return (int) Math.sqrt(Math.pow(centerBX-centerPX,2.0)+Math.pow(centerBY-centerPY,2.0))/32;
+    }
 }

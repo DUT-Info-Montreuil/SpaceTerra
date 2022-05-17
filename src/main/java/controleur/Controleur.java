@@ -122,6 +122,15 @@ public class Controleur implements Initializable {
         return false;
     }
 
+    public boolean checkDistanceBlock(Entity ent, Block b){
+        System.out.println(ent.distanceToBlock(b));
+            if (ent.distanceToBlock(b) < 4) {
+                return true;
+            }
+        return false;
+    }
+
+
     public void playerMovement() {
         if (keyHandler.isUpPressed())//mouvements a mettre avec le player
             if (checkGroundBlock(player))
@@ -177,6 +186,15 @@ public class Controleur implements Initializable {
         ArrayList<Block> deletedBlocks = new ArrayList<>();
         for (Block b : terrain.getBlocks()) {
             if (mouseHandler.getMouseX() < b.getHitX() + b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY() + b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
+                if(checkDistanceBlock(player, b)){
+                    System.out.println("ok");
+                    b.setPvs(b.getPvs() - 1);
+                    System.out.println(b.getPvs());
+                    if (b.getPvs() <= 0) {
+                        deletedBlocks.add(b);
+                    }
+                    break;
+                }
                 //System.out.println(true);
                 /*
                 Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
@@ -185,13 +203,6 @@ public class Controleur implements Initializable {
                 panneauDeJeu.getChildren().add(r);
 
                  */
-                System.out.println("ok");
-                b.setPvs(b.getPvs() - 1);
-                System.out.println(b.getPvs());
-                if (b.getPvs() <= 0) {
-                    deletedBlocks.add(b);
-                }
-                break;
             }
         }
         terrain.deleteBlock(deletedBlocks);
