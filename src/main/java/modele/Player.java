@@ -1,14 +1,12 @@
 package modele;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
 
-public class Player extends Entite{
+public class Player extends Entity {
 
-    private int vie;
+    private int life;
     private String main1;
-    private String armure;
+    private String armor;
     private final int height = 48;
     private final int width = 48;
     private final double walkSpeed = 10;
@@ -21,12 +19,12 @@ public class Player extends Entite{
 
     public Player(int x,int y){
         super(20, 10, new Hitbox(42,42,x,y),"/Sprites/MC/MCSpace_Idle_right.gif");
-        this.vie = 20;
+        this.life = 20;
         this.main1 = null;
-        this.armure = null;
+        this.armor = null;
     }
 
-    public void deplacement(Player player, boolean left, boolean right) {
+    public void movement(Player player, boolean left, boolean right) {
         if (left) {
             getHitbox().setX(this.getHitbox().getX().intValue() - walkSpeed);
         }

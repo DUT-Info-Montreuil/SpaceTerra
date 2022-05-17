@@ -31,12 +31,12 @@ public class Controleur implements Initializable {
     private Timeline timeline;
     private Player player;
     private KeyHandler keyHandler;
-    private ArrayList<Entite> entites;
+    private ArrayList<Entity> entities;
     private Bingus bingus;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        entites = new ArrayList<>();
+        entities = new ArrayList<>();
         Scene scene = new Scene(panneauDeJeu, 1000,1000, Color.DARKBLUE);
         ParallelCamera camera = new ParallelCamera();
         scene.setCamera(camera);
@@ -44,7 +44,7 @@ public class Controleur implements Initializable {
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
         bingus = creerBingus();
-        terrainView.readEntite();
+        terrainView.readEntity();
         PlayerView playerView = new PlayerView(player = new Player(2030,10), panneauDeJeu);
         playerView.displayPlayer();
         terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
@@ -62,7 +62,7 @@ public class Controleur implements Initializable {
     public Bingus creerBingus(){
         Bingus bingus = new Bingus(10,2030);
         terrainView.addEntite(bingus);
-        entites.add(bingus);
+        entities.add(bingus);
         return bingus;
     }
 
@@ -74,14 +74,14 @@ public class Controleur implements Initializable {
                         if (checkGroundBlock2(player))
                             player.jump();
                     if (keyHandler.isRightPressed() || keyHandler.isLeftPressed()) {
-                        player.deplacement(null,keyHandler.isLeftPressed() && !(checkSideBlock2(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
+                        player.movement(null,keyHandler.isLeftPressed() && !(checkSideBlock2(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
                     }
                     checkSideBlock2(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
                     if (!checkGroundBlock2(player))
                         player.applyGrav();
 
-                    for(Entite ent : entites) {
-                        bingus.deplacement(player, (checkSideBlock2(ent) != -1), (checkSideBlock2(ent) != 1));
+                    for(Entity ent : entities) {
+                        bingus.movement(player, (checkSideBlock2(ent) != -1), (checkSideBlock2(ent) != 1));
                         if (!checkGroundBlock2(ent))
                             ent.applyGrav();
                     }
@@ -97,7 +97,7 @@ public class Controleur implements Initializable {
                         player.stopJump();
 
                 if(keyHandler.isRightPressed() || keyHandler.isLeftPressed())
-                    player.deplacement(null,keyHandler.isLeftPressed() && !(checkSideBlock() == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
+                    player.movement(null,keyHandler.isLeftPressed() && !(checkSideBlock() == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
 
                 checkSideBlock2(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
                 if(!checkGroundBlock2(player) && !player.isJumping())
@@ -129,7 +129,7 @@ public class Controleur implements Initializable {
         }
         return 0;
     }
-    public int checkSideBlock2(Entite ent){ // -1 = left, 1 = right, 0 = none
+    public int checkSideBlock2(Entity ent){ // -1 = left, 1 = right, 0 = none
         for(Block b : terrain.getSolidBlocks()){
             if(ent.sideCollisions(b) == 1){
                 return 1;
@@ -141,7 +141,7 @@ public class Controleur implements Initializable {
         return 0;
     }
 
-    public boolean checkGroundBlock2(Entite ent){
+    public boolean checkGroundBlock2(Entity ent){
         for (Block b: terrain.getSolidBlocks())
             if(ent.isGrounded(b)){
                 return true;

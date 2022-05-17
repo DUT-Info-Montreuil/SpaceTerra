@@ -1,36 +1,35 @@
 package modele;
 
-import javafx.beans.property.DoubleProperty;
 import javafx.scene.image.Image;
 
-public abstract class Entite {
+public abstract class Entity {
 
-    private int vie;
-    private int vitesse;
+    private int life;
+    private int speed;
     private Hitbox hitbox;
     private Image image;
-    public Entite(int vie, int vitesse, Hitbox hitbox, String path){
-        this.vie = vie;
-        this.vitesse = vitesse;
+    public Entity(int vie, int vitesse, Hitbox hitbox, String path){
+        this.life = vie;
+        this.speed = vitesse;
         this.hitbox = hitbox;
         this.image = new Image(String.valueOf(getClass().getResource(path)));
 
     }
 
-    public int getVitesse() {
-        return vitesse;
+    public int getSpeed() {
+        return speed;
     }
 
-    public void setVitesse(int vitesse) {
-        this.vitesse = vitesse;
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
-    public int getVie() {
-        return vie;
+    public int getLife() {
+        return life;
     }
 
-    public void setVie(int vie) {
-        this.vie = vie;
+    public void setLife(int life) {
+        this.life = life;
     }
 
     public Hitbox getHitbox() {
@@ -71,5 +70,5 @@ public abstract class Entite {
         hitbox.getY().set(hitbox.getY().getValue() + 9.81);
     }
 
-    public abstract void deplacement(Player player, boolean leftCheck, boolean rightCheck);
+    public abstract void movement(Player player, boolean leftCheck, boolean rightCheck);
 }

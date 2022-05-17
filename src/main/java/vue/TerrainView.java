@@ -7,20 +7,19 @@ import javafx.scene.shape.Rectangle;
 import modele.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class TerrainView {
     private Pane panneau;
 
-    private ArrayList<Entite> entites;
+    private ArrayList<Entity> entities;
     public TerrainView(Pane panneau) {
 
         this.panneau = panneau;
-        this.entites = new ArrayList();
+        this.entities = new ArrayList();
     }
 
-    public void addEntite(Entite entite){
-        this.entites.add(entite);
+    public void addEntite(Entity entity){
+        this.entities.add(entity);
     }
 
     public void readMap(Terrain terrain) {
@@ -32,11 +31,11 @@ public class TerrainView {
         }
     }
 
-    public void readEntite(){
-        for (Entite entite : entites){
-            ImageView imgView = new ImageView(entite.getImage());
-            imgView.xProperty().bind(entite.getHitbox().getX().subtract(entite.getHitbox().getWidth()/2));
-            imgView.yProperty().bind(entite.getHitbox().getY().subtract(entite.getHitbox().getHeight()/2));
+    public void readEntity(){
+        for (Entity entity : entities){
+            ImageView imgView = new ImageView(entity.getImage());
+            imgView.xProperty().bind(entity.getHitbox().getX().subtract(entity.getHitbox().getWidth()/2));
+            imgView.yProperty().bind(entity.getHitbox().getY().subtract(entity.getHitbox().getHeight()/2));
             panneau.getChildren().add(imgView);
         }
     }
@@ -51,7 +50,7 @@ public class TerrainView {
             }
         }
         if(entities) {
-            for (Entite ent : entites) {
+            for (Entity ent : this.entities) {
                 Rectangle r = new Rectangle(ent.getHitbox().getX().intValue(), ent.getHitbox().getY().intValue(), ent.getHitbox().getWidth(), ent.getHitbox().getHeight());
                 r.xProperty().bind(ent.getHitbox().getX());
                 r.yProperty().bind(ent.getHitbox().getY());
