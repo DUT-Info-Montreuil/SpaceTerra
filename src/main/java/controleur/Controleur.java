@@ -163,10 +163,13 @@ public class Controleur implements Initializable {
         ArrayList<Block> deletedBlocks = new ArrayList<>();
                 for (Block b : terrain.getBlocks()) {
                     if (mouseHandler.getMouseX() < b.getHitX()+b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY()+b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
-                        Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
+
+                        /*Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
                         r.setFill(Color.TRANSPARENT);
                         r.setStroke(Color.BLACK);
                         panneauDeJeu.getChildren().add(r);
+
+                         */
                         deletedBlocks.add(b);
                         System.out.println(b);
                         System.out.println("oui3");
