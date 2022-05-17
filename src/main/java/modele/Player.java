@@ -12,7 +12,7 @@ public class Player extends Entity {
 
 
     public Player(int x,int y){
-        super(20, 10, new Hitbox(42,42,x,y),"/Sprites/MC/MCSpace_Idle_right.gif");
+        super(20, 10, new Hitbox(24,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif");
     }
 
     public void movement(Player player, boolean left, boolean right) {

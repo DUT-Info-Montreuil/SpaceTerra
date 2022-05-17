@@ -15,8 +15,8 @@ public class PlayerView {
         this.player = player;
         this.panneauDeJeu = panneauDeJeu;
         this.spritePlayer = new ImageView(player.getImage());
-        this.spritePlayer.xProperty().bind(player.getHitbox().getX());
-        this.spritePlayer.yProperty().bind(player.getHitbox().getY());
+        this.spritePlayer.xProperty().bind(player.getHitbox().getX().subtract(player.getImage().getWidth()/2 - player.getHitbox().getWidth()/2));
+        this.spritePlayer.yProperty().bind(player.getHitbox().getY().subtract(player.getImage().getHeight() - player.getHitbox().getHeight()));
     }
     public void displayPlayer(){
         panneauDeJeu.getChildren().add(spritePlayer);

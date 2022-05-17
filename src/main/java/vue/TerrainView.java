@@ -60,7 +60,7 @@ public class TerrainView {
             }
         }
         if(playerColl){
-            Rectangle r = new Rectangle(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue(), player.getWidth(), player.getHeight());
+            Rectangle r = new Rectangle(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue(), player.getHitbox().getWidth(), player.getHitbox().getHeight());
             r.yProperty().bind(player.getHitbox().getY());
             r.xProperty().bind(player.getHitbox().getX());
             r.setFill(Color.TRANSPARENT);
