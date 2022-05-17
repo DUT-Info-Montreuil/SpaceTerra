@@ -1,13 +1,11 @@
 package modele;
 
-import javafx.scene.image.Image;
-
 public class Player extends Entity {
 
     private final double walkSpeed = 10;
     private final double gravite = 9.81;
-    private final int jumpForce = 20;
-    public int jumpCount = 0;
+    private final int jumpHeight = 20;
+    public int jumpCount = jumpHeight;
     private boolean isJumping;
 
 
@@ -27,23 +25,23 @@ public class Player extends Entity {
     public void jump() {
         if(!isJumping){
             isJumping = true;
-            getHitbox().setY(getHitbox().getY().intValue() - ++jumpCount);
+            getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
         }
         else{
-            if(jumpCount >= jumpForce){
-                System.out.println("over 100");
+            if(jumpCount <= 0){
+                System.out.println("under 0");
                 stopJump();
             }
             else{
                 System.out.println(jumpCount);
-                getHitbox().setY(getHitbox().getY().intValue() - ++jumpCount);
+                getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
             }
         }
 
     }
     public void stopJump(){
         System.out.println("Stopped func");
-        jumpCount = 0;
+        jumpCount = jumpHeight;
         isJumping = false;
     }
     public boolean isJumping() {
