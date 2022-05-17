@@ -49,8 +49,7 @@ public class Controleur implements Initializable {
         terrainView.readMap(terrain);
         bingus = creerBingus();
         terrainView.readEntity();
-        PlayerView playerView = new PlayerView(player = new Player(2100,10), panneauDeJeu);
-        entities.add(player);
+        PlayerView playerView = new PlayerView(player = new Player(2030,10), panneauDeJeu);
         playerView.displayPlayer();
         terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
         panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
@@ -78,6 +77,12 @@ public class Controleur implements Initializable {
     public void creerTimeline() { // peut etre creer un nouveau thread pour opti ?
         // 16.33 = 60 fps
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), actionEvent -> {
+            if (mouseHandler.isHasClickedLeft()){
+                checkOnClicked();
+                breackingManager();
+                System.out.println(mouseHandler.isHasClickedLeft());
+                mouseHandler.setHasClickedLeft(false);
+            }
             playerMovement();
             entityLoop();
         }));
@@ -156,24 +161,19 @@ public class Controleur implements Initializable {
             }
         });
 
-        this.terrain.getSolidBlocks().addListener((ListChangeListener<Block>) change -> {
-            while (change.next()) {
-                for (Block b : change.getRemoved()) {
-                    this.terrainView.deleteSolidBlock(b);
-                    System.out.println("oui2");
-                }
-            }
-        });
     }
 
     public void checkOnClicked() {
         ArrayList<Block> deletedBlocks = new ArrayList<>();
                 for (Block b : terrain.getBlocks()) {
                     if (mouseHandler.getMouseX() < b.getHitX()+b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY()+b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
-                        Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
+
+                        /*Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
                         r.setFill(Color.TRANSPARENT);
                         r.setStroke(Color.BLACK);
                         panneauDeJeu.getChildren().add(r);
+
+                         */
                         deletedBlocks.add(b);
                         System.out.println(b);
                         System.out.println("oui3");
