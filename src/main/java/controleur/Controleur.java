@@ -49,7 +49,8 @@ public class Controleur implements Initializable {
         terrainView.readMap(terrain);
         bingus = creerBingus();
         terrainView.readEntity();
-        PlayerView playerView = new PlayerView(player = new Player(2030,10), panneauDeJeu);
+        PlayerView playerView = new PlayerView(player = new Player(10,2030), panneauDeJeu);
+        entities.add(player);
         playerView.displayPlayer();
         terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
         panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
@@ -156,23 +157,19 @@ public class Controleur implements Initializable {
             while (change.next()) {
                 for (Block b : change.getRemoved()) {
                     this.terrainView.deleteBlock(b);
-
                 }
             }
         });
-
     }
 
     public void checkOnClicked() {
         ArrayList<Block> deletedBlocks = new ArrayList<>();
                 for (Block b : terrain.getBlocks()) {
                     if (mouseHandler.getMouseX() < b.getHitX()+b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY()+b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
-
                         /*Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
                         r.setFill(Color.TRANSPARENT);
                         r.setStroke(Color.BLACK);
                         panneauDeJeu.getChildren().add(r);
-
                          */
                         deletedBlocks.add(b);
                         System.out.println(b);
@@ -188,6 +185,5 @@ public class Controleur implements Initializable {
                     }
                 }
         terrain.deleteSolidBlock(deletedBlocks);
-
     }
 }
