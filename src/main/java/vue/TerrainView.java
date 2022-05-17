@@ -37,8 +37,8 @@ public class TerrainView {
     public void readEntity(){
         for (Entity entity : entities){
             ImageView imgView = new ImageView(entity.getImage());
-            imgView.xProperty().bind(entity.getHitbox().getX().subtract(entity.getHitbox().getWidth()/2));
-            imgView.yProperty().bind(entity.getHitbox().getY().subtract(entity.getHitbox().getHeight()/2));
+            imgView.xProperty().bind(entity.getHitbox().getX().subtract(entity.getImage().getWidth()/2 - entity.getHitbox().getWidth()/2));
+            imgView.yProperty().bind(entity.getHitbox().getY().subtract(entity.getImage().getHeight() - entity.getHitbox().getHeight()));
             panneau.getChildren().add(imgView);
         }
     }
