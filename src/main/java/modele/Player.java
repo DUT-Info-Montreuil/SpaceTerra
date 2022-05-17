@@ -65,7 +65,10 @@ public class Player extends Entity {
     }
 
     public void drop(Item item){
-        inventory.remove(item);
+        if(inventory.contains(item)){
+            inventory.remove(item);
+        }
+
 
     }
 
