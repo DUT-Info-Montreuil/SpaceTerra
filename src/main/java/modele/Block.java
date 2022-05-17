@@ -27,6 +27,7 @@ public class Block {
         this.tile = tile;
         hitX = x + tile.getHitbox().getX().intValue();
         hitY = y + tile.getHitbox().getY().intValue();
+        this.id = "block" + idCount++;
     }
 
     public int getX() {
