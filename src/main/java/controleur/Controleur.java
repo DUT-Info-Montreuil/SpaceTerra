@@ -47,7 +47,8 @@ public class Controleur implements Initializable {
         terrainView.readMap(terrain);
         bingus = creerBingus();
         terrainView.readEntity();
-        PlayerView playerView = new PlayerView(player = new Player(2030,10), panneauDeJeu);
+        PlayerView playerView = new PlayerView(player = new Player(2100,10), panneauDeJeu);
+        entities.add(player);
         playerView.displayPlayer();
         terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
         panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
@@ -75,57 +76,20 @@ public class Controleur implements Initializable {
     public void creerTimeline() { // peut etre creer un nouveau thread pour opti ?
         // 16.33 = 60 fps
         timeline = new Timeline(new KeyFrame(Duration.millis(32.66), actionEvent -> {
-           if (mouseHandler.isHasClickedLeft()){
+            if (mouseHandler.isHasClickedLeft()){
                 checkOnClicked();
-               System.out.println(mouseHandler.isHasClickedLeft());
+                System.out.println(mouseHandler.isHasClickedLeft());
                 mouseHandler.setHasClickedLeft(false);
             }
-
-
-
-            if(keyHandler.isUpPressed())//mouvements a mettre avec le player
-                if(checkGroundBlock())
-                    player.jump();
-
-                else if(player.isJumping())
-                    player.jump();
-
-            if(!keyHandler.isUpPressed())
-                if(player.isJumping())
-                    player.stopJump();
-
-            if(keyHandler.isRightPressed() || keyHandler.isLeftPressed())
-                player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock() == -1), keyHandler.isRightPressed() && !(checkSideBlock() == 1));
-
-            checkSideBlock(); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
-            if(!checkGroundBlock() && !player.isJumping())
-                player.applyGrav();
+            playerMovement();
+            entityLoop();
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 
-    public boolean checkGroundBlock(){
-        for (Block b: terrain.getSolidBlocks())
-            if(player.isGrounded(b)){
-                return true;
-            }
-        return false;
-    }
 
-    // J'utilise des int parce que c'est plus leger que des string donc niveau opti c'est un peu mieu (meme si la différence est minime)
-    public int checkSideBlock(){ // -1 = left, 1 = right, 0 = none
-        for(Block b : terrain.getSolidBlocks()){
-            if(player.sideCollisions(b) == 1){
-                return 1;
-            }
-            else if (player.sideCollisions(b) == -1){
-                return -1;
-            }
-        }
-        return 0;
-    }
-    public int checkSideBlock2(Entity ent){ // -1 = left, 1 = right, 0 = none
+    public int checkSideBlock(Entity ent){ // -1 = left, 1 = right, 0 = none
         for(Block b : terrain.getSolidBlocks()){
             if(ent.sideCollisions(b) == 1){
                 return 1;
@@ -137,12 +101,51 @@ public class Controleur implements Initializable {
         return 0;
     }
 
-    public boolean checkGroundBlock2(Entity ent){
+    public boolean checkGroundBlock(Entity ent){
         for (Block b: terrain.getSolidBlocks())
             if(ent.isGrounded(b)){
                 return true;
             }
         return false;
+    }
+
+    public void playerMovement(){
+        if(keyHandler.isUpPressed())//mouvements a mettre avec le player
+            if(checkGroundBlock(player))
+                player.jump();
+
+            else if(player.isJumping())
+                player.jump();
+
+        if(!keyHandler.isUpPressed())
+            if(player.isJumping())
+                player.stopJump();
+
+        if(keyHandler.isRightPressed() || keyHandler.isLeftPressed())
+            player.movement(null,keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
+    }
+
+    public void entityLoop(){
+        for(Entity ent : entities) {
+            if(ent instanceof Player)
+                checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
+            else {
+                ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
+                checkSideBlock(ent);
+            }
+            if (!checkGroundBlock(ent)){
+                if(ent instanceof Player) {
+                    if (!player.isJumping()) {
+                        System.out.println("player grav");
+                        player.applyGrav();
+                    }
+                }
+                else {
+                    System.out.println("Entity grav");
+                    ent.applyGrav();
+                }
+            }
+        }
     }
 
     public void breackingManager() {
