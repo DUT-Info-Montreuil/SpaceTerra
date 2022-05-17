@@ -14,6 +14,12 @@ public class Block {
     private int hitX; //
     private int hitY;
 
+    private static int idCount = 0;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
 
     public Block(Tile tile, int x, int y) {
         this.x = x;
@@ -21,6 +27,7 @@ public class Block {
         this.tile = tile;
         hitX = x + tile.getHitbox().getX().intValue();
         hitY = y + tile.getHitbox().getY().intValue();
+        this.id = "block" + idCount++;
     }
 
     public int getX() {
@@ -42,8 +49,8 @@ public class Block {
     public int getHitY() {
         return hitY;
     }
-
     public int getInsideOffset() {
         return insideOffset;
     }
+
 }

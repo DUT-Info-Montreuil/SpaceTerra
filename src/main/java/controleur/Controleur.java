@@ -2,6 +2,7 @@ package controleur;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import modele.*;
 import modele.Block;
@@ -34,6 +36,8 @@ public class Controleur implements Initializable {
     private ArrayList<Entity> entities;
     private Bingus bingus;
 
+    private MouseHandler mouseHandler;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         entities = new ArrayList<>();
@@ -54,6 +58,10 @@ public class Controleur implements Initializable {
         creerTimeline();
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
+        mouseHandler = new MouseHandler(panneauDeJeu);
+        mouseHandler.mouseManager();
+        breackingManager();
+
         //terrainView.displayCollision(true, terrain, player);
     }
 
@@ -134,5 +142,51 @@ public class Controleur implements Initializable {
                 }
             }
         }
+    }
+
+    public void breackingManager() {
+        this.terrain.getBlocks().addListener((ListChangeListener<Block>) change -> {
+            System.out.println("oui1");
+            while (change.next()) {
+                for (Block b : change.getRemoved()) {
+                    this.terrainView.deleteBlock(b);
+
+                }
+            }
+        });
+
+        this.terrain.getSolidBlocks().addListener((ListChangeListener<Block>) change -> {
+            while (change.next()) {
+                for (Block b : change.getRemoved()) {
+                    this.terrainView.deleteSolidBlock(b);
+                    System.out.println("oui2");
+                }
+            }
+        });
+    }
+
+    public void checkOnClicked() {
+        ArrayList<Block> deletedBlocks = new ArrayList<>();
+                for (Block b : terrain.getBlocks()) {
+                    if (mouseHandler.getMouseX() < b.getHitX()+b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY()+b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
+                        Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
+                        r.setFill(Color.TRANSPARENT);
+                        r.setStroke(Color.BLACK);
+                        panneauDeJeu.getChildren().add(r);
+                        deletedBlocks.add(b);
+                        System.out.println(b);
+                        System.out.println("oui3");
+                    }
+
+                }
+        terrain.deleteBlock(deletedBlocks);
+                for (Block b : terrain.getSolidBlocks()) {
+                    if (mouseHandler.getMouseX() < b.getHitX()+b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY()+b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
+                        deletedBlocks.add(b);
+                        System.out.println("oui4");
+                    }
+                }
+        terrain.deleteSolidBlock(deletedBlocks);
+
     }
 }

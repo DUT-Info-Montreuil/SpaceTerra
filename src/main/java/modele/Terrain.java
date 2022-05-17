@@ -1,5 +1,8 @@
 package modele;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,13 +19,13 @@ public class Terrain {
 
     private JSONObject map;
     private ArrayList<Layer> layers;
-    private ArrayList<Block> blocks;
+    private ObservableList<Block> blocks;
 
-    private ArrayList<Block> solidBlocks;
+    private ObservableList<Block> solidBlocks;
     private Tileset tileSet;
     private int height, width;
 
-    public ArrayList<Block> getBlocks() {
+    public ObservableList<Block> getBlocks() {
         return blocks;
     }
 
@@ -81,13 +84,13 @@ public class Terrain {
         return tileSet;
     }
 
-    public ArrayList<Block> getSolidBlocks() {
+    public ObservableList<Block> getSolidBlocks() {
         return solidBlocks;
     }
 
     public void loadBlocks(){
-        blocks  = new ArrayList<>();
-        solidBlocks = new ArrayList<>();
+        blocks  = FXCollections.observableArrayList();
+        solidBlocks = FXCollections.observableArrayList();
         for (int l = 0; l < layers.size(); ++l) {
             if (((Layer) layers.get(l)).getIsVisible()) {
                 Layer currentLayer = (Layer) layers.get(l);
@@ -125,5 +128,13 @@ public class Terrain {
                 }
             }
         }
+    }
+
+    public void deleteBlock(ArrayList<Block> blocks) {
+        this.getBlocks().removeAll(blocks);
+    }
+
+    public void deleteSolidBlock(ArrayList<Block> blocks) {
+        this.getSolidBlocks().removeAll(blocks);
     }
 }
