@@ -1,10 +1,7 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.ParallelCamera;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
