@@ -4,13 +4,7 @@ import javafx.scene.image.Image;
 
 public class Player extends Entity {
 
-    private int life;
-    private String main1;
-    private String armor;
-    private final int height = 48;
-    private final int width = 48;
     private final double walkSpeed = 10;
-    private Image image;
     private final double gravite = 9.81;
     private final int jumpForce = 20;
     public int jumpCount = 0;
@@ -19,9 +13,6 @@ public class Player extends Entity {
 
     public Player(int x,int y){
         super(20, 10, new Hitbox(42,42,x,y),"/Sprites/MC/MCSpace_Idle_right.gif");
-        this.life = 20;
-        this.main1 = null;
-        this.armor = null;
     }
 
     public void movement(Player player, boolean left, boolean right) {
@@ -60,12 +51,4 @@ public class Player extends Entity {
     }
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
-
-    public int getHeight(){
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
 }
