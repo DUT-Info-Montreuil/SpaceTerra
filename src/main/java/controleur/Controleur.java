@@ -76,25 +76,10 @@ public class Controleur implements Initializable {
     }
 
     public void creerTimeline() { // peut etre creer un nouveau thread pour opti ?
-        timeline = new Timeline(new KeyFrame(Duration.millis(32.66), new EventHandler<ActionEvent>() { // 16.33 = 60 fps
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if(keyHandler.isUpPressed())//mouvements a mettre avec le player
-                    if(checkGroundBlock(player))
-                        player.jump();
-
-                    else if(player.isJumping())
-                        player.jump();
-
-                if(!keyHandler.isUpPressed())
-                    if(player.isJumping())
-                        player.stopJump();
-
-                if(keyHandler.isRightPressed() || keyHandler.isLeftPressed())
-                    player.movement(null,keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
-
-                entityLoop();
-            }
+        // 16.33 = 60 fps
+        timeline = new Timeline(new KeyFrame(Duration.millis(32.66), actionEvent -> {
+            playerMovement();
+            entityLoop();
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -119,6 +104,22 @@ public class Controleur implements Initializable {
                 return true;
             }
         return false;
+    }
+
+    public void playerMovement(){
+        if(keyHandler.isUpPressed())//mouvements a mettre avec le player
+            if(checkGroundBlock(player))
+                player.jump();
+
+            else if(player.isJumping())
+                player.jump();
+
+        if(!keyHandler.isUpPressed())
+            if(player.isJumping())
+                player.stopJump();
+
+        if(keyHandler.isRightPressed() || keyHandler.isLeftPressed())
+            player.movement(null,keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
     }
 
     public void entityLoop(){
