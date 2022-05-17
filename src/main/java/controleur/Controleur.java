@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import modele.*;
 import modele.Block;
 import modele.Terrain;
 import modele.Player;
@@ -32,22 +33,27 @@ public class Controleur implements Initializable {
     private Timeline timeline;
     private Player player;
     private KeyHandler keyHandler;
+    private ArrayList<Entity> entities;
+    private Bingus bingus;
 
     private MouseHandler mouseHandler;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        entities = new ArrayList<>();
         Scene scene = new Scene(panneauDeJeu, 1000,1000, Color.DARKBLUE);
         ParallelCamera camera = new ParallelCamera();
         scene.setCamera(camera);
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
-        PlayerView playerView = new PlayerView(player = new Player(), panneauDeJeu);
+        bingus = creerBingus();
+        terrainView.readEntity();
+        PlayerView playerView = new PlayerView(player = new Player(2030,10), panneauDeJeu);
         playerView.displayPlayer();
-        terrainView.displayCollision(false, terrain, player); // afficher ou non les collisions
-        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.xProperty().subtract(panneauDeJeu.getScene().getWidth()/2));
-        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.yProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
+        terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
+        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
+        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
         creerTimeline();
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
@@ -58,6 +64,15 @@ public class Controleur implements Initializable {
         //terrainView.displayCollision(true, terrain, player);
     }
 
+
+
+
+    public Bingus creerBingus(){
+        Bingus bingus = new Bingus(10,2030);
+        terrainView.addEntite(bingus);
+        entities.add(bingus);
+        return bingus;
+    }
 
     public void creerTimeline() { // peut etre creer un nouveau thread pour opti ?
         // 16.33 = 60 fps
@@ -110,6 +125,25 @@ public class Controleur implements Initializable {
             }
         }
         return 0;
+    }
+    public int checkSideBlock2(Entity ent){ // -1 = left, 1 = right, 0 = none
+        for(Block b : terrain.getSolidBlocks()){
+            if(ent.sideCollisions(b) == 1){
+                return 1;
+            }
+            else if (ent.sideCollisions(b) == -1){
+                return -1;
+            }
+        }
+        return 0;
+    }
+
+    public boolean checkGroundBlock2(Entity ent){
+        for (Block b: terrain.getSolidBlocks())
+            if(ent.isGrounded(b)){
+                return true;
+            }
+        return false;
     }
 
     public void breackingManager() {
