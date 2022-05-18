@@ -143,8 +143,10 @@ public class Controleur implements Initializable {
     public boolean checkDistanceBlock(Entity ent, Block b) {
         System.out.println(ent.distanceToBlock(b));
         if (ent.distanceToBlock(b) < 4) {
+            mouseBlock.setStroke(Color.GREEN);
             return true;
         }
+        mouseBlock.setStroke(Color.RED);
         return false;
     }
 
@@ -207,10 +209,6 @@ public class Controleur implements Initializable {
                         terrain.deleteSolidBlock(b);
                         player.pick(new ItemBlock(b.getId(), b.getTile()));
                         System.out.println(player.getInventory());
-                        mouseBlock.setStroke(Color.GREEN);
-                    }
-                    else {
-                        mouseBlock.setStroke(Color.RED);
                     }
                 }
                 /*
@@ -231,10 +229,12 @@ public class Controleur implements Initializable {
             if(item != null) {
                 System.out.println("Tu peux poser le block !");
                 b = new Block(item.getTile(), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
-                terrain.getBlocks().add(b);
-                terrain.getSolidBlocks().add(b);
-                terrainView.addBlock(terrain, b);
-                mouseBlock.setStroke(Color.GREEN);
+                if(checkDistanceBlock(player, b)){
+                    terrain.getBlocks().add(b);
+                    terrain.getSolidBlocks().add(b);
+                    terrainView.addBlock(terrain, b);
+                }
+
             } else {mouseBlock.setStroke(Color.RED);}
         }
     }
