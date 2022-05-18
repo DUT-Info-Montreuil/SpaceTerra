@@ -77,7 +77,8 @@ public abstract class Entity {
         double centerPY = this.hitbox.getY().intValue() + this.hitbox.getHeight()/2; //centre du joueur en y
         double centerBX = b.getHitX() + b.getTile().getHitbox().getWidth()/2; //centre du block en x
         double centerBY = b.getHitY() + b.getTile().getHitbox().getHeight()/2; // centre du block en y
-        System.out.println("distance block : " + Math.sqrt(Math.pow(centerBX-centerPX,2.0)+Math.pow(centerBY-centerPY,2.0))/32);
-        return (int) Math.sqrt(Math.pow(centerBX-centerPX,2.0)+Math.pow(centerBY-centerPY,2.0))/32; //distance euclidienne / 32 pour avoir une distance en blocks
+        double sqrt = Math.sqrt(Math.pow(centerBX - centerPX, 2.0) + Math.pow(centerBY - centerPY, 2.0));
+        System.out.println("distance block : " + sqrt /32);
+        return (int) sqrt /32; //distance euclidienne / 32 pour avoir une distance en blocks
     }
 }
