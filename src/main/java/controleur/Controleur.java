@@ -47,7 +47,7 @@ public class Controleur implements Initializable {
         terrainView.readMap(terrain);
         createBingus();
         terrainView.readEntity();
-        PlayerView playerView = new PlayerView(player = new Player(10,2030), panneauDeJeu);
+        PlayerView playerView = new PlayerView(player = new Player(10, 2030), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
         terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
@@ -60,7 +60,6 @@ public class Controleur implements Initializable {
         mouseHandler.mouseManager();
         breakingManager();
 
-        //terrainView.displayCollision(true, terrain, player);
     }
 
 
@@ -82,8 +81,13 @@ public class Controleur implements Initializable {
 
         timelineClick = new Timeline
                 (new KeyFrame(Duration.millis(1000), actionEvent -> {
-                    if (mouseHandler.isHasClickedLeft()) {
-                        checkOnClicked();
+                    if (mouseHandler.isHasPressedLeft()) {
+                        checkOnLeftPressed();
+                    }
+                    if (mouseHandler.isHasClickedRight()) {
+                        checkOnRightClicked();
+                        System.out.println("rclick");
+                        mouseHandler.setHasClickedRight(false);
                     }
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
@@ -111,11 +115,11 @@ public class Controleur implements Initializable {
         return false;
     }
 
-    public boolean checkDistanceBlock(Entity ent, Block b){
+    public boolean checkDistanceBlock(Entity ent, Block b) {
         System.out.println(ent.distanceToBlock(b));
-            if (ent.distanceToBlock(b) < 4) {
-                return true;
-            }
+        if (ent.distanceToBlock(b) < 4) {
+            return true;
+        }
         return false;
     }
 
@@ -166,18 +170,17 @@ public class Controleur implements Initializable {
         });
     }
 
-    public void checkOnClicked() {
+    public void checkOnLeftPressed() {
         ArrayList<Block> deletedBlocks = new ArrayList<>();
-        for (Block b : terrain.getBlocks()) {
-            if (mouseHandler.getMouseX() < b.getHitX() + b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY() + b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
-                if(checkDistanceBlock(player, b)){
+        Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
+            if (b != null) {
+                if (checkDistanceBlock(player, b)) {
                     System.out.println("ok");
                     b.setPvs(b.getPvs() - 1);
                     System.out.println(b.getPvs());
                     if (b.getPvs() <= 0) {
                         deletedBlocks.add(b);
                     }
-                    break;
                 }
                 /*
                 Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
@@ -186,8 +189,30 @@ public class Controleur implements Initializable {
                 panneauDeJeu.getChildren().add(r);
                 */
             }
-        }
+
         terrain.deleteBlock(deletedBlocks);
         terrain.deleteSolidBlock(deletedBlocks);
     }
+
+    public void checkOnRightClicked() {
+        Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
+        if (b == null) {
+            b = new Block(terrain.getTileset().getTiles().get(8), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
+            terrain.getBlocks().add(b);
+            terrain.getSolidBlocks().add(b);
+            terrainView.addBlock(terrain, b);
+
+        }
+    }
+
+    public Block getBlock(int x, int y) {
+        for (Block b : terrain.getBlocks()) {
+            if (x < b.getHitX() + b.getTile().getHitbox().getWidth() && x > b.getHitX() && y < b.getHitY() + b.getTile().getHitbox().getHeight() && y > b.getHitY()){
+                return b;
+            }
+        }
+        return null;
+    }
+
+
 }
