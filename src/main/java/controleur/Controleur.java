@@ -237,6 +237,9 @@ public class Controleur implements Initializable {
 
             } else {mouseBlock.setStroke(Color.RED);}
         }
+        if (zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
+            mouseBlock.setStroke(Color.RED);
+        }
     }
 
     public Block getBlock(int x, int y) {
