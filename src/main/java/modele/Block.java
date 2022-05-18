@@ -8,7 +8,7 @@ public class Block {
     private int x;
     private int y;
 
-    private final int insideOffset = 50;
+    private final int insideOffset = 10;
 
     private Tile tile;
     private int hitX; //
@@ -37,7 +37,7 @@ public class Block {
         hitX = x + tile.getHitbox().getX().intValue();
         hitY = y + tile.getHitbox().getY().intValue();
         this.id = "block" + idCount++;
-        this.pvs = 2;
+        this.pvs = 10;
     }
 
     public int getX() {
