@@ -48,10 +48,10 @@ public abstract class Entity {
         if((hitbox.getY().intValue() > block.getHitY() && hitbox.getY().intValue() <= block.getHitY() + block.getTile().getHitbox().getHeight()) || (hitbox.getY().intValue() + hitbox.getHeight() > block.getHitY() && hitbox.getY().intValue() + hitbox.getHeight() <= block.getHitY() + block.getTile().getHitbox().getHeight())) {
             if (hitbox.getX().intValue() <= block.getHitX() + block.getTile().getHitbox().getWidth() && hitbox.getX().intValue() >= block.getHitX() + block.getTile().getHitbox().getWidth() - block.getInsideOffset()) { // cote droit d'un block
                 hitbox.setX(block.getHitX() + block.getTile().getHitbox().getWidth() + 2);
-                return -1; // joueur bloque a gauche
+                return -1; // Player blocked on left
             } else if (hitbox.getX().intValue() + hitbox.getWidth() >= block.getHitX() && hitbox.getX().intValue() + hitbox.getWidth() <= block.getHitX() + block.getInsideOffset()) { // cote gauche d'un block
                 hitbox.setX(block.getHitX() - hitbox.getWidth() - 2);
-                return 1; // joueur bloque a droite
+                return 1; // Player blocked on right
             }
         }
         return 0;

@@ -33,7 +33,6 @@ public class Controleur implements Initializable {
     private Player player;
     private KeyHandler keyHandler;
     private ArrayList<Entity> entities;
-    private Bingus bingus;
 
     private MouseHandler mouseHandler;
 
@@ -46,7 +45,7 @@ public class Controleur implements Initializable {
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
-        bingus = creerBingus();
+        createBingus();
         terrainView.readEntity();
         PlayerView playerView = new PlayerView(player = new Player(10,2030), panneauDeJeu);
         entities.add(player);
@@ -54,7 +53,7 @@ public class Controleur implements Initializable {
         terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
         panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth() / 2));
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight() / 2));
-        creerTimeline();
+        createTimelines();
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
@@ -65,21 +64,16 @@ public class Controleur implements Initializable {
     }
 
 
-    public Bingus creerBingus() {
+    public void createBingus() {
         Bingus bingus = new Bingus(10, 2030);
         terrainView.addEntite(bingus);
         entities.add(bingus);
-        return bingus;
     }
 
-    public void creerTimeline() { // peut etre creer un nouveau thread pour opti ?
+    public void createTimelines() { // peut etre creer un nouveau thread pour opti ?
         // 16.33 = 60 fps
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(32.66), actionEvent -> {
-                    /*if (mouseHandler.isHasClickedLeft()) {
-                        checkOnClicked();
-                        //System.out.println(mouseHandler.isHasClickedLeft());
-                    } */
                     playerMovement();
                     entityLoop();
                 }));
@@ -90,7 +84,6 @@ public class Controleur implements Initializable {
                 (new KeyFrame(Duration.millis(1000), actionEvent -> {
                     if (mouseHandler.isHasClickedLeft()) {
                         checkOnClicked();
-                        //System.out.println(mouseHandler.isHasClickedLeft());
                     }
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
@@ -154,11 +147,9 @@ public class Controleur implements Initializable {
             if (!checkGroundBlock(ent)) {
                 if (ent instanceof Player) {
                     if (!player.isJumping()) {
-                        // System.out.println("player grav");
                         player.applyGrav();
                     }
                 } else {
-                    //System.out.println("Entity grav");
                     ent.applyGrav();
                 }
             }
@@ -167,7 +158,6 @@ public class Controleur implements Initializable {
 
     public void breakingManager() {
         this.terrain.getBlocks().addListener((ListChangeListener<Block>) change -> {
-            //System.out.println("oui1");
             while (change.next()) {
                 for (Block b : change.getRemoved()) {
                     this.terrainView.deleteBlock(b);
@@ -189,14 +179,12 @@ public class Controleur implements Initializable {
                     }
                     break;
                 }
-                //System.out.println(true);
                 /*
                 Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
                 r.setFill(Color.TRANSPARENT);
                 r.setStroke(Color.BLACK);
                 panneauDeJeu.getChildren().add(r);
-
-                 */
+                */
             }
         }
         terrain.deleteBlock(deletedBlocks);

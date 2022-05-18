@@ -36,7 +36,6 @@ public class Player extends Entity {
         }
         else{
             if(jumpCount <= 0){
-                System.out.println("under 0");
                 stopJump();
             }
             else{
@@ -47,7 +46,6 @@ public class Player extends Entity {
 
     }
     public void stopJump(){
-        System.out.println("Stopped func");
         jumpCount = jumpHeight;
         isJumping = false;
     }
