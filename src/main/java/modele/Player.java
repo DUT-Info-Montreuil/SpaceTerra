@@ -8,14 +8,18 @@ public class Player extends Entity {
     private final int jumpHeight = 20;
     public int jumpCount = jumpHeight;
     private boolean isJumping;
-
     private int inventoryMaxSize;
 
     private ArrayList<Item> inventory = new ArrayList<>(5);
 
 
-    public Player(int x,int y){
+    public ArrayList<Item> getInventory() {
+        return inventory;
+    }
+
+    public Player(int x, int y){
         super(20, 10, new Hitbox(24,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif");
+        inventoryMaxSize = 5;
 
     }
 
@@ -61,19 +65,25 @@ public class Player extends Entity {
         return false;
     }
 
-    public void drop(Item item){
-        if(inventory.contains(item)){
-            inventory.remove(item);
+    public Item drop(int slot){
+        try {
+            inventory.get(slot);
+            return inventory.remove(slot);
+        } catch (IndexOutOfBoundsException e){
+            System.out.println("slot vide !");
+            return null;
         }
-
-
     }
 
     public void pick(Item item){
         if(!isInventoryFull()){
             inventory.add(item);
         }
+        else{
+            System.out.println("inventaire plein !");
+        }
     }
+
 
 
 }

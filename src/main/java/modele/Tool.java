@@ -1,8 +1,8 @@
 package modele;
 
 public class Tool extends Item{
-    public Tool(int id, int maxQuantity) {
-        super(id, maxQuantity);
+    public Tool(String id, int maxQuantity, Tile tile) {
+        super(id, maxQuantity, tile);
     }
 
     @Override

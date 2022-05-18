@@ -8,7 +8,7 @@ public class Block {
     private int x;
     private int y;
 
-    private final int insideOffset = 10;
+    private final int insideOffset = 50;
 
     private Tile tile;
     private int hitX; //
