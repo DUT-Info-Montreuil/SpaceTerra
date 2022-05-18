@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Player extends Entity {
 
     private final double walkSpeed = 10;
-    private final double gravite = 9.81;
     private final int jumpHeight = 20;
     public int jumpCount = jumpHeight;
     private boolean isJumping;

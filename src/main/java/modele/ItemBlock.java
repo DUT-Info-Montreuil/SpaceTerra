@@ -1,8 +1,10 @@
 package modele;
 
 public class ItemBlock extends Item{
-    public ItemBlock(int id, int maxQuantity) {
-        super(id, maxQuantity);
+    private Tile tile;
+    public ItemBlock(int id, Tile tile) {
+        super(id, 12);
+        this.tile = tile;
     }
 
     @Override
