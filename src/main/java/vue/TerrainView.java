@@ -72,6 +72,14 @@ public class TerrainView {
         }
     }
 
+    public void debugChunks(ArrayList<Chunk> chunks){
+        for(Chunk chunk : chunks){
+            Rectangle r = new Rectangle(chunk.getHitbox().getX().intValue(), chunk.getHitbox().getY().intValue(), chunk.getHitbox().getWidth(), chunk.getHitbox().getHeight());
+            r.setFill(Color.TRANSPARENT);
+            r.setStroke(Color.BLACK);
+            panneau.getChildren().add(r);
+        }
+    }
 
     public void deleteBlock(Block block) {
        // System.out.println("oui5");

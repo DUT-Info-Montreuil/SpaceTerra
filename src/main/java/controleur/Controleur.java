@@ -27,6 +27,7 @@ public class Controleur implements Initializable {
     private Pane panneauDeJeu;
     private TerrainView terrainView;
     private TerrainData terrainData;
+    private Terrain terrain;
     private Timeline timeline;
 
     private Timeline timelineClick;
@@ -61,6 +62,8 @@ public class Controleur implements Initializable {
         breakingManager();
 
         //terrainView.displayCollision(true, terrain, player);
+        terrain = new Terrain(terrainData);
+        terrainView.debugChunks(terrain.getChunks());
     }
 
 

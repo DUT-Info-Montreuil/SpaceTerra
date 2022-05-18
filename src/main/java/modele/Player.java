@@ -32,7 +32,6 @@ public class Player extends Entity {
                 stopJump();
             }
             else{
-                System.out.println(jumpCount);
                 getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
             }
         }

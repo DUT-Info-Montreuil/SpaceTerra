@@ -7,18 +7,17 @@ public class Chunk {
     private Hitbox hitbox;
     private ObservableList<Block> blocks;
     private ObservableList<Block> solidBlocks;
-    private final int maxBlocks = 100; // Max amount of blocks per chunk
     private final int maxWidth = 10; // Max amount of blocks per line
     private final int maxHeight = 10;
 
-    public Chunk(){
+    public Chunk(int x, int y, int tileWidth, int tileHeight){
         blocks = FXCollections.observableArrayList();
         solidBlocks = FXCollections.observableArrayList();
-        hitbox = new Hitbox(maxWidth * 32, maxHeight * 32, 0, 0);
+        hitbox = new Hitbox(maxWidth * tileWidth, maxHeight * tileHeight, x, y);
     }
 
     public boolean isFull(){
-        return blocks.size() >= maxBlocks;
+        return blocks.size() >= maxWidth * maxHeight;
     }
 
     public void addBlock(Block block){
@@ -41,10 +40,6 @@ public class Chunk {
 
     public ObservableList<Block> getSolidBlocks() {
         return solidBlocks;
-    }
-
-    public int getMaxBlocks() {
-        return maxBlocks;
     }
 
     public int getMaxWidth() {

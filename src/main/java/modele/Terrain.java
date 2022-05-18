@@ -14,9 +14,21 @@ public class Terrain {
     public Terrain(TerrainData terrainData){
         this.terrainData = terrainData;
         chunks = new ArrayList<>();
+        loadChunks();
     }
 
     public void loadChunks(){
+        Chunk chunk = null;
+        int y = 0;
+        while (y <= terrainData.getHeight() * terrainData.getTileHeight()){
+            int x = 0;
+            while(x <= terrainData.getWidth() * terrainData.getTileWidth()){
+                chunk = new Chunk(x, y, terrainData.getTileWidth(), terrainData.getTileHeight());
+                chunks.add(chunk);
+                x += chunk.getMaxWidth() * terrainData.getTileWidth();
+            }
+            y += chunk.getMaxHeight() * terrainData.getTileHeight();
+        }
 
         /*
         for (int l = 0; l < terrainData.getLayers().size(); ++l) {
@@ -56,5 +68,13 @@ public class Terrain {
                 }
             }
         }*/
+    }
+
+    public TerrainData getTerrainData() {
+        return terrainData;
+    }
+
+    public ArrayList<Chunk> getChunks() {
+        return chunks;
     }
 }
