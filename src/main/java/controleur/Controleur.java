@@ -80,10 +80,11 @@ public class Controleur implements Initializable {
         timeline.play();
 
         timelineClick = new Timeline
-                (new KeyFrame(Duration.millis(1000), actionEvent -> {
+                (new KeyFrame(Duration.millis(200), actionEvent -> {
                     if (mouseHandler.isHasPressedLeft()) {
                         checkOnLeftPressed();
                     }
+
                     if (mouseHandler.isHasClickedRight()) {
                         checkOnRightClicked();
                         System.out.println("rclick");
@@ -171,7 +172,6 @@ public class Controleur implements Initializable {
     }
 
     public void checkOnLeftPressed() {
-        ArrayList<Block> deletedBlocks = new ArrayList<>();
         Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
             if (b != null) {
                 if (checkDistanceBlock(player, b)) {
@@ -179,7 +179,10 @@ public class Controleur implements Initializable {
                     b.setPvs(b.getPvs() - 1);
                     System.out.println(b.getPvs());
                     if (b.getPvs() <= 0) {
-                        deletedBlocks.add(b);
+                        terrain.deleteBlock(b);
+                        terrain.deleteSolidBlock(b);
+                        player.pick(new ItemBlock(b.getId(), b.getTile()));
+                        System.out.println(player.getInventory());
                     }
                 }
                 /*
@@ -189,18 +192,20 @@ public class Controleur implements Initializable {
                 panneauDeJeu.getChildren().add(r);
                 */
             }
-
-        terrain.deleteBlock(deletedBlocks);
-        terrain.deleteSolidBlock(deletedBlocks);
     }
 
     public void checkOnRightClicked() {
         Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
         if (b == null) {
-            b = new Block(terrain.getTileset().getTiles().get(8), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
-            terrain.getBlocks().add(b);
-            terrain.getSolidBlocks().add(b);
-            terrainView.addBlock(terrain, b);
+            System.out.println(player.getInventory());
+            Item item = player.drop(0);
+            if(item != null){
+                b = new Block(item.getTile(), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
+                terrain.getBlocks().add(b);
+                terrain.getSolidBlocks().add(b);
+                terrainView.addBlock(terrain, b);
+            }
+
 
         }
     }
