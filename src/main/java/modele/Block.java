@@ -11,7 +11,7 @@ public class Block {
     private final int insideOffset = 10;
 
     private Tile tile;
-    private int hitX; //
+    private int hitX; // hitBox pos in relation to its Tile
     private int hitY;
     private static int idCount = 0;
     private String id;
