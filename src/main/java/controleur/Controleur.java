@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import modele.*;
 import modele.Block;
-import modele.Terrain;
+import modele.TerrainData;
 import modele.Player;
 import vue.PlayerView;
 import vue.TerrainView;
@@ -26,7 +26,7 @@ public class Controleur implements Initializable {
     @FXML
     private Pane panneauDeJeu;
     private TerrainView terrainView;
-    private Terrain terrain;
+    private TerrainData terrainData;
     private Timeline timeline;
 
     private Timeline timelineClick;
@@ -42,15 +42,15 @@ public class Controleur implements Initializable {
         Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
         ParallelCamera camera = new ParallelCamera();
         scene.setCamera(camera);
-        terrain = new Terrain("src/main/resources/Map/bigTest.json");
+        terrainData = new TerrainData("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu);
-        terrainView.readMap(terrain);
+        terrainView.readMap(terrainData);
         createBingus();
         terrainView.readEntity();
         PlayerView playerView = new PlayerView(player = new Player(10,2030), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
-        terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
+        terrainView.displayCollision(false, true, true, terrainData, player); // afficher ou non les collisions
         panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth() / 2));
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight() / 2));
         createTimelines();
@@ -93,7 +93,7 @@ public class Controleur implements Initializable {
 
 
     public int checkSideBlock(Entity ent) { // -1 = left, 1 = right, 0 = none
-        for (Block b : terrain.getSolidBlocks()) {
+        for (Block b : terrainData.getSolidBlocks()) {
             if (ent.sideCollisions(b) == 1) {
                 return 1;
             } else if (ent.sideCollisions(b) == -1) {
@@ -104,7 +104,7 @@ public class Controleur implements Initializable {
     }
 
     public boolean checkGroundBlock(Entity ent) {
-        for (Block b : terrain.getSolidBlocks())
+        for (Block b : terrainData.getSolidBlocks())
             if (ent.isGrounded(b)) {
                 return true;
             }
@@ -157,7 +157,7 @@ public class Controleur implements Initializable {
     }
 
     public void breakingManager() {
-        this.terrain.getBlocks().addListener((ListChangeListener<Block>) change -> {
+        this.terrainData.getBlocks().addListener((ListChangeListener<Block>) change -> {
             while (change.next()) {
                 for (Block b : change.getRemoved()) {
                     this.terrainView.deleteBlock(b);
@@ -168,7 +168,7 @@ public class Controleur implements Initializable {
 
     public void checkOnClicked() {
         ArrayList<Block> deletedBlocks = new ArrayList<>();
-        for (Block b : terrain.getBlocks()) {
+        for (Block b : terrainData.getBlocks()) {
             if (mouseHandler.getMouseX() < b.getHitX() + b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY() + b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
                 if(checkDistanceBlock(player, b)){
                     System.out.println("ok");
@@ -187,7 +187,7 @@ public class Controleur implements Initializable {
                 */
             }
         }
-        terrain.deleteBlock(deletedBlocks);
-        terrain.deleteSolidBlock(deletedBlocks);
+        terrainData.deleteBlock(deletedBlocks);
+        terrainData.deleteSolidBlock(deletedBlocks);
     }
 }

@@ -79,4 +79,16 @@ public class Hitbox {
     public void setY(double y) {
         this.y.setValue(y);
     }
+
+    public void setSolid(boolean solid) {
+        isSolid = solid;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 }

@@ -22,9 +22,9 @@ public class TerrainView {
         this.entities.add(entity);
     }
 
-    public void readMap(Terrain terrain) {
+    public void readMap(TerrainData terrainData) {
         int id = 0;
-        for (Block block : terrain.getBlocks()) {
+        for (Block block : terrainData.getBlocks()) {
             ImageView imgView = new ImageView(block.getTile().getImage());
             imgView.setId(block.getId());
             imgView.setX(block.getX());
@@ -43,9 +43,9 @@ public class TerrainView {
         }
     }
 
-    public void displayCollision(boolean blocks, boolean entities, boolean playerColl, Terrain terrain, Player player){
+    public void displayCollision(boolean blocks, boolean entities, boolean playerColl, TerrainData terrainData, Player player){
         if(blocks) {
-            for (Block block : terrain.getBlocks()) {
+            for (Block block : terrainData.getBlocks()) {
                 Rectangle r = new Rectangle(block.getHitX(), block.getHitY(), block.getTile().getHitbox().getWidth(), block.getTile().getHitbox().getHeight());
                 r.setFill(Color.TRANSPARENT);
                 r.setStroke(Color.BLACK);

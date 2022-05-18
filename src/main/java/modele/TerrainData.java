@@ -1,0 +1,159 @@
+package modele;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class TerrainData {
+
+    private JSONObject map;
+    private ArrayList<Layer> layers;
+    private ObservableList<Block> blocks;
+
+    private ObservableList<Block> solidBlocks;
+    private Tileset tileSet;
+    private int height, width;
+    private int tileWidth, tileHeight;
+
+    public ObservableList<Block> getBlocks() {
+        return blocks;
+    }
+
+
+
+    public TerrainData(String mapPath){
+        loadMap(mapPath);
+        parseLayers(this.map);
+        height = ((Long) map.get("height")).intValue();
+        width = ((Long) map.get("width")).intValue();
+        tileWidth = ((Long) map.get("tilewidth")).intValue();
+        tileHeight = ((Long) map.get("tileheight")).intValue();
+        tileSet = new Tileset((JSONObject) ((JSONArray) map.get("tilesets")).get(0));
+        loadBlocks();
+    }
+
+
+    public void loadMap(String mapPath){
+        //JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
+
+        //  src/main/resources/Map/map.json
+        try (FileReader reader = new FileReader(mapPath)) {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+
+            map = (JSONObject) obj;
+            System.out.println(map);
+            System.out.println("Map loaded");
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseLayers(JSONObject map) {
+        layers = new ArrayList<>();
+        JSONArray layersData = (JSONArray) map.get("layers");
+
+        Iterator<JSONObject> layersIterator =  layersData.iterator();
+
+        while(layersIterator.hasNext()){
+            JSONObject currentLayer = layersIterator.next();
+            layers.add(new Layer(currentLayer));
+        }
+        System.out.println("All layers loaded");
+    }
+
+
+
+    public void loadBlocks(){
+        blocks  = FXCollections.observableArrayList();
+        solidBlocks = FXCollections.observableArrayList();
+        for (int l = 0; l < layers.size(); ++l) {
+            if (((Layer) layers.get(l)).getIsVisible()) {
+                Layer currentLayer = (Layer) layers.get(l);
+                int x = currentLayer.getxPos();
+                int y = currentLayer.getyPos();
+                int[] data = currentLayer.getData();
+                int currentWidth = 0;
+
+                try {
+                    for (int t = 0; t < data.length; ++t) {
+                        if (currentWidth >= currentLayer.getWidth()) {
+                            x = currentLayer.getxPos();
+                            y += 32;
+                            currentWidth = 0;
+                        }
+
+                        Iterator tileIterator = tileSet.getTiles().iterator();
+
+                        while (tileIterator.hasNext()) {
+                            Tile currTile = (Tile) tileIterator.next();
+                            if (data[t] == currTile.getId()) {
+                                Block b = new Block(currTile, x, y);
+                                blocks.add(b);
+                                if(b.getTile().getHitbox().isSolid()){
+                                    solidBlocks.add(b);
+                                }
+                            }
+                        }
+
+                        x += 32;
+                        ++currentWidth;
+                    }
+                } catch (NullPointerException var12) {
+                    System.out.println("null");
+                }
+            }
+        }
+    }
+
+    public Tileset getTileSet() {
+        return tileSet;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getTileWidth() {
+        return tileWidth;
+    }
+
+    public int getTileHeight() {
+        return tileHeight;
+    }
+
+    public ArrayList<Layer> getLayers(){
+        return layers;
+    }
+
+    public ObservableList<Block> getSolidBlocks() {
+        return solidBlocks;
+    }
+
+    public void deleteBlock(ArrayList<Block> blocks) {
+        this.getBlocks().removeAll(blocks);
+    }
+
+    public void deleteSolidBlock(ArrayList<Block> blocks) {
+        this.getSolidBlocks().removeAll(blocks);
+    }
+}
