@@ -1,5 +1,7 @@
 package controleur;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 
@@ -7,9 +9,9 @@ public class MouseHandler {
 
     private Pane pane;
 
-    private int mouseX;
+    private IntegerProperty mouseXP;
 
-    private int mouseY;
+    private IntegerProperty mouseYP;
 
     private boolean hasPressedLeft;
     private boolean hasPressedRight;
@@ -27,55 +29,58 @@ public class MouseHandler {
         hasPressedRight = false;
         hasClickedLeft = false;
         hasClickedRight = false;
+        mouseXP = new SimpleIntegerProperty();
+        mouseYP = new SimpleIntegerProperty();
     }
+
 
     public void mouseManager() {
         pane.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                mouseX = (int) e.getX();
-                mouseY = (int) e.getY();
+                mouseXP.setValue((int) e.getX());
+                mouseYP.setValue((int) e.getY());
                 hasPressedLeft = true;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
-                    mouseX = (int) e.getX();
-                    mouseY = (int) e.getY();
-                    hasPressedRight = true;
+                mouseXP.setValue((int) e.getX());
+                mouseYP.setValue((int) e.getY());
+                hasPressedRight = true;
             }
         });
 
         pane.setOnMouseReleased(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                mouseX = (int) e.getX();
-                mouseY = (int) e.getY();
+                mouseXP.setValue((int) e.getX());
+                mouseYP.setValue((int) e.getY());
                 hasPressedLeft = false;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
-                mouseX = (int) e.getX();
-                mouseY = (int) e.getY();
+                mouseXP.setValue((int) e.getX());
+                mouseYP.setValue((int) e.getY());
                 hasPressedRight = false;
             }
         });
 
         pane.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                mouseX = (int) e.getX();
-                mouseY = (int) e.getY();
+                mouseXP.setValue((int) e.getX());
+                mouseYP.setValue((int) e.getY());
                 hasClickedLeft = true;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
-                mouseX = (int) e.getX();
-                mouseY = (int) e.getY();
+                mouseXP.setValue((int) e.getX());
+                mouseYP.setValue((int) e.getY());
                 hasClickedRight = true;
             }
         });
     }
 
     public int getMouseX() {
-        return mouseX;
+        return mouseXP.getValue();
     }
 
     public int getMouseY() {
-        return mouseY;
+        return mouseYP.getValue();
     }
 
     public boolean isHasPressedLeft() {
@@ -108,5 +113,13 @@ public class MouseHandler {
 
     public void setHasClickedRight(boolean hasClickedRight) {
         this.hasClickedRight = hasClickedRight;
+    }
+
+    public IntegerProperty getMouseXPProperty() {
+        return mouseXP;
+    }
+
+    public IntegerProperty getMouseYPProperty() {
+        return mouseYP;
     }
 }

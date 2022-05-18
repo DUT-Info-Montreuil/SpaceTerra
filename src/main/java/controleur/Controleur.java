@@ -9,6 +9,7 @@ import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import modele.*;
 import modele.Block;
@@ -36,6 +37,10 @@ public class Controleur implements Initializable {
 
     private MouseHandler mouseHandler;
 
+    private Rectangle zonePlayerBlock; //Rectangle dont la zone appartenant au joueur qui ne permet donc pas de poser de block dans celle-ci
+
+    private Rectangle mouseBlock; //Rectangle dont la zone du block est celle ou la souris se positionne
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         entities = new ArrayList<>();
@@ -50,7 +55,7 @@ public class Controleur implements Initializable {
         PlayerView playerView = new PlayerView(player = new Player(10, 2030), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
-        terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
+        terrainView.displayCollision(false, false, false, terrain, player); // afficher ou non les collisions
         panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth() / 2));
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight() / 2));
         createTimelines();
@@ -59,9 +64,26 @@ public class Controleur implements Initializable {
         mouseHandler = new MouseHandler(panneauDeJeu);
         mouseHandler.mouseManager();
         breakingManager();
-
+        rectanglesManager();
     }
 
+    public void rectanglesManager() {
+        zonePlayerBlock = new Rectangle();
+        zonePlayerBlock.yProperty().bind(player.getHitbox().getY());
+        zonePlayerBlock.xProperty().bind(player.getHitbox().getX());
+        zonePlayerBlock.setWidth(24);
+        zonePlayerBlock.setHeight(32);
+        zonePlayerBlock.setFill(Color.TRANSPARENT);
+        zonePlayerBlock.setStroke(Color.BLACK);
+        mouseBlock = new Rectangle();
+        mouseBlock.setWidth(32);
+        mouseBlock.setHeight(32);
+        mouseBlock.xProperty().bind(mouseHandler.getMouseXPProperty().divide(32).multiply(32));
+        mouseBlock.yProperty().bind(mouseHandler.getMouseYPProperty().divide(32).multiply(32));
+        mouseBlock.setFill(Color.TRANSPARENT);
+        mouseBlock.setStroke(Color.PINK);
+        panneauDeJeu.getChildren().addAll(zonePlayerBlock, mouseBlock);
+    }
 
     public void createBingus() {
         Bingus bingus = new Bingus(10, 2030);
@@ -80,6 +102,7 @@ public class Controleur implements Initializable {
         timeline.play();
 
         timelineClick = new Timeline
+
                 (new KeyFrame(Duration.millis(200), actionEvent -> {
                     if (mouseHandler.isHasPressedLeft()) {
                         checkOnLeftPressed();
@@ -196,10 +219,11 @@ public class Controleur implements Initializable {
 
     public void checkOnRightClicked() {
         Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
-        if (b == null) {
+        if (b == null && !zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
+            System.out.println("okKKKKKKKKKKKKKKKKKKKKKK");
             System.out.println(player.getInventory());
             Item item = player.drop(0);
-            if(item != null){
+            if(item != null) {
                 b = new Block(item.getTile(), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
                 terrain.getBlocks().add(b);
                 terrain.getSolidBlocks().add(b);
