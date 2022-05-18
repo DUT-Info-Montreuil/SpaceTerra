@@ -18,6 +18,7 @@ import modele.Player;
 import vue.PlayerView;
 import vue.TerrainView;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -72,7 +73,7 @@ public class Controleur implements Initializable {
         zonePlayerBlock.yProperty().bind(player.getHitbox().getY());
         zonePlayerBlock.xProperty().bind(player.getHitbox().getX());
         zonePlayerBlock.setWidth(24);
-        zonePlayerBlock.setHeight(32);
+        zonePlayerBlock.setHeight(player.getHitbox().getHeight());
         zonePlayerBlock.setFill(Color.TRANSPARENT);
         zonePlayerBlock.setStroke(Color.BLACK);
         mouseBlock = new Rectangle();
@@ -81,7 +82,7 @@ public class Controleur implements Initializable {
         mouseBlock.xProperty().bind(mouseHandler.getMouseXPProperty().divide(32).multiply(32));
         mouseBlock.yProperty().bind(mouseHandler.getMouseYPProperty().divide(32).multiply(32));
         mouseBlock.setFill(Color.TRANSPARENT);
-        mouseBlock.setStroke(Color.PINK);
+        mouseBlock.setStroke(Color.TRANSPARENT);
         panneauDeJeu.getChildren().addAll(zonePlayerBlock, mouseBlock);
     }
 
@@ -206,6 +207,10 @@ public class Controleur implements Initializable {
                         terrain.deleteSolidBlock(b);
                         player.pick(new ItemBlock(b.getId(), b.getTile()));
                         System.out.println(player.getInventory());
+                        mouseBlock.setStroke(Color.GREEN);
+                    }
+                    else {
+                        mouseBlock.setStroke(Color.RED);
                     }
                 }
                 /*
@@ -215,22 +220,22 @@ public class Controleur implements Initializable {
                 panneauDeJeu.getChildren().add(r);
                 */
             }
+
     }
 
     public void checkOnRightClicked() {
         Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
         if (b == null && !zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
-            System.out.println("okKKKKKKKKKKKKKKKKKKKKKK");
             System.out.println(player.getInventory());
             Item item = player.drop(0);
             if(item != null) {
+                System.out.println("Tu peux poser le block !");
                 b = new Block(item.getTile(), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
                 terrain.getBlocks().add(b);
                 terrain.getSolidBlocks().add(b);
                 terrainView.addBlock(terrain, b);
-            }
-
-
+                mouseBlock.setStroke(Color.GREEN);
+            } else {mouseBlock.setStroke(Color.RED);}
         }
     }
 
