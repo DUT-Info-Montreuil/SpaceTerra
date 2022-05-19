@@ -140,7 +140,7 @@ public class Controleur implements Initializable {
         for (Entity ent : entities) {
             if (ent instanceof Player)
                 checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
-            else {
+            else{
                 ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
                 checkSideBlock(ent);
             }
@@ -189,5 +189,12 @@ public class Controleur implements Initializable {
         }
         terrain.deleteBlock(deletedBlocks);
         terrain.deleteSolidBlock(deletedBlocks);
+    }
+    public static int randomNum(int min, int max){
+        if(min == max)
+            return max;
+        int range = max - min + 1;
+        int rand = (int)(Math.random() * range) + min;
+        return rand;
     }
 }
