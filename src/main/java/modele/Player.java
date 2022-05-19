@@ -23,13 +23,13 @@ public class Player extends Entity {
 
     }
 
-    public void movement(Player player, boolean left, boolean right) {
+    public void movement(Player player, boolean left, boolean right, Terrain terrain) {
         if(this.getHitbox().getX().getValue() >= 10){
             if (left) {
                 getHitbox().setX(this.getHitbox().getX().intValue() - walkSpeed);
             }
         }
-        if(this.getHitbox().getX().getValue() <= 15970){
+        if(this.getHitbox().getX().getValue() <= terrain.getWidth()*32-30){
             if (right){
                 getHitbox().setX(this.getHitbox().getX().intValue() + walkSpeed);
             }

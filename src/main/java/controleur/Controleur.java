@@ -6,6 +6,7 @@ import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
+import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -51,9 +52,9 @@ public class Controleur implements Initializable {
         terrainView.readMap(terrain);
         createBingus();
         terrainView.readEntity();
-        //PlayerView playerView = new PlayerView(player = new Player(10, 2030), panneauDeJeu);
+        PlayerView playerView = new PlayerView(player = new Player(10, 2030), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
-        PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
+        //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
         terrainView.displayCollision(false, false, false, terrain, player); // afficher ou non les collisions
@@ -69,46 +70,7 @@ public class Controleur implements Initializable {
         rectanglesManager();
     }
 
-    public void cameraManager() {
-        if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinX() > player.getHitbox().getX().getValue() - (panneauDeJeu.getScene().getWidth()/2) - 10){
-            panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
-        }
-        else if (panneauDeJeu.getBoundsInLocal().getMaxX() < player.getHitbox().getX().getValue() + (panneauDeJeu.getScene().getWidth()/2) + 10){
-            panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
-        }
-        if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinY() > player.getHitbox().getY().getValue() - (panneauDeJeu.getScene().getHeight()/2)) {
-            panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
-        }
-        else {
-            panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
-            panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
-        }
 
-    }
-
-    public void rectanglesManager() {
-        zonePlayerBlock = new Rectangle();
-        zonePlayerBlock.yProperty().bind(player.getHitbox().getY());
-        zonePlayerBlock.xProperty().bind(player.getHitbox().getX());
-        zonePlayerBlock.setWidth(24);
-        zonePlayerBlock.setHeight(player.getHitbox().getHeight());
-        zonePlayerBlock.setFill(Color.TRANSPARENT);
-        zonePlayerBlock.setStroke(Color.TRANSPARENT);
-        mouseBlock = new Rectangle();
-        mouseBlock.setWidth(32);
-        mouseBlock.setHeight(32);
-        mouseBlock.xProperty().bind(mouseHandler.getMouseXProperty().divide(32).multiply(32));
-        mouseBlock.yProperty().bind(mouseHandler.getMouseYProperty().divide(32).multiply(32));
-        mouseBlock.setFill(Color.TRANSPARENT);
-        mouseBlock.setStroke(Color.TRANSPARENT);
-        panneauDeJeu.getChildren().addAll(zonePlayerBlock, mouseBlock);
-    }
-
-    public void createBingus() {
-        Bingus bingus = new Bingus(10, 2030);
-        terrainView.addEntite(bingus);
-        entities.add(bingus);
-    }
 
     public void createTimelines() { // peut etre creer un nouveau thread pour opti ?
         // 16.33 = 60 fps
@@ -141,6 +103,52 @@ public class Controleur implements Initializable {
         timelineClick.setCycleCount(Timeline.INDEFINITE);
         timelineClick.play();
 
+    }
+
+    public void cameraManager() {
+        if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinX() > player.getHitbox().getX().getValue() - (panneauDeJeu.getScene().getWidth()/2) - 10){
+            System.out.println("ok");
+            panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
+        }
+        else if (panneauDeJeu.getBoundsInLocal().getMaxX() < player.getHitbox().getX().getValue() + (panneauDeJeu.getScene().getWidth()/2) + 10){
+            panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
+        }
+        else {
+            panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
+        }
+        if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinY() > player.getHitbox().getY().getValue() - (panneauDeJeu.getScene().getHeight()/2)) {
+            panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
+        }
+        else if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMaxY() > player.getHitbox().getY().getValue() + (panneauDeJeu.getScene().getHeight()/2)) {
+            panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
+        }
+        else {
+            panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
+        }
+    }
+
+    public void rectanglesManager() {
+        zonePlayerBlock = new Rectangle();
+        zonePlayerBlock.yProperty().bind(player.getHitbox().getY());
+        zonePlayerBlock.xProperty().bind(player.getHitbox().getX());
+        zonePlayerBlock.setWidth(24);
+        zonePlayerBlock.setHeight(player.getHitbox().getHeight());
+        zonePlayerBlock.setFill(Color.TRANSPARENT);
+        zonePlayerBlock.setStroke(Color.TRANSPARENT);
+        mouseBlock = new Rectangle();
+        mouseBlock.setWidth(32);
+        mouseBlock.setHeight(32);
+        mouseBlock.xProperty().bind(mouseHandler.getMouseXProperty().divide(32).multiply(32));
+        mouseBlock.yProperty().bind(mouseHandler.getMouseYProperty().divide(32).multiply(32));
+        mouseBlock.setFill(Color.TRANSPARENT);
+        mouseBlock.setStroke(Color.TRANSPARENT);
+        panneauDeJeu.getChildren().addAll(zonePlayerBlock, mouseBlock);
+    }
+
+    public void createBingus() {
+        Bingus bingus = new Bingus(30, 0);
+        terrainView.addEntite(bingus);
+        entities.add(bingus);
     }
 
 
@@ -187,7 +195,7 @@ public class Controleur implements Initializable {
                 player.stopJump();
 
         if ((keyHandler.isRightPressed() || keyHandler.isLeftPressed()))
-            player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
+            player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1), terrain);
     }
 
     public void entityLoop() {
@@ -195,7 +203,7 @@ public class Controleur implements Initializable {
             if (ent instanceof Player)
                 checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
-                ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
+                ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1), terrain);
                 checkSideBlock(ent);
             }
             if (!checkGroundBlock(ent)) {
@@ -224,7 +232,7 @@ public class Controleur implements Initializable {
         Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
             if (b != null) {
                 if (checkDistanceBlock(player, b)) {
-                    System.out.println("ok");
+                    System.out.println("ok" + b.getId());
                     b.setPvs(b.getPvs() - 1);
                     System.out.println(b.getPvs());
                     if (b.getPvs() <= 0) {

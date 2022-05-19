@@ -88,6 +88,8 @@ public class Terrain {
         return solidBlocks;
     }
 
+
+
     public void loadBlocks(){
         blocks  = FXCollections.observableArrayList();
         solidBlocks = FXCollections.observableArrayList();
@@ -136,5 +138,13 @@ public class Terrain {
 
     public void deleteSolidBlock(Block block) {
         this.getSolidBlocks().remove(block);
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }
