@@ -29,10 +29,12 @@ public class Player extends Entity {
                 getHitbox().setX(this.getHitbox().getX().intValue() - walkSpeed);
             }
         }
-
-        if (right){
-            getHitbox().setX(this.getHitbox().getX().intValue() + walkSpeed);
+        if(this.getHitbox().getX().getValue() <= 15970){
+            if (right){
+                getHitbox().setX(this.getHitbox().getX().intValue() + walkSpeed);
+            }
         }
+
     }
 
     public void jump() {
