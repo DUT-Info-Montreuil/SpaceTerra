@@ -52,7 +52,8 @@ public class Controleur implements Initializable {
         createBingus();
         terrainView.readEntity();
         //PlayerView playerView = new PlayerView(player = new Player(10, 2030), panneauDeJeu);
-        PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
+        //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
+        PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
         terrainView.displayCollision(false, false, false, terrain, player); // afficher ou non les collisions
@@ -74,6 +75,9 @@ public class Controleur implements Initializable {
         }
         else if (panneauDeJeu.getBoundsInLocal().getMaxX() < player.getHitbox().getX().getValue() + (panneauDeJeu.getScene().getWidth()/2) + 10){
             panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
+        }
+        if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinY() > player.getHitbox().getY().getValue() - (panneauDeJeu.getScene().getHeight()/2)) {
+            panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
         }
         else {
             panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
