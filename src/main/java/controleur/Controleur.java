@@ -85,15 +85,12 @@ public class Controleur implements Initializable {
         timeline.play();
 
         timelineClick = new Timeline
-
                 (new KeyFrame(Duration.millis(200), actionEvent -> {
                     //System.out.println(mouseBlock.xProperty().intValue());
                     //System.out.println(mouseBlock.yProperty().intValue());
-
                     if (mouseHandler.isHasPressedLeft()) {
                         checkOnLeftPressed();
                     }
-
                     if (mouseHandler.isHasClickedRight()) {
                         checkOnRightClicked();
                         System.out.println("rclick");
@@ -107,7 +104,6 @@ public class Controleur implements Initializable {
 
     public void cameraManager() {
         if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinX() > player.getHitbox().getX().getValue() - (panneauDeJeu.getScene().getWidth()/2) - 10){
-            System.out.println("ok");
             panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
         }
         else if (panneauDeJeu.getBoundsInLocal().getMaxX() < player.getHitbox().getX().getValue() + (panneauDeJeu.getScene().getWidth()/2) + 10){
@@ -119,11 +115,11 @@ public class Controleur implements Initializable {
         if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinY() > player.getHitbox().getY().getValue() - (panneauDeJeu.getScene().getHeight()/2)) {
             panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
         }
-        else if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMaxY() > player.getHitbox().getY().getValue() + (panneauDeJeu.getScene().getHeight()/2)) {
+        else if (panneauDeJeu.getBoundsInLocal().getMaxY() < player.getHitbox().getY().getValue() + (panneauDeJeu.getScene().getHeight()/2)+10) {
             panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
         }
         else {
-            panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
+            panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2-10));
         }
     }
 
