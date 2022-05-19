@@ -14,9 +14,6 @@ public class Tile {
 
     private Hitbox hitbox;
 
-    public String getRessource() {
-        return ressource;
-    }
 
     private String ressource;
 
@@ -59,5 +56,8 @@ public class Tile {
 
     public Hitbox getHitbox(){
         return hitbox;
+    }
+    public String getRessource() {
+        return ressource;
     }
 }

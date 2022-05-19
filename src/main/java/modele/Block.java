@@ -1,9 +1,5 @@
 package modele;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.image.Image;
-
 public class Block {
     private int x;
     private int y;
@@ -64,8 +60,17 @@ public class Block {
         return insideOffset;
     }
 
-    public Item drop(){
-        return new ItemBlock(this.getId(), this.getTile());
+    public Item ressource(){
+        if(this.getTile().getRessource().equals("dirt")){
+            return new ItemDirt(this.getId(), this.getTile());
+        }
+        else if (this.getTile().getRessource().equals("wood")){
+            return new ItemWood(this.getId(),  this.getTile());
+        }
+        else {
+            return null;
+        }
+
     }
 
 }
