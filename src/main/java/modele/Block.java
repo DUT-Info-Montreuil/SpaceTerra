@@ -16,6 +16,7 @@ public class Block {
     private static int idCount = 0;
     private String id;
 
+
     public String getId() {
         return id;
     }
@@ -61,6 +62,10 @@ public class Block {
     }
     public int getInsideOffset() {
         return insideOffset;
+    }
+
+    public Item drop(){
+        return new ItemBlock(this.getId(), this.getTile());
     }
 
 }

@@ -226,7 +226,7 @@ public class Controleur implements Initializable {
                     if (b.getPvs() <= 0) {
                         terrain.deleteBlock(b);
                         terrain.deleteSolidBlock(b);
-                        player.pick(new ItemBlock(b.getId(), b.getTile()));
+                        player.pick(b.drop());
                         System.out.println(player.getInventory());
                     }
                 }
