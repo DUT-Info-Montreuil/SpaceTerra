@@ -29,7 +29,7 @@ public class TerrainView {
             imgView.setId(block.getId());
             imgView.setX(block.getX());
             imgView.setY(block.getY());
-            System.out.println(imgView.getId());
+            //System.out.println(imgView.getId());
             panneau.getChildren().add(imgView);
         }
     }
@@ -83,7 +83,7 @@ public class TerrainView {
         imgView.setId(block.getId());
         imgView.setX(block.getX());
         imgView.setY(block.getY());
-        System.out.println(imgView.getId());
+        //System.out.println(imgView.getId());
         panneau.getChildren().add(imgView);
     }
 

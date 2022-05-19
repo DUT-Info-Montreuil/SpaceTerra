@@ -51,7 +51,7 @@ public class Terrain {
             Object obj = jsonParser.parse(reader);
 
             map = (JSONObject) obj;
-            System.out.println(map);
+            //System.out.println(map);
             System.out.println("Map loaded");
 
         } catch (FileNotFoundException e) {
