@@ -34,10 +34,27 @@ public class Terrain {
     public void loadChunks(){
         createChunks();
         for(Chunk chunk: chunks){
-            int x = chunk.getHitbox().getX().intValue();
-            int y = chunk.getHitbox().getY().intValue();
-            for(Layer layer : terrainData.getLayers()){
 
+
+            for(Layer layer : terrainData.getLayers()){
+                verBlockCount = 0;
+                for(int y = chunk.getHitbox().getY().intValue(); y < chunk.getMaxHeight() * terrainData.getTileHeight(); y += terrainData.getHeight()){
+                    int horBlockCount = 0;
+                    for(int x = chunk.getHitbox().getX().intValue(); x < chunk.getMaxWidth() * terrainData.getTileWidth(); x += terrainData.getTileWidth());{
+
+                    }
+                }
+                Iterator tileIterator = terrainData.getTileSet().getTiles().iterator();
+                while (tileIterator.hasNext()) {
+                    Tile currTile = (Tile) tileIterator.next();
+                    if (layer.getData()[currPos] == currTile.getId()) {
+                        Block b = new Block(currTile, x, y);
+                        chunk.getBlocks().add(b);
+                        if (b.getTile().getHitbox().isSolid()) {
+                            chunk.getSolidBlocks().add(b);
+                        }
+                    }
+                }
             }
         }
         /*
