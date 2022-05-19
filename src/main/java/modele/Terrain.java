@@ -17,19 +17,29 @@ public class Terrain {
         loadChunks();
     }
 
-    public void loadChunks(){
+    public void createChunks(){
         Chunk chunk = null;
         int y = 0;
-        while (y <= terrainData.getHeight() * terrainData.getTileHeight()){
+        while (y < terrainData.getHeight() * terrainData.getTileHeight()){
             int x = 0;
-            while(x <= terrainData.getWidth() * terrainData.getTileWidth()){
+            while(x < terrainData.getWidth() * terrainData.getTileWidth()){
                 chunk = new Chunk(x, y, terrainData.getTileWidth(), terrainData.getTileHeight());
                 chunks.add(chunk);
                 x += chunk.getMaxWidth() * terrainData.getTileWidth();
             }
             y += chunk.getMaxHeight() * terrainData.getTileHeight();
         }
+    }
 
+    public void loadChunks(){
+        createChunks();
+        for(Chunk chunk: chunks){
+            int x = chunk.getHitbox().getX().intValue();
+            int y = chunk.getHitbox().getY().intValue();
+            for(Layer layer : terrainData.getLayers()){
+
+            }
+        }
         /*
         for (int l = 0; l < terrainData.getLayers().size(); ++l) {
             if (((Layer) terrainData.getLayers().get(l)).getIsVisible()) {
