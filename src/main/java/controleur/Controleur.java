@@ -63,7 +63,11 @@ public class Controleur implements Initializable {
 
         //terrainView.displayCollision(true, terrain, player);
         terrain = new Terrain(terrainData);
-        terrainView.debugChunks(terrain.getChunks());
+        terrainView.debugChunks(terrain);
+        terrainView.debugBlocksChunk(terrain);
+        for(Chunk c : terrain.getChunks()){
+            System.out.println(c.getBlocks().size());
+        }
     }
 
 

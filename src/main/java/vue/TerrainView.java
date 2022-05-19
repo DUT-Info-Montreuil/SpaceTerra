@@ -34,6 +34,8 @@ public class TerrainView {
         }
     }
 
+
+
     public void readEntity(){
         for (Entity entity : entities){
             ImageView imgView = new ImageView(entity.getImage());
@@ -72,12 +74,23 @@ public class TerrainView {
         }
     }
 
-    public void debugChunks(ArrayList<Chunk> chunks){
-        for(Chunk chunk : chunks){
+    public void debugChunks(Terrain terrain){
+        for(Chunk chunk : terrain.getChunks()){
             Rectangle r = new Rectangle(chunk.getHitbox().getX().intValue(), chunk.getHitbox().getY().intValue(), chunk.getHitbox().getWidth(), chunk.getHitbox().getHeight());
             r.setFill(Color.TRANSPARENT);
             r.setStroke(Color.BLACK);
             panneau.getChildren().add(r);
+        }
+    }
+
+    public void debugBlocksChunk(Terrain terrain){
+        for(Chunk chunk : terrain.getChunks()) {
+            for (Block b : chunk.getBlocks()){
+                Rectangle r = new Rectangle(b.getX(), b.getY(), b.getTile().getTileWidth(), b.getTile().getTileHeight());
+                r.setFill(Color.TRANSPARENT);
+                r.setStroke(Color.BLUEVIOLET);
+                panneau.getChildren().add(r);
+            }
         }
     }
 

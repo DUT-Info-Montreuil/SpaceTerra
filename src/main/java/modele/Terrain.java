@@ -33,27 +33,29 @@ public class Terrain {
 
     public void loadChunks(){
         createChunks();
-        for(Chunk chunk: chunks){
-
-
+        for(int c = 0; c < chunks.size(); c++){
+            Chunk chunk = chunks.get(c);
             for(Layer layer : terrainData.getLayers()){
-                verBlockCount = 0;
-                for(int y = chunk.getHitbox().getY().intValue(); y < chunk.getMaxHeight() * terrainData.getTileHeight(); y += terrainData.getHeight()){
-                    int horBlockCount = 0;
-                    for(int x = chunk.getHitbox().getX().intValue(); x < chunk.getMaxWidth() * terrainData.getTileWidth(); x += terrainData.getTileWidth());{
-
-                    }
-                }
-                Iterator tileIterator = terrainData.getTileSet().getTiles().iterator();
-                while (tileIterator.hasNext()) {
-                    Tile currTile = (Tile) tileIterator.next();
-                    if (layer.getData()[currPos] == currTile.getId()) {
-                        Block b = new Block(currTile, x, y);
-                        chunk.getBlocks().add(b);
-                        if (b.getTile().getHitbox().isSolid()) {
-                            chunk.getSolidBlocks().add(b);
+                int verBlockCount = chunk.getMaxHeight() * c; // pos in blocks
+                int y; // pos in pixels
+                for(y = chunk.getHitbox().getY().intValue(); y < chunk.getMaxHeight() * terrainData.getTileHeight(); y += terrainData.getTileHeight()){
+                    int horBlockCount = chunk.getMaxWidth() * c; // pos in blocks
+                    int x; // pos in pixels
+                    for(x = chunk.getHitbox().getX().intValue(); x < chunk.getMaxWidth() * terrainData.getTileWidth(); x += terrainData.getTileWidth());{
+                        Iterator tileIterator = terrainData.getTileSet().getTiles().iterator();
+                        while (tileIterator.hasNext()) {
+                            Tile currTile = (Tile) tileIterator.next();
+                            if (layer.getData()[verBlockCount + horBlockCount] == currTile.getId()) {
+                                Block b = new Block(currTile, x, y);
+                                chunk.getBlocks().add(b);
+                                if (b.getTile().getHitbox().isSolid()) {
+                                    chunk.getSolidBlocks().add(b);
+                                }
+                            }
+                            horBlockCount++;
                         }
                     }
+                verBlockCount += layer.getWidth();
                 }
             }
         }

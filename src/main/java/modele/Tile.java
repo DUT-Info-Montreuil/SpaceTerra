@@ -47,6 +47,10 @@ public class Tile {
         return tileWidth;
     }
 
+    public int getTileHeight() {
+        return tileHeight;
+    }
+
     public Hitbox getHitbox(){
         return hitbox;
     }
