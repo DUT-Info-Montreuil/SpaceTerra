@@ -8,19 +8,13 @@ public class Player extends Entity {
     private final int jumpHeight = 20;
     public int jumpCount = jumpHeight;
     private boolean isJumping;
-    private int inventoryMaxSize;
 
-    private ArrayList<Item> inventory = new ArrayList<>(5);
+    private Inventory inventory = new Inventory();
 
-
-    public ArrayList<Item> getInventory() {
-        return inventory;
-    }
 
     public Player(int x, int y){
         super(20, 10, new Hitbox(24,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif");
-        inventoryMaxSize = 5;
-
+        inventory = new Inventory();
     }
 
     public void movement(Player player, boolean left, boolean right) {
@@ -63,32 +57,18 @@ public class Player extends Entity {
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
 
-    public boolean isInventoryFull(){
-        if(inventory.size() >= inventoryMaxSize){
-            return true;
-        }
-        return false;
-    }
 
-    public Item drop(int slot){
-        try {
-            inventory.get(slot);
-            return inventory.remove(slot);
-        } catch (IndexOutOfBoundsException e){
-            System.out.println("slot vide !");
-            return null;
-        }
+    public Item drop(){
+        return this.inventory.removeFromSlot();
     }
 
     public void pick(Item item){
-        if(!isInventoryFull()){
-            inventory.add(item);
-        }
-        else{
-            System.out.println("inventaire plein !");
-        }
+        this.inventory.addIntoSlot(item);
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
 
 
 }

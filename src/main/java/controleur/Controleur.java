@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -35,10 +37,11 @@ public class Controleur implements Initializable {
     private KeyHandler keyHandler;
     private ArrayList<Entity> entities;
     private MouseHandler mouseHandler;
-
     private Rectangle zonePlayerBlock; //Rectangle dont la zone appartenant au joueur qui ne permet donc pas de poser de block dans celle-ci
 
     private Rectangle mouseBlock; //Rectangle dont la zone du block est celle ou la souris se positionne
+
+    private ImageView inventoryView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,8 +54,8 @@ public class Controleur implements Initializable {
         terrainView.readMap(terrain);
         createBingus();
         terrainView.readEntity();
-        //PlayerView playerView = new PlayerView(player = new Player(10, 2030), panneauDeJeu);
-        PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
+        PlayerView playerView = new PlayerView(player = new Player(10, 2030), panneauDeJeu);
+        //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
         terrainView.displayCollision(false, false, false, terrain, player); // afficher ou non les collisions
@@ -66,6 +69,7 @@ public class Controleur implements Initializable {
         mouseHandler.mouseManager();
         breakingManager();
         rectanglesManager();
+        displayInventory();
     }
 
     public void cameraManager() {
@@ -128,10 +132,17 @@ public class Controleur implements Initializable {
                         checkOnLeftPressed();
                     }
 
-                    if (mouseHandler.isHasClickedRight()) {
+                    else if (mouseHandler.isHasClickedRight()) {
                         checkOnRightClicked();
                         System.out.println("rclick");
                         mouseHandler.setHasClickedRight(false);
+                    }
+
+                    if(mouseHandler.isHasScrollUp()){
+                        player.getInventory().incrementSlot();
+                    }
+                    else if(mouseHandler.isHasScrollDown()){
+                        player.getInventory().decrementSlot();
                     }
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
@@ -246,7 +257,7 @@ public class Controleur implements Initializable {
         Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
         if (b == null && !zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
             System.out.println(player.getInventory());
-            Item item = player.drop(0);
+            Item item = player.drop();
             if(item != null) {
                 System.out.println("Tu peux poser le block !");
                 b = new Block(item.getTile(), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
@@ -272,6 +283,18 @@ public class Controleur implements Initializable {
             }
         }
         return null;
+    }
+
+    public void displayInventory(){
+        System.out.println(String.valueOf(getClass().getResource("TileSet/")));
+       /* inventoryView = new ImageView(new Image(String.valueOf(getClass().getResource("TileSet/blue.png"))));
+        if(player.getInventory().getCurrItem() != null){
+            inventoryView = new ImageView(player.getInventory().getCurrItem().getTile().getImage());
+            inventoryView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100));
+            inventoryView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
+            panneauDeJeu.getChildren().add(inventoryView);
+        }*/
+
     }
 
 

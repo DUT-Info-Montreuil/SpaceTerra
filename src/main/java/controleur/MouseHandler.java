@@ -20,6 +20,10 @@ public class MouseHandler {
 
     private boolean hasClickedRight;
 
+    private boolean hasScrollUp;
+
+    private boolean hasScrollDown;
+
 
 
     public MouseHandler(Pane pane) {
@@ -32,7 +36,6 @@ public class MouseHandler {
         mouseX = new SimpleIntegerProperty();
         mouseY = new SimpleIntegerProperty();
     }
-
 
     public void mouseManager() {
         pane.setOnMousePressed(e -> {
@@ -72,6 +75,22 @@ public class MouseHandler {
                 mouseY.setValue((int) e.getY());
                 hasClickedRight = true;
             }
+        });
+
+        pane.setOnScrollStarted(e -> {
+            if(e.getDeltaY() < 0){
+                hasScrollUp = true;
+                hasScrollDown = false;
+            }
+            else if(e.getDeltaY() > 0){
+                hasScrollDown = true;
+                hasScrollUp = false;
+            }
+        });
+
+        pane.setOnScrollFinished(e -> {
+            hasScrollDown = false;
+            hasScrollUp = false;
         });
     }
 
@@ -121,5 +140,12 @@ public class MouseHandler {
 
     public IntegerProperty getMouseYProperty() {
         return mouseY;
+    }
+    public boolean isHasScrollUp() {
+        return hasScrollUp;
+    }
+
+    public boolean isHasScrollDown() {
+        return hasScrollDown;
     }
 }
