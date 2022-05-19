@@ -6,20 +6,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import modele.*;
 
-import java.util.ArrayList;
-
 public class TerrainView {
     private Pane panneau;
 
-    private ArrayList<Entity> entities;
     public TerrainView(Pane panneau) {
-
         this.panneau = panneau;
-        this.entities = new ArrayList();
-    }
-
-    public void addEntite(Entity entity){
-        this.entities.add(entity);
     }
 
     public void readMap(Terrain terrain) {
@@ -31,41 +22,21 @@ public class TerrainView {
         }
     }
 
-    public void readEntity(){
-        for (Entity entity : entities){
-            ImageView imgView = new ImageView(entity.getImage());
-            imgView.xProperty().bind(entity.getHitbox().getX().subtract(entity.getHitbox().getWidth()/2));
-            imgView.yProperty().bind(entity.getHitbox().getY().subtract(entity.getHitbox().getHeight()/2));
-            panneau.getChildren().add(imgView);
-        }
-    }
-
-    public void displayCollision(boolean blocks, boolean entities, boolean playerColl, Terrain terrain, Player player){
-        if(blocks) {
+    public void displayCollision(boolean display, Terrain terrain, Player player){
+        if(display){
             for (Block block : terrain.getBlocks()) {
                 Rectangle r = new Rectangle(block.getHitX(), block.getHitY(), block.getTile().getHitbox().getWidth(), block.getTile().getHitbox().getHeight());
                 r.setFill(Color.TRANSPARENT);
                 r.setStroke(Color.BLACK);
                 panneau.getChildren().add(r);
             }
-        }
-        if(entities) {
-            for (Entity ent : this.entities) {
-                Rectangle r = new Rectangle(ent.getHitbox().getX().intValue(), ent.getHitbox().getY().intValue(), ent.getHitbox().getWidth(), ent.getHitbox().getHeight());
-                r.xProperty().bind(ent.getHitbox().getX());
-                r.yProperty().bind(ent.getHitbox().getY());
-                r.setFill(Color.TRANSPARENT);
-                r.setStroke(Color.RED);
-                panneau.getChildren().add(r);
-            }
-        }
-        if(playerColl){
-            Rectangle r = new Rectangle(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue(), player.getHitbox().getWidth(), player.getHitbox().getHeight());
-            r.yProperty().bind(player.getHitbox().getY());
-            r.xProperty().bind(player.getHitbox().getX());
+            Rectangle r = new Rectangle(player.xProperty().intValue(), player.yProperty().intValue(), player.getWidth(), player.getHeight());
+            r.yProperty().bind(player.yProperty());
+            r.xProperty().bind(player.xProperty());
             r.setFill(Color.TRANSPARENT);
-            r.setStroke(Color.GREEN);
+            r.setStroke(Color.BLACK);
             panneau.getChildren().add(r);
+
         }
     }
 

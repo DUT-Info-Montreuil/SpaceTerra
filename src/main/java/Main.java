@@ -1,7 +1,5 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -12,7 +10,6 @@ public class Main extends Application {
         stage.setScene(root.getScene());
         stage.setResizable(false);
         stage.setTitle("Meilleur jeu du monde");
-        stage.getIcons().add(new Image("/Sprites/Enemies/YinYang.png"));
         stage.show();
         root.requestFocus();
     }
