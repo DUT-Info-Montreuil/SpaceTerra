@@ -18,7 +18,6 @@ import modele.Player;
 import vue.PlayerView;
 import vue.TerrainView;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -57,8 +56,9 @@ public class Controleur implements Initializable {
         entities.add(player);
         playerView.displayPlayer();
         terrainView.displayCollision(false, false, false, terrain, player); // afficher ou non les collisions
-        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth() / 2));
-        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight() / 2));
+        //panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(0);
+        panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(player.getHitbox().getX().getValue());
+        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
         createTimelines();
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
@@ -68,6 +68,16 @@ public class Controleur implements Initializable {
         rectanglesManager();
     }
 
+    public void cameraManager() {
+        if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinX() > player.getHitbox().getX().getValue() - (panneauDeJeu.getScene().getWidth()/2) - 10){
+            panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
+        }
+        else {
+            panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
+            panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
+        }
+    }
+
     public void rectanglesManager() {
         zonePlayerBlock = new Rectangle();
         zonePlayerBlock.yProperty().bind(player.getHitbox().getY());
@@ -75,12 +85,12 @@ public class Controleur implements Initializable {
         zonePlayerBlock.setWidth(24);
         zonePlayerBlock.setHeight(player.getHitbox().getHeight());
         zonePlayerBlock.setFill(Color.TRANSPARENT);
-        zonePlayerBlock.setStroke(Color.BLACK);
+        zonePlayerBlock.setStroke(Color.TRANSPARENT);
         mouseBlock = new Rectangle();
         mouseBlock.setWidth(32);
         mouseBlock.setHeight(32);
-        mouseBlock.xProperty().bind(mouseHandler.getMouseXPProperty().divide(32).multiply(32));
-        mouseBlock.yProperty().bind(mouseHandler.getMouseYPProperty().divide(32).multiply(32));
+        mouseBlock.xProperty().bind(mouseHandler.getMouseXProperty().divide(32).multiply(32));
+        mouseBlock.yProperty().bind(mouseHandler.getMouseYProperty().divide(32).multiply(32));
         mouseBlock.setFill(Color.TRANSPARENT);
         mouseBlock.setStroke(Color.TRANSPARENT);
         panneauDeJeu.getChildren().addAll(zonePlayerBlock, mouseBlock);
@@ -97,6 +107,7 @@ public class Controleur implements Initializable {
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(32.66), actionEvent -> {
                     playerMovement();
+                    cameraManager();
                     entityLoop();
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -105,6 +116,9 @@ public class Controleur implements Initializable {
         timelineClick = new Timeline
 
                 (new KeyFrame(Duration.millis(200), actionEvent -> {
+                    //System.out.println(mouseBlock.xProperty().intValue());
+                    //System.out.println(mouseBlock.yProperty().intValue());
+
                     if (mouseHandler.isHasPressedLeft()) {
                         checkOnLeftPressed();
                     }
@@ -163,7 +177,7 @@ public class Controleur implements Initializable {
             if (player.isJumping())
                 player.stopJump();
 
-        if (keyHandler.isRightPressed() || keyHandler.isLeftPressed())
+        if ((keyHandler.isRightPressed() || keyHandler.isLeftPressed()))
             player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
     }
 

@@ -24,10 +24,13 @@ public class Player extends Entity {
     }
 
     public void movement(Player player, boolean left, boolean right) {
-        if (left) {
-            getHitbox().setX(this.getHitbox().getX().intValue() - walkSpeed);
+        if(this.getHitbox().getX().getValue() >= 10){
+            if (left) {
+                getHitbox().setX(this.getHitbox().getX().intValue() - walkSpeed);
+            }
         }
-        else if (right){
+
+        if (right){
             getHitbox().setX(this.getHitbox().getX().intValue() + walkSpeed);
         }
     }
@@ -42,7 +45,7 @@ public class Player extends Entity {
                 stopJump();
             }
             else{
-                System.out.println(jumpCount);
+                //System.out.println(jumpCount);
                 getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
             }
         }
