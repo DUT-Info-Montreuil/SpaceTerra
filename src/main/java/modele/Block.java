@@ -11,9 +11,24 @@ public class Block {
     private final int insideOffset = 10;
 
     private Tile tile;
-    private int hitX; //
+    private int hitX; // hitBox pos in relation to its Tile
     private int hitY;
+    private static int idCount = 0;
+    private String id;
 
+    public String getId() {
+        return id;
+    }
+
+    private int pvs;
+
+    public int getPvs() {
+        return pvs;
+    }
+
+    public void setPvs(int pvs) {
+        this.pvs = pvs;
+    }
 
     public Block(Tile tile, int x, int y) {
         this.x = x;
@@ -21,6 +36,8 @@ public class Block {
         this.tile = tile;
         hitX = x + tile.getHitbox().getX().intValue();
         hitY = y + tile.getHitbox().getY().intValue();
+        this.id = "block" + idCount++;
+        this.pvs = 2;
     }
 
     public int getX() {
@@ -42,8 +59,8 @@ public class Block {
     public int getHitY() {
         return hitY;
     }
-
     public int getInsideOffset() {
         return insideOffset;
     }
+
 }

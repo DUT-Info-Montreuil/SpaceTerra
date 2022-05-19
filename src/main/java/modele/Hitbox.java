@@ -11,6 +11,7 @@ public class Hitbox {
     private int width;
     private int height;
     private DoubleProperty x, y;
+
     public Hitbox(JSONObject hitbox) {
         isSolid = ((String) hitbox.get("type")).equals("collisions");
         width = ((Long) hitbox.get("width")).intValue();
@@ -30,6 +31,27 @@ public class Hitbox {
         this.x.setValue(x);
         this.y.setValue(y);
     }
+
+    public int getCenterXPos(){
+        return x.intValue() + width/2;
+    }
+
+    public int getCenterYPos(){
+        return y.intValue() + height/2;
+    }
+
+    public boolean isArroundX(int targetX){
+        return targetX > x.intValue() && targetX < x.intValue() + width;
+    }
+
+    public boolean isArroundY(int targetY){
+        return targetY > y.intValue() && targetY < y.intValue() + height;
+    }
+
+    public boolean isArround(int targetX, int targetY){
+        return isArroundX(targetX) && isArroundY(targetY);
+    }
+
     public boolean isSolid() {
         return isSolid;
     }

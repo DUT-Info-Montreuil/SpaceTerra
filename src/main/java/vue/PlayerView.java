@@ -10,18 +10,13 @@ public class PlayerView {
     private Player player;
     Pane panneauDeJeu;
 
-    private final double x = 10;
-
-    private final double y = 2030;
 
     public PlayerView(Player player, Pane panneauDeJeu){
         this.player = player;
-        this.player.setX(x);
-        this.player.setY(y);
         this.panneauDeJeu = panneauDeJeu;
         this.spritePlayer = new ImageView(player.getImage());
-        this.spritePlayer.xProperty().bind(player.xProperty());
-        this.spritePlayer.yProperty().bind(player.yProperty());
+        this.spritePlayer.xProperty().bind(player.getHitbox().getX().subtract(player.getImage().getWidth()/2 - player.getHitbox().getWidth()/2));
+        this.spritePlayer.yProperty().bind(player.getHitbox().getY().subtract(player.getImage().getHeight() - player.getHitbox().getHeight()));
     }
     public void displayPlayer(){
         panneauDeJeu.getChildren().add(spritePlayer);

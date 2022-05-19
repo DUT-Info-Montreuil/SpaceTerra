@@ -47,11 +47,11 @@ public abstract class Entity {
     public int sideCollisions(Block block){
         if((hitbox.getY().intValue() > block.getHitY() && hitbox.getY().intValue() <= block.getHitY() + block.getTile().getHitbox().getHeight()) || (hitbox.getY().intValue() + hitbox.getHeight() > block.getHitY() && hitbox.getY().intValue() + hitbox.getHeight() <= block.getHitY() + block.getTile().getHitbox().getHeight())) {
             if (hitbox.getX().intValue() <= block.getHitX() + block.getTile().getHitbox().getWidth() && hitbox.getX().intValue() >= block.getHitX() + block.getTile().getHitbox().getWidth() - block.getInsideOffset()) { // cote droit d'un block
-                hitbox.setX(block.getHitX() + block.getTile().getHitbox().getWidth() + 1);
-                return -1; // joueur bloque a gauche
+                hitbox.setX(block.getHitX() + block.getTile().getHitbox().getWidth() + 2);
+                return -1; // Player blocked on left
             } else if (hitbox.getX().intValue() + hitbox.getWidth() >= block.getHitX() && hitbox.getX().intValue() + hitbox.getWidth() <= block.getHitX() + block.getInsideOffset()) { // cote gauche d'un block
-                hitbox.setX(block.getHitX() - hitbox.getWidth() - 1);
-                return 1; // joueur bloque a droite
+                hitbox.setX(block.getHitX() - hitbox.getWidth() - 2);
+                return 1; // Player blocked on right
             }
         }
         return 0;
@@ -71,4 +71,13 @@ public abstract class Entity {
     }
 
     public abstract void movement(Player player, boolean leftCheck, boolean rightCheck);
+
+    public int distanceToBlock(Block b) {
+        double centerPX = this.hitbox.getX().intValue() + this.hitbox.getWidth()/2; //centre du joueur en x
+        double centerPY = this.hitbox.getY().intValue() + this.hitbox.getHeight()/2; //centre du joueur en y
+        double centerBX = b.getHitX() + b.getTile().getHitbox().getWidth()/2; //centre du block en x
+        double centerBY = b.getHitY() + b.getTile().getHitbox().getHeight()/2; // centre du block en y
+        System.out.println("distance block : " + Math.sqrt(Math.pow(centerBX-centerPX,2.0)+Math.pow(centerBY-centerPY,2.0))/32);
+        return (int) Math.sqrt(Math.pow(centerBX-centerPX,2.0)+Math.pow(centerBY-centerPY,2.0))/32; //distance euclidienne / 32 pour avoir une distance en blocks
+    }
 }
