@@ -34,7 +34,6 @@ public class Controleur implements Initializable {
     private Player player;
     private KeyHandler keyHandler;
     private ArrayList<Entity> entities;
-
     private MouseHandler mouseHandler;
 
     private Rectangle zonePlayerBlock; //Rectangle dont la zone appartenant au joueur qui ne permet donc pas de poser de block dans celle-ci
@@ -251,7 +250,9 @@ public class Controleur implements Initializable {
                 b = new Block(item.getTile(), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
                 if(checkDistanceBlock(player, b)){
                     terrain.getBlocks().add(b);
-                    terrain.getSolidBlocks().add(b);
+                    if(b.getTile().getHitbox().isSolid()){
+                        terrain.getSolidBlocks().add(b);
+                    }
                     terrainView.addBlock(terrain, b);
                 }
 

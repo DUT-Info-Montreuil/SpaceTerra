@@ -27,6 +27,16 @@ public class KeyHandler {
         leftPressed = false;
         upPressed = false;
         downPressed = false;
+        slotTenTyped = false;
+        slotNineTyped = false;
+        slotEightTyped = false;
+        slotSevenTyped = false;
+        slotSixTyped = false;
+        slotFiveTyped = false;
+        slotFourTyped = false;
+        slotThreeTyped = false;
+        slotTwoTyped = false;
+        slotOneTyped = false;
         this.pane = pane;
     }
 
@@ -65,6 +75,18 @@ public class KeyHandler {
                 case "3" -> slotThreeTyped = true;
                 case "\'" -> slotFourTyped = true;
                 case "4" -> slotFourTyped = true;
+                case "(" -> slotFiveTyped = true;
+                case "5" -> slotFiveTyped = true;
+                case "-" -> slotSixTyped = true;
+                case "6" -> slotSixTyped = true;
+                case "è" -> slotSevenTyped = true;
+                case "7" -> slotSevenTyped = true;
+                case "_" -> slotEightTyped = true;
+                case "8" -> slotEightTyped = true;
+                case "ç" -> slotNineTyped = true;
+                case "9" -> slotNineTyped = true;
+                case "à" -> slotTenTyped = true;
+                case "0" -> slotTenTyped = true;
 
             }
         });
