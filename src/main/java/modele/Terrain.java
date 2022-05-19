@@ -36,26 +36,26 @@ public class Terrain {
         for(int c = 0; c < chunks.size(); c++){
             Chunk chunk = chunks.get(c);
             for(Layer layer : terrainData.getLayers()){
-                int verBlockCount = chunk.getMaxHeight() * c; // pos in blocks
-                int y; // pos in pixels
-                for(y = chunk.getHitbox().getY().intValue(); y < chunk.getMaxHeight() * terrainData.getTileHeight(); y += terrainData.getTileHeight()){
-                    int horBlockCount = chunk.getMaxWidth() * c; // pos in blocks
-                    int x; // pos in pixels
-                    for(x = chunk.getHitbox().getX().intValue(); x < chunk.getMaxWidth() * terrainData.getTileWidth(); x += terrainData.getTileWidth());{
-                        Iterator tileIterator = terrainData.getTileSet().getTiles().iterator();
-                        while (tileIterator.hasNext()) {
-                            Tile currTile = (Tile) tileIterator.next();
-                            if (layer.getData()[verBlockCount + horBlockCount] == currTile.getId()) {
-                                Block b = new Block(currTile, x, y);
-                                chunk.getBlocks().add(b);
-                                if (b.getTile().getHitbox().isSolid()) {
-                                    chunk.getSolidBlocks().add(b);
-                                }
-                            }
-                            horBlockCount++;
-                        }
+                int[][] data = new int[layer.getHeight()][layer.getWidth()];
+                for(int y = 0; y < layer.getHeight(); y++){
+                    for(int x = 0; x < layer.getWidth(); x++){
+                        data[y][x] = layer.getData()[y * layer.getWidth() + x];
                     }
-                verBlockCount += layer.getWidth();
+                }
+                /*for(int y = 0; y < data.length; y++){
+                    for(int x = 0; x < data[0].length; x++){
+                        System.out.println(data[y][x]);
+                    }
+                    System.out.println();
+                }*/
+                System.out.println(data.length * data[0].length + " / " + layer.getData().length);
+                int dataPosY;
+                int yPixels;
+                for(yPixels = chunk.getHitbox().getY().intValue(); yPixels < chunk.getHitbox().getY().intValue() + (chunk.getMaxHeight() * terrainData.getTileHeight()); yPixels += terrainData.getTileHeight()){
+                    int xPixels;
+                    for (xPixels = chunk.getHitbox().getX().intValue(); xPixels < chunk.getHitbox().getX().intValue() + (chunk.getMaxWidth() * terrainData.getTileWidth()); xPixels += terrainData.getTileWidth()){
+
+                    }
                 }
             }
         }
