@@ -30,6 +30,14 @@ public class Inventory {
         }
     }
 
+    public Item getItemFromSlot(int numSlot){
+        try{
+            return items.get(numSlot);
+        } catch (Exception e){
+            return null;
+        }
+    }
+
     public void setNbSlot(int nbSlot){
         this.nbSlot = nbSlot;
     }
@@ -57,7 +65,9 @@ public class Inventory {
     public Item removeFromSlot(){
         try {
             items.get(currSlot);
-            return items.remove(currSlot);
+            Item item = items.remove(currSlot);
+            items.add(currSlot, null);
+            return item;
         } catch (IndexOutOfBoundsException e){
             System.out.println("slot vide !");
             return null;

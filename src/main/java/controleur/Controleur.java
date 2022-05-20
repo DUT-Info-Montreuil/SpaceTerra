@@ -7,8 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -17,6 +15,7 @@ import modele.*;
 import modele.Block;
 import modele.Terrain;
 import modele.Player;
+import vue.InventoryView;
 import vue.PlayerView;
 import vue.TerrainView;
 
@@ -41,7 +40,8 @@ public class Controleur implements Initializable {
 
     private Rectangle mouseBlock; //Rectangle dont la zone du block est celle ou la souris se positionne
 
-    private ImageView inventoryView;
+    private Rectangle currentSlotView;
+    private InventoryView inventoryView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -69,7 +69,7 @@ public class Controleur implements Initializable {
         mouseHandler.mouseManager();
         breakingManager();
         rectanglesManager();
-        displayInventory();
+        inventoryView = new InventoryView(player.getInventory(), panneauDeJeu);
     }
 
     public void cameraManager() {
@@ -102,6 +102,11 @@ public class Controleur implements Initializable {
         mouseBlock.setFill(Color.TRANSPARENT);
         mouseBlock.setStroke(Color.TRANSPARENT);
         panneauDeJeu.getChildren().addAll(zonePlayerBlock, mouseBlock);
+        currentSlotView = new Rectangle();
+        currentSlotView.setFill(Color.TRANSPARENT);
+        currentSlotView.setStroke(Color.BLUE);
+        currentSlotView.setWidth(32);
+        currentSlotView.setHeight(32);
     }
 
     public void createBingus() {
@@ -118,6 +123,7 @@ public class Controleur implements Initializable {
                     //System.out.println(panneauDeJeu.getScene().getCamera().layoutXProperty().intValue());
                     cameraManager();
                     entityLoop();
+                    displayInventory();
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -144,6 +150,8 @@ public class Controleur implements Initializable {
                     else if(mouseHandler.isHasScrollDown()){
                         player.getInventory().decrementSlot();
                     }
+
+                    verifKeyTyped();
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
         timelineClick.play();
@@ -262,6 +270,7 @@ public class Controleur implements Initializable {
                 System.out.println("Tu peux poser le block !");
                 b = new Block(item.getTile(), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
                 if(checkDistanceBlock(player, b)){
+                    panneauDeJeu.getChildren().remove(inventoryView);
                     terrain.getBlocks().add(b);
                     if(b.getTile().getHitbox().isSolid()){
                         terrain.getSolidBlocks().add(b);
@@ -286,15 +295,69 @@ public class Controleur implements Initializable {
     }
 
     public void displayInventory(){
-        System.out.println(String.valueOf(getClass().getResource("TileSet/")));
-       /* inventoryView = new ImageView(new Image(String.valueOf(getClass().getResource("TileSet/blue.png"))));
-        if(player.getInventory().getCurrItem() != null){
-            inventoryView = new ImageView(player.getInventory().getCurrItem().getTile().getImage());
-            inventoryView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100));
-            inventoryView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
-            panneauDeJeu.getChildren().add(inventoryView);
-        }*/
+        //System.out.println(String.valueOf(getClass().getResource("TileSet/")));
+       // inventoryView = new ImageView(new Image(String.valueOf(getClass().getResource("TileSet/blue.png"))));
+        System.out.println(player.getInventory().getCurrItem());
 
+        /*
+
+         */
+
+
+    }
+
+    public void verifKeyTyped(){
+        if(keyHandler.isSlotOneTyped()){
+            player.getInventory().setCurrSlot(0);
+            keyHandler.setSlotOneTyped(false);
+        }
+        else if(keyHandler.isSlotTwoTyped()){
+            player.getInventory().setCurrSlot(1);
+            keyHandler.setSlotTwoTyped(false);
+        }
+        else if(keyHandler.isSlotThreeTyped()){
+            player.getInventory().setCurrSlot(2);
+            keyHandler.setSlotThreeTyped(false);
+        }
+        else if(keyHandler.isSlotFourTyped()){
+            player.getInventory().setCurrSlot(3);
+            keyHandler.setSlotFourTyped(false);
+        }
+        else if (keyHandler.isSlotFiveTyped()){
+            player.getInventory().setCurrSlot(4);
+            keyHandler.setSlotFourTyped(false);
+        }
+        else if (keyHandler.isSlotSixTyped()){
+            player.getInventory().setCurrSlot(5);
+            keyHandler.setSlotSixTyped(false);
+        }
+        else if (keyHandler.isSlotSevenTyped()){
+            player.getInventory().setCurrSlot(6);
+            keyHandler.setSlotSevenTyped(false);
+        }
+        else if (keyHandler.isSlotEightTyped()){
+            player.getInventory().setCurrSlot(7);
+            keyHandler.setSlotEightTyped(false);
+        }
+        else if (keyHandler.isSlotNineTyped()){
+            player.getInventory().setCurrSlot(8);
+            keyHandler.setSlotNineTyped(false);
+        }
+        else if (keyHandler.isSlotTenTyped()){
+            player.getInventory().setCurrSlot(9);
+            keyHandler.setSlotTenTyped(false);
+        }
+
+    }
+
+    private void deselectAllFromInventory() {
+
+        keyHandler.setSlotFourTyped(false);
+        keyHandler.setSlotSixTyped(false);
+        keyHandler.setSlotSevenTyped(false);
+        keyHandler.setSlotEightTyped(false);
+        keyHandler.setSlotNineTyped(false);
+        keyHandler.setSlotTenTyped(false);
     }
 
 

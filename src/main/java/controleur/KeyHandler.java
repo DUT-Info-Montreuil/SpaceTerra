@@ -22,6 +22,8 @@ public class KeyHandler {
 
     private Pane pane;
 
+
+
     public KeyHandler(Pane pane) {
         rightPressed = false;
         leftPressed = false;
@@ -98,5 +100,105 @@ public class KeyHandler {
         keyPressed();
         keyReleased();
         keyTyped();
+    }
+
+    public boolean isDownPressed() {
+        return downPressed;
+    }
+
+    public boolean isSlotOneTyped() {
+        return slotOneTyped;
+    }
+
+    public boolean isSlotTwoTyped() {
+        return slotTwoTyped;
+    }
+
+    public boolean isSlotThreeTyped() {
+        return slotThreeTyped;
+    }
+
+    public boolean isSlotFourTyped() {
+        return slotFourTyped;
+    }
+
+    public boolean isSlotFiveTyped() {
+        return slotFiveTyped;
+    }
+
+    public boolean isSlotSixTyped() {
+        return slotSixTyped;
+    }
+
+    public boolean isSlotSevenTyped() {
+        return slotSevenTyped;
+    }
+
+    public boolean isSlotEightTyped() {
+        return slotEightTyped;
+    }
+
+    public boolean isSlotNineTyped() {
+        return slotNineTyped;
+    }
+
+    public boolean isSlotTenTyped() {
+        return slotTenTyped;
+    }
+
+    public void setRightPressed(boolean rightPressed) {
+        this.rightPressed = rightPressed;
+    }
+
+    public void setLeftPressed(boolean leftPressed) {
+        this.leftPressed = leftPressed;
+    }
+
+    public void setUpPressed(boolean upPressed) {
+        this.upPressed = upPressed;
+    }
+
+    public void setDownPressed(boolean downPressed) {
+        this.downPressed = downPressed;
+    }
+
+    public void setSlotOneTyped(boolean slotOneTyped) {
+        this.slotOneTyped = slotOneTyped;
+    }
+
+    public void setSlotTwoTyped(boolean slotTwoTyped) {
+        this.slotTwoTyped = slotTwoTyped;
+    }
+
+    public void setSlotThreeTyped(boolean slotThreeTyped) {
+        this.slotThreeTyped = slotThreeTyped;
+    }
+
+    public void setSlotFourTyped(boolean slotFourTyped) {
+        this.slotFourTyped = slotFourTyped;
+    }
+
+    public void setSlotFiveTyped(boolean slotFiveTyped) {
+        this.slotFiveTyped = slotFiveTyped;
+    }
+
+    public void setSlotSixTyped(boolean slotSixTyped) {
+        this.slotSixTyped = slotSixTyped;
+    }
+
+    public void setSlotSevenTyped(boolean slotSevenTyped) {
+        this.slotSevenTyped = slotSevenTyped;
+    }
+
+    public void setSlotEightTyped(boolean slotEightTyped) {
+        this.slotEightTyped = slotEightTyped;
+    }
+
+    public void setSlotNineTyped(boolean slotNineTyped) {
+        this.slotNineTyped = slotNineTyped;
+    }
+
+    public void setSlotTenTyped(boolean slotTenTyped) {
+        this.slotTenTyped = slotTenTyped;
     }
 }
