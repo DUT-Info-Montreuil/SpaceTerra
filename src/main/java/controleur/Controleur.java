@@ -123,7 +123,6 @@ public class Controleur implements Initializable {
                     //System.out.println(panneauDeJeu.getScene().getCamera().layoutXProperty().intValue());
                     cameraManager();
                     entityLoop();
-                    displayInventory();
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -246,6 +245,7 @@ public class Controleur implements Initializable {
                         terrain.deleteBlock(b);
                         terrain.deleteSolidBlock(b);
                         if(b.ressource() != null){
+                            inventoryView.refreshBreak(b.ressource());
                             player.pick(b.ressource());
                         }
                         System.out.println(player.getInventory());
@@ -270,8 +270,8 @@ public class Controleur implements Initializable {
                 System.out.println("Tu peux poser le block !");
                 b = new Block(item.getTile(), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
                 if(checkDistanceBlock(player, b)){
-                    panneauDeJeu.getChildren().remove(inventoryView);
                     terrain.getBlocks().add(b);
+                    inventoryView.refreshPlace();
                     if(b.getTile().getHitbox().isSolid()){
                         terrain.getSolidBlocks().add(b);
                     }
@@ -294,17 +294,7 @@ public class Controleur implements Initializable {
         return null;
     }
 
-    public void displayInventory(){
-        //System.out.println(String.valueOf(getClass().getResource("TileSet/")));
-       // inventoryView = new ImageView(new Image(String.valueOf(getClass().getResource("TileSet/blue.png"))));
-        System.out.println(player.getInventory().getCurrItem());
 
-        /*
-
-         */
-
-
-    }
 
     public void verifKeyTyped(){
         if(keyHandler.isSlotOneTyped()){
@@ -348,16 +338,6 @@ public class Controleur implements Initializable {
             keyHandler.setSlotTenTyped(false);
         }
 
-    }
-
-    private void deselectAllFromInventory() {
-
-        keyHandler.setSlotFourTyped(false);
-        keyHandler.setSlotSixTyped(false);
-        keyHandler.setSlotSevenTyped(false);
-        keyHandler.setSlotEightTyped(false);
-        keyHandler.setSlotNineTyped(false);
-        keyHandler.setSlotTenTyped(false);
     }
 
 

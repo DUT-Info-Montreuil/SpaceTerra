@@ -5,12 +5,14 @@ import java.util.ArrayList;
 public class Inventory {
     private ArrayList<Item> items;
     private int currSlot;
-    private int nbSlot;
+    private int maxInventorySize;
+    private int currInventorySize;
 
     public Inventory() {
         this.items = new ArrayList<>(10);
         this.currSlot = 0;
-        this.nbSlot = 10;
+        this.maxInventorySize = 10;
+        this.currInventorySize = 0;
     }
 
 
@@ -18,8 +20,8 @@ public class Inventory {
         return currSlot;
     }
 
-    public int getNbSlot() {
-        return nbSlot;
+    public int getMaxInventorySize() {
+        return maxInventorySize;
     }
 
     public Item getCurrItem(){
@@ -38,8 +40,16 @@ public class Inventory {
         }
     }
 
-    public void setNbSlot(int nbSlot){
-        this.nbSlot = nbSlot;
+    public int getNextEmptySlot(){
+            int i = 0;
+            while (i < items.size() && items.get(i) != null) {
+                i++;
+            }
+            return i;
+
+    }
+    public void setMaxInventorySize(int maxInventorySize){
+        this.maxInventorySize = maxInventorySize;
     }
 
     public void setCurrSlot(int currSlot){
@@ -47,7 +57,7 @@ public class Inventory {
     }
 
     public void incrementSlot(){
-        if(this.currSlot < this.nbSlot){
+        if(this.currSlot < this.maxInventorySize){
             currSlot++;
         }
     }
@@ -57,7 +67,7 @@ public class Inventory {
         }
     }
     public boolean isInventoryFull(){
-        if(items.size() >= nbSlot){
+        if(currInventorySize >= maxInventorySize){
             return true;
         }
         return false;
@@ -67,6 +77,7 @@ public class Inventory {
             items.get(currSlot);
             Item item = items.remove(currSlot);
             items.add(currSlot, null);
+            currInventorySize--;
             return item;
         } catch (IndexOutOfBoundsException e){
             System.out.println("slot vide !");
@@ -76,7 +87,9 @@ public class Inventory {
 
     public void addIntoSlot(Item item){
         if(!isInventoryFull()){
-            items.add(item);
+            int i = getNextEmptySlot();
+            items.add(i, item);
+            currInventorySize++;
         }
         else{
             System.out.println("inventaire plein !");
