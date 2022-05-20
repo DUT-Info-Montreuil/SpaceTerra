@@ -115,7 +115,7 @@ public class Controleur implements Initializable {
         if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinY() > player.getHitbox().getY().getValue() - (panneauDeJeu.getScene().getHeight()/2)) {
             panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
         }
-        else if (panneauDeJeu.getBoundsInLocal().getMaxY() < player.getHitbox().getY().getValue() + (panneauDeJeu.getScene().getHeight()/2)+10) {
+        else if (panneauDeJeu.getBoundsInLocal().getMaxY() < player.getHitbox().getY().getValue() + (panneauDeJeu.getScene().getHeight()/2)+20) {
             panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
         }
         else {
