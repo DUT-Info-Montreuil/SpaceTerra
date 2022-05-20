@@ -8,6 +8,9 @@ public abstract class Entity {
     private int speed;
     private Hitbox hitbox;
     private Image image;
+    private final int jumpHeight = 20;
+    public int jumpCount = jumpHeight;
+    private boolean isJumping = false;
     public Entity(int vie, int vitesse, Hitbox hitbox, String path){
         this.life = vie;
         this.speed = vitesse;
@@ -40,8 +43,8 @@ public abstract class Entity {
         return image;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImage(String path ) {
+        this.image = new Image(String.valueOf(getClass().getResource(path)));
     }
 
     public int sideCollisions(Block block){
@@ -79,5 +82,25 @@ public abstract class Entity {
         double centerBY = b.getHitY() + b.getTile().getHitbox().getHeight()/2; // centre du block en y
         System.out.println("distance block : " + Math.sqrt(Math.pow(centerBX-centerPX,2.0)+Math.pow(centerBY-centerPY,2.0))/32);
         return (int) Math.sqrt(Math.pow(centerBX-centerPX,2.0)+Math.pow(centerBY-centerPY,2.0))/32; //distance euclidienne / 32 pour avoir une distance en blocks
+    }
+
+    public int getJumpHeight() {
+        return jumpHeight;
+    }
+
+    public int getJumpCount() {
+        return jumpCount;
+    }
+
+    public void setJumpCount(int jumpCount) {
+        this.jumpCount = jumpCount;
+    }
+
+    public boolean isJumping() {
+        return isJumping;
+    }
+
+    public void setJumping(boolean jumping) {
+        isJumping = jumping;
     }
 }

@@ -5,7 +5,6 @@ import controleur.Controleur;
 public class Bingus extends Ennemy {
 
     private int strenght;
-    private boolean isJumping = false;
     public Bingus(int x, int y) {
         super(10, 5, new Hitbox(50,50,x,y), "/Sprites/Enemies/YinYang.png", 200);
         this.strenght = 3;
@@ -32,63 +31,66 @@ public class Bingus extends Ennemy {
 
         switch(this.getState()){
             case "idle":
-                if (this.getIdleDirection() == 0)
-                    this.setIdleDirection(Controleur.randomNum(1,3));
-                else if (this.getIdleDirection() == 1){
-                    if (leftCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
-                        this.setIdleCooldown(this.getIdleCooldown()-1);
+                switch(this.getIdleDirection()){
+                    case 0:
+                        this.setIdleDirection(Controleur.randomNum(1,3));
+                        break;
 
-                        if(this.getIdleCooldown() == 0) {
+                    case 1:
+                        if (leftCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
+                            this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                            this.setIdleCooldown(this.getIdleCooldown()-1);
+
+                            if(this.getIdleCooldown() == 0) {
+                                this.setCanMove(false);
+                                this.setIdleCooldown(this.getIdleCooldown() + 1);
+                            }
+                        }
+                        else if(this.getIdleCooldown() == 0) {
                             this.setCanMove(false);
                             this.setIdleCooldown(this.getIdleCooldown() + 1);
                         }
-                    }
-                    else if(this.getIdleCooldown() == 0) {
-                        this.setCanMove(false);
-                        this.setIdleCooldown(this.getIdleCooldown() + 1);
-                    }
-                    else if (!isCanMove() && getIdleCooldown() == 50) {
-                        setCanMove(true);
-                        this.setIdleDirection(0);
-                    }
-                    else
-                        this.setIdleCooldown(this.getIdleCooldown() + 1);
-                }
-                else if(this.getIdleDirection() == 2){
-                    if (rightCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
-                        this.setIdleCooldown(this.getIdleCooldown()-1);
-
-                        if(this.getIdleCooldown() == 0) {
-                            this.setCanMove(false);
-                            this.setIdleCooldown(this.getIdleCooldown() + 1);
+                        else if (!isCanMove() && getIdleCooldown() == 50) {
+                            setCanMove(true);
+                            this.setIdleDirection(0);
                         }
-                    }
-                    else if (!isCanMove() && getIdleCooldown() == 50) {
-                        setCanMove(true);
-                        this.setIdleDirection(0);
-                    }
-                    else
-                        this.setIdleCooldown(this.getIdleCooldown() + 1);
-                }
-
-                else{
-                    if(this.isCanMove()) {
-                        this.setIdleCooldown(this.getIdleCooldown() - 1);
-                        if(this.getIdleCooldown() == 0) {
-                            this.setCanMove(false);
+                        else
                             this.setIdleCooldown(this.getIdleCooldown() + 1);
+                        break;
+
+                    case 2:
+                        if (rightCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
+                            this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                            this.setIdleCooldown(this.getIdleCooldown()-1);
+
+                            if(this.getIdleCooldown() == 0) {
+                                this.setCanMove(false);
+                                this.setIdleCooldown(this.getIdleCooldown() + 1);
+                            }
                         }
-                    }
+                        else if (!isCanMove() && getIdleCooldown() == 50) {
+                            setCanMove(true);
+                            this.setIdleDirection(0);
+                        }
+                        else
+                            this.setIdleCooldown(this.getIdleCooldown() + 1);
+                        break;
 
-                    else if (!isCanMove() && getIdleCooldown() == 50) {
-                        setCanMove(true);
-                        this.setIdleDirection(0);
-                    }
-                    else
-                        this.setIdleCooldown(this.getIdleCooldown() + 1);
+                    case 3:
+                        if(this.isCanMove()) {
+                            this.setIdleCooldown(this.getIdleCooldown() - 1);
+                            if(this.getIdleCooldown() == 0) {
+                                this.setCanMove(false);
+                                this.setIdleCooldown(this.getIdleCooldown() + 1);
+                            }
+                        }
 
+                        else if (!isCanMove() && getIdleCooldown() == 50) {
+                            setCanMove(true);
+                            this.setIdleDirection(0);
+                        }
+                        else
+                            this.setIdleCooldown(this.getIdleCooldown() + 1);
                 }
                 break;
 

@@ -4,9 +4,6 @@ public class Player extends Entity {
 
     private final double walkSpeed = 10;
     private final double gravite = 9.81;
-    private final int jumpHeight = 20;
-    public int jumpCount = jumpHeight;
-    private boolean isJumping;
 
 
     public Player(int x,int y){
@@ -23,8 +20,8 @@ public class Player extends Entity {
     }
 
     public void jump() {
-        if(!isJumping){
-            isJumping = true;
+        if(!this.isJumping()){
+            this.setJumping(true);
             getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
         }
         else{
@@ -39,11 +36,8 @@ public class Player extends Entity {
 
     }
     public void stopJump(){
-        jumpCount = jumpHeight;
-        isJumping = false;
-    }
-    public boolean isJumping() {
-        return isJumping;
+        this.setJumpCount(this.getJumpHeight());
+        this.setJumping(false);
     }
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
