@@ -5,7 +5,7 @@ public class Bingus extends Entity {
     private int strenght;
 
     public Bingus(int x, int y) {
-        super(10, 5, new Hitbox(50,50,x,y), "/Sprites/Enemies/bingus.png");
+        super(10, 5, new Hitbox(50,50,x,y), "/Sprites/Enemies/bingus.jpg");
         this.strenght = 3;
     }
 
