@@ -36,6 +36,7 @@ public class Controleur implements Initializable {
     private KeyHandler keyHandler;
     private ArrayList<Entity> entities;
     private MouseHandler mouseHandler;
+
     private Rectangle zonePlayerBlock; //Rectangle dont la zone appartenant au joueur qui ne permet donc pas de poser de block dans celle-ci
 
     private Rectangle mouseBlock; //Rectangle dont la zone du block est celle ou la souris se positionne
@@ -56,6 +57,7 @@ public class Controleur implements Initializable {
         terrainView.readEntity();
         PlayerView playerView = new PlayerView(player = new Player(10, 2030), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
+        //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
         terrainView.displayCollision(false, false, false, terrain, player); // afficher ou non les collisions
@@ -81,9 +83,16 @@ public class Controleur implements Initializable {
         }
         else {
             panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
+        }
+        if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinY() > player.getHitbox().getY().getValue() - (panneauDeJeu.getScene().getHeight()/2)) {
+            panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
+        }
+        else if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMaxY() > player.getHitbox().getY().getValue() + (panneauDeJeu.getScene().getHeight()/2)) {
+            panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
+        }
+        else {
             panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
         }
-
     }
 
     public void rectanglesManager() {
