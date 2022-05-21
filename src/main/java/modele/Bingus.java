@@ -17,7 +17,9 @@ public class Bingus extends Entity {
         this.strenght = strenght;
     }
 
-    public void movement(Player player, boolean leftCheck, boolean rightCheck) {
+
+    @Override
+    public void movement(Player player, boolean leftCheck, boolean rightCheck, Terrain terrain) {
         if(this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue()){
             if (leftCheck)
                 this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
@@ -28,6 +30,4 @@ public class Bingus extends Entity {
                 this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
         }
     }
-
-
 }

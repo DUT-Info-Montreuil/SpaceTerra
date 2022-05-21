@@ -204,7 +204,7 @@ public class Controleur implements Initializable {
                 player.stopJump();
 
         if ((keyHandler.isRightPressed() || keyHandler.isLeftPressed()))
-            player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
+            player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1), terrain);
     }
 
     public void entityLoop() {
@@ -212,7 +212,7 @@ public class Controleur implements Initializable {
             if (ent instanceof Player)
                 checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
-                ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
+                ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1), terrain);
                 checkSideBlock(ent);
             }
             if (!checkGroundBlock(ent)) {

@@ -17,18 +17,18 @@ public class Player extends Entity {
         inventory = new Inventory();
     }
 
-    public void movement(Player player, boolean left, boolean right) {
+    @Override
+    public void movement(Player player, boolean leftCheck, boolean rightCheck, Terrain terrain) {
         if(this.getHitbox().getX().getValue() >= 10){
-            if (left) {
+            if (leftCheck) {
                 getHitbox().setX(this.getHitbox().getX().intValue() - walkSpeed);
             }
         }
-        if(this.getHitbox().getX().getValue() <= 15970){
-            if (right){
+        if(this.getHitbox().getX().getValue() <= terrain.getWidth()*32-30){
+            if (rightCheck){
                 getHitbox().setX(this.getHitbox().getX().intValue() + walkSpeed);
             }
         }
-
     }
 
     public void jump() {
@@ -69,6 +69,7 @@ public class Player extends Entity {
     public Inventory getInventory() {
         return inventory;
     }
+
 
 
 }
