@@ -19,7 +19,6 @@ public class KeyHandler {
         return upPressed;
     }
 
-
     private Pane pane;
 
 
@@ -69,26 +68,16 @@ public class KeyHandler {
         pane.setOnKeyTyped(e -> {
             System.out.println(e.getCharacter());
             switch (e.getCharacter()){
-                case "&" -> slotOneTyped = true;
-                case "1" -> slotOneTyped = true;
-                case "é" -> slotTwoTyped = true;
-                case "2" -> slotTwoTyped = true;
-                case "\"" -> slotThreeTyped = true;
-                case "3" -> slotThreeTyped = true;
-                case "\'" -> slotFourTyped = true;
-                case "4" -> slotFourTyped = true;
-                case "(" -> slotFiveTyped = true;
-                case "5" -> slotFiveTyped = true;
-                case "-" -> slotSixTyped = true;
-                case "6" -> slotSixTyped = true;
-                case "è" -> slotSevenTyped = true;
-                case "7" -> slotSevenTyped = true;
-                case "_" -> slotEightTyped = true;
-                case "8" -> slotEightTyped = true;
-                case "ç" -> slotNineTyped = true;
-                case "9" -> slotNineTyped = true;
-                case "à" -> slotTenTyped = true;
-                case "0" -> slotTenTyped = true;
+                case "&", "1" -> slotOneTyped = true;
+                case "é", "2" -> slotTwoTyped = true;
+                case "\"", "3" -> slotThreeTyped = true;
+                case "\'", "4" -> slotFourTyped = true;
+                case "(", "5" -> slotFiveTyped = true;
+                case "-", "6" -> slotSixTyped = true;
+                case "è", "7" -> slotSevenTyped = true;
+                case "_", "8" -> slotEightTyped = true;
+                case "ç", "9" -> slotNineTyped = true;
+                case "à", "0" -> slotTenTyped = true;
 
             }
         });
