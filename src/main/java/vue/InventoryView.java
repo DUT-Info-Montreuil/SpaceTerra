@@ -2,6 +2,7 @@ package vue;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import modele.Inventory;
 import modele.Item;
@@ -17,6 +18,7 @@ public class InventoryView {
     public InventoryView(Inventory inventory, Pane panneauDeJeu) {
         this.inventory = inventory;
         this.panneauDeJeu = panneauDeJeu;
+
         initialize();
     }
 
@@ -26,8 +28,11 @@ public class InventoryView {
                 emptySlotRectangle = new Rectangle();
                 emptySlotRectangle.setHeight(32);
                 emptySlotRectangle.setWidth(32);
+                emptySlotRectangle.setFill(Color.WHITE);
+                emptySlotRectangle.setStroke(Color.BLACK);
                 emptySlotRectangle.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32*i));
                 emptySlotRectangle.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
+                emptySlotRectangle.setId("slot"+i);
                 panneauDeJeu.getChildren().add(emptySlotRectangle);
             }
 
@@ -36,22 +41,28 @@ public class InventoryView {
 
     public void refreshPlace(){
         if(inventory.getCurrItem() != null) {
+            panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#slot"+inventory.getNextEmptySlot()));
             fullSlotImageView = new ImageView(inventory.getCurrItem().getTile().getImage());
             fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32*inventory.getCurrSlot()));
             fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
             panneauDeJeu.getChildren().add(fullSlotImageView);
+
         }
         else {
             emptySlotRectangle = new Rectangle();
             emptySlotRectangle.setHeight(32);
             emptySlotRectangle.setWidth(32);
+            emptySlotRectangle.setFill(Color.WHITE);
+            emptySlotRectangle.setStroke(Color.BLACK);
             emptySlotRectangle.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32* inventory.getCurrSlot()));
             emptySlotRectangle.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
+            emptySlotRectangle.setId("slot"+inventory.getCurrSlot());
             panneauDeJeu.getChildren().add(emptySlotRectangle);
         }
     }
 
     public void refreshBreak(Item item){
+            panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#slot"+inventory.getNextEmptySlot()));
             fullSlotImageView = new ImageView(item.getTile().getImage());
             fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32*inventory.getNextEmptySlot()));
             fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));

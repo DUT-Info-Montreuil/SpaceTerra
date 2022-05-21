@@ -1,6 +1,10 @@
 package modele;
 
 public abstract class Item {
+    public String getId() {
+        return id;
+    }
+
     private String id;
     private int maxQuantity;
 

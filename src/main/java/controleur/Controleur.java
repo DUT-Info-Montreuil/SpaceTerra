@@ -63,13 +63,13 @@ public class Controleur implements Initializable {
         panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(player.getHitbox().getX().getValue());
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
         createTimelines();
+        inventoryView = new InventoryView(player.getInventory(), panneauDeJeu);
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
         mouseHandler.mouseManager();
         breakingManager();
         rectanglesManager();
-        inventoryView = new InventoryView(player.getInventory(), panneauDeJeu);
     }
 
     public void cameraManager() {
@@ -101,12 +101,14 @@ public class Controleur implements Initializable {
         mouseBlock.yProperty().bind(mouseHandler.getMouseYProperty().divide(32).multiply(32));
         mouseBlock.setFill(Color.TRANSPARENT);
         mouseBlock.setStroke(Color.TRANSPARENT);
-        panneauDeJeu.getChildren().addAll(zonePlayerBlock, mouseBlock);
         currentSlotView = new Rectangle();
         currentSlotView.setFill(Color.TRANSPARENT);
-        currentSlotView.setStroke(Color.BLUE);
-        currentSlotView.setWidth(32);
-        currentSlotView.setHeight(32);
+        currentSlotView.setStroke(Color.YELLOW);
+        currentSlotView.setWidth(34);
+        currentSlotView.setHeight(34);
+        currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32*player.getInventory().getCurrSlot()));
+        currentSlotView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(99));
+        panneauDeJeu.getChildren().addAll(zonePlayerBlock, mouseBlock, currentSlotView);
     }
 
     public void createBingus() {
@@ -149,6 +151,7 @@ public class Controleur implements Initializable {
                     else if(mouseHandler.isHasScrollDown()){
                         player.getInventory().decrementSlot();
                     }
+
 
                     verifKeyTyped();
                 }));
@@ -315,7 +318,7 @@ public class Controleur implements Initializable {
         }
         else if (keyHandler.isSlotFiveTyped()){
             player.getInventory().setCurrSlot(4);
-            keyHandler.setSlotFourTyped(false);
+            keyHandler.setSlotFiveTyped(false);
         }
         else if (keyHandler.isSlotSixTyped()){
             player.getInventory().setCurrSlot(5);
@@ -337,6 +340,9 @@ public class Controleur implements Initializable {
             player.getInventory().setCurrSlot(9);
             keyHandler.setSlotTenTyped(false);
         }
+        currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32*player.getInventory().getCurrSlot()));
+        currentSlotView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(99));
+        currentSlotView.toFront();
 
     }
 
