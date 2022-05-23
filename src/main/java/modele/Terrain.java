@@ -158,10 +158,12 @@ public class Terrain {
     }
 
     public Block getBlock(int x, int y) {
+        /*
         System.out.println("y : " + y / 32);
         System.out.println("x : " + x / 32);
         System.out.println(y / 32 * 500 + x / 32);
         System.out.println(this.getBlocks().get(y / 32 * this.getWidth() + x / 32));
+
         Block b1 = null;
         for (Block b : this.blocks) {
             if (b != null) {
@@ -170,9 +172,9 @@ public class Terrain {
                 }
             }
         }
-        System.out.println(this.getBlocks().indexOf(b1));
-        System.out.println(blocks.size());
-
+        //System.out.println(this.getBlocks().indexOf(b1));
+        //System.out.println(blocks.size());
+        */
 
         return this.getBlocks().get(y / 32 * this.getWidth() + x / 32);
     }

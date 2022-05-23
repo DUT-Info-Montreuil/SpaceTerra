@@ -55,7 +55,8 @@ public abstract class Entity {
         this.image = new Image(String.valueOf(getClass().getResource(path)));
     }
 
-    public int sideCollisions(Block block) {
+    public int sideCollisions() {
+        /*
         if ((hitbox.getY().intValue() > block.getHitY() && hitbox.getY().intValue() <= block.getHitY() + block.getTile().getHitbox().getHeight()) || (hitbox.getY().intValue() + hitbox.getHeight() > block.getHitY() && hitbox.getY().intValue() + hitbox.getHeight() <= block.getHitY() + block.getTile().getHitbox().getHeight())) {
             if (hitbox.getX().intValue() <= block.getHitX() + 2 + block.getTile().getHitbox().getWidth() && hitbox.getX().intValue() >= block.getHitX() + block.getTile().getHitbox().getWidth() - block.getInsideOffset()) { // cote droit d'un block
                 hitbox.setX(block.getHitX() + block.getTile().getHitbox().getWidth() + 2);
@@ -65,11 +66,48 @@ public abstract class Entity {
                 return 1; // Player blocked on right
             }
         }
+         */
+
+
+        Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight() - 10);
+        Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() + 10);
+        Block blockVerifUpLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue());
+        Block blockVerifUpRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue());
+
+        if(blockVerifBottomLeft != null){
+            if(blockVerifBottomLeft.getTile().getHitbox().isSolid()){
+                hitbox.setX(blockVerifBottomLeft.getHitX() + blockVerifBottomLeft.getTile().getHitbox().getWidth() + 2);
+                return -1;
+            }
+        }
+        if(blockVerifUpLeft != null){
+            if(blockVerifUpLeft.getTile().getHitbox().isSolid()){
+                hitbox.setX(blockVerifUpLeft.getHitX() + blockVerifUpLeft.getTile().getHitbox().getWidth() + 2);
+                return -1;
+            }
+        }
+
+        if(blockVerifBottomRight != null){
+            if(blockVerifBottomRight.getTile().getHitbox().isSolid()){
+                hitbox.setX(blockVerifBottomRight.getHitX() + blockVerifBottomRight.getTile().getHitbox().getWidth() - 2);
+                return -1;
+            }
+        }
+        if(blockVerifUpRight != null){
+            if(blockVerifUpRight.getTile().getHitbox().isSolid()){
+                hitbox.setX(blockVerifUpRight.getHitX() + blockVerifUpRight.getTile().getHitbox().getWidth() - 2);
+                return -1;
+            }
+        }
+
+
         return 0;
     }
 
-    public boolean isGrounded(Block block) {
 
+
+    public boolean isGrounded() {
+/*
         if(block != null){
             if(hitbox.getY().intValue() + hitbox.getHeight() >= block.getHitY() && hitbox.getY().intValue() + hitbox.getHeight() <= block.getHitY() + block.getInsideOffset())
                 if((hitbox.getX().intValue() >= block.getHitX() && hitbox.getX().intValue() < block.getHitX() + block.getTile().getHitbox().getWidth()) || (hitbox.getX().intValue() + hitbox.getWidth() >= block.getHitX() && hitbox.getX().intValue() + hitbox.getWidth() < block.getHitX() + block.getTile().getHitbox().getWidth())){
@@ -79,14 +117,23 @@ public abstract class Entity {
         }
 
         return false;
+*/
+        Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight());
+        Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight());
 
-
-       /* if (terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight() + 10) != null && terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() + 10) != null) {
-            return true;
+        if (blockVerifBottomLeft != null) {
+            if(blockVerifBottomLeft.getTile().getHitbox().isSolid()){
+                hitbox.getY().set(blockVerifBottomLeft.getHitY() - hitbox.getHeight());
+                return true;
+            }
+        }
+        if(blockVerifBottomRight != null){
+            if(blockVerifBottomRight.getTile().getHitbox().isSolid()){
+                hitbox.getY().set(blockVerifBottomRight.getHitY() - hitbox.getHeight());
+                return true;
+            }
         }
         return false;
-
-        */
     }
 
     public void applyGrav() {

@@ -175,24 +175,21 @@ public class Controleur implements Initializable {
 
 
     public int checkSideBlock(Entity ent) { // -1 = left, 1 = right, 0 = none
-        for (Block b : terrain.getSolidBlocks()) {
-            if (b != null) {
-                if (ent.sideCollisions(b) == 1)
-                    return 1;
-                else if (ent.sideCollisions(b) == -1)
-                    return -1;
-            }
-        }
 
+
+                if (ent.sideCollisions() == 1)
+                    return 1;
+                else if (ent.sideCollisions() == -1)
+                    return -1;
 
         return 0;
     }
 
     public boolean checkGroundBlock(Entity ent) {
-        for (Block b : terrain.getSolidBlocks())
-            if (ent.isGrounded(b)) {
-                return true;
-            }
+
+        if (ent.isGrounded()) {
+            return true;
+        }
         return false;
     }
 
