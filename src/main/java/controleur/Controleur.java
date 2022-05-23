@@ -125,6 +125,15 @@ public class Controleur implements Initializable {
                     //System.out.println(panneauDeJeu.getScene().getCamera().layoutXProperty().intValue());
                     cameraManager();
                     entityLoop();
+                    if(mouseHandler.isHasScrollUp()){
+                        player.getInventory().incrementSlot();
+                    }
+                    else if(mouseHandler.isHasScrollDown()){
+                        player.getInventory().decrementSlot();
+                    }
+
+
+                    verifKeyTyped();
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -145,15 +154,6 @@ public class Controleur implements Initializable {
                         mouseHandler.setHasClickedRight(false);
                     }
 
-                    if(mouseHandler.isHasScrollUp()){
-                        player.getInventory().incrementSlot();
-                    }
-                    else if(mouseHandler.isHasScrollDown()){
-                        player.getInventory().decrementSlot();
-                    }
-
-
-                    verifKeyTyped();
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
         timelineClick.play();
