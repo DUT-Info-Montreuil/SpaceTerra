@@ -106,19 +106,26 @@ public class Terrain {
                             y += 32;
                             currentWidth = 0;
                         }
+                        if(data[t] == 0){
+                            blocks.add(null);
+                        }
+                        else{
+                            Iterator var9 = tileSet.getTiles().iterator();
 
-                        Iterator var9 = tileSet.getTiles().iterator();
+                            while (var9.hasNext()) {
+                                Tile currTile = (Tile) var9.next();
 
-                        while (var9.hasNext()) {
-                            Tile currTile = (Tile) var9.next();
-                            if (data[t] == currTile.getId()) {
-                                Block b = new Block(currTile, x, y);
-                                blocks.add(b);
-                                if(b.getTile().getHitbox().isSolid()){
-                                    solidBlocks.add(b);
+                                if (data[t] == currTile.getId()) {
+                                    Block b = new Block(currTile, x, y);
+                                    blocks.add(b);
+                                    if(b.getTile().getHitbox().isSolid()){
+                                        solidBlocks.add(b);
+                                    }
                                 }
                             }
                         }
+
+
 
                         x += 32;
                         ++currentWidth;
@@ -131,11 +138,12 @@ public class Terrain {
     }
 
     public void deleteBlock(Block block) {
-        this.getBlocks().remove(block);
+        System.out.println(this.getBlocks().indexOf(block));
+        this.getBlocks().set(this.getBlocks().indexOf(block), null);
     }
 
     public void deleteSolidBlock(Block block) {
-        this.getSolidBlocks().remove(block);
+        this.getSolidBlocks().set(this.getSolidBlocks().indexOf(block), null);
     }
 
     public int getHeight() {
@@ -145,4 +153,14 @@ public class Terrain {
     public int getWidth() {
         return width;
     }
+    public Block getBlock(int x, int y) {
+        /*System.out.println("y : " + y / 32);
+        System.out.println("x : " + x / 32);
+        System.out.println(y / 32 * 500 + x / 32);
+        System.out.println(this.getBlocks().get(y / 32 * this.getWidth() + x / 32));
+
+         */
+        return this.getBlocks().get(y / 32 * this.getWidth() + x / 32);
+    }
+
 }

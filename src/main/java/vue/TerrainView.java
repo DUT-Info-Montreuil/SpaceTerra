@@ -25,12 +25,17 @@ public class TerrainView {
     public void readMap(Terrain terrain) {
         int id = 0;
         for (Block block : terrain.getBlocks()) {
-            ImageView imgView = new ImageView(block.getTile().getImage());
-            imgView.setId(block.getId());
-            imgView.setX(block.getX());
-            imgView.setY(block.getY());
-            //System.out.println(imgView.getId());
-            panneau.getChildren().add(imgView);
+            try{
+                ImageView imgView = new ImageView(block.getTile().getImage());
+                imgView.setId(block.getId());
+                imgView.setX(block.getX());
+                imgView.setY(block.getY());
+                //System.out.println(imgView.getId());
+                panneau.getChildren().add(imgView);
+            } catch (NullPointerException e){
+
+            }
+
         }
     }
 
