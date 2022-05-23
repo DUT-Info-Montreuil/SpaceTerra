@@ -108,8 +108,8 @@ public class Bingus extends Ennemy {
             default:
                 break;
         }
-        System.out.println(getIdleCooldown());
-        System.out.println(getIdleDirection());
+        //System.out.println(getIdleCooldown());
+        //System.out.println(getIdleDirection());
 
     }
 

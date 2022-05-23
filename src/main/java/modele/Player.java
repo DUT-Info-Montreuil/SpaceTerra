@@ -18,27 +18,6 @@ public class Player extends Entity {
             getHitbox().setX(this.getHitbox().getX().intValue() + walkSpeed);
         }
     }
-
-    public void jump() {
-        if(!this.isJumping()){
-            this.setJumping(true);
-            getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
-        }
-        else{
-            if(jumpCount <= 0){
-                stopJump();
-            }
-            else{
-                System.out.println(jumpCount);
-                getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
-            }
-        }
-
-    }
-    public void stopJump(){
-        this.setJumpCount(this.getJumpHeight());
-        this.setJumping(false);
-    }
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
 }

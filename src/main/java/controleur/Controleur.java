@@ -94,12 +94,13 @@ public class Controleur implements Initializable {
 
     public int checkSideBlock(Entity ent) { // -1 = left, 1 = right, 0 = none
         for (Block b : terrain.getSolidBlocks()) {
-            if (ent.sideCollisions(b) == 1) {
+            if (ent.sideCollisions(b) == 1)
                 return 1;
-            } else if (ent.sideCollisions(b) == -1) {
+
+            else if (ent.sideCollisions(b) == -1)
                 return -1;
-            }
         }
+
         return 0;
     }
 
@@ -141,8 +142,26 @@ public class Controleur implements Initializable {
             if (ent instanceof Player)
                 checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else{
+
+                //System.out.println(checkSideBlock(ent));
+                if(checkSideBlock(ent) == -1 || checkSideBlock(ent) == 1){
+                    if (checkGroundBlock(ent))
+                        ent.jump();
+
+                    else if(ent.isJumping())
+                        ent.jump();
+                }
+
+                else {
+                    if(ent.isJumping()) {
+                        ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
+                        ent.stopJump();
+                    }
+                }
+
                 ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
                 checkSideBlock(ent);
+
             }
             if (!checkGroundBlock(ent)) {
                 if (ent instanceof Player) {
