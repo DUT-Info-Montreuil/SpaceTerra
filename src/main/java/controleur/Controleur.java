@@ -259,9 +259,11 @@ public class Controleur implements Initializable {
                         terrain.deleteBlock(b);
                         terrain.deleteSolidBlock(b);
                         if(b.ressource() != null){
-                            inventoryView.refreshBreak(b.ressource());
-                            player.pick(b.ressource());
-                            System.out.println(player.getInventory().getItems());
+                            if(!player.getInventory().isInventoryFull()) {
+                                inventoryView.refreshBreak(b.ressource());
+                                player.pick(b.ressource());
+                                System.out.println(player.getInventory().getItems());
+                            }
                         }
                        // System.out.println(player.getInventory());
                     }

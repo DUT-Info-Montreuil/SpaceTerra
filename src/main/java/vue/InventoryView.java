@@ -63,13 +63,11 @@ public class InventoryView {
     }
 
     public void refreshBreak(Item item){
-        if(!inventory.isInventoryFull()){
             panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#slot"+inventory.getNextEmptySlot()));
             fullSlotImageView = new ImageView(item.getTile().getImage());
             fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32*inventory.getNextEmptySlot()));
             fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
             panneauDeJeu.getChildren().add(fullSlotImageView);
-        }
 
     }
 
