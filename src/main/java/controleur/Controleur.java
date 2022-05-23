@@ -44,6 +44,8 @@ public class Controleur implements Initializable {
     private Rectangle currentSlotView;
     private InventoryView inventoryView;
 
+    private boolean isBinded;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         entities = new ArrayList<>();
@@ -72,26 +74,33 @@ public class Controleur implements Initializable {
         mouseHandler.mouseManager();
         breakingManager();
         rectanglesManager();
+        isBinded = true;
     }
 
     public void cameraManager() {
-        if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinX() > player.getHitbox().getX().getValue() - (panneauDeJeu.getScene().getWidth()/2) - 10){
+        if (isBinded && panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinX() > player.getHitbox().getX().getValue() - (panneauDeJeu.getScene().getWidth()/2) - 10){
             panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
+            isBinded = false;
         }
-        else if (panneauDeJeu.getBoundsInLocal().getMaxX() < player.getHitbox().getX().getValue() + (panneauDeJeu.getScene().getWidth()/2) + 10){
+        else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxX() < player.getHitbox().getX().getValue() + (panneauDeJeu.getScene().getWidth()/2) + 10){
             panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
+            isBinded = false;
         }
         else {
             panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
+            isBinded = true;
         }
-        if (panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinY() > player.getHitbox().getY().getValue() - (panneauDeJeu.getScene().getHeight()/2)) {
+        if (isBinded && panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinY() > player.getHitbox().getY().getValue() - (panneauDeJeu.getScene().getHeight()/2)) {
             panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
+            isBinded = false;
         }
-        else if (panneauDeJeu.getBoundsInLocal().getMaxY() < player.getHitbox().getY().getValue() + (panneauDeJeu.getScene().getHeight()/2)+20) {
+        else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxY() < player.getHitbox().getY().getValue() + (panneauDeJeu.getScene().getHeight()/2)+20) {
             panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
+            isBinded = false;
         }
         else {
             panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
+            isBinded = true;
         }
     }
 
