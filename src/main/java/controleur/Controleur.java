@@ -134,7 +134,7 @@ public class Controleur implements Initializable {
     public void createTimelines() { // peut etre creer un nouveau thread pour opti ?
         // 16.33 = 60 fps
         timeline = new Timeline
-                (new KeyFrame(Duration.millis(32.66), actionEvent -> {
+                (new KeyFrame(Duration.millis(16.33), actionEvent -> {
                     playerMovement();
                     //System.out.println(panneauDeJeu.getScene().getCamera().layoutXProperty().intValue());
                     cameraManager();
