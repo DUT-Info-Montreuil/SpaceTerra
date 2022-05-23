@@ -37,6 +37,14 @@ public class MouseHandler {
         mouseY = new SimpleIntegerProperty();
     }
 
+    public void setHasScrollUp(boolean hasScrollUp) {
+        this.hasScrollUp = hasScrollUp;
+    }
+
+    public void setHasScrollDown(boolean hasScrollDown) {
+        this.hasScrollDown = hasScrollDown;
+    }
+
     public void mouseManager() {
         pane.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
@@ -77,21 +85,21 @@ public class MouseHandler {
             }
         });
 
-        pane.setOnScrollStarted(e -> {
+        pane.setOnScroll(e -> {
             if(e.getDeltaY() < 0){
-                hasScrollUp = true;
-                hasScrollDown = false;
-            }
-            else if(e.getDeltaY() > 0){
                 hasScrollDown = true;
                 hasScrollUp = false;
             }
+            else if (e.getDeltaY() > 0){
+                hasScrollUp = true;
+                hasScrollDown = false;
+            }
+            else {
+                hasScrollUp = false;
+                hasScrollDown = false;
+            }
         });
 
-        pane.setOnScrollFinished(e -> {
-            hasScrollDown = false;
-            hasScrollUp = false;
-        });
     }
 
     public int getMouseX() {

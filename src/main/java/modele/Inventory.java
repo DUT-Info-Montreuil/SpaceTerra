@@ -57,7 +57,7 @@ public class Inventory {
     }
 
     public void incrementSlot(){
-        if(this.currSlot < this.maxInventorySize){
+        if(this.currSlot < this.maxInventorySize-1){
             currSlot++;
         }
     }

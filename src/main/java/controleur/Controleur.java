@@ -136,9 +136,11 @@ public class Controleur implements Initializable {
                     entityLoop();
                     if(mouseHandler.isHasScrollUp()){
                         player.getInventory().incrementSlot();
+                        mouseHandler.setHasScrollUp(false);
                     }
                     else if(mouseHandler.isHasScrollDown()){
                         player.getInventory().decrementSlot();
+                        mouseHandler.setHasScrollDown(false);
                     }
 
 
