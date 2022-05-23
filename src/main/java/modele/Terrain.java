@@ -42,14 +42,13 @@ public class Terrain {
                         data[y][x] = layer.getData()[y * layer.getWidth() + x];
                     }
                 }
-                /*for(int y = 0; y < data.length; y++){
-                    for(int x = 0; x < data[0].length; x++){
-                        System.out.println(data[y][x]);
-                    }
-                    System.out.println();
-                }*/
                 System.out.println(data.length * data[0].length + " / " + layer.getData().length);
                 int dataPosY;
+                int yPixels = chunk.getHitbox().getY().intValue();
+                for(dataPosY = chunk.getHitbox().getY().intValue() / getTerrainData().getTileHeight(); dataPosY < (chunk.getHitbox().getY().intValue() / getTerrainData().getTileHeight()) + chunk.getMaxHeight(); dataPosY++){
+                    yPixels += terrainData.getTileHeight();
+                }
+                /*
                 int yPixels;
                 for(yPixels = chunk.getHitbox().getY().intValue(); yPixels < chunk.getHitbox().getY().intValue() + (chunk.getMaxHeight() * terrainData.getTileHeight()); yPixels += terrainData.getTileHeight()){
                     int xPixels;
@@ -57,6 +56,7 @@ public class Terrain {
 
                     }
                 }
+                */
             }
         }
         /*
