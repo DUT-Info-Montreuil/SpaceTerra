@@ -271,6 +271,7 @@ public class Controleur implements Initializable {
     public void checkOnLeftPressed() {
         Block b = terrain.getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
         if (b != null) {
+            System.out.println("not null");
             if (checkDistanceBlock(player, b)) {
                 // System.out.println("ok");
                 b.setPvs(b.getPvs() - 1);
