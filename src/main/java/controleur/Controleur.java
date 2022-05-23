@@ -9,11 +9,13 @@ import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import modele.*;
 import modele.Block;
 import modele.Terrain;
 import modele.Player;
+import vue.InventoryView;
 import vue.PlayerView;
 import vue.TerrainView;
 
@@ -33,8 +35,16 @@ public class Controleur implements Initializable {
     private Player player;
     private KeyHandler keyHandler;
     private ArrayList<Entity> entities;
-
     private MouseHandler mouseHandler;
+
+    private Rectangle zonePlayerBlock; //Rectangle dont la zone appartenant au joueur qui ne permet donc pas de poser de block dans celle-ci
+
+    private Rectangle mouseBlock; //Rectangle dont la zone du block est celle ou la souris se positionne
+
+    private Rectangle currentSlotView;
+    private InventoryView inventoryView;
+
+    private boolean isBinded;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -47,22 +57,77 @@ public class Controleur implements Initializable {
         terrainView.readMap(terrain);
         createBingus();
         terrainView.readEntity();
-        PlayerView playerView = new PlayerView(player = new Player(10,2030), panneauDeJeu);
+        PlayerView playerView = new PlayerView(player = new Player(10, 2030), panneauDeJeu);
+        //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
+        //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
-        terrainView.displayCollision(false, true, true, terrain, player); // afficher ou non les collisions
-        panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth() / 2));
-        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight() / 2));
+        terrainView.displayCollision(false, false, false, terrain, player); // afficher ou non les collisions
+        //panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(0);
+        panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(player.getHitbox().getX().getValue());
+        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
         createTimelines();
+        inventoryView = new InventoryView(player.getInventory(), panneauDeJeu);
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
         mouseHandler.mouseManager();
         breakingManager();
-
-        //terrainView.displayCollision(true, terrain, player);
+        rectanglesManager();
+        isBinded = true;
     }
 
+    public void cameraManager() {
+        if (isBinded && panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinX() > player.getHitbox().getX().getValue() - (panneauDeJeu.getScene().getWidth()/2) - 10){
+            panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
+            isBinded = false;
+        }
+        else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxX() < player.getHitbox().getX().getValue() + (panneauDeJeu.getScene().getWidth()/2) + 10){
+            panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
+            isBinded = false;
+        }
+        else {
+            panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth()/2));
+            isBinded = true;
+        }
+        if (isBinded && panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinY() > player.getHitbox().getY().getValue() - (panneauDeJeu.getScene().getHeight()/2)) {
+            panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
+            isBinded = false;
+        }
+        else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxY() < player.getHitbox().getY().getValue() + (panneauDeJeu.getScene().getHeight()/2)+20) {
+            panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
+            isBinded = false;
+        }
+        else {
+            panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
+            isBinded = true;
+        }
+    }
+
+    public void rectanglesManager() {
+        zonePlayerBlock = new Rectangle();
+        zonePlayerBlock.yProperty().bind(player.getHitbox().getY());
+        zonePlayerBlock.xProperty().bind(player.getHitbox().getX());
+        zonePlayerBlock.setWidth(24);
+        zonePlayerBlock.setHeight(player.getHitbox().getHeight());
+        zonePlayerBlock.setFill(Color.TRANSPARENT);
+        zonePlayerBlock.setStroke(Color.TRANSPARENT);
+        mouseBlock = new Rectangle();
+        mouseBlock.setWidth(32);
+        mouseBlock.setHeight(32);
+        mouseBlock.xProperty().bind(mouseHandler.getMouseXProperty().divide(32).multiply(32));
+        mouseBlock.yProperty().bind(mouseHandler.getMouseYProperty().divide(32).multiply(32));
+        mouseBlock.setFill(Color.TRANSPARENT);
+        mouseBlock.setStroke(Color.TRANSPARENT);
+        currentSlotView = new Rectangle();
+        currentSlotView.setFill(Color.TRANSPARENT);
+        currentSlotView.setStroke(Color.YELLOW);
+        currentSlotView.setWidth(34);
+        currentSlotView.setHeight(34);
+        currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32*player.getInventory().getCurrSlot()));
+        currentSlotView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(99));
+        panneauDeJeu.getChildren().addAll(zonePlayerBlock, mouseBlock, currentSlotView);
+    }
 
     public void createBingus() {
         Bingus bingus = new Bingus(10, 2030);
@@ -75,16 +140,40 @@ public class Controleur implements Initializable {
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(32.66), actionEvent -> {
                     playerMovement();
+                    //System.out.println(panneauDeJeu.getScene().getCamera().layoutXProperty().intValue());
+                    cameraManager();
                     entityLoop();
+                    if(mouseHandler.isHasScrollUp()){
+                        player.getInventory().incrementSlot();
+                        mouseHandler.setHasScrollUp(false);
+                    }
+                    else if(mouseHandler.isHasScrollDown()){
+                        player.getInventory().decrementSlot();
+                        mouseHandler.setHasScrollDown(false);
+                    }
+
+
+                    verifKeyTyped();
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
         timelineClick = new Timeline
-                (new KeyFrame(Duration.millis(1000), actionEvent -> {
-                    if (mouseHandler.isHasClickedLeft()) {
-                        checkOnClicked();
+
+                (new KeyFrame(Duration.millis(200), actionEvent -> {
+                    //System.out.println(mouseBlock.xProperty().intValue());
+                    //System.out.println(mouseBlock.yProperty().intValue());
+
+                    if (mouseHandler.isHasPressedLeft()) {
+                        checkOnLeftPressed();
                     }
+
+                    else if (mouseHandler.isHasClickedRight()) {
+                        checkOnRightClicked();
+                        //System.out.println("rclick");
+                        mouseHandler.setHasClickedRight(false);
+                    }
+
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
         timelineClick.play();
@@ -99,8 +188,8 @@ public class Controleur implements Initializable {
 
             else if (ent.sideCollisions(b) == -1)
                 return -1;
-        }
 
+        }
         return 0;
     }
 
@@ -112,11 +201,13 @@ public class Controleur implements Initializable {
         return false;
     }
 
-    public boolean checkDistanceBlock(Entity ent, Block b){
-        System.out.println(ent.distanceToBlock(b));
-            if (ent.distanceToBlock(b) < 4) {
-                return true;
-            }
+    public boolean checkDistanceBlock(Entity ent, Block b) {
+      //  System.out.println(ent.distanceToBlock(b));
+        if (ent.distanceToBlock(b) < 4) {
+            mouseBlock.setStroke(Color.GREEN);
+            return true;
+        }
+        mouseBlock.setStroke(Color.RED);
         return false;
     }
 
@@ -133,8 +224,8 @@ public class Controleur implements Initializable {
             if (player.isJumping())
                 player.stopJump();
 
-        if (keyHandler.isRightPressed() || keyHandler.isLeftPressed())
-            player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
+        if ((keyHandler.isRightPressed() || keyHandler.isLeftPressed()))
+            player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1), terrain);
     }
 
     public void entityLoop() {
@@ -161,7 +252,6 @@ public class Controleur implements Initializable {
 
                 ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
                 checkSideBlock(ent);
-
             }
             if (!checkGroundBlock(ent)) {
                 if (ent instanceof Player) {
@@ -185,16 +275,24 @@ public class Controleur implements Initializable {
         });
     }
 
-    public void checkOnClicked() {
-        ArrayList<Block> deletedBlocks = new ArrayList<>();
-        for (Block b : terrain.getBlocks()) {
-            if (mouseHandler.getMouseX() < b.getHitX() + b.getTile().getHitbox().getWidth() && mouseHandler.getMouseX() > b.getHitX() && mouseHandler.getMouseY() < b.getHitY() + b.getTile().getHitbox().getHeight() && mouseHandler.getMouseY() > b.getHitY()) {
-                if(checkDistanceBlock(player, b)){
-                    System.out.println("ok");
+    public void checkOnLeftPressed() {
+        Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
+            if (b != null) {
+                if (checkDistanceBlock(player, b)) {
+                   // System.out.println("ok");
                     b.setPvs(b.getPvs() - 1);
                     System.out.println(b.getPvs());
                     if (b.getPvs() <= 0) {
-                        deletedBlocks.add(b);
+                        terrain.deleteBlock(b);
+                        terrain.deleteSolidBlock(b);
+                        if(b.ressource() != null){
+                            if(!player.getInventory().isInventoryFull()) {
+                                inventoryView.refreshBreak(b.ressource());
+                                player.pick(b.ressource());
+                                System.out.println(player.getInventory().getItems());
+                            }
+                        }
+                       // System.out.println(player.getInventory());
                     }
                     break;
                 }
@@ -205,9 +303,89 @@ public class Controleur implements Initializable {
                 panneauDeJeu.getChildren().add(r);
                 */
             }
+
+    }
+
+    public void checkOnRightClicked() {
+        Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
+        if (b == null && !zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
+           // System.out.println(player.getInventory());
+            Item item = player.drop();
+            if(item != null) {
+            //    System.out.println("Tu peux poser le block !");
+                b = new Block(item.getTile(), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
+                if(checkDistanceBlock(player, b)){
+                    terrain.getBlocks().add(b);
+                    inventoryView.refreshPlace();
+                    if(b.getTile().getHitbox().isSolid()){
+                        terrain.getSolidBlocks().add(b);
+                    }
+                    terrainView.addBlock(terrain, b);
+                }
+
+            } else {mouseBlock.setStroke(Color.RED);}
         }
-        terrain.deleteBlock(deletedBlocks);
-        terrain.deleteSolidBlock(deletedBlocks);
+        if (zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
+            mouseBlock.setStroke(Color.RED);
+        }
+    }
+
+    public Block getBlock(int x, int y) {
+        for (Block b : terrain.getBlocks()) {
+            if (x < b.getHitX() + b.getTile().getHitbox().getWidth() && x > b.getHitX() && y < b.getHitY() + b.getTile().getHitbox().getHeight() && y > b.getHitY()){
+                return b;
+            }
+        }
+        return null;
+    }
+
+
+
+    public void verifKeyTyped(){
+        if(keyHandler.isSlotOneTyped()){
+            player.getInventory().setCurrSlot(0);
+            keyHandler.setSlotOneTyped(false);
+        }
+        else if(keyHandler.isSlotTwoTyped()){
+            player.getInventory().setCurrSlot(1);
+            keyHandler.setSlotTwoTyped(false);
+        }
+        else if(keyHandler.isSlotThreeTyped()){
+            player.getInventory().setCurrSlot(2);
+            keyHandler.setSlotThreeTyped(false);
+        }
+        else if(keyHandler.isSlotFourTyped()){
+            player.getInventory().setCurrSlot(3);
+            keyHandler.setSlotFourTyped(false);
+        }
+        else if (keyHandler.isSlotFiveTyped()){
+            player.getInventory().setCurrSlot(4);
+            keyHandler.setSlotFiveTyped(false);
+        }
+        else if (keyHandler.isSlotSixTyped()){
+            player.getInventory().setCurrSlot(5);
+            keyHandler.setSlotSixTyped(false);
+        }
+        else if (keyHandler.isSlotSevenTyped()){
+            player.getInventory().setCurrSlot(6);
+            keyHandler.setSlotSevenTyped(false);
+        }
+        else if (keyHandler.isSlotEightTyped()){
+            player.getInventory().setCurrSlot(7);
+            keyHandler.setSlotEightTyped(false);
+        }
+        else if (keyHandler.isSlotNineTyped()){
+            player.getInventory().setCurrSlot(8);
+            keyHandler.setSlotNineTyped(false);
+        }
+        else if (keyHandler.isSlotTenTyped()){
+            player.getInventory().setCurrSlot(9);
+            keyHandler.setSlotTenTyped(false);
+        }
+        currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32*player.getInventory().getCurrSlot()));
+        currentSlotView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(99));
+        currentSlotView.toFront();
+
     }
     public static int randomNum(int min, int max){
         if(min == max)

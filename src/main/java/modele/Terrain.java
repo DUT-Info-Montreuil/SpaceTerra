@@ -51,7 +51,7 @@ public class Terrain {
             Object obj = jsonParser.parse(reader);
 
             map = (JSONObject) obj;
-            System.out.println(map);
+            //System.out.println(map);
             System.out.println("Map loaded");
 
         } catch (FileNotFoundException e) {
@@ -130,11 +130,19 @@ public class Terrain {
         }
     }
 
-    public void deleteBlock(ArrayList<Block> blocks) {
-        this.getBlocks().removeAll(blocks);
+    public void deleteBlock(Block block) {
+        this.getBlocks().remove(block);
     }
 
-    public void deleteSolidBlock(ArrayList<Block> blocks) {
-        this.getSolidBlocks().removeAll(blocks);
+    public void deleteSolidBlock(Block block) {
+        this.getSolidBlocks().remove(block);
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }

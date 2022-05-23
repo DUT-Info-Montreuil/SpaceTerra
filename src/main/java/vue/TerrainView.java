@@ -29,7 +29,7 @@ public class TerrainView {
             imgView.setId(block.getId());
             imgView.setX(block.getX());
             imgView.setY(block.getY());
-            System.out.println(imgView.getId());
+            //System.out.println(imgView.getId());
             panneau.getChildren().add(imgView);
         }
     }
@@ -76,6 +76,15 @@ public class TerrainView {
     public void deleteBlock(Block block) {
        // System.out.println("oui5");
         panneau.getChildren().remove(panneau.lookup("#" + block.getId()));
+    }
+
+    public void addBlock(Terrain terrain, Block block){
+        ImageView imgView = new ImageView(block.getTile().getImage());
+        imgView.setId(block.getId());
+        imgView.setX(block.getX());
+        imgView.setY(block.getY());
+        //System.out.println(imgView.getId());
+        panneau.getChildren().add(imgView);
     }
 
 }
