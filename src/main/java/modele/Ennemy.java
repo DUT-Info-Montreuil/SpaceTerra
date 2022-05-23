@@ -73,5 +73,5 @@ public abstract class Ennemy extends Entity{
         }
     }
 
-    public abstract void movement(Player player, boolean leftCheck, boolean rightCheck);
+    public abstract void movement(Player player, boolean leftCheck, boolean rightCheck, Terrain terrain);
 }

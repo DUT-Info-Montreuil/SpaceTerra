@@ -17,7 +17,9 @@ public class Bingus extends Ennemy {
     public void setStrenght(int strenght) {
         this.strenght = strenght;
     }
-    public void movement(Player player, boolean leftCheck, boolean rightCheck) {
+
+    @Override
+    public void movement(Player player, boolean leftCheck, boolean rightCheck, Terrain terrain) {
         int range = this.getRange();
         int rangeMultiplier;
 
@@ -112,6 +114,4 @@ public class Bingus extends Ennemy {
         //System.out.println(getIdleDirection());
 
     }
-
-
 }

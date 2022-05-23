@@ -245,12 +245,12 @@ public class Controleur implements Initializable {
 
                 else {
                     if(ent.isJumping()) {
-                        ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
+                        ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1), terrain);
                         ent.stopJump();
                     }
                 }
 
-                ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
+                ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1), terrain);
                 checkSideBlock(ent);
             }
             if (!checkGroundBlock(ent)) {
@@ -294,7 +294,6 @@ public class Controleur implements Initializable {
                         }
                        // System.out.println(player.getInventory());
                     }
-                    break;
                 }
                 /*
                 Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
