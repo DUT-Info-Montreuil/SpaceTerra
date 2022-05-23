@@ -8,11 +8,18 @@ public class Inventory {
     private int maxInventorySize;
     private int currInventorySize;
 
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
     public Inventory() {
         this.items = new ArrayList<>(10);
         this.currSlot = 0;
         this.maxInventorySize = 10;
         this.currInventorySize = 0;
+        for(int i = 0; i < maxInventorySize; i++){
+            items.add(null);
+        }
     }
 
 
@@ -45,6 +52,7 @@ public class Inventory {
             while (i < items.size() && items.get(i) != null) {
                 i++;
             }
+
             return i;
 
     }
@@ -87,8 +95,7 @@ public class Inventory {
 
     public void addIntoSlot(Item item){
         if(!isInventoryFull()){
-            int i = getNextEmptySlot();
-            items.add(i, item);
+            items.set(getNextEmptySlot(), item);
             currInventorySize++;
         }
         else{

@@ -161,7 +161,7 @@ public class Controleur implements Initializable {
 
                     else if (mouseHandler.isHasClickedRight()) {
                         checkOnRightClicked();
-                        System.out.println("rclick");
+                        //System.out.println("rclick");
                         mouseHandler.setHasClickedRight(false);
                     }
 
@@ -192,7 +192,7 @@ public class Controleur implements Initializable {
     }
 
     public boolean checkDistanceBlock(Entity ent, Block b) {
-        System.out.println(ent.distanceToBlock(b));
+      //  System.out.println(ent.distanceToBlock(b));
         if (ent.distanceToBlock(b) < 4) {
             mouseBlock.setStroke(Color.GREEN);
             return true;
@@ -252,7 +252,7 @@ public class Controleur implements Initializable {
         Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
             if (b != null) {
                 if (checkDistanceBlock(player, b)) {
-                    System.out.println("ok");
+                   // System.out.println("ok");
                     b.setPvs(b.getPvs() - 1);
                     System.out.println(b.getPvs());
                     if (b.getPvs() <= 0) {
@@ -261,8 +261,9 @@ public class Controleur implements Initializable {
                         if(b.ressource() != null){
                             inventoryView.refreshBreak(b.ressource());
                             player.pick(b.ressource());
+                            System.out.println(player.getInventory().getItems());
                         }
-                        System.out.println(player.getInventory());
+                       // System.out.println(player.getInventory());
                     }
                 }
                 /*
@@ -278,10 +279,10 @@ public class Controleur implements Initializable {
     public void checkOnRightClicked() {
         Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
         if (b == null && !zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
-            System.out.println(player.getInventory());
+           // System.out.println(player.getInventory());
             Item item = player.drop();
             if(item != null) {
-                System.out.println("Tu peux poser le block !");
+            //    System.out.println("Tu peux poser le block !");
                 b = new Block(item.getTile(), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
                 if(checkDistanceBlock(player, b)){
                     terrain.getBlocks().add(b);

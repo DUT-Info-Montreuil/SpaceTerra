@@ -66,7 +66,7 @@ public class KeyHandler {
 
     private void keyTyped(){
         pane.setOnKeyTyped(e -> {
-            System.out.println(e.getCharacter());
+           // System.out.println(e.getCharacter());
             switch (e.getCharacter()){
                 case "&", "1" -> slotOneTyped = true;
                 case "é", "2" -> slotTwoTyped = true;
