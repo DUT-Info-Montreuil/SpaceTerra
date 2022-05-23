@@ -12,7 +12,7 @@ public abstract class Entity {
     public int jumpCount = jumpHeight;
     private boolean isJumping = false;
 
-    private static double g = 0.5;
+    public static double g = 1;
 
     public Terrain getTerrain() {
         return terrain;
@@ -140,7 +140,8 @@ public abstract class Entity {
 
     public void applyGrav() {
         hitbox.getY().set(hitbox.getY().getValue() + g);
-        g += 0.05;
+        System.out.println(g);
+        g += 0.1;
     }
 
     public abstract void movement(Player player, boolean leftCheck, boolean rightCheck);
