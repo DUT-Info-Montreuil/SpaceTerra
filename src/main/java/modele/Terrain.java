@@ -137,4 +137,12 @@ public class Terrain {
     public void deleteSolidBlock(Block block) {
         this.getSolidBlocks().remove(block);
     }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 }

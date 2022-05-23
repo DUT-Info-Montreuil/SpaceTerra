@@ -70,7 +70,7 @@ public abstract class Entity {
         hitbox.getY().set(hitbox.getY().getValue() + 9.81);
     }
 
-    public abstract void movement(Player player, boolean leftCheck, boolean rightCheck);
+    public abstract void movement(Player player, boolean leftCheck, boolean rightCheck, Terrain terrain);
 
     public int distanceToBlock(Block b) {
         double centerPX = this.hitbox.getX().intValue() + this.hitbox.getWidth()/2; //centre du joueur en x
