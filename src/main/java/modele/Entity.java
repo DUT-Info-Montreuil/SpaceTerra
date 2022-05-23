@@ -118,8 +118,8 @@ public abstract class Entity {
 
         return false;
 */
-        Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight());
-        Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight());
+        Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue() + 1, hitbox.getY().intValue() + hitbox.getHeight());
+        Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue() + hitbox.getHeight());
 
         if (blockVerifBottomLeft != null) {
             if(blockVerifBottomLeft.getTile().getHitbox().isSolid()){
