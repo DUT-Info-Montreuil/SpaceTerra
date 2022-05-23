@@ -5,3 +5,4 @@ public class ItemDirt extends ItemBlock{
         super(id, tile);
     }
 }
+// type Enum
