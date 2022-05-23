@@ -70,9 +70,9 @@ public abstract class Entity {
 
 
         Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight() - 10);
-        Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() + 10);
-        Block blockVerifUpLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue());
-        Block blockVerifUpRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue());
+        Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() - 10);
+        Block blockVerifUpLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + 10);
+        Block blockVerifUpRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + 10);
 
         if(blockVerifBottomLeft != null){
             if(blockVerifBottomLeft.getTile().getHitbox().isSolid()){
@@ -82,21 +82,21 @@ public abstract class Entity {
         }
         if(blockVerifUpLeft != null){
             if(blockVerifUpLeft.getTile().getHitbox().isSolid()){
-                hitbox.setX(blockVerifUpLeft.getHitX() + blockVerifUpLeft.getTile().getHitbox().getWidth() + 2);
+               hitbox.setX(blockVerifUpLeft.getHitX() + blockVerifUpLeft.getTile().getHitbox().getWidth() + 2);
                 return -1;
             }
         }
 
         if(blockVerifBottomRight != null){
             if(blockVerifBottomRight.getTile().getHitbox().isSolid()){
-                hitbox.setX(blockVerifBottomRight.getHitX() + blockVerifBottomRight.getTile().getHitbox().getWidth() - 2);
-                return -1;
+                hitbox.setX(blockVerifBottomRight.getHitX() - hitbox.getWidth() - 2);
+                return 1;
             }
         }
         if(blockVerifUpRight != null){
             if(blockVerifUpRight.getTile().getHitbox().isSolid()){
-                hitbox.setX(blockVerifUpRight.getHitX() + blockVerifUpRight.getTile().getHitbox().getWidth() - 2);
-                return -1;
+                hitbox.setX(blockVerifUpRight.getHitX() - hitbox.getWidth() - 2);
+                return 1;
             }
         }
 
