@@ -143,7 +143,7 @@ public abstract class Entity {
     public void applyGrav() {
         hitbox.getY().set(hitbox.getY().getValue() + g);
         g += 0.05;
-        //System.out.println(g);
+        System.out.println(g);
     }
 
 
