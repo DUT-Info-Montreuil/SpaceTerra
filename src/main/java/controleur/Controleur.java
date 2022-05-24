@@ -207,7 +207,7 @@ public class Controleur implements Initializable {
     public void playerMovement() {
         if (keyHandler.isUpPressed())//mouvements a mettre avec le player
             if (checkGroundBlock(player)) {
-                Entity.g = 1;
+                Entity.g = 5;
                 player.jump();
             }
 
