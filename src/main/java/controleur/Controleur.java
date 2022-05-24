@@ -127,7 +127,7 @@ public class Controleur implements Initializable {
 
     public void createBingus() {
         Bingus bingus = new Bingus(10, 2030, terrain);
-        terrainView.addEntite(bingus);
+        //terrainView.addEntite(bingus);
         entities.add(bingus);
     }
 
@@ -177,9 +177,9 @@ public class Controleur implements Initializable {
     public int checkSideBlock(Entity ent) { // -1 = left, 1 = right, 0 = none
 
 
-                if (ent.sideCollisions() == 1)
+                if (ent.sideCollisions(panneauDeJeu) == 1)
                     return 1;
-                else if (ent.sideCollisions() == -1)
+                else if (ent.sideCollisions(panneauDeJeu) == -1)
                     return -1;
 
         return 0;
@@ -211,12 +211,18 @@ public class Controleur implements Initializable {
                 player.jump();
             }
 
-            else if (player.isJumping())
+            else if (player.isJumping()){
                 player.jump();
+                if(player.upCollisions()){
+                    player.stopJump();
+                }
+            }
+
 
         if (!keyHandler.isUpPressed())
             if (player.isJumping())
                 player.stopJump();
+
 
         if ((keyHandler.isRightPressed() || keyHandler.isLeftPressed()))
             player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
@@ -275,6 +281,7 @@ public class Controleur implements Initializable {
                 // System.out.println("ok");
                 b.setPvs(b.getPvs() - 1);
                 System.out.println(b.getPvs());
+                System.out.println(terrain.getBlocks().indexOf(b));
                 if (b.getPvs() <= 0) {
                     terrain.deleteBlock(b);
                     if (b.getTile().getHitbox().isSolid()) {
@@ -284,7 +291,7 @@ public class Controleur implements Initializable {
                         if (!player.getInventory().isInventoryFull()) {
                             inventoryView.refreshBreak(b.ressource());
                             player.pick(b.ressource());
-                            System.out.println(player.getInventory().getItems());
+                            //System.out.println(player.getInventory().getItems());
                         }
                     }
                     // System.out.println(player.getInventory());
@@ -301,20 +308,21 @@ public class Controleur implements Initializable {
     }
 
     public void checkOnRightClicked() {
-        Block b = terrain.getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
-        if (b == null && !zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
+        Block bMouse = terrain.getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
+        Block bPlace;
+        if (bMouse == null && !zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
             // System.out.println(player.getInventory());
             Item item = player.drop();
             if (item != null) {
                 //    System.out.println("Tu peux poser le block !");
-                b = new Block(item.getTile(), (mouseHandler.getMouseX() / 32) * 32, (mouseHandler.getMouseY() / 32) * 32);
-                if (checkDistanceBlock(player, b)) {
-                    terrain.getBlocks().add(b);
+                bPlace = new Block(item.getTile(), (mouseHandler.getMouseX() / 32) * 32, (mouseHandler.getMouseY() / 32) * 32);
+                if (checkDistanceBlock(player, bPlace)) {
+                    terrain.getBlocks().set(terrain.getIndex(mouseHandler.getMouseX(), mouseHandler.getMouseY()), bPlace);
                     inventoryView.refreshPlace();
-                    if (b.getTile().getHitbox().isSolid()) {
-                        terrain.getSolidBlocks().add(b);
+                    if (bPlace.getTile().getHitbox().isSolid()) {
+                        terrain.getSolidBlocks().add(bPlace);
                     }
-                    terrainView.addBlock(terrain, b);
+                    terrainView.addBlock(terrain, bPlace);
                 }
 
             } else {

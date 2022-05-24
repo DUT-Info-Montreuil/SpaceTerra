@@ -141,7 +141,6 @@ public class Terrain {
     }
 
     public void deleteBlock(Block block) {
-        System.out.println(this.getBlocks().indexOf(block));
         this.getBlocks().set(this.getBlocks().indexOf(block), null);
     }
 
@@ -177,6 +176,10 @@ public class Terrain {
         */
 
         return this.getBlocks().get(y / 32 * this.getWidth() + x / 32);
+    }
+
+    public int getIndex(int x, int y){
+        return (y / 32 * this.getWidth() + x / 32);
     }
 
 }
