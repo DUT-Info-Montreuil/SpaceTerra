@@ -73,4 +73,6 @@ public abstract class Ennemy extends Entity{
         }
     }
 
+
+
 }

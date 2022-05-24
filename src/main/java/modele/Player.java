@@ -1,7 +1,5 @@
 package modele;
 
-import java.util.ArrayList;
-
 public class Player extends Entity {
 
     private final double walkSpeed = 5;
@@ -16,21 +14,7 @@ public class Player extends Entity {
         inventory = new Inventory();
     }
 
-    @Override
-    public void movement(Player player, boolean leftCheck, boolean rightCheck) {
-        if(this.getHitbox().getX().getValue() >= 10){
-            if (leftCheck) {
-                getHitbox().setX(this.getHitbox().getX().intValue() - walkSpeed);
-            }
-        }
 
-        if(this.getHitbox().getX().getValue() <= this.getTerrain().getWidth()*32-30){
-            if (rightCheck){
-                getHitbox().setX(this.getHitbox().getX().intValue() + walkSpeed);
-            }
-        }
-
-    }
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
 
@@ -48,5 +32,21 @@ public class Player extends Entity {
     }
 
 
-
+    @Override
+    public void movement(Player player, boolean leftCheck, boolean rightCheck) {
+        if (leftCheck) {
+            if(this.getHitbox().getX().getValue() >= 10){
+                if (leftCheck) {
+                    getHitbox().setX(this.getHitbox().getX().intValue() - walkSpeed);
+                }
+            }
+        }
+        if (rightCheck) {
+            if(this.getHitbox().getX().getValue() <= this.getTerrain().getWidth()*32-30){
+                if (rightCheck){
+                    getHitbox().setX(this.getHitbox().getX().intValue() + walkSpeed);
+                }
+            }
+        }
+    }
 }

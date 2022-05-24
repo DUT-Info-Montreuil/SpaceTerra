@@ -146,15 +146,12 @@ public class Controleur implements Initializable {
                         player.getInventory().decrementSlot();
                         mouseHandler.setHasScrollDown(false);
                     }
-
-
                     verifKeyTyped();
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
         timelineClick = new Timeline
-
                 (new KeyFrame(Duration.millis(200), actionEvent -> {
                     //System.out.println(mouseBlock.xProperty().intValue());
                     //System.out.println(mouseBlock.yProperty().intValue());
@@ -166,23 +163,17 @@ public class Controleur implements Initializable {
                         //System.out.println("rclick");
                         mouseHandler.setHasClickedRight(false);
                     }
-
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
         timelineClick.play();
-
     }
 
+    public int checkUpBlock(Entity ent) {
+        return ent.upCollisions();
+    }
 
     public int checkSideBlock(Entity ent) { // -1 = left, 1 = right, 0 = none
-
-
-                if (ent.sideCollisions() == 1)
-                    return 1;
-                else if (ent.sideCollisions() == -1)
-                    return -1;
-
-        return 0;
+              return ent.sideCollisions();
     }
 
     public boolean checkGroundBlock(Entity ent) {
@@ -208,33 +199,39 @@ public class Controleur implements Initializable {
         if (keyHandler.isUpPressed())//mouvements a mettre avec le player
             if (checkGroundBlock(player)) {
                 Entity.g = 5;
-                player.jump();
+                player.jump(checkUpBlock(player) != 1);
             }
 
             else if (player.isJumping())
-                player.jump();
+                player.jump(checkUpBlock(player) != 1);
 
         if (!keyHandler.isUpPressed())
             if (player.isJumping())
                 player.stopJump();
 
-        if ((keyHandler.isRightPressed() || keyHandler.isLeftPressed()))
-            player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
+        if (keyHandler.isRightPressed()) {
+            player.movement(null, false, !(checkSideBlock(player) == 1));
+        }
+        else if (keyHandler.isLeftPressed()) {
+            player.movement(null, !(checkSideBlock(player) == -1), false);
+        }
+
     }
 
     public void entityLoop() {
         for (Entity ent : entities) {
-            if (ent instanceof Player)
-                checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
+            if (ent instanceof Player) {
+                //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
+
+            }
             else {
 
-                //System.out.println(checkSideBlock(ent));
                 if (checkSideBlock(ent) == -1 || checkSideBlock(ent) == 1) {
                     if (checkGroundBlock(ent))
-                        ent.jump();
+                        ent.jump(checkUpBlock(player) != 1);
 
                     else if (ent.isJumping())
-                        ent.jump();
+                        ent.jump(checkUpBlock(player) != 1);
                 } else {
                     if (ent.isJumping()) {
                         ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
@@ -243,8 +240,9 @@ public class Controleur implements Initializable {
                 }
 
                 ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
-                checkSideBlock(ent);
             }
+
+
             if (!checkGroundBlock(ent)) {
                 if (ent instanceof Player) {
                     if (!player.isJumping()) {

@@ -114,4 +114,7 @@ public class Bingus extends Ennemy {
         //System.out.println(getIdleDirection());
 
     }
+
+
+
 }
