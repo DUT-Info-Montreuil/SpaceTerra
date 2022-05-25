@@ -3,6 +3,7 @@ package modele;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import java.lang.reflect.GenericArrayType;
@@ -63,14 +64,37 @@ public abstract class Entity {
         this.image = new Image(String.valueOf(getClass().getResource(path)));
     }
 
-    public boolean upCollisions(){
+    public boolean upCollisions(Pane panneauDeJeu){
 
-        Block b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth()/2, hitbox.getY().intValue() - hitbox.getHeight()/2);
-        if (b != null) {
-            if (b.getTile().getHitbox().isSolid()) {
-                System.out.println("solide");
-                //hitbox.setY(b.getHitY() + 15);
-                System.out.println("collisions du haut");
+        Block bMid = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth()/2, hitbox.getY().intValue() - hitbox.getHeight()/2);
+        Block bLeft = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth()/2 - 5, hitbox.getY().intValue() - hitbox.getHeight()/2);//-5 à cause du petit décalage dans le bloc de gauche
+        Block bRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth()/2 + 8, hitbox.getY().intValue() - hitbox.getHeight()/2);
+        /*
+        Circle circle = new Circle();
+        circle.setRadius(2);
+        circle.setFill(Color.RED);
+        circle.setCenterX(hitbox.getX().intValue() + hitbox.getWidth()/2 - 5);
+        circle.setCenterY(hitbox.getY().intValue() - hitbox.getHeight()/2);
+        panneauDeJeu.getChildren().add(circle);
+         */
+        if (bMid != null) {
+            if (bMid.getTile().getHitbox().isSolid()) {
+                hitbox.setY(bMid.getHitY() + hitbox.getHeight()/2 + 10);
+                System.out.println("Collisions du haut milieu");
+                return true;
+            }
+        }
+        if (bLeft != null) {
+            if (bLeft.getTile().getHitbox().isSolid()) {
+                hitbox.setY(bLeft.getHitY() + hitbox.getHeight()/2 + 10);
+                System.out.println("Collisions du haut gauche");
+                return true;
+            }
+        }
+        if (bRight != null) {
+            if (bRight.getTile().getHitbox().isSolid()) {
+                hitbox.setY(bRight.getHitY() + hitbox.getHeight()/2 + 10);
+                System.out.println("collisions du haut droit");
                 return true;
             }
         }
@@ -78,24 +102,32 @@ public abstract class Entity {
         return false;
     }
 
-    public int sideCollisions() {
+    public int sideCollisions(Pane panneauDeJeu) {
 
         Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight() - 10);
         Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() - 10);
-        Block blockVerifUpLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + 10);
-        Block blockVerifUpRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + 10);
+        Block blockVerifUpLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() - 20);
+        Block blockVerifUpRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() - 20);
+        /*
+        Circle circle = new Circle();
+        circle.setRadius(2);
+        circle.setFill(Color.RED);
+        circle.setCenterX(hitbox.getX().intValue() + hitbox.getWidth());
+        circle.setCenterY(hitbox.getY().intValue() - 20);
+        panneauDeJeu.getChildren().add(circle);
+         */
 
 
         if(blockVerifBottomLeft != null){
             if(blockVerifBottomLeft.getTile().getHitbox().isSolid()){
-                //hitbox.setX(blockVerifBottomLeft.getHitX() + blockVerifBottomLeft.getTile().getHitbox().getWidth() + 2);
+                //hitbox.setX(blockVerifBottomLeft.getHitX() + hitbox.getWidth() + hitbox.getWidth()/2 + 2);
                 System.out.println("bas gauche");
                 return -1;
             }
         }
         if(blockVerifUpLeft != null){
             if(blockVerifUpLeft.getTile().getHitbox().isSolid()){
-               //hitbox.setX(blockVerifUpLeft.getHitX() + blockVerifUpLeft.getTile().getHitbox().getWidth() + 2);
+               //hitbox.setX(blockVerifUpLeft.getHitX() + hitbox.getWidth() + hitbox.getWidth()/2 + 2);
                 System.out.println("haut gauche");
                 return -1;
             }
@@ -145,6 +177,10 @@ public abstract class Entity {
         System.out.println(g);
     }
 
+    public void setGrav(double g) {
+        this.g = g;
+    }
+
 
     public int distanceToBlock(Block b) {
         double centerPX = this.hitbox.getX().intValue() + this.hitbox.getWidth() / 2; //centre du joueur en x
@@ -164,7 +200,7 @@ public abstract class Entity {
             if (jumpCount <= 0) {
                 stopJump();
             } else {
-                System.out.println(jumpCount);
+                //System.out.println(jumpCount);
                 getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
             }
         }

@@ -169,7 +169,7 @@ public class Controleur implements Initializable {
     }
 
     public int checkSideBlock(Entity ent) { // -1 = left, 1 = right, 0 = none
-        return ent.sideCollisions();
+        return ent.sideCollisions(panneauDeJeu);
     }
 
     public boolean checkGroundBlock(Entity ent) {
@@ -197,12 +197,11 @@ public class Controleur implements Initializable {
                 Entity.g = 5;
                 player.jump();
             }
-        else if (player.upCollisions())
+        else if (player.upCollisions(panneauDeJeu))
             player.stopJump();
 
         else if (player.isJumping())
             player.jump();
-
 
         if (!keyHandler.isUpPressed())
             if (player.isJumping())
@@ -246,6 +245,9 @@ public class Controleur implements Initializable {
                 if (ent instanceof Player) {
                     if (!player.isJumping()) {
                         player.applyGrav();
+                    }
+                    if (ent.upCollisions(panneauDeJeu)) {//ajout pour les collisions du haut
+                        player.g+=0.85;
                     }
                 } else {
                     ent.applyGrav();
