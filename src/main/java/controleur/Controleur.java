@@ -230,8 +230,10 @@ public class Controleur implements Initializable {
 
     public void entityLoop() {
         for (Entity ent : entities) {
-            if (ent instanceof Player)
-                checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
+            if (ent instanceof Player){
+
+            }
+                //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
 
                 //System.out.println(checkSideBlock(ent));
