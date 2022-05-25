@@ -80,7 +80,11 @@ public class TerrainView {
 
     public void deleteBlock(Block block) {
        // System.out.println("oui5");
-        panneau.getChildren().remove(panneau.lookup("#" + block.getId()));
+        try {
+            panneau.getChildren().remove(panneau.lookup("#" + block.getId()));
+        }catch (Exception e) {
+
+        }
     }
 
     public void addBlock(Terrain terrain, Block block){
