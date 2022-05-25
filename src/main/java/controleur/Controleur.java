@@ -214,6 +214,7 @@ public class Controleur implements Initializable {
             else if (player.isJumping()){
                 player.jump();
                 if(player.upCollisions()){
+                    //player.getHitbox().setY(player.getHitbox().getY().intValue() - player.jumpCount);
                     player.stopJump();
                 }
             }

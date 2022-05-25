@@ -212,20 +212,20 @@ public abstract class Entity {
     public boolean upCollisions(){
 
 
-        Block blockVerifUpQuarterLeft = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 1/4, hitbox.getY().intValue()); // met un point en haut à 1/4 de la largeur du joueur
-        Block blockVerifUpQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 3/4, hitbox.getY().intValue());// met un point en haut à 3/4 de la largeur du joueur
-        Block blockVerifUpLeft = terrain.getBlock(hitbox.getX().intValue() + 1, hitbox.getY().intValue()); // on ajoute 1 pixel pour pas qu'il détecte le block de diagonal haut gauche
-        Block blockVerifUpRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue()); // on enlève 1 pixel pour pas qu'il détecte le block de diagonal haut droite
+        Block blockVerifUpQuarterLeft = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 1/4, hitbox.getY().intValue() - this.jumpCount); // met un point en haut à 1/4 de la largeur du joueur
+        Block blockVerifUpQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 3/4, hitbox.getY().intValue() - this.jumpCount);// met un point en haut à 3/4 de la largeur du joueur
+        Block blockVerifUpLeft = terrain.getBlock(hitbox.getX().intValue() + 1, hitbox.getY().intValue() - this.jumpCount); // on ajoute 1 pixel pour pas qu'il détecte le block de diagonal haut gauche
+        Block blockVerifUpRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue() - this.jumpCount); // on enlève 1 pixel pour pas qu'il détecte le block de diagonal haut droite
 
         if(blockVerifUpLeft != null && blockVerifUpQuarterLeft != null){
             if(blockVerifUpQuarterLeft.getTile().getHitbox().isSolid()){
-               // hitbox.setY(hitbox.getY().intValue() + (hitbox.getY().intValue() - (blockVerifUpQuarterLeft.getHitY() + blockVerifUpQuarterLeft.getTile().getHitbox().getHeight())));
+                hitbox.setY(hitbox.getY().intValue() + (hitbox.getY().intValue() - (blockVerifUpQuarterLeft.getHitY() + blockVerifUpQuarterLeft.getTile().getHitbox().getHeight())));
                 return true;
             }
         }
         if(blockVerifUpRight != null && blockVerifUpQuarterRight != null){
             if(blockVerifUpQuarterRight.getTile().getHitbox().isSolid()){
-               // hitbox.setY(hitbox.getY().intValue() + (hitbox.getY().intValue() - (blockVerifUpQuarterRight.getHitY() + blockVerifUpQuarterRight.getTile().getHitbox().getHeight())));
+                hitbox.setY(hitbox.getY().intValue() + (hitbox.getY().intValue() - (blockVerifUpQuarterRight.getHitY() + blockVerifUpQuarterRight.getTile().getHitbox().getHeight())));
                 return true;
             }
         }
@@ -255,7 +255,7 @@ public abstract class Entity {
 
         if(blockVerifBottomQuarterLeft != null && blockVerifBottomLeft != null){
             if(blockVerifBottomQuarterLeft.getTile().getHitbox().isSolid()){
-               hitbox.getY().set(blockVerifBottomQuarterLeft.getHitY() - hitbox.getHeight());
+               hitbox.getY().set(blockVerifBottomLeft.getHitY() - hitbox.getHeight());
                // System.out.println("gravTrue");
                 return true;
             }
@@ -263,7 +263,7 @@ public abstract class Entity {
 
         if(blockVerifBottomQuarterRight != null && blockVerifBottomRight != null){
             if(blockVerifBottomQuarterRight.getTile().getHitbox().isSolid()){
-               hitbox.getY().set(blockVerifBottomQuarterRight.getHitY() - hitbox.getHeight());
+                hitbox.getY().set(blockVerifBottomRight.getHitY() - hitbox.getHeight());
                // System.out.println("gravTrue");
                 return true;
             }
