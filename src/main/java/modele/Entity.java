@@ -63,7 +63,7 @@ public abstract class Entity {
         this.image = new Image(String.valueOf(getClass().getResource(path)));
     }
 
-    public int upCollisions(){
+    public boolean upCollisions(){
 
         Block b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth()/2, hitbox.getY().intValue() - hitbox.getHeight()/2);
         if (b != null) {
@@ -71,12 +71,11 @@ public abstract class Entity {
                 System.out.println("solide");
                 //hitbox.setY(b.getHitY() + 15);
                 System.out.println("collisions du haut");
-                return 1;
+                return true;
             }
         }
 
-        return  0;
-
+        return false;
     }
 
     public int sideCollisions() {
@@ -157,18 +156,16 @@ public abstract class Entity {
         return (int) sqrt / 32; //distance euclidienne / 32 pour avoir une distance en blocks
     }
 
-    public void jump(boolean checkUpBlock) {
-        if (checkUpBlock) {
-            if (!this.isJumping()) {
-                this.setJumping(true);
-                getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
+    public void jump() {
+        if (!this.isJumping()) {
+            this.setJumping(true);
+            getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
+        } else {
+            if (jumpCount <= 0) {
+                stopJump();
             } else {
-                if (jumpCount <= 0) {
-                    stopJump();
-                } else {
-                    System.out.println(jumpCount);
-                    getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
-                }
+                System.out.println(jumpCount);
+                getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
             }
         }
     }

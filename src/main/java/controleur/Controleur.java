@@ -168,10 +168,6 @@ public class Controleur implements Initializable {
         timelineClick.play();
     }
 
-    public int checkUpBlock(Entity ent) {
-        return ent.upCollisions();
-    }
-
     public int checkSideBlock(Entity ent) { // -1 = left, 1 = right, 0 = none
               return ent.sideCollisions();
     }
@@ -199,10 +195,14 @@ public class Controleur implements Initializable {
         if (keyHandler.isUpPressed())//mouvements a mettre avec le player
             if (checkGroundBlock(player)) {
                 Entity.g = 5;
-                player.jump(checkUpBlock(player) != 1);
+                player.jump();
             }
-            else if (player.isJumping())
-                player.jump(checkUpBlock(player) != 1);
+        else if (player.upCollisions())
+            player.stopJump();
+
+        else if (player.isJumping())
+            player.jump();
+
 
         if (!keyHandler.isUpPressed())
             if (player.isJumping())
@@ -227,10 +227,10 @@ public class Controleur implements Initializable {
 
                 if (checkSideBlock(ent) == -1 || checkSideBlock(ent) == 1) {
                     if (checkGroundBlock(ent))
-                        ent.jump(checkUpBlock(player) != 1);
+                        ent.jump();
 
                     else if (ent.isJumping())
-                        ent.jump(checkUpBlock(player) != 1);
+                        ent.jump();
                 } else {
                     if (ent.isJumping()) {
                         ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
