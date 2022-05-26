@@ -81,6 +81,7 @@ public abstract class Entity {
             if (bMid.getTile().getHitbox().isSolid()) {
                 hitbox.setY(bMid.getHitY() + hitbox.getHeight()/2 + 10);
                 System.out.println("Collisions du haut milieu");
+                Entity.g += 0.6;
                 return true;
             }
         }
@@ -88,6 +89,7 @@ public abstract class Entity {
             if (bLeft.getTile().getHitbox().isSolid()) {
                 hitbox.setY(bLeft.getHitY() + hitbox.getHeight()/2 + 10);
                 System.out.println("Collisions du haut gauche");
+                Entity.g += 0.6;
                 return true;
             }
         }
@@ -95,6 +97,7 @@ public abstract class Entity {
             if (bRight.getTile().getHitbox().isSolid()) {
                 hitbox.setY(bRight.getHitY() + hitbox.getHeight()/2 + 10);
                 System.out.println("collisions du haut droit");
+                Entity.g += 0.6;
                 return true;
             }
         }
@@ -104,7 +107,7 @@ public abstract class Entity {
 
     public int sideCollisions(Pane panneauDeJeu) {
 
-        Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight() - 10);
+        Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue() - 2, hitbox.getY().intValue() + hitbox.getHeight() - 10);
         Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() - 10);
         Block blockVerifUpLeft = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() - 20);
         Block blockVerifUpRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() - 20);

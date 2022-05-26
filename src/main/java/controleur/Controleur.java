@@ -192,35 +192,33 @@ public class Controleur implements Initializable {
 
 
     public void playerMovement() {
-        if (keyHandler.isUpPressed())//mouvements a mettre avec le player
+        if (keyHandler.isUpPressed()) { //mouvements a mettre avec le player
             if (checkGroundBlock(player)) {
                 Entity.g = 5;
                 player.jump();
+            } else if (player.isJumping()) {
+                player.jump();
             }
-        else if (player.upCollisions(panneauDeJeu))
-            player.stopJump();
-
-        else if (player.isJumping())
-            player.jump();
-
-        if (!keyHandler.isUpPressed())
-            if (player.isJumping())
+            if (player.upCollisions(panneauDeJeu) && player.isJumping()) {
                 player.stopJump();
-
+                System.out.println("ok");
+            }
+        }
+        else if (player.isJumping()) {
+            player.stopJump();
+        }
         if (keyHandler.isRightPressed()) {
             player.movement(null, false, !(checkSideBlock(player) == 1));
         }
-        else if (keyHandler.isLeftPressed()) {
+        if (keyHandler.isLeftPressed()) {
             player.movement(null, !(checkSideBlock(player) == -1), false);
         }
-
     }
 
     public void entityLoop() {
         for (Entity ent : entities) {
             if (ent instanceof Player) {
                 //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
-
             }
             else {
 
@@ -245,9 +243,6 @@ public class Controleur implements Initializable {
                 if (ent instanceof Player) {
                     if (!player.isJumping()) {
                         player.applyGrav();
-                    }
-                    if (ent.upCollisions(panneauDeJeu)) {//ajout pour les collisions du haut
-                        player.g+=0.85;
                     }
                 } else {
                     ent.applyGrav();
