@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 import modele.Terrain;
@@ -59,8 +60,15 @@ public class Controleur implements Initializable {
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getYProperty().subtract(panneauDeJeu.getScene().getHeight()/2));
 
         timeline = new Timeline(new KeyFrame(Duration.millis(16.33), new EventHandler<ActionEvent>() {
+
             @Override
             public void handle(ActionEvent actionEvent) {
+                Circle c = new Circle();
+                c.setRadius(2);
+                c.setFill(Color.RED);
+                c.setLayoutX(player.getXProperty().intValue());
+                c.setLayoutY(player.getYProperty().intValue());
+                panneauDeJeu.getChildren().add(c);
                 if(KeyHandler.rightPressed || KeyHandler.leftPressed){
                     player.horizontalMovement(KeyHandler.leftPressed, KeyHandler.rightPressed);
                 }
