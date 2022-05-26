@@ -173,7 +173,7 @@ public class Controleur implements Initializable {
 
     }
 
-
+/*
     public int checkSideBlock(Entity ent) { // -1 = left, 1 = right, 0 = none
 
 
@@ -184,7 +184,7 @@ public class Controleur implements Initializable {
 
         return 0;
     }
-
+*/
     public boolean checkGroundBlock(Entity ent) {
 
         if (ent.isGrounded()) {
@@ -214,7 +214,7 @@ public class Controleur implements Initializable {
             else if (player.isJumping()){
                 player.jump();
                 if(player.upCollisions()){
-                    //player.getHitbox().setY(player.getHitbox().getY().intValue() - player.jumpCount);
+                    player.getHitbox().setY(player.getHitbox().getY().intValue() - player.jumpCount);
                     player.stopJump();
                 }
             }
@@ -225,11 +225,17 @@ public class Controleur implements Initializable {
                 player.stopJump();
 
 
-        if ((keyHandler.isRightPressed() || keyHandler.isLeftPressed()))
-            player.movement(null, keyHandler.isLeftPressed() && !(checkSideBlock(player) == -1), keyHandler.isRightPressed() && !(checkSideBlock(player) == 1));
+        if (keyHandler.isLeftPressed()){
+            player.movement(null, keyHandler.isLeftPressed() && !(player.sideLeftCollision(panneauDeJeu)), false);
+        }
+
+        else if (keyHandler.isRightPressed()){
+            player.movement(null, false, keyHandler.isRightPressed() && !(player.sideRightCollisions(panneauDeJeu)));
+        }
+
     }
 
-    public void entityLoop() {
+   public void entityLoop() {
         for (Entity ent : entities) {
             if (ent instanceof Player){
 
@@ -238,7 +244,7 @@ public class Controleur implements Initializable {
             else {
 
                 //System.out.println(checkSideBlock(ent));
-                if (checkSideBlock(ent) == -1 || checkSideBlock(ent) == 1) {
+                if (ent.sideLeftCollision(panneauDeJeu) || ent.sideRightCollisions(panneauDeJeu)) {
                     if (checkGroundBlock(ent))
                         ent.jump();
 
@@ -246,14 +252,21 @@ public class Controleur implements Initializable {
                         ent.jump();
                 } else {
                     if (ent.isJumping()) {
-                        ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
+                        ent.movement(player, !ent.sideLeftCollision(panneauDeJeu), !ent.sideRightCollisions(panneauDeJeu));
                         ent.stopJump();
                     }
                 }
 
-                ent.movement(player, (checkSideBlock(ent) != -1), (checkSideBlock(ent) != 1));
-                checkSideBlock(ent);
+
+
+                ent.movement(player, !ent.sideLeftCollision(panneauDeJeu), !ent.sideRightCollisions(panneauDeJeu));
+                ent.sideLeftCollision(panneauDeJeu);
+                ent.sideRightCollisions(panneauDeJeu);
+
+
             }
+
+
             if (!checkGroundBlock(ent)) {
                 if (ent instanceof Player) {
                     if (!player.isJumping()) {
