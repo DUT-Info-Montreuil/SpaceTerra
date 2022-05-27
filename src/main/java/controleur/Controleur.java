@@ -9,6 +9,7 @@ import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import modele.*;
@@ -135,6 +136,13 @@ public class Controleur implements Initializable {
         // 16.33 = 60 fps
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
+                    Circle c = new Circle();
+                    c.setLayoutX(player.getHitbox().getX().intValue());
+                    c.setLayoutY(player.getHitbox().getY().intValue());
+                    c.setRadius(2);
+                    panneauDeJeu.getChildren().add(c);
+                    System.out.println(player.isJumping());
+                    System.out.println("jumpCount : " + player.getVitesseY());
                     playerMovement();
                     //System.out.println(panneauDeJeu.getScene().getCamera().layoutXProperty().intValue());
                     cameraManager();
@@ -205,25 +213,34 @@ public class Controleur implements Initializable {
 
 
     public void playerMovement() {
-        if (keyHandler.isUpPressed())//mouvements a mettre avec le player
+        if (keyHandler.isUpPressed()) {//mouvements a mettre avec le player
+            player.setGravity(false);
             if (checkGroundBlock(player)) {
+                player.setGravity(true);
                 Entity.g = 5;
                 player.jump();
-            }
-
-            else if (player.isJumping()){
+            } else if (player.isJumping()) {
                 player.jump();
-                if(player.upCollisions()){
-                    //ddddddplayer.getHitbox().setY(player.getHitbox().getY().intValue() - player.jumpCount);
+                if (player.upCollisions()) {
+                    player.setVitesseY(0);
+                    player.setGravity(true);
+                    //player.getHitbox().setY(player.getHitbox().getY().intValue() - player.jumpCount);
                     player.stopJump();
                 }
             }
+        }
+        if (!player.isGravity()) {
+            Entity.g = 0;
+        }
+        else {
+            Entity.g = 5;
+        }
 
-
-        if (!keyHandler.isUpPressed())
-            if (player.isJumping())
-                player.stopJump();
-
+        if (!keyHandler.isUpPressed()) {
+            player.setGravity(true);
+            player.applyGrav();
+            player.stopJump();
+        }
 
         if (keyHandler.isLeftPressed()){
             player.movement(null, keyHandler.isLeftPressed() && !(player.sideLeftCollision(panneauDeJeu)), false);
@@ -266,7 +283,7 @@ public class Controleur implements Initializable {
 
             }
 
-
+/*
             if (!checkGroundBlock(ent)) {
                 if (ent instanceof Player) {
                     if (!player.isJumping()) {
@@ -276,6 +293,8 @@ public class Controleur implements Initializable {
                     ent.applyGrav();
                 }
             }
+
+ */
         }
     }
 

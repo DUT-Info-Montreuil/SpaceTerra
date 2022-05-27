@@ -5,11 +5,7 @@ import java.util.ArrayList;
 public class Player extends Entity {
 
     private final double walkSpeed = 5;
-    private final int jumpHeight = 20;
-    public int jumpCount = jumpHeight;
-    private boolean isJumping;
-
-    private Inventory inventory = new Inventory();
+    private Inventory inventory;
 
     public Player(int x, int y, Terrain terrain){
         super(20, 10, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif", terrain);

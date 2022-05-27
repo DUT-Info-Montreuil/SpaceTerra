@@ -6,17 +6,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
-public abstract class  Entity {
+public abstract class Entity {
 
     private int life;
     private int speed;
     private Hitbox hitbox;
     private Image image;
     private final int jumpHeight = 20;
-    public int jumpCount = jumpHeight;
+    public int vitesseY = jumpHeight;
     private boolean isJumping = false;
 
     public static double g = 5;
+
+    private boolean gravity;
 
     public Terrain getTerrain() {
         return terrain;
@@ -30,7 +32,7 @@ public abstract class  Entity {
         this.hitbox = hitbox;
         this.image = new Image(String.valueOf(getClass().getResource(path)));
         this.terrain = terrain;
-
+        gravity = true;
     }
 
     public int getSpeed() {
@@ -76,12 +78,10 @@ public abstract class  Entity {
          */
 
 
-
         Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + this.speed, hitbox.getY().intValue() + hitbox.getHeight() - 1); // on enlève 1 pixel pour pas qu'il détecte le block de diagonal bas droite
-        Block blockVerifBottomQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + this.speed, hitbox.getY().intValue() + hitbox.getHeight() * 3/4); //met un point en bas à droite à 3/4 de la hauteur du joueur
+        Block blockVerifBottomQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + this.speed, hitbox.getY().intValue() + hitbox.getHeight() * 3 / 4); //met un point en bas à droite à 3/4 de la hauteur du joueur
         Block blockVerifUpRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + this.speed, hitbox.getY().intValue() + 1); // on ajoute 1 pixel pour pas qu'il détecte le block de diagonal haut gauche
-        Block blockVerifUpQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + this.speed, hitbox.getY().intValue() + hitbox.getHeight() * 1/10); //met un point en haut à droite à 1/10 de la hauteur du joueur (car 1/4 était trop bas pour la tête du joueur)
-
+        Block blockVerifUpQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + this.speed, hitbox.getY().intValue() + hitbox.getHeight() * 1 / 10); //met un point en haut à droite à 1/10 de la hauteur du joueur (car 1/4 était trop bas pour la tête du joueur)
 
 
         if (blockVerifBottomRight != null && blockVerifBottomQuarterRight != null) {
@@ -95,7 +95,7 @@ public abstract class  Entity {
                 r.setWidth(32);
                 r.setHeight(32);
                 panneau.getChildren().add(r);
-              //  System.out.println("basDroite");
+                //  System.out.println("basDroite");
                 //hitbox.setX(blockVerifBottomLeft.getHitX() + blockVerifBottomLeft.getTile().getHitbox().getWidth() + 2);
                 return true;
             }
@@ -137,7 +137,7 @@ public abstract class  Entity {
                 r.setHeight(32);
                 panneau.getChildren().add(r);
                  */
-                // hitbox.setX(blockVerifUpLeft.getHitX() + blockVerifUpLeft.getTile().getHitbox().getWidth() + 2);
+        // hitbox.setX(blockVerifUpLeft.getHitX() + blockVerifUpLeft.getTile().getHitbox().getWidth() + 2);
         /*
                 return -1;
             }
@@ -175,11 +175,11 @@ public abstract class  Entity {
         return false;
     }
 
-    public boolean sideLeftCollision(Pane panneau){
+    public boolean sideLeftCollision(Pane panneau) {
         Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue() - this.speed, hitbox.getY().intValue() + hitbox.getHeight()); // on ajoute 1 pixel pour pas qu'il détecte le block de diagonal bas gauche
-        Block blockVerifBottomQuarterLeft = terrain.getBlock(hitbox.getX().intValue() - this.speed, hitbox.getY().intValue() + hitbox.getHeight() * 3/4); //met un point en bas à gauche à 3/4 de la hauteur du joueur
+        Block blockVerifBottomQuarterLeft = terrain.getBlock(hitbox.getX().intValue() - this.speed, hitbox.getY().intValue() + hitbox.getHeight() * 3 / 4); //met un point en bas à gauche à 3/4 de la hauteur du joueur
         Block blockVerifUpLeft = terrain.getBlock(hitbox.getX().intValue() - this.speed, hitbox.getY().intValue() + 1); // on ajoute 1 pixel pour pas qu'il détecte le block de diagonal haut droite
-        Block blockVerifUpQuarterLeft = terrain.getBlock(hitbox.getX().intValue() - this.speed, hitbox.getY().intValue() + hitbox.getHeight() * 1/10); //met un point en haut à gauche à 1/10 de la hauteur du joueur (car 1/4 était trop bas pour la tête du joueur)
+        Block blockVerifUpQuarterLeft = terrain.getBlock(hitbox.getX().intValue() - this.speed, hitbox.getY().intValue() + hitbox.getHeight() * 1 / 10); //met un point en haut à gauche à 1/10 de la hauteur du joueur (car 1/4 était trop bas pour la tête du joueur)
 
         if (blockVerifBottomLeft != null && blockVerifBottomQuarterLeft != null) {
             if (blockVerifBottomQuarterLeft.getTile().getHitbox().isSolid()) {
@@ -220,22 +220,22 @@ public abstract class  Entity {
 
     }
 
-    public boolean upCollisions(){
+    public boolean upCollisions() {
 
 
-        Block blockVerifUpQuarterLeft = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 1/4, hitbox.getY().intValue() - this.jumpCount); // met un point en haut à 1/4 de la largeur du joueur
-        Block blockVerifUpQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 3/4, hitbox.getY().intValue() - this.jumpCount);// met un point en haut à 3/4 de la largeur du joueur
-        Block blockVerifUpLeft = terrain.getBlock(hitbox.getX().intValue() + 1, hitbox.getY().intValue() - this.jumpCount); // on ajoute 1 pixel pour pas qu'il détecte le block de diagonal haut gauche
-        Block blockVerifUpRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue() - this.jumpCount); // on enlève 1 pixel pour pas qu'il détecte le block de diagonal haut droite
+        Block blockVerifUpQuarterLeft = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 1 / 4, hitbox.getY().intValue() - this.vitesseY); // met un point en haut à 1/4 de la largeur du joueur
+        Block blockVerifUpQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 3 / 4, hitbox.getY().intValue() - this.vitesseY);// met un point en haut à 3/4 de la largeur du joueur
+        Block blockVerifUpLeft = terrain.getBlock(hitbox.getX().intValue() + 1, hitbox.getY().intValue() - this.vitesseY); // on ajoute 1 pixel pour pas qu'il détecte le block de diagonal haut gauche
+        Block blockVerifUpRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue() - this.vitesseY); // on enlève 1 pixel pour pas qu'il détecte le block de diagonal haut droite
 
-        if(blockVerifUpLeft != null && blockVerifUpQuarterLeft != null){
-            if(blockVerifUpQuarterLeft.getTile().getHitbox().isSolid()){
+        if (blockVerifUpLeft != null && blockVerifUpQuarterLeft != null) {
+            if (blockVerifUpQuarterLeft.getTile().getHitbox().isSolid()) {
                 hitbox.setY(hitbox.getY().intValue() + (hitbox.getY().intValue() - (blockVerifUpQuarterLeft.getHitY() + blockVerifUpQuarterLeft.getTile().getHitbox().getHeight())));
                 return true;
             }
         }
-        if(blockVerifUpRight != null && blockVerifUpQuarterRight != null){
-            if(blockVerifUpQuarterRight.getTile().getHitbox().isSolid()){
+        if (blockVerifUpRight != null && blockVerifUpQuarterRight != null) {
+            if (blockVerifUpQuarterRight.getTile().getHitbox().isSolid()) {
                 hitbox.setY(hitbox.getY().intValue() + (hitbox.getY().intValue() - (blockVerifUpQuarterRight.getHitY() + blockVerifUpQuarterRight.getTile().getHitbox().getHeight())));
                 return true;
             }
@@ -244,7 +244,6 @@ public abstract class  Entity {
 
         return false;
     }
-
 
 
     public boolean isGrounded() {
@@ -260,30 +259,31 @@ public abstract class  Entity {
         return false;
 */
         Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue() + 1, hitbox.getY().intValue() + hitbox.getHeight() + (int) g);  // on ajoute 1 pixel pour pas qu'il détecte le block de diagonal bas gauche
-        Block blockVerifBottomQuarterLeft = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 1/4, hitbox.getY().intValue() + hitbox.getHeight() + (int) g); // met un point en bas à 1/4 de la largeur du joueur
+        Block blockVerifBottomQuarterLeft = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 1 / 4, hitbox.getY().intValue() + hitbox.getHeight() + (int) g); // met un point en bas à 1/4 de la largeur du joueur
         Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue() + hitbox.getHeight() + (int) g); // on enlève 1 pixel pour pas qu'il détecte le block de diagonal bas droite
-        Block blockVerifBottomQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 3/4, hitbox.getY().intValue() + hitbox.getHeight() + (int) g); // met un point en bas à 3/4 de la largeur du joueur
+        Block blockVerifBottomQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 3 / 4, hitbox.getY().intValue() + hitbox.getHeight() + (int) g); // met un point en bas à 3/4 de la largeur du joueur
 
-        if(blockVerifBottomQuarterLeft != null && blockVerifBottomLeft != null){
-            if(blockVerifBottomQuarterLeft.getTile().getHitbox().isSolid()){
-              hitbox.getY().set(blockVerifBottomLeft.getHitY() - hitbox.getHeight());
-               // System.out.println("gravTrue");
+        if (blockVerifBottomQuarterLeft != null && blockVerifBottomLeft != null) {
+            if (blockVerifBottomQuarterLeft.getTile().getHitbox().isSolid()) {
+                hitbox.getY().set(blockVerifBottomLeft.getHitY() - hitbox.getHeight());
+                // System.out.println("gravTrue");
                 return true;
             }
         }
 
-        if(blockVerifBottomQuarterRight != null && blockVerifBottomRight != null){
-            if(blockVerifBottomQuarterRight.getTile().getHitbox().isSolid()){
+        if (blockVerifBottomQuarterRight != null && blockVerifBottomRight != null) {
+            if (blockVerifBottomQuarterRight.getTile().getHitbox().isSolid()) {
                 hitbox.getY().set(blockVerifBottomRight.getHitY() - hitbox.getHeight());
-               // System.out.println("gravTrue");
+                // System.out.println("gravTrue");
                 return true;
             }
         }
-       // System.out.println("gravFalse");
+        // System.out.println("gravFalse");
         return false;
     }
 
     public void applyGrav() {
+        gravity = true;
         hitbox.getY().set(hitbox.getY().getValue() + g);
         System.out.println(g);
         g += 0.05;
@@ -301,36 +301,40 @@ public abstract class  Entity {
         return (int) sqrt / 32; //distance euclidienne / 32 pour avoir une distance en blocks
     }
 
-    public void jump() {
-        if (!this.isJumping()) {
-            this.setJumping(true);
-            getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
-        } else {
-            if (jumpCount <= 0) {
-                stopJump();
-            } else {
-                System.out.println(jumpCount);
-                getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
-            }
-        }
+    public boolean isGravity() {
+        return gravity;
+    }
 
+    public void setGravity(boolean gravity) {
+        this.gravity = gravity;
+    }
+
+    public void jump() {
+        gravity = false;
+        this.isJumping = true;
+        getHitbox().setY(getHitbox().getY().intValue() - --vitesseY);
+        if (vitesseY <= 0) {
+            stopJump();
+        }
     }
 
     public void stopJump() {
-        this.setJumpCount(this.getJumpHeight());
-        this.setJumping(false);
+        if (this.isGrounded()) {
+            setJumping(false);
+            setVitesseY(jumpHeight);
+        }
     }
 
     public int getJumpHeight() {
         return jumpHeight;
     }
 
-    public int getJumpCount() {
-        return jumpCount;
+    public int getVitesseY() {
+        return vitesseY;
     }
 
-    public void setJumpCount(int jumpCount) {
-        this.jumpCount = jumpCount;
+    public void setVitesseY(int vitesseY) {
+        this.vitesseY = vitesseY;
     }
 
     public boolean isJumping() {
