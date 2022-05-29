@@ -16,7 +16,9 @@ public abstract class  Entity {
     public int jumpCount = jumpHeight;
     private boolean isJumping = false;
 
-    public static double g = 5;
+    private int velocity = 0;
+
+    public static double g = 1;
 
     public Terrain getTerrain() {
         return terrain;
@@ -301,20 +303,14 @@ public abstract class  Entity {
         return (int) sqrt / 32; //distance euclidienne / 32 pour avoir une distance en blocks
     }
 
-    public void jump() {
-        if (!this.isJumping()) {
-            this.setJumping(true);
-            getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
-        } else {
-            if (jumpCount <= 0) {
-                stopJump();
-            } else {
-                System.out.println(jumpCount);
-                getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
-            }
+    public void jump(int t) {
+
+            getHitbox().setX(speed/32 * Math.cos(Math.atan2(getHitbox().getX().intValue(), getHitbox().getY().intValue())) * t);
+            getHitbox().setY(-g/2 * Math.pow(t,2) + speed/32 * Math.sin(Math.atan2(getHitbox().getCenterXPos(), getHitbox().getCenterYPos())) * t + (hitbox.getCenterYPos() - hitbox.getHeight()));
         }
 
-    }
+
+
 
     public void stopJump() {
         this.setJumpCount(this.getJumpHeight());

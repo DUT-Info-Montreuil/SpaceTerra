@@ -44,6 +44,8 @@ public class Controleur implements Initializable {
     private Rectangle currentSlotView;
     private InventoryView inventoryView;
 
+    private int time = 0;
+
     private boolean isBinded;
 
     @Override
@@ -207,16 +209,14 @@ public class Controleur implements Initializable {
     public void playerMovement() {
         if (keyHandler.isUpPressed())//mouvements a mettre avec le player
             if (checkGroundBlock(player)) {
+                time++;
                 Entity.g = 5;
-                player.jump();
+                player.jump(time);
+
             }
 
             else if (player.isJumping()){
-                player.jump();
-                if(player.upCollisions()){
-                    //ddddddplayer.getHitbox().setY(player.getHitbox().getY().intValue() - player.jumpCount);
-                    player.stopJump();
-                }
+                player.jump(time);
             }
 
 
@@ -246,10 +246,10 @@ public class Controleur implements Initializable {
                 //System.out.println(checkSideBlock(ent));
                 if (ent.sideLeftCollision(panneauDeJeu) || ent.sideRightCollisions(panneauDeJeu)) {
                     if (checkGroundBlock(ent))
-                        ent.jump();
+                        ent.jump(time);
 
                     else if (ent.isJumping())
-                        ent.jump();
+                        ent.jump(time);
                 } else {
                     if (ent.isJumping()) {
                         ent.movement(player, !ent.sideLeftCollision(panneauDeJeu), !ent.sideRightCollisions(panneauDeJeu));
