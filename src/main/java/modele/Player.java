@@ -31,7 +31,6 @@ public class Player extends Entity {
                 }
             }
         }
-        getHitbox().setX(this.getHitbox().getX().intValue() + getVelocityX());
 
     }
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()

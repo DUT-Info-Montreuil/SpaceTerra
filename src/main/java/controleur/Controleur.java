@@ -208,12 +208,14 @@ public class Controleur implements Initializable {
     public void playerMovement() {
         if (keyHandler.isUpPressed()) {//mouvements a mettre avec le player
                 player.jump();
+                if(player.upCollisions()){
+                    player.setVelocityY(0);
+                }
 
         }
         else{
             if(!player.isGrounded()){
                 player.setVelocityY(player.getVelocityY() - Entity.g);
-                player.updatePosition();
             }
             else {
                 player.setVelocityY(0);
@@ -223,26 +225,32 @@ public class Controleur implements Initializable {
 
 
 
-        if (keyHandler.isLeftPressed()){
+        if (keyHandler.isLeftPressed() && !keyHandler.isRightPressed()){
+            if(player.sideLeftCollision(panneauDeJeu)){
+                player.setVelocityX(0);
+            }
             player.movement(null, keyHandler.isLeftPressed() && !(player.sideLeftCollision(panneauDeJeu)), false);
         }
 
-        else if (keyHandler.isRightPressed()){
+        else if (keyHandler.isRightPressed() && !keyHandler.isLeftPressed()){
+            if(player.sideRightCollisions(panneauDeJeu)){
+                player.setVelocityX(0);
+            }
             player.movement(null, false, keyHandler.isRightPressed() && !(player.sideRightCollisions(panneauDeJeu)));
         }
         else {
+            System.out.println("rien");
             if(player.getVelocityX() > 0){
-                System.out.println(player.getVelocityX());
+               // System.out.println(player.getVelocityX());
                 player.setVelocityX(player.getVelocityX() - 0.5);
-                player.movement(null, false, false);
             }
             else if (player.getVelocityX() < 0){
-                System.out.println(player.getVelocityX());
+              //  System.out.println(player.getVelocityX());
                 player.setVelocityX(player.getVelocityX() + 0.5);
-                player.movement(null, false, false);
             }
 
         }
+        player.updatePosition();
 
 
     }

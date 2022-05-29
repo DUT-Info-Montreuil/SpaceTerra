@@ -10,7 +10,10 @@ public abstract class  Entity {
 
     private int life;
     private final int velocityXMax;
-    private final int velocityYMax = 20;
+
+
+
+    private final int velocityYMax = 10;
 
     private double velocityX  = 0;
 
@@ -23,7 +26,7 @@ public abstract class  Entity {
     private boolean isJumping = false;
 
 
-    public static double g = 0.5;
+    public static double g = 0.2;
 
     public Terrain getTerrain() {
         return terrain;
@@ -271,7 +274,7 @@ public abstract class  Entity {
 
         if(blockVerifBottomQuarterLeft != null && blockVerifBottomLeft != null){
             if(blockVerifBottomQuarterLeft.getTile().getHitbox().isSolid()){
-              hitbox.getY().set(blockVerifBottomLeft.getHitY() - hitbox.getHeight());
+             hitbox.getY().set(blockVerifBottomLeft.getHitY() - hitbox.getHeight());
                // System.out.println("gravTrue");
                 return true;
             }
@@ -313,7 +316,7 @@ public abstract class  Entity {
             velocityY = velocityYMax;
         }
 
-        hitbox.setY(this.getHitbox().getY().intValue() - velocityY);
+        //hitbox.setY(this.getHitbox().getY().intValue() - velocityY);
         System.out.println(velocityY);
     }
 
