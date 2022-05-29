@@ -264,10 +264,10 @@ public abstract class  Entity {
 
         return false;
 */
-        Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue() + 1, hitbox.getY().intValue() + hitbox.getHeight() + (int) g);  // on ajoute 1 pixel pour pas qu'il détecte le block de diagonal bas gauche
-        Block blockVerifBottomQuarterLeft = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 1/4, hitbox.getY().intValue() + hitbox.getHeight() + (int) g); // met un point en bas à 1/4 de la largeur du joueur
-        Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue() + hitbox.getHeight() + (int) g); // on enlève 1 pixel pour pas qu'il détecte le block de diagonal bas droite
-        Block blockVerifBottomQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 3/4, hitbox.getY().intValue() + hitbox.getHeight() + (int) g); // met un point en bas à 3/4 de la largeur du joueur
+        Block blockVerifBottomLeft = terrain.getBlock(hitbox.getX().intValue() + 1, hitbox.getY().intValue() + hitbox.getHeight());  // on ajoute 1 pixel pour pas qu'il détecte le block de diagonal bas gauche
+        Block blockVerifBottomQuarterLeft = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 1/4, hitbox.getY().intValue() + hitbox.getHeight()); // met un point en bas à 1/4 de la largeur du joueur
+        Block blockVerifBottomRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue() + hitbox.getHeight()); // on enlève 1 pixel pour pas qu'il détecte le block de diagonal bas droite
+        Block blockVerifBottomQuarterRight = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() * 3/4, hitbox.getY().intValue() + hitbox.getHeight()); // met un point en bas à 3/4 de la largeur du joueur
 
         if(blockVerifBottomQuarterLeft != null && blockVerifBottomLeft != null){
             if(blockVerifBottomQuarterLeft.getTile().getHitbox().isSolid()){

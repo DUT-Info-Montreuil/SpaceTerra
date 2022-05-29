@@ -211,9 +211,12 @@ public class Controleur implements Initializable {
 
         }
         else{
-            if(!player.isGrounded() && Math.abs(player.getVelocityY()) < player.getVelocityYMax()){
+            if(!player.isGrounded()){
                 player.setVelocityY(player.getVelocityY() - Entity.g);
                 player.updatePosition();
+            }
+            else {
+                player.setVelocityY(0);
             }
         }
 
