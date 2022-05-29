@@ -40,7 +40,7 @@ public class Bingus extends Ennemy {
 
                     case 1:
                         if (leftCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                            this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getVelocityXMax());
                             this.setIdleCooldown(this.getIdleCooldown()-1);
 
                             if(this.getIdleCooldown() == 0) {
@@ -62,7 +62,7 @@ public class Bingus extends Ennemy {
 
                     case 2:
                         if (rightCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                            this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getVelocityXMax());
                             this.setIdleCooldown(this.getIdleCooldown()-1);
 
                             if(this.getIdleCooldown() == 0) {
@@ -99,11 +99,11 @@ public class Bingus extends Ennemy {
             case "attack":
                 if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue()) {
                     if (leftCheck)
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                        this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getVelocityXMax());
                 }
                 else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue()) {
                     if (rightCheck)
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                        this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getVelocityXMax());
                 }
                 break;
 

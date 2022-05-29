@@ -44,7 +44,6 @@ public class Controleur implements Initializable {
     private Rectangle currentSlotView;
     private InventoryView inventoryView;
 
-    private int time = 0;
 
     private boolean isBinded;
 
@@ -207,22 +206,18 @@ public class Controleur implements Initializable {
 
 
     public void playerMovement() {
-        if (keyHandler.isUpPressed())//mouvements a mettre avec le player
-            if (checkGroundBlock(player)) {
-                time++;
-                Entity.g = 5;
-                player.jump(time);
+        if (keyHandler.isUpPressed()) {//mouvements a mettre avec le player
+                player.jump();
 
+        }
+        else{
+            if(!player.isGrounded() && Math.abs(player.getVelocityY()) < player.getVelocityYMax()){
+                player.setVelocityY(player.getVelocityY() - Entity.g);
+                player.updatePosition();
             }
-
-            else if (player.isJumping()){
-                player.jump(time);
-            }
+        }
 
 
-        if (!keyHandler.isUpPressed())
-            if (player.isJumping())
-                player.stopJump();
 
 
         if (keyHandler.isLeftPressed()){
@@ -232,6 +227,20 @@ public class Controleur implements Initializable {
         else if (keyHandler.isRightPressed()){
             player.movement(null, false, keyHandler.isRightPressed() && !(player.sideRightCollisions(panneauDeJeu)));
         }
+        else {
+            if(player.getVelocityX() > 0){
+                System.out.println(player.getVelocityX());
+                player.setVelocityX(player.getVelocityX() - 0.5);
+                player.movement(null, false, false);
+            }
+            else if (player.getVelocityX() < 0){
+                System.out.println(player.getVelocityX());
+                player.setVelocityX(player.getVelocityX() + 0.5);
+                player.movement(null, false, false);
+            }
+
+        }
+
 
     }
 
@@ -246,14 +255,14 @@ public class Controleur implements Initializable {
                 //System.out.println(checkSideBlock(ent));
                 if (ent.sideLeftCollision(panneauDeJeu) || ent.sideRightCollisions(panneauDeJeu)) {
                     if (checkGroundBlock(ent))
-                        ent.jump(time);
+                        ent.jump();
 
                     else if (ent.isJumping())
-                        ent.jump(time);
+                        ent.jump();
                 } else {
                     if (ent.isJumping()) {
                         ent.movement(player, !ent.sideLeftCollision(panneauDeJeu), !ent.sideRightCollisions(panneauDeJeu));
-                        ent.stopJump();
+                        //ent.stopJump();
                     }
                 }
 
@@ -270,10 +279,10 @@ public class Controleur implements Initializable {
             if (!checkGroundBlock(ent)) {
                 if (ent instanceof Player) {
                     if (!player.isJumping()) {
-                        player.applyGrav();
+                       // player.applyGrav();
                     }
                 } else {
-                    ent.applyGrav();
+                   // ent.applyGrav();
                 }
             }
         }
