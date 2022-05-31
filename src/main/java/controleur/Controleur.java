@@ -70,7 +70,7 @@ public class Controleur implements Initializable {
         //panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(0);
         panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(player.getHitbox().getX().getValue());
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
-        hpBarView = new HPBarView(panneauDeJeu, 30, 100, player, 20);
+        hpBarView = new HPBarView(panneauDeJeu, 700, 100, player, 20);
         hpBarView.initialize();
         createTimelines();
         inventoryView = new InventoryView(player.getInventory(), panneauDeJeu);

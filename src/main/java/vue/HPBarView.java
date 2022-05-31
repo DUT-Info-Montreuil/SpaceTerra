@@ -2,12 +2,17 @@ package vue;
 
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import jdk.jshell.spi.SPIResolutionException;
 import modele.Entity;
 
+import java.awt.*;
+
 public class HPBarView {
     private Pane panneauDeJeu;
-    private ProgressBar progressBar;
+    private Rectangle pvBar;
+    private Rectangle pvBarOutLine;
 
     private Entity ent;
 
@@ -19,7 +24,8 @@ public class HPBarView {
 
     public HPBarView(Pane panneauDeJeu, int x, int y, Entity ent, int maxHp) {
         this.panneauDeJeu = panneauDeJeu;
-        progressBar = new ProgressBar();
+        pvBarOutLine = new Rectangle();
+        pvBar = new Rectangle();
         this.x = x;
         this.y = y;
         this.ent = ent;
@@ -27,16 +33,21 @@ public class HPBarView {
     }
 
     public void initialize(){
-        //progressBar.layoutXProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(x));
-        //progressBar.layoutYProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(y));
-        progressBar.layoutXProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty());
-        progressBar.layoutYProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(500));
-        progressBar.setPrefWidth(100);
-        progressBar.setPrefHeight(20);
-        //progressBar.progressProperty().bind(ent.getHp().divide(maxHp));
-        panneauDeJeu.getChildren().add(progressBar);
-        System.out.println(progressBar.getLayoutX());
-        System.out.println(progressBar.getLayoutY());
+        pvBarOutLine.layoutXProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(x-1));
+        pvBarOutLine.layoutYProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(y-3));
+        pvBarOutLine.setWidth(maxHp*8.1);
+        pvBarOutLine.setHeight(20);
+        pvBarOutLine.setFill(Color.WHITE);
+        pvBarOutLine.setStroke(Color.BLACK);
+        panneauDeJeu.getChildren().add(pvBarOutLine);
+
+        pvBar.layoutXProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(x));
+        pvBar.layoutYProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(y));
+        pvBar.widthProperty().bind(ent.getHp().multiply(8));
+        pvBar.setHeight(15);
+        pvBar.setFill(Color.RED);
+        panneauDeJeu.getChildren().add(pvBar);
+
     }
 
 

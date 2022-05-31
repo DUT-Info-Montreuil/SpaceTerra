@@ -105,6 +105,9 @@ public class Bingus extends Ennemy {
                     if (rightCheck)
                         this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
                 }
+                if(getHitbox().isArround(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue())){
+                    player.setHp(player.getHp().intValue()-1);
+                }
                 break;
 
             default:
