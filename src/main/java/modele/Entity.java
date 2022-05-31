@@ -64,21 +64,22 @@ public abstract class  Entity {
 
 
     public boolean sideRightCollisions() {
-        /*
+
         Block b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue()); // upRight
-        if(b != null){
+        if(b != null && b.getTile().getHitbox().isSolid()){
+            Controleur.debugger.debugBlock(b, Color.VIOLET);
             return true;
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() / 2); //MiddleRight
-        if(b != null){
+        if(b != null && b.getTile().getHitbox().isSolid()){
+            Controleur.debugger.debugBlock(b, Color.BLUEVIOLET);
             return true;
         }
-        b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight()); //DownRight
-        if(b != null){
+        b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() - 1); //DownRight
+        if(b != null && b.getTile().getHitbox().isSolid()){
+            Controleur.debugger.debugBlock(b, Color.DARKVIOLET);
             return true;
         }
-
-         */
         return false;
     }
 
@@ -92,10 +93,9 @@ public abstract class  Entity {
 
     public boolean isGrounded() {
         Block b = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight());// upRight
-        Controleur.debugger.debugPoint(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight(), Color.RED);
-        System.out.println("aaaaaaX = " + hitbox.getX().intValue() + " Y = " + hitbox.getY().intValue() + hitbox.getHeight());
         if(b != null && b.getTile().getHitbox().isSolid()){
-            //Controleur.debugger.debugBlock(b, Color.VIOLET);
+            Controleur.debugger.debugBlock(b, Color.RED);
+            this.hitbox.setY(hitbox.getY().intValue() - ((hitbox.getY().intValue() + hitbox.getHeight()) - b.getHitY()));
             return true;
         }
         return false;

@@ -58,7 +58,7 @@ public class Controleur implements Initializable {
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
-        createBingus();
+        //createBingus();
         terrainView.readEntity();
         PlayerView playerView = new PlayerView(player = new Player(10, 2030, terrain), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
