@@ -84,6 +84,21 @@ public abstract class  Entity {
     }
 
     public boolean sideLeftCollision(){
+        Block b = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue()); // upRight
+        if(b != null && b.getTile().getHitbox().isSolid()){
+            Controleur.debugger.debugBlock(b, Color.VIOLET);
+            return true;
+        }
+        b = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight() / 2); // upRight
+        if(b != null && b.getTile().getHitbox().isSolid()){
+            Controleur.debugger.debugBlock(b, Color.YELLOW);
+            return true;
+        }
+        b = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight() - 1); // upRight
+        if(b != null && b.getTile().getHitbox().isSolid()){
+            Controleur.debugger.debugBlock(b, Color.GREEN);
+            return true;
+        }
         return false;
     }
 
