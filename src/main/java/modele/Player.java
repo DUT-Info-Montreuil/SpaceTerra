@@ -3,11 +3,10 @@ package modele;
 import java.util.ArrayList;
 
 public class Player extends Entity {
-
-    private final double walkSpeed = 10;
     private final int jumpHeight = 20;
     public int jumpCount = jumpHeight;
     private boolean isJumping;
+    private boolean isRunning;
 
     private Inventory inventory = new Inventory();
 
@@ -20,13 +19,13 @@ public class Player extends Entity {
     public void movement(Player player, boolean leftCheck, boolean rightCheck, Terrain terrain) {
         if(this.getHitbox().getX().getValue() >= 10){
             if (leftCheck) {
-                getHitbox().setX(this.getHitbox().getX().intValue() - walkSpeed);
+                getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
             }
         }
 
         if(this.getHitbox().getX().getValue() <= terrain.getWidth()*32-30){
             if (rightCheck){
-                getHitbox().setX(this.getHitbox().getX().intValue() + walkSpeed);
+                getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
             }
         }
 
@@ -47,6 +46,11 @@ public class Player extends Entity {
         return inventory;
     }
 
+    public boolean isRunning() {
+        return isRunning;
+    }
 
-
+    public void setRunning(boolean running) {
+        isRunning = running;
+    }
 }
