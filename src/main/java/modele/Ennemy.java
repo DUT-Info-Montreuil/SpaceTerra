@@ -72,5 +72,4 @@ public abstract class Ennemy extends Entity{
             this.playerDetected = false;
         }
     }
-
 }

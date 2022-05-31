@@ -1,13 +1,16 @@
 package modele;
 
+import controleur.Controleur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import vue.DebugView;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -157,25 +160,7 @@ public class Terrain {
     }
 
     public Block getBlock(int x, int y) {
-        /*
-        System.out.println("y : " + y / 32);
-        System.out.println("x : " + x / 32);
-        System.out.println(y / 32 * 500 + x / 32);
-        System.out.println(this.getBlocks().get(y / 32 * this.getWidth() + x / 32));
-
-        Block b1 = null;
-        for (Block b : this.blocks) {
-            if (b != null) {
-                if (x < b.getHitX() + b.getTile().getHitbox().getWidth() && x > b.getHitX() && y < b.getHitY() + b.getTile().getHitbox().getHeight() && y > b.getHitY()) {
-                    b1 = b;
-                }
-            }
-        }
-        //System.out.println(this.getBlocks().indexOf(b1));
-        //System.out.println(blocks.size());
-        */
-
-        return this.getBlocks().get(y / 32 * this.getWidth() + x / 32);
+        return this.getBlocks().get(getIndex(x, y));
     }
 
     public int getIndex(int x, int y){

@@ -15,6 +15,7 @@ import modele.*;
 import modele.Block;
 import modele.Terrain;
 import modele.Player;
+import vue.DebugView;
 import vue.InventoryView;
 import vue.PlayerView;
 import vue.TerrainView;
@@ -46,6 +47,8 @@ public class Controleur implements Initializable {
 
     private boolean isBinded;
 
+    public static DebugView debugger;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         entities = new ArrayList<>();
@@ -62,7 +65,6 @@ public class Controleur implements Initializable {
         //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
-        terrainView.displayCollision(false, false, true, terrain, player); // afficher ou non les collisions
         //panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(0);
         panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(player.getHitbox().getX().getValue());
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight() / 2));
@@ -75,6 +77,7 @@ public class Controleur implements Initializable {
         breakingManager();
         rectanglesManager();
         isBinded = true;
+        debugger = new DebugView(panneauDeJeu);
     }
 
     public void cameraManager() {
@@ -101,13 +104,6 @@ public class Controleur implements Initializable {
     }
 
     public void rectanglesManager() {
-        zonePlayerBlock = new Rectangle();
-        zonePlayerBlock.yProperty().bind(player.getHitbox().getY());
-        zonePlayerBlock.xProperty().bind(player.getHitbox().getX());
-        zonePlayerBlock.setWidth(24);
-        zonePlayerBlock.setHeight(player.getHitbox().getHeight());
-        zonePlayerBlock.setFill(Color.TRANSPARENT);
-        zonePlayerBlock.setStroke(Color.TRANSPARENT);
         mouseBlock = new Rectangle();
         mouseBlock.setWidth(32);
         mouseBlock.setHeight(32);
@@ -122,12 +118,12 @@ public class Controleur implements Initializable {
         currentSlotView.setHeight(34);
         currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32 * player.getInventory().getCurrSlot()));
         currentSlotView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(99));
-        panneauDeJeu.getChildren().addAll(zonePlayerBlock, mouseBlock, currentSlotView);
+        panneauDeJeu.getChildren().addAll(mouseBlock, currentSlotView);
     }
 
     public void createBingus() {
         Bingus bingus = new Bingus(10, 2030, terrain);
-        //terrainView.addEntite(bingus);
+        terrainView.addEntite(bingus);
         entities.add(bingus);
     }
 
@@ -149,6 +145,7 @@ public class Controleur implements Initializable {
 
 
                     verifKeyTyped();
+                    System.out.println("tick");
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -175,8 +172,6 @@ public class Controleur implements Initializable {
 
 /*
     public int checkSideBlock(Entity ent) { // -1 = left, 1 = right, 0 = none
-
-
                 if (ent.sideCollisions(panneauDeJeu) == 1)
                     return 1;
                 else if (ent.sideCollisions(panneauDeJeu) == -1)
@@ -185,14 +180,6 @@ public class Controleur implements Initializable {
         return 0;
     }
 */
-    public boolean checkGroundBlock(Entity ent) {
-
-        if (ent.isGrounded()) {
-            return true;
-        }
-        return false;
-    }
-
     public boolean checkDistanceBlock(Entity ent, Block b) {
         //  System.out.println(ent.distanceToBlock(b));
         if (ent.distanceToBlock(b) < 4) {
@@ -206,7 +193,7 @@ public class Controleur implements Initializable {
 
     public void playerMovement() {
         if (keyHandler.isUpPressed())//mouvements a mettre avec le player
-            if (checkGroundBlock(player)) {
+            if (player.isGrounded()) {
                 Entity.g = 5;
                 player.jump();
             }
@@ -214,60 +201,50 @@ public class Controleur implements Initializable {
             else if (player.isJumping()){
                 player.jump();
                 if(player.upCollisions()){
-                    //ddddddplayer.getHitbox().setY(player.getHitbox().getY().intValue() - player.jumpCount);
+                    // player.getHitbox().setY(player.getHitbox().getY().intValue() - player.jumpCount);
                     player.stopJump();
                 }
             }
-
 
         if (!keyHandler.isUpPressed())
             if (player.isJumping())
                 player.stopJump();
 
-
         if (keyHandler.isLeftPressed()){
-            player.movement(null, keyHandler.isLeftPressed() && !(player.sideLeftCollision(panneauDeJeu)), false);
+            player.movement(null, keyHandler.isLeftPressed() && !(player.sideLeftCollision()), false);
         }
 
         else if (keyHandler.isRightPressed()){
-            player.movement(null, false, keyHandler.isRightPressed() && !(player.sideRightCollisions(panneauDeJeu)));
+            player.movement(null, false, keyHandler.isRightPressed() && !(player.sideRightCollisions()));
         }
 
     }
 
    public void entityLoop() {
         for (Entity ent : entities) {
-            if (ent instanceof Player){
-
-            }
+            if (ent instanceof Player){}
                 //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
 
                 //System.out.println(checkSideBlock(ent));
-                if (ent.sideLeftCollision(panneauDeJeu) || ent.sideRightCollisions(panneauDeJeu)) {
-                    if (checkGroundBlock(ent))
+                if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
+                    if (ent.isGrounded())
                         ent.jump();
 
                     else if (ent.isJumping())
                         ent.jump();
                 } else {
                     if (ent.isJumping()) {
-                        ent.movement(player, !ent.sideLeftCollision(panneauDeJeu), !ent.sideRightCollisions(panneauDeJeu));
+                        ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
                         ent.stopJump();
                     }
                 }
-
-
-
-                ent.movement(player, !ent.sideLeftCollision(panneauDeJeu), !ent.sideRightCollisions(panneauDeJeu));
-                ent.sideLeftCollision(panneauDeJeu);
-                ent.sideRightCollisions(panneauDeJeu);
-
-
+                ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
+                ent.sideLeftCollision();
+                ent.sideRightCollisions();
             }
 
-
-            if (!checkGroundBlock(ent)) {
+            if (!ent.isGrounded()) {
                 if (ent instanceof Player) {
                     if (!player.isJumping()) {
                         player.applyGrav();
@@ -291,6 +268,7 @@ public class Controleur implements Initializable {
 
     public void checkOnLeftPressed() {
         Block b = terrain.getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
+        debugger.debugPoint(mouseHandler.getMouseX(), mouseHandler.getMouseY(), Color.BLUE);
         if (b != null) {
             System.out.println("not null");
             if (checkDistanceBlock(player, b)) {
