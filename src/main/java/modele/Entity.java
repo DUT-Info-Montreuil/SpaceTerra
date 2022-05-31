@@ -1,19 +1,21 @@
 package modele;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 
 public abstract class Entity {
 
-    private int life;
+    private IntegerProperty hp;
     private int speed;
     private Hitbox hitbox;
     private Image image;
     private final int jumpHeight = 20;
     public int jumpCount = jumpHeight;
     private boolean isJumping = false;
-    public Entity(int vie, int vitesse, Hitbox hitbox, String path){
-        this.life = vie;
-        this.speed = vitesse;
+    public Entity(int hp, int speed, Hitbox hitbox, String path){
+        this.hp = new SimpleIntegerProperty(hp);
+        this.speed = speed;
         this.hitbox = hitbox;
         this.image = new Image(String.valueOf(getClass().getResource(path)));
 
@@ -27,12 +29,12 @@ public abstract class Entity {
         this.speed = speed;
     }
 
-    public int getLife() {
-        return life;
+    public IntegerProperty getHp() {
+        return hp;
     }
 
-    public void setLife(int life) {
-        this.life = life;
+    public void setHp(int hp) {
+        this.hp.setValue(hp);
     }
 
     public Hitbox getHitbox() {

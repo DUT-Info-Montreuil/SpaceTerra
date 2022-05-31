@@ -9,8 +9,8 @@ public abstract class Ennemy extends Entity{
     private int idleCooldown = 50;
     private int idleDirection = 0;
     private boolean canMove = true;
-    public Ennemy(int vie, int vitesse, Hitbox hitbox, String path, int range) {
-        super(vie, vitesse, hitbox, path);
+    public Ennemy(int hp, int vitesse, Hitbox hitbox, String path, int range) {
+        super(hp, vitesse, hitbox, path);
         this.range = range;
     }
 

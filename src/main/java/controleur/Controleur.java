@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -15,6 +16,7 @@ import modele.*;
 import modele.Block;
 import modele.Terrain;
 import modele.Player;
+import vue.HPBarView;
 import vue.InventoryView;
 import vue.PlayerView;
 import vue.TerrainView;
@@ -44,6 +46,8 @@ public class Controleur implements Initializable {
     private Rectangle currentSlotView;
     private InventoryView inventoryView;
 
+    private HPBarView hpBarView;
+
     private boolean isBinded;
 
     @Override
@@ -66,6 +70,8 @@ public class Controleur implements Initializable {
         //panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(0);
         panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(player.getHitbox().getX().getValue());
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
+        hpBarView = new HPBarView(panneauDeJeu, 30, 100, player, 20);
+        hpBarView.initialize();
         createTimelines();
         inventoryView = new InventoryView(player.getInventory(), panneauDeJeu);
         keyHandler = new KeyHandler(panneauDeJeu);
