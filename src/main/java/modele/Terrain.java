@@ -27,6 +27,7 @@ public class Terrain {
     private ObservableList<Block> solidBlocks;
     private Tileset tileSet;
     private int height, width;
+    private int tileWidth, tileHeight;
 
     public ObservableList<Block> getBlocks() {
         return blocks;
@@ -43,6 +44,8 @@ public class Terrain {
         parseLayers(this.map);
         height = ((Long) map.get("height")).intValue();
         width = ((Long) map.get("width")).intValue();
+        tileHeight = ((Long) map.get("tileheight")).intValue();
+        tileWidth = ((Long) map.get("tilewidth")).intValue();
         tileSet = new Tileset((JSONObject) ((JSONArray) map.get("tilesets")).get(0));
         loadBlocks();
     }

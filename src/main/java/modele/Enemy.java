@@ -1,6 +1,6 @@
 package modele;
 
-public abstract class Ennemy extends Entity{
+public abstract class Enemy extends Entity{
 
     private int range;
     private boolean playerDetected = false;
@@ -9,7 +9,7 @@ public abstract class Ennemy extends Entity{
     private int idleCooldown = 50;
     private int idleDirection = 0;
     private boolean canMove = true;
-    public Ennemy(int vie, int vitesse, Hitbox hitbox, String path, int range, Terrain terrain) {
+    public Enemy(int vie, int vitesse, Hitbox hitbox, String path, int range, Terrain terrain) {
         super(vie, vitesse, hitbox, path, terrain);
         this.range = range;
     }

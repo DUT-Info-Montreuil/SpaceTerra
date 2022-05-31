@@ -2,7 +2,7 @@ package modele;
 
 import controleur.Controleur;
 
-public class Bingus extends Ennemy {
+public class Bingus extends Enemy {
 
     private int strenght;
     public Bingus(int x, int y, Terrain terrain) {

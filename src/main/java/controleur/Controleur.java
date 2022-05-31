@@ -132,9 +132,9 @@ public class Controleur implements Initializable {
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
                     playerMovement();
-                    //System.out.println(panneauDeJeu.getScene().getCamera().layoutXProperty().intValue());
                     cameraManager();
                     entityLoop();
+
                     if (mouseHandler.isHasScrollUp()) {
                         player.getInventory().incrementSlot();
                         mouseHandler.setHasScrollUp(false);
