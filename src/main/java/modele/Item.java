@@ -6,6 +6,11 @@ public abstract class Item {
     }
 
     private String id;
+
+    public int getMaxQuantity() {
+        return maxQuantity;
+    }
+
     private int maxQuantity;
 
     private Tile tile;
