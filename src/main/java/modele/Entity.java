@@ -68,19 +68,19 @@ public abstract class  Entity {
         Block b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue()); // rightUp
         if(b != null && b.getTile().getHitbox().isSolid()){
             this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
-            DebugView.debugBlock(b, Color.VIOLET);
+            //DebugView.debugBlock(b, Color.VIOLET);
             return true;
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() / 2); // rightMiddle
         if(b != null && b.getTile().getHitbox().isSolid()){
             this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
-            DebugView.debugBlock(b, Color.BLUEVIOLET);
+            //DebugView.debugBlock(b, Color.BLUEVIOLET);
             return true;
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() - 1); // rightDown
         if(b != null && b.getTile().getHitbox().isSolid()){
             this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
-            DebugView.debugBlock(b, Color.DARKVIOLET);
+            //DebugView.debugBlock(b, Color.DARKVIOLET);
             return true;
         }
         return false;
@@ -90,19 +90,19 @@ public abstract class  Entity {
         Block b = terrain.getBlock(hitbox.getX().intValue() - 1, hitbox.getY().intValue()); // leftUp
         if(b != null && b.getTile().getHitbox().isSolid()){
             this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
-            DebugView.debugBlock(b, Color.VIOLET);
+            //DebugView.debugBlock(b, Color.VIOLET);
             return true;
         }
         b = terrain.getBlock(hitbox.getX().intValue() - 1, hitbox.getY().intValue() + hitbox.getHeight() / 2); // leftMiddle
         if(b != null && b.getTile().getHitbox().isSolid()){
             this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
-            DebugView.debugBlock(b, Color.YELLOW);
+            //DebugView.debugBlock(b, Color.YELLOW);
             return true;
         }
         b = terrain.getBlock(hitbox.getX().intValue() - 1, hitbox.getY().intValue() + hitbox.getHeight() - 1); // leftDown
         if(b != null && b.getTile().getHitbox().isSolid()){
             this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
-            DebugView.debugBlock(b, Color.GREEN);
+            //DebugView.debugBlock(b, Color.GREEN);
             return true;
         }
         return false;
@@ -112,19 +112,19 @@ public abstract class  Entity {
         Block b = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue());// upLeft
         if(b != null && b.getTile().getHitbox().isSolid()){
             this.hitbox.setY(hitbox.getY().intValue() + ((b.getHitY() + b.getTile().getHitbox().getHeight()) - hitbox.getY().intValue()));
-            DebugView.debugBlock(b, Color.DARKGRAY);
+            //DebugView.debugBlock(b, Color.DARKGRAY);
             return true;
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() / 2, hitbox.getY().intValue());// upLeft
         if(b != null && b.getTile().getHitbox().isSolid()){
             this.hitbox.setY(hitbox.getY().intValue() + ((b.getHitY() + b.getTile().getHitbox().getHeight()) - hitbox.getY().intValue()));
-            DebugView.debugBlock(b, Color.DIMGRAY);
+            //DebugView.debugBlock(b, Color.DIMGRAY);
             return true;
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue());// upLeft
         if(b != null && b.getTile().getHitbox().isSolid()){
             this.hitbox.setY(hitbox.getY().intValue() + ((b.getHitY() + b.getTile().getHitbox().getHeight()) - hitbox.getY().intValue()));
-            DebugView.debugBlock(b, Color.SLATEGRAY);
+            //DebugView.debugBlock(b, Color.SLATEGRAY);
             return true;
         }
         return false;
@@ -133,19 +133,19 @@ public abstract class  Entity {
     public boolean isGrounded() {
         Block b = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight());// downLeft
         if(b != null && b.getTile().getHitbox().isSolid()){
-            DebugView.debugBlock(b, Color.RED);
+            //DebugView.debugBlock(b, Color.RED);
             this.hitbox.setY(hitbox.getY().intValue() - ((hitbox.getY().intValue() + hitbox.getHeight()) - b.getHitY()));
             return true;
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() / 2, hitbox.getY().intValue() + hitbox.getHeight());// downMiddle
         if(b != null && b.getTile().getHitbox().isSolid()){
-            DebugView.debugBlock(b, Color.MEDIUMVIOLETRED);
+            //DebugView.debugBlock(b, Color.MEDIUMVIOLETRED);
             this.hitbox.setY(hitbox.getY().intValue() - ((hitbox.getY().intValue() + hitbox.getHeight()) - b.getHitY()));
             return true;
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue() + hitbox.getHeight());// downRight
         if(b != null && b.getTile().getHitbox().isSolid()){
-            DebugView.debugBlock(b, Color.DARKRED);
+            //DebugView.debugBlock(b, Color.DARKRED);
             this.hitbox.setY(hitbox.getY().intValue() - ((hitbox.getY().intValue() + hitbox.getHeight()) - b.getHitY()));
             return true;
         }

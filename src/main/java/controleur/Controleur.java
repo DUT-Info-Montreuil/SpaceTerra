@@ -304,7 +304,7 @@ public class Controleur implements Initializable {
     public void checkOnRightClicked() {
         Block bMouse = terrain.getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
         Block bPlace;
-        if (bMouse == null && !zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
+        if (bMouse == null /*&& !zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())*/) {
             // System.out.println(player.getInventory());
             Item item = player.drop();
             if (item != null) {
@@ -323,9 +323,9 @@ public class Controleur implements Initializable {
                 mouseBlock.setStroke(Color.RED);
             }
         }
-        if (zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
+        /*if (zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
             mouseBlock.setStroke(Color.RED);
-        }
+        }*/
     }
 
 
