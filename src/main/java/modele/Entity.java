@@ -11,6 +11,8 @@ public abstract class Entity {
     private final int jumpHeight = 20;
     public int jumpCount = jumpHeight;
     private boolean isJumping = false;
+
+    private boolean flying = false;
     public Entity(int vie, int vitesse, Hitbox hitbox, String path){
         this.life = vie;
         this.speed = vitesse;
@@ -124,5 +126,13 @@ public abstract class Entity {
 
     public void setJumping(boolean jumping) {
         isJumping = jumping;
+    }
+
+    public boolean isFlying() {
+        return flying;
+    }
+
+    public void setFlying(boolean flying) {
+        this.flying = flying;
     }
 }

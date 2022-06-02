@@ -55,14 +55,14 @@ public class Controleur implements Initializable {
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
-        createBingus();
+        createEnnemies();
         terrainView.readEntity();
         PlayerView playerView = new PlayerView(player = new Player(10, 2030), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
-        terrainView.displayCollision(false, false, false, terrain, player); // afficher ou non les collisions
+        terrainView.displayCollision(false, true, false, terrain, player); // afficher ou non les collisions
         //panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(0);
         panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(player.getHitbox().getX().getValue());
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight()/2));
@@ -129,10 +129,13 @@ public class Controleur implements Initializable {
         panneauDeJeu.getChildren().addAll(zonePlayerBlock, mouseBlock, currentSlotView);
     }
 
-    public void createBingus() {
+    public void createEnnemies() {
         Bingus bingus = new Bingus(10, 2030);
+        Florb florb = new Florb(10, 2000);
         terrainView.addEntite(bingus);
         entities.add(bingus);
+        terrainView.addEntite(florb);
+        entities.add(florb);
     }
 
     public void createTimelines() { // peut etre creer un nouveau thread pour opti ?
@@ -259,7 +262,8 @@ public class Controleur implements Initializable {
                         player.applyGrav();
                     }
                 } else {
-                    ent.applyGrav();
+                    if(!ent.isFlying())
+                        ent.applyGrav();
                 }
             }
         }
