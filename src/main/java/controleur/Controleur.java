@@ -127,13 +127,14 @@ public class Controleur implements Initializable {
         entities.add(bingus);
     }
 
-    public void createTimelines() { // peut etre creer un nouveau thread pour opti ?
+    public void createTimelines() {
         // 16.33 = 60 fps
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
+                    entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
                     playerMovement();
                     cameraManager();
-                    entityLoop();
+
 
                     if (mouseHandler.isHasScrollUp()) {
                         player.getInventory().incrementSlot();
@@ -182,7 +183,7 @@ public class Controleur implements Initializable {
 */
     public boolean checkDistanceBlock(Entity ent, Block b) {
         //  System.out.println(ent.distanceToBlock(b));
-        if (ent.distanceToBlock(b) < 4) {
+        if (ent.distanceToBlock(b) <= 4) {
             mouseBlock.setStroke(Color.GREEN);
             return true;
         }
@@ -192,6 +193,14 @@ public class Controleur implements Initializable {
 
 
     public void playerMovement() {
+        if (keyHandler.isLeftPressed() && !player.upCollisions()){
+            player.movement(null, keyHandler.isLeftPressed() && !(player.sideLeftCollision()), false);
+        }
+
+        else if (keyHandler.isRightPressed()){
+            player.movement(null, false, keyHandler.isRightPressed() && !(player.sideRightCollisions()));
+        }
+
         if (keyHandler.isUpPressed())//mouvements a mettre avec le player
             if (player.isGrounded()) {
                 Entity.g = 5;
@@ -209,15 +218,6 @@ public class Controleur implements Initializable {
         if (!keyHandler.isUpPressed())
             if (player.isJumping())
                 player.stopJump();
-
-        if (keyHandler.isLeftPressed()){
-            player.movement(null, keyHandler.isLeftPressed() && !(player.sideLeftCollision()), false);
-        }
-
-        else if (keyHandler.isRightPressed()){
-            player.movement(null, false, keyHandler.isRightPressed() && !(player.sideRightCollisions()));
-        }
-
     }
 
    public void entityLoop() {
@@ -268,7 +268,7 @@ public class Controleur implements Initializable {
 
     public void checkOnLeftPressed() {
         Block b = terrain.getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
-        debugger.debugPoint(mouseHandler.getMouseX(), mouseHandler.getMouseY(), Color.BLUE);
+        //DebugView.debugPoint(mouseHandler.getMouseX(), mouseHandler.getMouseY(), Color.BLUE);
         if (b != null) {
             System.out.println("not null");
             if (checkDistanceBlock(player, b)) {
@@ -291,14 +291,13 @@ public class Controleur implements Initializable {
                     // System.out.println(player.getInventory());
                 }
             }
-                /*
-                Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
-                r.setFill(Color.TRANSPARENT);
-                r.setStroke(Color.BLACK);
-                panneauDeJeu.getChildren().add(r);
-                */
+            /*
+            Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
+            r.setFill(Color.TRANSPARENT);
+            r.setStroke(Color.BLACK);
+            panneauDeJeu.getChildren().add(r);
+            */
         }
-
     }
 
     public void checkOnRightClicked() {

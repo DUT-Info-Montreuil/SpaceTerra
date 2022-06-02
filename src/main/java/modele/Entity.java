@@ -67,21 +67,27 @@ public abstract class  Entity {
     public boolean sideRightCollisions() {
         Block b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue()); // rightUp
         if(b != null && b.getTile().getHitbox().isSolid()){
-            this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
-            //DebugView.debugBlock(b, Color.VIOLET);
-            return true;
+            if(hitbox.getX().intValue() + hitbox.getWidth() >= b.getHitX() && hitbox.getX().intValue() + hitbox.getWidth() <= b.getHitX() + 10){
+                this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
+                //DebugView.debugBlock(b, Color.VIOLET);
+                return true;
+            }
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() / 2); // rightMiddle
         if(b != null && b.getTile().getHitbox().isSolid()){
-            this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
-            //DebugView.debugBlock(b, Color.BLUEVIOLET);
-            return true;
+            if(hitbox.getX().intValue() + hitbox.getWidth() >= b.getHitX() && hitbox.getX().intValue() + hitbox.getWidth() <= b.getHitX() + 10){
+                this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
+                //DebugView.debugBlock(b, Color.BLUEVIOLET);
+                return true;
+            }
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth(), hitbox.getY().intValue() + hitbox.getHeight() - 1); // rightDown
         if(b != null && b.getTile().getHitbox().isSolid()){
-            this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
-            //DebugView.debugBlock(b, Color.DARKVIOLET);
-            return true;
+            if(hitbox.getX().intValue() + hitbox.getWidth() >= b.getHitX() && hitbox.getX().intValue() + hitbox.getWidth() <= b.getHitX() + 10){
+                this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
+                //DebugView.debugBlock(b, Color.DARKVIOLET);
+                return true;
+            }
         }
         return false;
     }
@@ -89,21 +95,27 @@ public abstract class  Entity {
     public boolean sideLeftCollision(){
         Block b = terrain.getBlock(hitbox.getX().intValue() - 1, hitbox.getY().intValue()); // leftUp
         if(b != null && b.getTile().getHitbox().isSolid()){
-            this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
-            //DebugView.debugBlock(b, Color.VIOLET);
-            return true;
+            if(hitbox.getX().intValue() <= b.getHitX() + b.getTile().getHitbox().getWidth() && hitbox.getX().intValue() >= b.getHitX() + b.getTile().getHitbox().getWidth() - 10){
+                this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
+                //DebugView.debugBlock(b, Color.VIOLET);
+                return true;
+            }
         }
         b = terrain.getBlock(hitbox.getX().intValue() - 1, hitbox.getY().intValue() + hitbox.getHeight() / 2); // leftMiddle
         if(b != null && b.getTile().getHitbox().isSolid()){
-            this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
-            //DebugView.debugBlock(b, Color.YELLOW);
-            return true;
+            if(hitbox.getX().intValue() <= b.getHitX() + b.getTile().getHitbox().getWidth() && hitbox.getX().intValue() >= b.getHitX() + b.getTile().getHitbox().getWidth() - 10){
+                this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
+                //DebugView.debugBlock(b, Color.YELLOW);
+                return true;
+            }
         }
         b = terrain.getBlock(hitbox.getX().intValue() - 1, hitbox.getY().intValue() + hitbox.getHeight() - 1); // leftDown
         if(b != null && b.getTile().getHitbox().isSolid()){
-            this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
-            //DebugView.debugBlock(b, Color.GREEN);
-            return true;
+            if(hitbox.getX().intValue() <= b.getHitX() + b.getTile().getHitbox().getWidth() && hitbox.getX().intValue() >= b.getHitX() + b.getTile().getHitbox().getWidth() - 10){
+                this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
+                //DebugView.debugBlock(b, Color.GREEN);
+                return true;
+            }
         }
         return false;
     }
@@ -111,21 +123,27 @@ public abstract class  Entity {
     public boolean upCollisions(){ // can allow clipping rn if player gets stuck innit
         Block b = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue());// upLeft
         if(b != null && b.getTile().getHitbox().isSolid()){
-            this.hitbox.setY(hitbox.getY().intValue() + ((b.getHitY() + b.getTile().getHitbox().getHeight()) - hitbox.getY().intValue()));
-            //DebugView.debugBlock(b, Color.DARKGRAY);
-            return true;
+            if(hitbox.getY().intValue() <= b.getHitY() + b.getTile().getHitbox().getHeight() && hitbox.getY().intValue() <= b.getHitY() + b.getTile().getHitbox().getHeight() - 10){
+                this.hitbox.setY(hitbox.getY().intValue() + ((b.getHitY() + b.getTile().getHitbox().getHeight()) - hitbox.getY().intValue()));
+                //DebugView.debugBlock(b, Color.DARKGRAY);
+                return true;
+            }
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() / 2, hitbox.getY().intValue());// upLeft
         if(b != null && b.getTile().getHitbox().isSolid()){
-            this.hitbox.setY(hitbox.getY().intValue() + ((b.getHitY() + b.getTile().getHitbox().getHeight()) - hitbox.getY().intValue()));
-            //DebugView.debugBlock(b, Color.DIMGRAY);
-            return true;
+            if(hitbox.getY().intValue() <= b.getHitY() + b.getTile().getHitbox().getHeight() && hitbox.getY().intValue() <= b.getHitY() + b.getTile().getHitbox().getHeight() - 10){
+                this.hitbox.setY(hitbox.getY().intValue() + ((b.getHitY() + b.getTile().getHitbox().getHeight()) - hitbox.getY().intValue()));
+                //DebugView.debugBlock(b, Color.DIMGRAY);
+                return true;
+            }
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue());// upLeft
         if(b != null && b.getTile().getHitbox().isSolid()){
-            this.hitbox.setY(hitbox.getY().intValue() + ((b.getHitY() + b.getTile().getHitbox().getHeight()) - hitbox.getY().intValue()));
-            //DebugView.debugBlock(b, Color.SLATEGRAY);
-            return true;
+            if(hitbox.getY().intValue() <= b.getHitY() + b.getTile().getHitbox().getHeight() && hitbox.getY().intValue() >= b.getHitY() + b.getTile().getHitbox().getHeight() - 10){
+                this.hitbox.setY(hitbox.getY().intValue() + ((b.getHitY() + b.getTile().getHitbox().getHeight()) - hitbox.getY().intValue()));
+                //DebugView.debugBlock(b, Color.SLATEGRAY);
+                return true;
+            }
         }
         return false;
     }
@@ -133,21 +151,27 @@ public abstract class  Entity {
     public boolean isGrounded() {
         Block b = terrain.getBlock(hitbox.getX().intValue(), hitbox.getY().intValue() + hitbox.getHeight());// downLeft
         if(b != null && b.getTile().getHitbox().isSolid()){
-            //DebugView.debugBlock(b, Color.RED);
-            this.hitbox.setY(hitbox.getY().intValue() - ((hitbox.getY().intValue() + hitbox.getHeight()) - b.getHitY()));
-            return true;
+            if(hitbox.getY().intValue() + hitbox.getHeight() >= b.getHitY() && hitbox.getY().intValue() + hitbox.getHeight() <= b.getHitY() + 10){
+                //DebugView.debugBlock(b, Color.RED);
+                this.hitbox.setY(hitbox.getY().intValue() - ((hitbox.getY().intValue() + hitbox.getHeight()) - b.getHitY()));
+                return true;
+            }
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() / 2, hitbox.getY().intValue() + hitbox.getHeight());// downMiddle
         if(b != null && b.getTile().getHitbox().isSolid()){
-            //DebugView.debugBlock(b, Color.MEDIUMVIOLETRED);
-            this.hitbox.setY(hitbox.getY().intValue() - ((hitbox.getY().intValue() + hitbox.getHeight()) - b.getHitY()));
-            return true;
+            if(hitbox.getY().intValue() + hitbox.getHeight() >= b.getHitY() && hitbox.getY().intValue() + hitbox.getHeight() <= b.getHitY() + 10){
+                //DebugView.debugBlock(b, Color.MEDIUMVIOLETRED);
+                this.hitbox.setY(hitbox.getY().intValue() - ((hitbox.getY().intValue() + hitbox.getHeight()) - b.getHitY()));
+                return true;
+            }
         }
         b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 1, hitbox.getY().intValue() + hitbox.getHeight());// downRight
         if(b != null && b.getTile().getHitbox().isSolid()){
-            //DebugView.debugBlock(b, Color.DARKRED);
-            this.hitbox.setY(hitbox.getY().intValue() - ((hitbox.getY().intValue() + hitbox.getHeight()) - b.getHitY()));
-            return true;
+            if(hitbox.getY().intValue() + hitbox.getHeight() >= b.getHitY() && hitbox.getY().intValue() + hitbox.getHeight() <= b.getHitY() + 10){
+                //DebugView.debugBlock(b, Color.DARKRED);
+                this.hitbox.setY(hitbox.getY().intValue() - ((hitbox.getY().intValue() + hitbox.getHeight()) - b.getHitY()));
+                return true;
+            }
         }
         return false;
     }
