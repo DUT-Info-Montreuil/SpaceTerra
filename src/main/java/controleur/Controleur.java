@@ -312,7 +312,7 @@ public class Controleur implements Initializable {
             Item item = player.drop();
             if(item != null) {
             //    System.out.println("Tu peux poser le block !");
-                b = new Block(item.getTile(), (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
+                b = new Block((ItemBlock) item, (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
                 if(checkDistanceBlock(player, b)){
                     terrain.getBlocks().add(b);
                     inventoryView.refreshPlace();

@@ -37,6 +37,12 @@ public class Block {
         this.pvs = 10;
     }
 
+    public Block(ItemBlock item, int x, int y){
+        this.x = x;
+        this.y = y;
+        this.tile = new Tile(12, item.getImage(), )
+    }
+
     public int getX() {
         return x;
     }
@@ -62,10 +68,10 @@ public class Block {
 
     public Item ressource(){
         if(this.getTile().getRessource().equals("dirt")){
-            return new ItemDirt(this.getId(), this.getTile());
+            return new ItemDirt(this.getId(), this.getTile().getImage());
         }
         else if (this.getTile().getRessource().equals("wood")){
-            return new ItemWood(this.getId(),  this.getTile());
+            return new ItemWood(this.getId(),  this.getTile().getImage());
         }
         else {
             return null;

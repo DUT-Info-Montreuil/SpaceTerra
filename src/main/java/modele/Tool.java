@@ -1,8 +1,10 @@
 package modele;
 
+import javafx.scene.image.Image;
+
 public class Tool extends Item{
-    public Tool(String id, int maxQuantity, Tile tile) {
-        super(id, maxQuantity, tile);
+    public Tool(String id, int maxQuantity, Image image) {
+        super(id, maxQuantity, image);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package modele;
 
+import javafx.scene.image.Image;
+
 public abstract class Item {
     public String getId() {
         return id;
@@ -8,17 +10,17 @@ public abstract class Item {
     private String id;
     private int maxQuantity;
 
-    private Tile tile;
+    private Image image;
 
 
-    public Item(String id, int maxQuantity, Tile tile) {
+    public Item(String id, int maxQuantity, Image image) {
         this.id = id;
         this.maxQuantity = maxQuantity;
-        this.tile = tile;
+        this.image = image;
     }
 
     public abstract void use();
-    public Tile getTile() {
-        return tile;
+    public Image getImage() {
+        return image;
     }
 }

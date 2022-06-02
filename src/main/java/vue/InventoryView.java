@@ -43,7 +43,7 @@ public class InventoryView {
     public void refreshPlace(){
         if(inventory.getCurrItem() != null) {
             panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#slot"+inventory.getNextEmptySlot()));
-            fullSlotImageView = new ImageView(inventory.getCurrItem().getTile().getImage());
+            fullSlotImageView = new ImageView(inventory.getCurrItem().getImage());
             fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32*inventory.getCurrSlot()));
             fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
             fullSlotImageView.setId("#slot"+inventory.getNextEmptySlot());
@@ -64,7 +64,7 @@ public class InventoryView {
 
     public void refreshBreak(Item item){
             panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#slot"+inventory.getNextEmptySlot()));
-            fullSlotImageView = new ImageView(item.getTile().getImage());
+            fullSlotImageView = new ImageView(item.getImage());
             fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32*inventory.getNextEmptySlot()));
             fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
             panneauDeJeu.getChildren().add(fullSlotImageView);
