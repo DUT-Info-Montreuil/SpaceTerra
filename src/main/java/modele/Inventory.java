@@ -33,6 +33,7 @@ public class Inventory {
 
     public Item getCurrItem(){
         try{
+            System.out.println("CUUR"+currSlot);
             return items.get(currSlot);
         } catch (Exception e){
             return null;

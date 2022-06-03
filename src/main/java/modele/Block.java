@@ -4,14 +4,18 @@ public class Block {
     private int x;
     private int y;
 
+    private String ressource;
+
     private final int insideOffset = 10;
 
     private Tile tile;
+
     private int hitX; // hitBox pos in relation to its Tile
     private int hitY;
     private static int idCount = 0;
     private String id;
 
+    private Terrain terrain;
 
     public String getId() {
         return id;
@@ -27,7 +31,7 @@ public class Block {
         this.pvs = pvs;
     }
 
-    public Block(Tile tile, int x, int y) {
+    public Block(Tile tile, int x, int y, Terrain terrain) {
         this.x = x;
         this.y = y;
         this.tile = tile;
@@ -35,12 +39,20 @@ public class Block {
         hitY = y + tile.getHitbox().getY().intValue();
         this.id = "block" + idCount++;
         this.pvs = 10;
+        this.terrain = terrain;
+        ressource = this.getTile().getRessource();
     }
 
-    public Block(ItemBlock item, int x, int y){
+    public Block(ItemBlock item, int x, int y, Terrain terrain){
         this.x = x;
         this.y = y;
-        this.tile = new Tile(12, item.getImage(), )
+        this.terrain = terrain;
+        for(int i = 0; i < terrain.getTileset().getTiles().size(); i++){
+            if(terrain.getTileset().getTiles().get(i).getRessource().equalsIgnoreCase(item.getTypeItemBlock().name())){
+                this.tile = terrain.getTileset().getTiles().get(i);
+            }
+        }
+        ressource = this.getTile().getRessource();
     }
 
     public int getX() {
@@ -66,17 +78,18 @@ public class Block {
         return insideOffset;
     }
 
-    public Item ressource(){
-        if(this.getTile().getRessource().equals("dirt")){
-            return new ItemDirt(this.getId(), this.getTile().getImage());
-        }
-        else if (this.getTile().getRessource().equals("wood")){
-            return new ItemWood(this.getId(),  this.getTile().getImage());
-        }
-        else {
-            return null;
-        }
+    public Item getRessource(){
+        ItemBlock itemBlock = null;
+        try {
+            //System.out.println(this.getTile().getRessource());
+            if (this.getTile().getRessource().equals("dirt"))
+                itemBlock = new ItemBlock(0);
+            else if (this.getTile().getRessource().equals("wood"))
+                itemBlock = new ItemBlock(1);
+        }catch (Exception e) {
 
+        }
+        return itemBlock;
     }
 
 }

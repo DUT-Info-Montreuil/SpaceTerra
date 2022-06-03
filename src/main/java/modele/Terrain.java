@@ -112,7 +112,7 @@ public class Terrain {
                         while (var9.hasNext()) {
                             Tile currTile = (Tile) var9.next();
                             if (data[t] == currTile.getId()) {
-                                Block b = new Block(currTile, x, y);
+                                Block b = new Block(currTile, x, y, this);
                                 blocks.add(b);
                                 if(b.getTile().getHitbox().isSolid()){
                                     solidBlocks.add(b);

@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -279,16 +281,16 @@ public class Controleur implements Initializable {
         Block b = getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
             if (b != null) {
                 if (checkDistanceBlock(player, b)) {
-                   // System.out.println("ok");
                     b.setPvs(b.getPvs() - 1);
                     System.out.println(b.getPvs());
                     if (b.getPvs() <= 0) {
                         terrain.deleteBlock(b);
                         terrain.deleteSolidBlock(b);
-                        if(b.ressource() != null){
+                        System.out.println(b.getRessource());
+                        if(b.getRessource() != null){
                             if(!player.getInventory().isInventoryFull()) {
-                                inventoryView.refreshBreak(b.ressource());
-                                player.pick(b.ressource());
+                                inventoryView.refreshBreak(b.getRessource());
+                                player.pick(b.getRessource());
                                 System.out.println(player.getInventory().getItems());
                             }
                         }
@@ -312,7 +314,7 @@ public class Controleur implements Initializable {
             Item item = player.drop();
             if(item != null) {
             //    System.out.println("Tu peux poser le block !");
-                b = new Block((ItemBlock) item, (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32);
+                b = new Block((ItemBlock) item, (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32, terrain);
                 if(checkDistanceBlock(player, b)){
                     terrain.getBlocks().add(b);
                     inventoryView.refreshPlace();
