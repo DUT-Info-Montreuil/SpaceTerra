@@ -146,7 +146,6 @@ public class Controleur implements Initializable {
 
 
                     verifKeyTyped();
-                    System.out.println("tick");
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -193,31 +192,34 @@ public class Controleur implements Initializable {
 
 
     public void playerMovement() {
-        if (keyHandler.isLeftPressed() && !player.upCollisions()){
-            player.movement(null, keyHandler.isLeftPressed() && !(player.sideLeftCollision()), false);
+        if (keyHandler.isLeftPressed()){
+            player.movement(null, keyHandler.isLeftPressed(), false);
         }
 
         else if (keyHandler.isRightPressed()){
-            player.movement(null, false, keyHandler.isRightPressed() && !(player.sideRightCollisions()));
+            player.movement(null, false, keyHandler.isRightPressed());
         }
 
-        if (keyHandler.isUpPressed())//mouvements a mettre avec le player
-            if (player.isGrounded()) {
+        if (keyHandler.isUpPressed()) {
+            if (!player.upCollisions() && player.isGrounded()) {
                 Entity.g = 5;
                 player.jump();
-            }
-
-            else if (player.isJumping()){
-                player.jump();
-                if(player.upCollisions()){
-                    // player.getHitbox().setY(player.getHitbox().getY().intValue() - player.jumpCount);
+            } else if (player.isJumping()) {
+                if (player.upCollisions()) {
                     player.stopJump();
                 }
+                else{
+                    player.jump();
+                }
             }
+        }
 
         if (!keyHandler.isUpPressed())
             if (player.isJumping())
                 player.stopJump();
+
+        player.sideRightCollisions();
+        player.sideLeftCollision();
     }
 
    public void entityLoop() {
@@ -225,8 +227,6 @@ public class Controleur implements Initializable {
             if (ent instanceof Player){}
                 //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
-
-                //System.out.println(checkSideBlock(ent));
                 if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
                     if (ent.isGrounded())
                         ent.jump();
@@ -363,7 +363,6 @@ public class Controleur implements Initializable {
         currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32 * player.getInventory().getCurrSlot()));
         currentSlotView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(99));
         currentSlotView.toFront();
-
     }
 
     public static int randomNum(int min, int max) {
