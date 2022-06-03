@@ -11,7 +11,7 @@ public class Player extends Entity {
     private Inventory inventory = new Inventory();
 
     public Player(int x, int y){
-        super(20, 10, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif");
+        super(20, 7, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif");
         inventory = new Inventory();
     }
 

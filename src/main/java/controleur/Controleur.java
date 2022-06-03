@@ -213,14 +213,14 @@ public class Controleur implements Initializable {
 
 
     public void playerMovement() {
-        if(keyHandler.isSpacePressed() && !player.isRunning()) {
+        if(keyHandler.isSprintPressed() && !player.isRunning()) {
             player.setRunning(true);
-            player.setSpeed(40);
+            player.setSpeed(20);
         }
 
-        if(!keyHandler.isSpacePressed() && player.isRunning()) {
+        if(!keyHandler.isSprintPressed() && player.isRunning()) {
             player.setRunning(false);
-            player.setSpeed(10);
+            player.setSpeed(7);
         }
 
         if (keyHandler.isUpPressed())//mouvements a mettre avec le player
