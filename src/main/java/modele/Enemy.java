@@ -8,6 +8,7 @@ public abstract class Enemy extends Entity{
     private String state = "idle";
     private int idleCooldown = 50;
     private int idleDirection = 0;
+
     private boolean canMove = true;
     public Enemy(int vie, int vitesse, Hitbox hitbox, String path, int range, Terrain terrain) {
         super(vie, vitesse, hitbox, path, terrain);

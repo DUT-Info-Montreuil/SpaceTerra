@@ -249,12 +249,14 @@ public class Controleur implements Initializable {
 
                     else if (ent.isJumping())
                         ent.jump();
-                } else {
+                }
+                else {
                     if (ent.isJumping()) {
                         ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
                         ent.stopJump();
                     }
                 }
+
                 ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
                 ent.sideLeftCollision();
                 ent.sideRightCollisions();
