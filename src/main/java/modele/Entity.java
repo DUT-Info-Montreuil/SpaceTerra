@@ -64,7 +64,7 @@ public abstract class  Entity {
             if(hitbox.getX().intValue() + hitbox.getWidth() >= b.getHitX() && hitbox.getX().intValue() + hitbox.getWidth() <= b.getHitX() + 10){
                 this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
                 //DebugView.debugBlock(b, Color.VIOLET);
-                System.out.println("Right");
+                //System.out.println("Right");
                 return true;
             }
         }
@@ -73,7 +73,7 @@ public abstract class  Entity {
             if(hitbox.getX().intValue() + hitbox.getWidth() >= b.getHitX() && hitbox.getX().intValue() + hitbox.getWidth() <= b.getHitX() + 10){
                 this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
                 //DebugView.debugBlock(b, Color.BLUEVIOLET);
-                System.out.println("Right");
+                //System.out.println("Right");
                 return true;
             }
         }
@@ -82,7 +82,7 @@ public abstract class  Entity {
             if(hitbox.getX().intValue() + hitbox.getWidth() >= b.getHitX() && hitbox.getX().intValue() + hitbox.getWidth() <= b.getHitX() + 10){
                 this.hitbox.setX(hitbox.getX().intValue() - ((hitbox.getX().intValue() + hitbox.getWidth()) - b.getHitX()));
                 //DebugView.debugBlock(b, Color.DARKVIOLET);
-                System.out.println("Right");
+                //System.out.println("Right");
                 return true;
             }
         }
@@ -94,7 +94,7 @@ public abstract class  Entity {
         if(b != null && b.getTile().getHitbox().isSolid()){
             if(hitbox.getX().intValue() <= b.getHitX() + b.getTile().getHitbox().getWidth() && hitbox.getX().intValue() >= b.getHitX() + b.getTile().getHitbox().getWidth() - 10){
                 this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
-                System.out.println("LeftUp");
+                //System.out.println("LeftUp");
                 //DebugView.debugBlock(b, Color.VIOLET);
                 return true;
             }
@@ -103,7 +103,7 @@ public abstract class  Entity {
         if(b != null && b.getTile().getHitbox().isSolid()){
             if(hitbox.getX().intValue() <= b.getHitX() + b.getTile().getHitbox().getWidth() && hitbox.getX().intValue() >= b.getHitX() + b.getTile().getHitbox().getWidth() - 10){
                 this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
-                System.out.println("LeftMiddle");
+                //System.out.println("LeftMiddle");
                 //DebugView.debugBlock(b, Color.YELLOW);
                 return true;
             }
@@ -112,7 +112,7 @@ public abstract class  Entity {
         if(b != null && b.getTile().getHitbox().isSolid()){
             if(hitbox.getX().intValue() <= b.getHitX() + b.getTile().getHitbox().getWidth() && hitbox.getX().intValue() >= b.getHitX() + b.getTile().getHitbox().getWidth() - 10){
                 this.hitbox.setX(hitbox.getX().intValue() + ((b.getHitX() + b.getTile().getHitbox().getWidth()) - hitbox.getX().intValue()));
-                System.out.println("LeftDown");
+                //System.out.println("LeftDown");
                 //DebugView.debugBlock(b, Color.GREEN);
                 return true;
             }
@@ -208,6 +208,7 @@ public abstract class  Entity {
             if (jumpCount <= 0) {
                 stopJump();
             } else {
+                //System.out.println("Le saut");
                 //System.out.println(jumpCount);
                 getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
             }

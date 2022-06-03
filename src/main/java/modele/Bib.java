@@ -26,6 +26,7 @@ public class Bib extends Enemy{
 
         switch(this.getState()) {
             case "idle":
+                this.setSpeed(6);
                 switch (this.getIdleDirection()) {
                     case 0:
                         this.setIdleDirection(Controleur.randomNum(1, 3));
@@ -82,10 +83,14 @@ public class Bib extends Enemy{
                 break;
 
             case "hunting":
+                this.setSpeed(6);
+
                 if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 100) {
                     if (leftCheck)
                         this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
-                } else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 100) {
+                }
+
+                else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 100) {
                     if (rightCheck)
                         this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
                 }
@@ -95,43 +100,36 @@ public class Bib extends Enemy{
                 break;
 
             case "attack":
+                this.setSpeed(12);
 
-                if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 50) {
+                if(this.isGrounded() && !isJumping()){
+                    this.setGravity(5);
+                    this.jump();
+                }
 
-                    if(this.isGrounded()){
-                        this.setGravity(5);
-                        this.jump();
-                    }
+                else if(isJumping())
+                    this.jump();
 
+                if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 6 && this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() - 100) {
                     this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
                 }
 
-                else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 50) {
-
-                    if(this.isGrounded()){
-                        this.setGravity(5);
-                        this.jump();
-                    }
-
-
+                else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 6 && this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() + 100) {
                     this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
                 }
 
                 else{
-                    if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 5)
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
-
-                    else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 5)
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
-                }
-
-
-                if(!this.isJumping())
+                    stopJump();
                     this.setState("hunting");
+                }
+                System.out.println(getSpeed());
                 break;
 
             default:
                 break;
         }
+        System.out.println(getState());
+        System.out.println(isJumping());
+        System.out.println(this.getHitbox().getX().intValue() - player.getHitbox().getX().intValue());
     }
 }
