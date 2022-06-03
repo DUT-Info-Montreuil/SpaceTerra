@@ -12,7 +12,7 @@ public abstract class  Entity {
     private final int jumpHeight = 20;
     public int jumpCount = jumpHeight;
     private boolean isJumping = false;
-
+    private boolean flying = false;
     public static double g = 5;
 
     public Terrain getTerrain() {
@@ -24,6 +24,10 @@ public abstract class  Entity {
     public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain) {
         this.health = health;
         this.speed = speed;
+    }
+    public Entity(int vie, int vitesse, Hitbox hitbox, String path){
+        this.life = vie;
+        this.speed = vitesse;
         this.hitbox = hitbox;
         this.image = new Image(String.valueOf(getClass().getResource(path)));
         this.terrain = terrain;
@@ -239,5 +243,13 @@ public abstract class  Entity {
 
     public void setJumping(boolean jumping) {
         isJumping = jumping;
+    }
+
+    public boolean isFlying() {
+        return flying;
+    }
+
+    public void setFlying(boolean flying) {
+        this.flying = flying;
     }
 }

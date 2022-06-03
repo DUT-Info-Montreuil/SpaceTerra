@@ -58,7 +58,7 @@ public class Controleur implements Initializable {
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
-        createBingus();
+        createEnnemies();
         terrainView.readEntity();
         PlayerView playerView = new PlayerView(player = new Player(10, 2030, terrain), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
@@ -121,10 +121,16 @@ public class Controleur implements Initializable {
         panneauDeJeu.getChildren().addAll(mouseBlock, currentSlotView);
     }
 
-    public void createBingus() {
-        Bingus bingus = new Bingus(10, 2030, terrain);
-        terrainView.addEntite(bingus);
-        entities.add(bingus);
+    public void createEnnemies() {
+        //Bingus bingus = new Bingus(10, 2030);
+        //Florb florb = new Florb(10, 2000);
+        Bib bib = new Bib(2000, 2030);
+        //.addEntite(bingus);
+        //entities.add(bingus);
+        //terrainView.addEntite(florb);
+        //entities.add(florb);
+        terrainView.addEntite(bib);
+        entities.add(bib);
     }
 
     public void createTimelines() {
@@ -260,7 +266,8 @@ public class Controleur implements Initializable {
                         player.applyGrav();
                     }
                 } else {
-                    ent.applyGrav();
+                    if(!ent.isFlying())
+                        ent.applyGrav();
                 }
             }
         }
