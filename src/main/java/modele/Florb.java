@@ -96,7 +96,7 @@ public class Florb extends Ennemy{
                 }
                 break;
 
-            case "attack":
+            case "hunting":
                 if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 5) {
                     if (leftCheck) {
 

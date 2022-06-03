@@ -96,7 +96,7 @@ public class Bingus extends Ennemy {
                 }
                 break;
 
-            case "attack":
+            case "hunting":
                 if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 5) {
                     if (leftCheck)
                         this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
@@ -105,6 +105,9 @@ public class Bingus extends Ennemy {
                     if (rightCheck)
                         this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
                 }
+
+
+
                 break;
 
             default:

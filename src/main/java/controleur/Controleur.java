@@ -130,12 +130,15 @@ public class Controleur implements Initializable {
     }
 
     public void createEnnemies() {
-        Bingus bingus = new Bingus(10, 2030);
-        Florb florb = new Florb(10, 2000);
-        terrainView.addEntite(bingus);
-        entities.add(bingus);
-        terrainView.addEntite(florb);
-        entities.add(florb);
+        //Bingus bingus = new Bingus(10, 2030);
+        //Florb florb = new Florb(10, 2000);
+        Bib bib = new Bib(2000, 2030);
+        //.addEntite(bingus);
+        //entities.add(bingus);
+        //terrainView.addEntite(florb);
+        //entities.add(florb);
+        terrainView.addEntite(bib);
+        entities.add(bib);
     }
 
     public void createTimelines() { // peut etre creer un nouveau thread pour opti ?
