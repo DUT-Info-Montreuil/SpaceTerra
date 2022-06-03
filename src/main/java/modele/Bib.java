@@ -110,10 +110,10 @@ public class Bib extends Ennemy{
                     if(this.isJumping())
                         this.stopJump();
 
-                    if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 50)
+                    if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 5)
                         this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
 
-                    else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 50)
+                    else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 5)
                         this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
                 }
 
