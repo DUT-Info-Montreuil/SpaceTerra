@@ -202,8 +202,6 @@ public class Controleur implements Initializable {
             player.setSpeed(7);
         }
 
-        if (keyHandler.isUpPressed())//mouvements a mettre avec le player
-            if (checkGroundBlock(player))
         if (keyHandler.isLeftPressed()){
             player.movement(null, keyHandler.isLeftPressed(), false);
         }
