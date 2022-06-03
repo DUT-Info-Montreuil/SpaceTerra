@@ -47,7 +47,7 @@ public class KeyHandler {
                 case D -> rightPressed = true;
                 case Q -> leftPressed = true;
                 case S -> downPressed = true;
-                case Z -> upPressed = true;
+                case SPACE -> upPressed = true;
             }
        });
    }
@@ -59,7 +59,7 @@ public class KeyHandler {
                 case D -> rightPressed = false;
                 case Q -> leftPressed = false;
                 case S -> downPressed = false;
-                case Z -> upPressed = false;
+                case SPACE -> upPressed = false;
             }
         });
     }

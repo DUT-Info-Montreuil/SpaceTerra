@@ -2,11 +2,11 @@ package modele;
 
 import controleur.Controleur;
 
-public class Bingus extends Ennemy {
+public class Bingus extends Enemy {
 
     private int strenght;
-    public Bingus(int x, int y) {
-        super(10, 5, new Hitbox(50,50,x,y), "/Sprites/Enemies/YinYang.png", 200);
+    public Bingus(int x, int y, Terrain terrain) {
+        super(10, 3, new Hitbox(50,50,x,y), "/Sprites/Enemies/YinYang.png", 200, terrain);
         this.strenght = 3;
     }
 
@@ -19,7 +19,7 @@ public class Bingus extends Ennemy {
     }
 
     @Override
-    public void movement(Player player, boolean leftCheck, boolean rightCheck, Terrain terrain) {
+    public void movement(Player player, boolean leftCheck, boolean rightCheck) {
         int range = this.getRange();
         int rangeMultiplier;
 
