@@ -3,7 +3,7 @@ package modele;
 import java.util.ArrayList;
 
 public class Player extends Entity {
-
+    private boolean isRunning = false;
 
 
     private Inventory inventory = new Inventory();
@@ -46,5 +46,13 @@ public class Player extends Entity {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(boolean running) {
+        isRunning = running;
     }
 }

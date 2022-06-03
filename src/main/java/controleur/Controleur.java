@@ -58,7 +58,7 @@ public class Controleur implements Initializable {
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(terrain);
-        //createBingus();
+        createBingus();
         terrainView.readEntity();
         PlayerView playerView = new PlayerView(player = new Player(10, 2030, terrain), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
@@ -192,6 +192,18 @@ public class Controleur implements Initializable {
 
 
     public void playerMovement() {
+        if(keyHandler.isSprintPressed() && !player.isRunning()) {
+            player.setRunning(true);
+            player.setSpeed(20);
+        }
+
+        if(!keyHandler.isSprintPressed() && player.isRunning()) {
+            player.setRunning(false);
+            player.setSpeed(7);
+        }
+
+        if (keyHandler.isUpPressed())//mouvements a mettre avec le player
+            if (checkGroundBlock(player))
         if (keyHandler.isLeftPressed()){
             player.movement(null, keyHandler.isLeftPressed(), false);
         }

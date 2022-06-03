@@ -4,7 +4,7 @@ import javafx.scene.layout.Pane;
 
 
 public class KeyHandler {
-    private boolean rightPressed, leftPressed, upPressed, downPressed;
+    private boolean rightPressed, leftPressed, upPressed, downPressed,sprintPressed;
     private boolean slotOneTyped, slotTwoTyped, slotThreeTyped, slotFourTyped, slotFiveTyped, slotSixTyped, slotSevenTyped, slotEightTyped, slotNineTyped, slotTenTyped;
 
     public boolean isRightPressed() {
@@ -48,6 +48,7 @@ public class KeyHandler {
                 case Q -> leftPressed = true;
                 case S -> downPressed = true;
                 case SPACE -> upPressed = true;
+                case SHIFT -> sprintPressed = true;
             }
        });
    }
@@ -59,6 +60,7 @@ public class KeyHandler {
                 case D -> rightPressed = false;
                 case Q -> leftPressed = false;
                 case S -> downPressed = false;
+                case SHIFT -> sprintPressed = false;
                 case SPACE -> upPressed = false;
             }
         });
@@ -134,6 +136,8 @@ public class KeyHandler {
     public boolean isSlotTenTyped() {
         return slotTenTyped;
     }
+
+    public boolean isSprintPressed(){ return sprintPressed; }
 
     public void setRightPressed(boolean rightPressed) {
         this.rightPressed = rightPressed;
