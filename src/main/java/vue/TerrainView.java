@@ -12,10 +12,10 @@ public class TerrainView {
     private Pane panneau;
 
     private ArrayList<Entity> entities;
-    public TerrainView(Pane panneau) {
+    public TerrainView(Pane panneau, ArrayList<Entity> ent) {
 
         this.panneau = panneau;
-        this.entities = new ArrayList();
+        this.entities = ent;
     }
 
     public void addEntite(Entity entity){

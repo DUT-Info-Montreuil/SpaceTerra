@@ -56,10 +56,10 @@ public class Controleur implements Initializable {
         ParallelCamera camera = new ParallelCamera();
         scene.setCamera(camera);
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
-        terrainView = new TerrainView(panneauDeJeu);
+        terrainView = new TerrainView(panneauDeJeu, entities);
         terrainView.readMap(terrain);
         createEnnemies();
-        terrainView.readEntity();
+
         PlayerView playerView = new PlayerView(player = new Player(10, 2030, terrain), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
@@ -77,6 +77,7 @@ public class Controleur implements Initializable {
         breakingManager();
         rectanglesManager();
         isBinded = true;
+        terrainView.readEntity();
         debugger = new DebugView(panneauDeJeu);
     }
 
@@ -122,14 +123,11 @@ public class Controleur implements Initializable {
     }
 
     public void createEnnemies() {
-        //Bingus bingus = new Bingus(10, 2030);
-        //Florb florb = new Florb(10, 2000);
+        Bingus bingus = new Bingus(10, 2030, terrain);
+        Florb florb = new Florb(10, 2000, terrain);
         Bib bib = new Bib(2000, 2030, terrain);
-        //.addEntite(bingus);
-        //entities.add(bingus);
-        //terrainView.addEntite(florb);
-        //entities.add(florb);
-        terrainView.addEntite(bib);
+        entities.add(bingus);
+        entities.add(florb);
         entities.add(bib);
     }
 
