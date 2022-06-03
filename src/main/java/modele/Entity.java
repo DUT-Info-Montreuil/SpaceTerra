@@ -13,7 +13,7 @@ public abstract class  Entity {
     public int jumpCount = jumpHeight;
     private boolean isJumping = false;
     private boolean flying = false;
-    public static double g = 5;
+    public double gravity = 5;
 
     public Terrain getTerrain() {
         return terrain;
@@ -24,14 +24,9 @@ public abstract class  Entity {
     public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain) {
         this.health = health;
         this.speed = speed;
-    }
-    public Entity(int vie, int vitesse, Hitbox hitbox, String path){
-        this.life = vie;
-        this.speed = vitesse;
         this.hitbox = hitbox;
-        this.image = new Image(String.valueOf(getClass().getResource(path)));
+        this.image = new Image(String.valueOf((getClass().getResource(path))));
         this.terrain = terrain;
-
     }
 
     public int getSpeed() {
@@ -157,7 +152,7 @@ public abstract class  Entity {
     }
 
     public boolean isGrounded() {
-        Block b = terrain.getBlock(hitbox.getX().intValue() + 5, hitbox.getY().intValue() + hitbox.getHeight() + (int)g);// downLeft
+        Block b = terrain.getBlock(hitbox.getX().intValue() + 5, hitbox.getY().intValue() + hitbox.getHeight() + (int)gravity);// downLeft
         if(b != null && b.getTile().getHitbox().isSolid()){
             if(hitbox.getY().intValue() + hitbox.getHeight() >= b.getHitY() && hitbox.getY().intValue() + hitbox.getHeight() <= b.getHitY() + 10){
                 //DebugView.debugBlock(b, Color.RED);
@@ -166,7 +161,7 @@ public abstract class  Entity {
                 return true;
             }
         }
-        b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() / 2, hitbox.getY().intValue() + hitbox.getHeight() + (int)g);// downMiddle
+        b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() / 2, hitbox.getY().intValue() + hitbox.getHeight() + (int)gravity);// downMiddle
         if(b != null && b.getTile().getHitbox().isSolid()){
             if(hitbox.getY().intValue() + hitbox.getHeight() >= b.getHitY() && hitbox.getY().intValue() + hitbox.getHeight() <= b.getHitY() + 10){
                 //DebugView.debugBlock(b, Color.MEDIUMVIOLETRED);
@@ -175,7 +170,7 @@ public abstract class  Entity {
                 return true;
             }
         }
-        b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 5, hitbox.getY().intValue() + hitbox.getHeight() + (int)g);// downRight
+        b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() - 5, hitbox.getY().intValue() + hitbox.getHeight() + (int)gravity);// downRight
         if(b != null && b.getTile().getHitbox().isSolid()){
             if(hitbox.getY().intValue() + hitbox.getHeight() >= b.getHitY() && hitbox.getY().intValue() + hitbox.getHeight() <= b.getHitY() + 10){
                 //DebugView.debugBlock(b, Color.DARKRED);
@@ -189,8 +184,8 @@ public abstract class  Entity {
 
 
     public void applyGrav() {
-        hitbox.getY().set(hitbox.getY().getValue() + g);
-        g += 0.05;
+        hitbox.getY().set(hitbox.getY().getValue() + gravity);
+        gravity += 0.05;
     }
 
     public abstract void movement(Player player, boolean leftCheck, boolean rightCheck);
@@ -251,5 +246,13 @@ public abstract class  Entity {
 
     public void setFlying(boolean flying) {
         this.flying = flying;
+    }
+
+    public double getGravity() {
+        return gravity;
+    }
+
+    public void setGravity(double gravity) {
+        this.gravity = gravity;
     }
 }

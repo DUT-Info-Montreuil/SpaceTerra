@@ -124,7 +124,7 @@ public class Controleur implements Initializable {
     public void createEnnemies() {
         //Bingus bingus = new Bingus(10, 2030);
         //Florb florb = new Florb(10, 2000);
-        Bib bib = new Bib(2000, 2030);
+        Bib bib = new Bib(2000, 2030, terrain);
         //.addEntite(bingus);
         //entities.add(bingus);
         //terrainView.addEntite(florb);
@@ -218,7 +218,7 @@ public class Controleur implements Initializable {
 
         if (keyHandler.isUpPressed()) {
             if (!player.upCollisions() && player.isGrounded()) {
-                Entity.g = 5;
+                player.setGravity(5);
                 player.jump();
             } else if (player.isJumping()) {
                 if (player.upCollisions()) {
@@ -244,8 +244,10 @@ public class Controleur implements Initializable {
                 //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
                 if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
-                    if (ent.isGrounded())
+                    if (ent.isGrounded()) {
+                        ent.setGravity(5);
                         ent.jump();
+                    }
 
                     else if (ent.isJumping())
                         ent.jump();

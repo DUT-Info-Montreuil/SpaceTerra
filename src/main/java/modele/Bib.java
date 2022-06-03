@@ -2,17 +2,17 @@ package modele;
 
 import controleur.Controleur;
 
-public class Bib extends Ennemy{
+public class Bib extends Enemy{
 
     private int strength;
 
-    public Bib(int x, int y) {
-        super(5, 6, new Hitbox(14,18, x, y), "/Sprites/Enemies/Bib/BibIdle.gif", 250);
+    public Bib(int x, int y, Terrain terrain) {
+        super(5, 6, new Hitbox(14,18, x, y), "/Sprites/Enemies/Bib/BibIdle.gif", 250, terrain);
         this.strength = 1;
     }
 
     @Override
-    public void movement(Player player, boolean leftCheck, boolean rightCheck, Terrain terrain) {
+    public void movement(Player player, boolean leftCheck, boolean rightCheck) {
         int range = this.getRange();
         int rangeMultiplier;
 
@@ -97,19 +97,27 @@ public class Bib extends Ennemy{
             case "attack":
 
                 if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 50) {
-                    this.jump();
+
+                    if(this.isGrounded()){
+                        this.setGravity(5);
+                        this.jump();
+                    }
+
                     this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
                 }
 
                 else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 50) {
-                    this.jump();
+
+                    if(this.isGrounded()){
+                        this.setGravity(5);
+                        this.jump();
+                    }
+
+
                     this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
                 }
 
                 else{
-                    if(this.isJumping())
-                        this.stopJump();
-
                     if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 5)
                         this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
 
