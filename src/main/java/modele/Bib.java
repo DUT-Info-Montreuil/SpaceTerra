@@ -122,14 +122,10 @@ public class Bib extends Enemy{
                     stopJump();
                     this.setState("hunting");
                 }
-                System.out.println(getSpeed());
                 break;
 
             default:
                 break;
         }
-        System.out.println(getState());
-        System.out.println(isJumping());
-        System.out.println(this.getHitbox().getX().intValue() - player.getHitbox().getX().intValue());
     }
 }

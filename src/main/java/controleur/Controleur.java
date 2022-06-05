@@ -15,10 +15,7 @@ import modele.*;
 import modele.Block;
 import modele.Terrain;
 import modele.Player;
-import vue.DebugView;
-import vue.InventoryView;
-import vue.PlayerView;
-import vue.TerrainView;
+import vue.*;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,7 +42,7 @@ public class Controleur implements Initializable {
     private Rectangle currentSlotView;
     private InventoryView inventoryView;
 
-    private boolean isBinded;
+
 
     public static DebugView debugger;
 
@@ -53,7 +50,8 @@ public class Controleur implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         entities = new ArrayList<>();
         Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
-        ParallelCamera camera = new ParallelCamera();
+        //ParallelCamera camera = new ParallelCamera();
+        GameCam2D camera = new GameCam2D(panneauDeJeu);
         scene.setCamera(camera);
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu, entities);
@@ -76,32 +74,8 @@ public class Controleur implements Initializable {
         mouseHandler.mouseManager();
         breakingManager();
         rectanglesManager();
-        isBinded = true;
         terrainView.readEntity();
         debugger = new DebugView(panneauDeJeu);
-    }
-
-    public void cameraManager() {
-        if (isBinded && panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinX() > player.getHitbox().getX().getValue() - (panneauDeJeu.getScene().getWidth() / 2) - 10) {
-            panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
-            isBinded = false;
-        } else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxX() < player.getHitbox().getX().getValue() + (panneauDeJeu.getScene().getWidth() / 2) + 10) {
-            panneauDeJeu.getScene().getCamera().layoutXProperty().unbind();
-            isBinded = false;
-        } else {
-            panneauDeJeu.getScene().getCamera().layoutXProperty().bind(player.getHitbox().getX().subtract(panneauDeJeu.getScene().getWidth() / 2));
-            isBinded = true;
-        }
-        if (isBinded && panneauDeJeu.getScene().getCamera().getBoundsInLocal().getMinY() > player.getHitbox().getY().getValue() - (panneauDeJeu.getScene().getHeight() / 2)) {
-            panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
-            isBinded = false;
-        } else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxY() < player.getHitbox().getY().getValue() + (panneauDeJeu.getScene().getHeight() / 2) + 20) {
-            panneauDeJeu.getScene().getCamera().layoutYProperty().unbind();
-            isBinded = false;
-        } else {
-            panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight() / 2));
-            isBinded = true;
-        }
     }
 
     public void rectanglesManager() {
@@ -137,8 +111,7 @@ public class Controleur implements Initializable {
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
                     entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
                     playerMovement();
-                    cameraManager();
-
+                    ((GameCam2D)panneauDeJeu.getScene().getCamera()).lookAt(player.getHitbox().getX(), player.getHitbox().getY());
 
                     if (mouseHandler.isHasScrollUp()) {
                         player.getInventory().incrementSlot();
