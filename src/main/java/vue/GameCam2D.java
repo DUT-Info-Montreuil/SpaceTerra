@@ -58,11 +58,11 @@ public class GameCam2D extends ParallelCamera{
     }
 
     public void checkBounds(){// need to set at right spot when unbinds but still works after leaving and entering unbind spots again
-        if (isBinded && this.getBoundsInLocal().getMinX() > targetX.getValue() - (panneauDeJeu.getScene().getWidth() / 2) - 10) {
+        if (isBinded && this.getBoundsInLocal().getMinX() > targetX.getValue() - (panneauDeJeu.getScene().getWidth() / 2)) {
             this.layoutXProperty().unbind();
             //need to set at right spot but still works after leaving and entering unbind spots again
             isBinded = false;
-        } else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxX() < targetX.getValue() + (panneauDeJeu.getScene().getWidth() / 2) + 10) {
+        } else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxX() < targetX.getValue() + (panneauDeJeu.getScene().getWidth() / 2)) {
             this.layoutXProperty().unbind();
             isBinded = false;
         } else {
@@ -72,7 +72,7 @@ public class GameCam2D extends ParallelCamera{
         if (isBinded && this.getBoundsInLocal().getMinY() > targetY.getValue() - (panneauDeJeu.getScene().getHeight() / 2)) {
             this.layoutYProperty().unbind();
             isBinded = false;
-        } else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxY() < targetY.getValue() + (panneauDeJeu.getScene().getHeight() / 2) + 20) {
+        } else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxY() < targetY.getValue() + (panneauDeJeu.getScene().getHeight() / 2)) {
             this.layoutYProperty().unbind();
             isBinded = false;
         } else {
