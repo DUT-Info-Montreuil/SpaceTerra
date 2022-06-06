@@ -6,7 +6,6 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.ParallelCamera;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class GameCam2D extends ParallelCamera{
