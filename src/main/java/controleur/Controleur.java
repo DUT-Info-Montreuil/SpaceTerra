@@ -15,10 +15,7 @@ import modele.*;
 import modele.Block;
 import modele.Terrain;
 import modele.Player;
-import vue.DebugView;
-import vue.InventoryView;
-import vue.PlayerView;
-import vue.TerrainView;
+import vue.*;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -129,6 +126,7 @@ public class Controleur implements Initializable {
         //entities.add(bingus);
         //entities.add(florb);
         entities.add(bib);
+        EntityView entView = new EntityView(bib);
     }
 
     public void createTimelines() {

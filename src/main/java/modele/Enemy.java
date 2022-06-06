@@ -10,8 +10,8 @@ public abstract class Enemy extends Entity{
     private int idleDirection = 0;
 
     private boolean canMove = true;
-    public Enemy(int vie, int vitesse, Hitbox hitbox, String path, int range, Terrain terrain) {
-        super(vie, vitesse, hitbox, path, terrain);
+    public Enemy(int vie, int vitesse, Hitbox hitbox,  int range, Terrain terrain) {
+        super(vie, vitesse, hitbox, terrain);
         this.range = range;
     }
 

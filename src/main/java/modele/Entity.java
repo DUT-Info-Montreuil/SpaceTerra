@@ -8,7 +8,6 @@ public abstract class  Entity {
     private int health;
     private int speed;
     private Hitbox hitbox;
-    private Image image;
     private final int jumpHeight = 20;
     public int jumpCount = jumpHeight;
     private boolean isJumping = false;
@@ -21,11 +20,10 @@ public abstract class  Entity {
 
     private Terrain terrain;
 
-    public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain) {
+    public Entity(int health, int speed, Hitbox hitbox, Terrain terrain) {
         this.health = health;
         this.speed = speed;
         this.hitbox = hitbox;
-        this.image = new Image(String.valueOf((getClass().getResource(path))));
         this.terrain = terrain;
     }
 
@@ -47,14 +45,6 @@ public abstract class  Entity {
 
     public Hitbox getHitbox() {
         return hitbox;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(String path) {
-        this.image = new Image(String.valueOf(getClass().getResource(path)));
     }
 
 
