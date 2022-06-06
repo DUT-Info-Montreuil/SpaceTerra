@@ -47,10 +47,10 @@ public class Block {
         this.x = x;
         this.y = y;
         this.terrain = terrain;
-        for(int i = 0; i < terrain.getTileset().getTiles().size(); i++){
-            if(terrain.getTileset().getTiles().get(i).getRessource().equalsIgnoreCase(item.getTypeItemBlock().name())){
-                this.tile = terrain.getTileset().getTiles().get(i);
-            }
+        if(item.getTypeItemBlock().name().equalsIgnoreCase("Dirt")) {
+            this.tile = terrain.getTileset().getTiles().get(18);
+        } else if (item.getTypeItemBlock().name().equalsIgnoreCase("Wood")) {
+            this.tile = terrain.getTileset().getTiles().get(35);
         }
         ressource = this.getTile().getRessource();
     }
