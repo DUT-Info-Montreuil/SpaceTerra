@@ -59,11 +59,11 @@ public class Controleur implements Initializable {
         terrainView.readMap(terrain);
         createEnnemies();
 
-        PlayerView playerView = new PlayerView(player = new Player(10, 2030, terrain), panneauDeJeu);
+        entViews.add(new EntityView(player = new Player(10, 2030, terrain), panneauDeJeu));
         //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
-        playerView.displayPlayer();
+        //playerView.displayPlayer();
         //panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(0);
         panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(player.getHitbox().getX().getValue());
         panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight() / 2));
@@ -210,9 +210,11 @@ public class Controleur implements Initializable {
         if (keyHandler.isLeftPressed()){
             player.movement(null, keyHandler.isLeftPressed(), false);
         }
-
         else if (keyHandler.isRightPressed()){
             player.movement(null, false, keyHandler.isRightPressed());
+        }
+        else{
+            player.setAction(player.getActions().get(0));
         }
 
         if (keyHandler.isUpPressed()) {

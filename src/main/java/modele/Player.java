@@ -37,9 +37,6 @@ public class Player extends Entity {
                 }
             }
         }
-
-        if(!rightCheck && !leftCheck)
-            setAction(getActions().get(0));
     }
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height

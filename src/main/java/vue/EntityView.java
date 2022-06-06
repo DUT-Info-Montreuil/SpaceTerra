@@ -25,7 +25,7 @@ public class EntityView {
         images = new HashMap<>();
         for(String state : ent.getActions()){
             try{
-                images.put(state, new Image(String.valueOf(getClass().getResource("/Sprites/Enemies/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + state + ".gif"))));
+                images.put(state, new Image(String.valueOf(getClass().getResource("/Sprites/Entities/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + state + ".gif"))));
             }catch (IllegalArgumentException e){
                 System.out.println("Couldn't find Image");
             }
