@@ -1,8 +1,11 @@
 package modele;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Slot {
     private Item item;
-    private int itemQuantity;
+    private IntegerProperty itemQuantity;
     private String typeItem;
 
     private int maxQuantity;
@@ -11,7 +14,7 @@ public class Slot {
 
     public Slot(Item item, int itemQuantity) {
         this.item = item;
-        this.itemQuantity = itemQuantity;
+        this.itemQuantity = new SimpleIntegerProperty(itemQuantity);
         try{
             this.typeItem = item.getClass().toString();
             this.maxQuantity = item.getMaxQuantity();
@@ -32,11 +35,15 @@ public class Slot {
     }
 
     public int getItemQuantity() {
+        return itemQuantity.getValue();
+    }
+
+    public IntegerProperty itemQuantityProperty(){
         return itemQuantity;
     }
 
     public void setItemQuantity(int itemQuantity) {
-        this.itemQuantity = itemQuantity;
+        this.itemQuantity.setValue(itemQuantity);
     }
 
     public String getTypeItem() {
@@ -55,11 +62,11 @@ public class Slot {
     }
 
     public void incrementItemQuantity(int quantity){
-        this.itemQuantity += quantity;
+        this.itemQuantity.setValue(getItemQuantity() + quantity);
     }
 
     public void decrementItemQuantity(int quantity){
-        this.itemQuantity -= quantity;
+        this.itemQuantity.setValue(getItemQuantity() -  quantity);
     }
 
     @Override

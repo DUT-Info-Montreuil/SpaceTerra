@@ -1,5 +1,6 @@
 package vue;
 
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -16,6 +17,8 @@ public class InventoryView {
     private Rectangle emptySlotRectangle;
 
     private ImageView fullSlotImageView;
+
+    private Label quantityLabel;
 
     public InventoryView(Inventory inventory, Pane panneauDeJeu) {
         this.inventory = inventory;
@@ -74,6 +77,8 @@ public class InventoryView {
     public void refreshInventory(){
         for(int i  = 0; i < inventory.getSlots().size(); i++){
             if(inventory.getItemFromSlot(i) == null){
+                panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#label" + i));
+
                 panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#slot" + i));
                 emptySlotRectangle = new Rectangle();
                 emptySlotRectangle.setHeight(32);
@@ -92,6 +97,15 @@ public class InventoryView {
                 fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
                 fullSlotImageView.setId("#slot" + i);
                 panneauDeJeu.getChildren().add(fullSlotImageView);
+
+                quantityLabel = new Label();
+                quantityLabel.layoutXProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * i + 20));
+                quantityLabel.layoutYProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100 + 18));
+                quantityLabel.textProperty().bind(inventory.getSlots().get(i).itemQuantityProperty().asString());
+                quantityLabel.setTextFill(Color.WHITE);
+                quantityLabel.setId("#label" + i);
+                panneauDeJeu.getChildren().add(quantityLabel);
+
             }
         }
     }
