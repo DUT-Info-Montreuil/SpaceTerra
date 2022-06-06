@@ -37,19 +37,14 @@ public class GameCam2D extends ParallelCamera{
 
     public void lookAt(DoubleProperty targetX, DoubleProperty targetY){
         try{
-            if(this.currTargetX == targetX){
-                // does nothing I just put that here so it doesn't spam binds.
-                //System.out.println("Camera is already looking at this X.");
-                if(this.currTargetY == targetY){
-                    // also does nothing but I'm leaving it here for debugging.
-                    //System.out.println("Camera is already looking at this Y.");
-                }
+            if(this.currTargetX == targetX || this.currTargetY == targetY) {
+                return;
             }
             else{
-                if(isBindedX)
-                    this.layoutXProperty().unbind();
-                if(isBindedY)
-                    this.layoutYProperty().unbind();
+                this.layoutXProperty().unbind();
+                this.layoutYProperty().unbind();
+                this.setLayoutX(targetX.intValue() - (panneauDeJeu.getScene().getWidth() / 2));
+                this.setLayoutY(targetY.intValue() - (panneauDeJeu.getScene().getHeight() / 2));
                 this.layoutXProperty().bind(targetX.subtract(panneauDeJeu.getScene().getWidth() / 2));
                 this.layoutYProperty().bind(targetY.subtract(panneauDeJeu.getScene().getHeight() / 2));
                 this.currTargetX = targetX;
