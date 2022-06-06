@@ -24,8 +24,18 @@ public class EntityView {
         imgView = new ImageView();
         images = new HashMap<>();
         for(String state : ent.getActions()){
-            try{
+            try{ // Gets image eg : Bingus_idle.gif
                 images.put(state, new Image(String.valueOf(getClass().getResource("/Sprites/Entities/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + state + ".gif"))));
+            }catch (IllegalArgumentException e){
+                System.out.println("Couldn't find Image");
+            }
+            try{ // Gets sprites if they have a right version eg : Player_idle_right.gif
+                images.put(state, new Image(String.valueOf(getClass().getResource("/Sprites/Entities/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + state + "right.gif"))));
+            }catch (IllegalArgumentException e){
+                System.out.println("Couldn't find Image");
+            }
+            try{ // Gets sprites if they have a left version eg : Player_run_left.gif
+                images.put(state, new Image(String.valueOf(getClass().getResource("/Sprites/Entities/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + state + "left.gif"))));
             }catch (IllegalArgumentException e){
                 System.out.println("Couldn't find Image");
             }

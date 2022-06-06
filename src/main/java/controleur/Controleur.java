@@ -213,7 +213,7 @@ public class Controleur implements Initializable {
         else if (keyHandler.isRightPressed()){
             player.movement(null, false, keyHandler.isRightPressed());
         }
-        else{
+        else{ // this sucks and we should probably find a way to make it work another way but I'm leaving it here for testing/demonstration purposes
             player.setAction(player.getActions().get(0));
         }
 
