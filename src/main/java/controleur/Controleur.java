@@ -7,8 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -119,7 +117,7 @@ public class Controleur implements Initializable {
         currentSlotView.setStroke(Color.YELLOW);
         currentSlotView.setWidth(34);
         currentSlotView.setHeight(34);
-        currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32 * player.getInventory().getCurrSlot()));
+        currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32 * player.getInventory().getCurrSlotNumber()));
         currentSlotView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(99));
         panneauDeJeu.getChildren().addAll(mouseBlock, currentSlotView);
     }
@@ -351,37 +349,37 @@ public class Controleur implements Initializable {
 
     public void verifKeyTyped() {
         if (keyHandler.isSlotOneTyped()) {
-            player.getInventory().setCurrSlot(0);
+            player.getInventory().setCurrSlotNumber(0);
             keyHandler.setSlotOneTyped(false);
         } else if (keyHandler.isSlotTwoTyped()) {
-            player.getInventory().setCurrSlot(1);
+            player.getInventory().setCurrSlotNumber(1);
             keyHandler.setSlotTwoTyped(false);
         } else if (keyHandler.isSlotThreeTyped()) {
-            player.getInventory().setCurrSlot(2);
+            player.getInventory().setCurrSlotNumber(2);
             keyHandler.setSlotThreeTyped(false);
         } else if (keyHandler.isSlotFourTyped()) {
-            player.getInventory().setCurrSlot(3);
+            player.getInventory().setCurrSlotNumber(3);
             keyHandler.setSlotFourTyped(false);
         } else if (keyHandler.isSlotFiveTyped()) {
-            player.getInventory().setCurrSlot(4);
+            player.getInventory().setCurrSlotNumber(4);
             keyHandler.setSlotFiveTyped(false);
         } else if (keyHandler.isSlotSixTyped()) {
-            player.getInventory().setCurrSlot(5);
+            player.getInventory().setCurrSlotNumber(5);
             keyHandler.setSlotSixTyped(false);
         } else if (keyHandler.isSlotSevenTyped()) {
-            player.getInventory().setCurrSlot(6);
+            player.getInventory().setCurrSlotNumber(6);
             keyHandler.setSlotSevenTyped(false);
         } else if (keyHandler.isSlotEightTyped()) {
-            player.getInventory().setCurrSlot(7);
+            player.getInventory().setCurrSlotNumber(7);
             keyHandler.setSlotEightTyped(false);
         } else if (keyHandler.isSlotNineTyped()) {
-            player.getInventory().setCurrSlot(8);
+            player.getInventory().setCurrSlotNumber(8);
             keyHandler.setSlotNineTyped(false);
         } else if (keyHandler.isSlotTenTyped()) {
-            player.getInventory().setCurrSlot(9);
+            player.getInventory().setCurrSlotNumber(9);
             keyHandler.setSlotTenTyped(false);
         }
-        currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32 * player.getInventory().getCurrSlot()));
+        currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32 * player.getInventory().getCurrSlotNumber()));
         currentSlotView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(99));
         currentSlotView.toFront();
     }

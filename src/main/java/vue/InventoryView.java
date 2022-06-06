@@ -26,7 +26,7 @@ public class InventoryView {
 
     public void initialize() {
         for (int i = 0; i < inventory.getMaxInventorySize(); i++) {
-            System.out.println(inventory.getItems());
+            System.out.println(inventory.getSlots());
             if (inventory.getItemFromSlot(i) == null) {
                 emptySlotRectangle = new Rectangle();
                 emptySlotRectangle.setHeight(32);
@@ -72,8 +72,8 @@ public class InventoryView {
     }
 */
     public void refreshInventory(){
-        for(int i  = 0; i < inventory.getItems().size(); i++){
-            if(inventory.getItems().get(i) == null){
+        for(int i  = 0; i < inventory.getSlots().size(); i++){
+            if(inventory.getItemFromSlot(i) == null){
                 panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#slot" + i));
                 emptySlotRectangle = new Rectangle();
                 emptySlotRectangle.setHeight(32);
@@ -87,7 +87,7 @@ public class InventoryView {
             }
             else {
                 panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#slot" + i));
-                fullSlotImageView = new ImageView(((ItemBlock) inventory.getItems().get(i)).getTypeItemBlock().getImage());
+                fullSlotImageView = new ImageView(((ItemBlock) inventory.getItemFromSlot(i)).getTypeItemBlock().getImage());
                 fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * i));
                 fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
                 fullSlotImageView.setId("#slot" + i);

@@ -1,34 +1,34 @@
 package modele;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Inventory {
-    private ArrayList<Item> items;
-
-    private HashMap<String, Integer> itemsQuantites;
-    private int currSlot;
+    private ArrayList<Slot> slots;
+    private int currSlotNumber;
     private int maxInventorySize;
     private int currInventorySize;
 
-    public ArrayList<Item> getItems() {
-        return items;
+    public ArrayList<Slot> getSlots() {
+        return slots;
     }
 
     public Inventory() {
-        this.items = new ArrayList<>(10);
-        this.currSlot = 0;
+        this.slots = new ArrayList<>(10);
+        this.currSlotNumber = 0;
         this.maxInventorySize = 10;
         this.currInventorySize = 0;
         for (int i = 0; i < maxInventorySize; i++) {
-            items.add(null);
+            slots.add(new Slot(null, 0));
         }
-        itemsQuantites = new HashMap<>();
     }
 
 
-    public int getCurrSlot() {
-        return currSlot;
+    public int getCurrSlotNumber() {
+        return currSlotNumber;
+    }
+
+    public Slot getCurrSlot(){
+        return slots.get(currSlotNumber);
     }
 
     public int getMaxInventorySize() {
@@ -37,8 +37,8 @@ public class Inventory {
 
     public Item getCurrItem() {
         try {
-            System.out.println("CUUR" + currSlot);
-            return items.get(currSlot);
+            System.out.println("CUUR" + currSlotNumber);
+            return slots.get(currSlotNumber).getItem();
         } catch (Exception e) {
             return null;
         }
@@ -46,7 +46,7 @@ public class Inventory {
 
     public Item getItemFromSlot(int numSlot) {
         try {
-            return items.get(numSlot);
+            return slots.get(numSlot).getItem();
         } catch (Exception e) {
             return null;
         }
@@ -54,7 +54,7 @@ public class Inventory {
 
     public int getNextEmptySlot() {
         int i = 0;
-        while (i < items.size() && items.get(i) != null) {
+        while (i < slots.size() && slots.get(i).getItem() != null) {
             i++;
         }
 
@@ -66,19 +66,19 @@ public class Inventory {
         this.maxInventorySize = maxInventorySize;
     }
 
-    public void setCurrSlot(int currSlot) {
-        this.currSlot = currSlot;
+    public void setCurrSlotNumber(int currSlotNumber) {
+        this.currSlotNumber = currSlotNumber;
     }
 
     public void incrementSlot() {
-        if (this.currSlot < this.maxInventorySize - 1) {
-            currSlot++;
+        if (this.currSlotNumber < this.maxInventorySize - 1) {
+            currSlotNumber++;
         }
     }
 
     public void decrementSlot() {
-        if (this.currSlot > 0) {
-            currSlot--;
+        if (this.currSlotNumber > 0) {
+            currSlotNumber--;
         }
     }
 
@@ -91,19 +91,12 @@ public class Inventory {
 
     public Item removeFromSlot() {
         try {
-            Item item  = items.get(currSlot);
-            if(itemsQuantites.get(item.getClass().toString()) > 1){
-                itemsQuantites.replace(item.getClass().toString(), itemsQuantites.get(item.getClass().toString())-1);
-                if(itemsQuantites.get(item.getClass().toString()) % item.getMaxQuantity() == 0){
-                    items.remove(item);
-                    items.add(currSlot, null);
-                    currInventorySize--;
-                }
+            Item item = slots.get(currSlotNumber).getItem();
+            if(slots.get(currSlotNumber).getItemQuantity() > 1){
+                getCurrSlot().decrementItemQuantity(1);
             }
             else {
-                itemsQuantites.remove(item.getClass().toString());
-                items.remove(item);
-                items.add(currSlot, null);
+                slots.set(currSlotNumber, new Slot(null, 0));
                 currInventorySize--;
             }
             return item;
@@ -116,25 +109,25 @@ public class Inventory {
 
     public void addIntoSlot(Item item) {
         if (!isInventoryFull()) {
-            if (itemsQuantites.containsKey(item.getClass().toString())) {
-                if(itemsQuantites.get(item.getClass().toString()) % item.getMaxQuantity() == 0){
-                    items.set(getNextEmptySlot(), item);
-                    currInventorySize++;
-                    itemsQuantites.replace(item.getClass().toString(), itemsQuantites.get(item.getClass().toString())+1);
-                }
-                else {
-                    itemsQuantites.replace(item.getClass().toString(), itemsQuantites.get(item.getClass().toString())+1);
-                }
-
+            if (this.getNotFullSlotWithItem(item) != null) {
+                this.getNotFullSlotWithItem(item).incrementItemQuantity(1);
             } else {
-                items.set(getNextEmptySlot(), item);
+                slots.set(getNextEmptySlot(), new Slot(item, 1));
                 currInventorySize++;
-                itemsQuantites.put(item.getClass().toString(), 1);
             }
         } else{
             System.out.println("inventaire plein !");
         }
-        System.out.println(items);
+        System.out.println(slots);
+    }
+
+    public Slot getNotFullSlotWithItem(Item item){
+        for(Slot slot1 : slots){
+            if(slot1.getItem() != null && slot1.getTypeItem().equals(item.getClass().toString()) && slot1.getItemQuantity() < slot1.getMaxQuantity()){
+                return slot1;
+            }
+        }
+        return null;
     }
 
 }
