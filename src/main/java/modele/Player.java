@@ -3,30 +3,31 @@ package modele;
 import java.util.ArrayList;
 
 public class Player extends Entity {
+    private boolean isRunning = false;
 
-    private final double walkSpeed = 10;
-    private final int jumpHeight = 20;
-    public int jumpCount = jumpHeight;
-    private boolean isJumping;
 
     private Inventory inventory = new Inventory();
 
-    public Player(int x, int y){
-        super(20, 10, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif");
+    public Player(int x, int y, Terrain terrain){
+        super(20, 7, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif", terrain);
         inventory = new Inventory();
     }
 
     @Override
-    public void movement(Player player, boolean leftCheck, boolean rightCheck, Terrain terrain) {
+    public void movement(Player player, boolean leftCheck, boolean rightCheck) {
         if(this.getHitbox().getX().getValue() >= 10){
             if (leftCheck) {
-                getHitbox().setX(this.getHitbox().getX().intValue() - walkSpeed);
+                if(!sideLeftCollision()){
+                    getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
+                }
             }
         }
 
-        if(this.getHitbox().getX().getValue() <= terrain.getWidth()*32-30){
+        if(this.getHitbox().getX().getValue() <= this.getTerrain().getWidth()*32-30){
             if (rightCheck){
-                getHitbox().setX(this.getHitbox().getX().intValue() + walkSpeed);
+                if(!sideRightCollisions()){
+                    getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
+                }
             }
         }
 
@@ -47,6 +48,11 @@ public class Player extends Entity {
         return inventory;
     }
 
+    public boolean isRunning() {
+        return isRunning;
+    }
 
-
+    public void setRunning(boolean running) {
+        isRunning = running;
+    }
 }

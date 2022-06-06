@@ -1,6 +1,6 @@
 package modele;
 
-public abstract class Ennemy extends Entity{
+public abstract class Enemy extends Entity{
 
     private int range;
     private boolean playerDetected = false;
@@ -8,9 +8,10 @@ public abstract class Ennemy extends Entity{
     private String state = "idle";
     private int idleCooldown = 50;
     private int idleDirection = 0;
+
     private boolean canMove = true;
-    public Ennemy(int vie, int vitesse, Hitbox hitbox, String path, int range) {
-        super(vie, vitesse, hitbox, path);
+    public Enemy(int vie, int vitesse, Hitbox hitbox, String path, int range, Terrain terrain) {
+        super(vie, vitesse, hitbox, path, terrain);
         this.range = range;
     }
 
@@ -64,14 +65,14 @@ public abstract class Ennemy extends Entity{
 
     public void detectPlayer(Player player, int rangeMultiplier){
         if((this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() - range*rangeMultiplier && this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() + range*rangeMultiplier) && (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() - range*rangeMultiplier && this.getHitbox().getY().intValue() < player.getHitbox().getY().intValue() + range*rangeMultiplier)) {
-            this.state = "attack";
-            this.playerDetected = true;
+                if(this.state != "attack") {
+                    this.state = "hunting";
+                    this.playerDetected = true;
+                }
         }
         else{
             this.state = "idle";
             this.playerDetected = false;
         }
     }
-
-    public abstract void movement(Player player, boolean leftCheck, boolean rightCheck, Terrain terrain);
 }

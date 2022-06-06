@@ -21,6 +21,4 @@ public class PlayerView {
     public void displayPlayer(){
         panneauDeJeu.getChildren().add(spritePlayer);
     }
-
-
 }
