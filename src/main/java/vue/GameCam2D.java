@@ -6,6 +6,7 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.ParallelCamera;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class GameCam2D extends ParallelCamera{
@@ -26,8 +27,7 @@ public class GameCam2D extends ParallelCamera{
     public void startTimeline(){
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
-                    if(currTargetX != null && currTargetY != null)
-                        checkBounds();
+                    //if(currTargetX != null && currTargetY != null) checkBounds();
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -37,19 +37,21 @@ public class GameCam2D extends ParallelCamera{
     public void lookAt(DoubleProperty targetX, DoubleProperty targetY){
         try{
             if(this.currTargetX == targetX || this.currTargetY == targetY) {
+                System.out.println("getting out");
                 return;
             }
             else{
+                System.out.println("Binding shit");
                 this.layoutXProperty().unbind();
+                isBindedX = false;
                 this.layoutYProperty().unbind();
-                this.setLayoutX(targetX.intValue() - (panneauDeJeu.getScene().getWidth() / 2));
-                this.setLayoutY(targetY.intValue() - (panneauDeJeu.getScene().getHeight() / 2));
-                this.layoutXProperty().bind(targetX.subtract(panneauDeJeu.getScene().getWidth() / 2));
-                this.layoutYProperty().bind(targetY.subtract(panneauDeJeu.getScene().getHeight() / 2));
-                this.currTargetX = targetX;
-                this.currTargetY = targetY;
+                isBindedY = false;
+                this.layoutXProperty().bind(targetX.subtract(panneauDeJeu.getScene().getWidth() / 2 + this.getTranslateX()));
+                this.layoutYProperty().bind(targetY.subtract(panneauDeJeu.getScene().getHeight() / 2 + this.getTranslateY()));
                 isBindedX = true;
                 isBindedY = true;
+                this.currTargetX = targetX;
+                this.currTargetY = targetY;
                 if(!isActive)
                     startTimeline();
             }
@@ -116,18 +118,23 @@ public class GameCam2D extends ParallelCamera{
         }
     }
 
-    public void tranlateToLook(DoubleProperty targetX, DoubleProperty targetY, int durationMillis){
+    public void translateToLook(DoubleProperty targetX, DoubleProperty targetY, int durationMillis){
         if(!isInAnimation){
+            System.out.println(layoutXProperty());
+            System.out.println(translateXProperty() + " help");
             TranslateTransition translation = new TranslateTransition(Duration.millis(durationMillis), this);
             translation.setToX((targetX.intValue() - panneauDeJeu.getScene().getWidth() / 2) - this.getLayoutX());
             translation.setToY((targetY.intValue() - panneauDeJeu.getScene().getHeight() / 2) - this.getLayoutY());
             translation.setCycleCount(1);
-            translation.play();
             isInAnimation = true;
             translation.setOnFinished(e -> {
                 isInAnimation = false;
+                System.out.println(layoutXProperty() + " help");
+                System.out.println(translateXProperty() + " help");
                 lookAt(targetX, targetY);
             });
+            System.out.println("Translating shit");
+            translation.play();
         }
         else{
             //do nothing

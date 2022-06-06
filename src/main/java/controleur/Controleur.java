@@ -5,7 +5,6 @@ import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -50,7 +49,6 @@ public class Controleur implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         entities = new ArrayList<>();
         Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
-        //ParallelCamera camera = new ParallelCamera();
         camera = new GameCam2D(panneauDeJeu);
         scene.setCamera(camera);
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
@@ -63,9 +61,6 @@ public class Controleur implements Initializable {
         //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
-        //panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(0);
-        panneauDeJeu.getScene().getCamera().layoutXProperty().setValue(player.getHitbox().getX().getValue());
-        panneauDeJeu.getScene().getCamera().layoutYProperty().bind(player.getHitbox().getY().subtract(panneauDeJeu.getScene().getHeight() / 2));
         createTimelines();
         inventoryView = new InventoryView(player.getInventory(), panneauDeJeu);
         keyHandler = new KeyHandler(panneauDeJeu);
@@ -146,7 +141,6 @@ public class Controleur implements Initializable {
                         //System.out.println("rclick");
                         mouseHandler.setHasClickedRight(false);
                     }
-
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
         timelineClick.play();
