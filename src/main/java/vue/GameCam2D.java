@@ -2,10 +2,11 @@ package vue;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.DoubleProperty;
-import javafx.scene.Node;
 import javafx.scene.ParallelCamera;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class GameCam2D extends ParallelCamera{
@@ -13,8 +14,10 @@ public class GameCam2D extends ParallelCamera{
     private Pane panneauDeJeu;
     private Timeline timeline;
     private boolean isActive = false;
-    private boolean isBinded = false;
-    private DoubleProperty targetX, targetY;
+    private boolean isBindedX = false;
+    private boolean isBindedY = false;
+    private DoubleProperty currTargetX, currTargetY;
+    private boolean isInAnimation = false;
 
     public GameCam2D(Pane p){
         super();
@@ -24,7 +27,7 @@ public class GameCam2D extends ParallelCamera{
     public void startTimeline(){
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
-                    if(targetX != null && targetY != null)
+                    if(currTargetX != null && currTargetY != null)
                         checkBounds();
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -34,10 +37,10 @@ public class GameCam2D extends ParallelCamera{
 
     public void lookAt(DoubleProperty targetX, DoubleProperty targetY){
         try{
-            if(this.targetX == targetX){
+            if(this.currTargetX == targetX){
                 // does nothing I just put that here so it doesn't spam binds.
                 //System.out.println("Camera is already looking at this X.");
-                if(this.targetY == targetY){
+                if(this.currTargetY == targetY){
                     // also does nothing but I'm leaving it here for debugging.
                     //System.out.println("Camera is already looking at this Y.");
                 }
@@ -45,9 +48,10 @@ public class GameCam2D extends ParallelCamera{
             else{
                 this.layoutXProperty().bind(targetX.subtract(panneauDeJeu.getScene().getWidth() / 2));
                 this.layoutYProperty().bind(targetY.subtract(panneauDeJeu.getScene().getHeight() / 2));
-                this.targetX = targetX;
-                this.targetY = targetY;
-                isBinded = true;
+                this.currTargetX = targetX;
+                this.currTargetY = targetY;
+                isBindedX = true;
+                isBindedY = true;
                 if(!isActive)
                     startTimeline();
             }
@@ -57,27 +61,63 @@ public class GameCam2D extends ParallelCamera{
         }
     }
 
-    public void checkBounds(){// need to set at right spot when unbinds but still works after leaving and entering unbind spots again
-        if (isBinded && this.getBoundsInLocal().getMinX() > targetX.getValue() - (panneauDeJeu.getScene().getWidth() / 2)) {
-            this.layoutXProperty().unbind();
-            //need to set at right spot but still works after leaving and entering unbind spots again
-            isBinded = false;
-        } else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxX() < targetX.getValue() + (panneauDeJeu.getScene().getWidth() / 2)) {
-            this.layoutXProperty().unbind();
-            isBinded = false;
+    public void checkBounds(){// need to set at right spot when unbinded but still works after leaving and entering unbind spots again
+        checkXBounds();
+        checkYBounds();
+    }
+
+    public void checkXBounds(){
+        if(isBindedX){
+            if (this.getBoundsInLocal().getMinX() > currTargetX.getValue() - (panneauDeJeu.getScene().getWidth() / 2)) {
+                this.layoutXProperty().unbind();
+                //need to set at right spot but still works after leaving and entering unbind spots again
+                isBindedX = false;
+            } else if (panneauDeJeu.getBoundsInLocal().getMaxX() < currTargetX.getValue() + (panneauDeJeu.getScene().getWidth() / 2)) {
+                this.layoutXProperty().unbind();
+                isBindedX = false;
+            }
         } else {
-            this.layoutXProperty().bind(targetX.subtract(panneauDeJeu.getScene().getWidth() / 2));
-            isBinded = true;
+            if(!(this.getBoundsInLocal().getMinX() > currTargetX.getValue() - (panneauDeJeu.getScene().getWidth() / 2))&&!(panneauDeJeu.getBoundsInLocal().getMaxX() < currTargetX.getValue() + (panneauDeJeu.getScene().getWidth() / 2))){
+                this.layoutXProperty().bind(currTargetX.subtract(panneauDeJeu.getScene().getWidth() / 2));
+                System.out.println("Binded X");
+                isBindedX = true;
+            }
         }
-        if (isBinded && this.getBoundsInLocal().getMinY() > targetY.getValue() - (panneauDeJeu.getScene().getHeight() / 2)) {
-            this.layoutYProperty().unbind();
-            isBinded = false;
-        } else if (isBinded && panneauDeJeu.getBoundsInLocal().getMaxY() < targetY.getValue() + (panneauDeJeu.getScene().getHeight() / 2)) {
-            this.layoutYProperty().unbind();
-            isBinded = false;
+    }
+
+    public void checkYBounds(){
+        if(isBindedY){
+            if (this.getBoundsInLocal().getMinY() > currTargetY.getValue() - (panneauDeJeu.getScene().getHeight() / 2)) {
+                this.layoutYProperty().unbind();
+                isBindedY = false;
+            } else if (panneauDeJeu.getBoundsInLocal().getMaxY() < currTargetY.getValue() + (panneauDeJeu.getScene().getHeight() / 2)) {
+                this.layoutYProperty().unbind();
+                isBindedY = false;
+            }
         } else {
-            this.layoutYProperty().bind(targetY.subtract(panneauDeJeu.getScene().getHeight() / 2));
-            isBinded = true;
+            if(!(this.getBoundsInLocal().getMinY() > currTargetY.getValue() - (panneauDeJeu.getScene().getHeight() / 2))&&!(panneauDeJeu.getBoundsInLocal().getMaxY() < currTargetY.getValue() + (panneauDeJeu.getScene().getHeight() / 2))){
+                this.layoutYProperty().bind(currTargetY.subtract(panneauDeJeu.getScene().getHeight() / 2));
+                System.out.println("Binded Y");
+                isBindedY = true;
+            }
+        }
+    }
+
+    public void translateTo(int targetX, int targetY, int durationMillis){
+        if(!isInAnimation){
+            TranslateTransition translation = new TranslateTransition(Duration.millis(durationMillis), this);
+            DebugView.debugPoint(targetX, targetY, Color.GREEN);
+            DebugView.debugPoint((int)(targetX - panneauDeJeu.getScene().getWidth() / 2), (int)(targetY - panneauDeJeu.getScene().getHeight() / 2), Color.RED);
+            translation.setByX((targetX - panneauDeJeu.getScene().getWidth() / 2) - (this.getLayoutX()));
+            //translation.setByY((targetY - panneauDeJeu.getScene().getHeight() / 2) - this.getLayoutY());
+            translation.setCycleCount(1);
+            translation.setAutoReverse(true);
+            translation.play();
+            isInAnimation = true;
+            translation.setOnFinished(e -> isInAnimation = false);
+        }
+        else{
+            //do nothing
         }
     }
 }

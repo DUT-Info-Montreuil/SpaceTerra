@@ -41,7 +41,7 @@ public class Controleur implements Initializable {
 
     private Rectangle currentSlotView;
     private InventoryView inventoryView;
-
+    private GameCam2D camera;
 
 
     public static DebugView debugger;
@@ -51,7 +51,7 @@ public class Controleur implements Initializable {
         entities = new ArrayList<>();
         Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
         //ParallelCamera camera = new ParallelCamera();
-        GameCam2D camera = new GameCam2D(panneauDeJeu);
+        camera = new GameCam2D(panneauDeJeu);
         scene.setCamera(camera);
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu, entities);
@@ -111,7 +111,7 @@ public class Controleur implements Initializable {
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
                     entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
                     playerMovement();
-                    ((GameCam2D)panneauDeJeu.getScene().getCamera()).lookAt(player.getHitbox().getX(), player.getHitbox().getY());
+                    camera.lookAt(player.getHitbox().getX(), player.getHitbox().getY());
 
                     if (mouseHandler.isHasScrollUp()) {
                         player.getInventory().incrementSlot();
@@ -189,6 +189,8 @@ public class Controleur implements Initializable {
 
         if (keyHandler.isUpPressed()) {
             if (!player.upCollisions() && player.isGrounded()) {
+                //System.out.println(entities.get(0).getHitbox().getX().intValue()+ " "+ entities.get(0).getHitbox().getY().intValue());
+                //camera.translateTo(entities.get(0).getHitbox().getX().intValue(), entities.get(0).getHitbox().getY().intValue(), 1000);
                 player.setGravity(5);
                 player.jump();
             } else if (player.isJumping()) {
