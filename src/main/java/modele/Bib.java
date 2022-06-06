@@ -128,8 +128,10 @@ public class Bib extends Enemy{
             default:
                 break;
         }
-        //System.out.println(getState());
-        //System.out.println(isJumping());
-        //System.out.println(this.getHitbox().getX().intValue() - player.getHitbox().getX().intValue());
+        /*System.out.println(getState());
+        System.out.println(isJumping());
+        System.out.println(this.getHitbox().getX().intValue() - player.getHitbox().getX().intValue());
+
+         */
     }
 }

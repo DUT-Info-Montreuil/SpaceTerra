@@ -12,6 +12,8 @@ public class Hitbox {
     private int height;
     private DoubleProperty x, y;
 
+
+
     public Hitbox(JSONObject hitbox) {
         isSolid = ((String) hitbox.get("type")).equals("collisions");
         width = ((Long) hitbox.get("width")).intValue();
@@ -78,5 +80,15 @@ public class Hitbox {
 
     public void setY(double y) {
         this.y.setValue(y);
+    }
+    @Override
+    public String toString() {
+        return "Hitbox{" +
+                "isSolid=" + isSolid +
+                ", width=" + width +
+                ", height=" + height +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

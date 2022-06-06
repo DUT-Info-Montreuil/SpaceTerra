@@ -44,15 +44,18 @@ public class Block {
     }
 
     public Block(ItemBlock item, int x, int y, Terrain terrain){
+        this.terrain = terrain;
         this.x = x;
         this.y = y;
-        this.terrain = terrain;
         if(item.getTypeItemBlock().name().equalsIgnoreCase("Dirt")) {
             this.tile = terrain.getTileset().getTiles().get(18);
         } else if (item.getTypeItemBlock().name().equalsIgnoreCase("Wood")) {
             this.tile = terrain.getTileset().getTiles().get(35);
         }
+        hitX = x + tile.getHitbox().getX().intValue();
+        hitY = y + tile.getHitbox().getY().intValue();
         ressource = this.getTile().getRessource();
+
     }
 
     public int getX() {

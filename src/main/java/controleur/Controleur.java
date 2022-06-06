@@ -330,14 +330,14 @@ public class Controleur implements Initializable {
             if (item != null) {
                 //    System.out.println("Tu peux poser le block !");
                 bPlace = new Block((ItemBlock) item, (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32, terrain);
-                if (checkDistanceBlock(player, bPlace)) {
+               // if (checkDistanceBlock(player, bPlace)) {
                     terrain.getBlocks().set(terrain.getIndex(mouseHandler.getMouseX(), mouseHandler.getMouseY()), bPlace);
                     inventoryView.refreshPlace();
                     if (bPlace.getTile().getHitbox().isSolid()) {
                         terrain.getSolidBlocks().add(bPlace);
                     }
                     terrainView.addBlock(terrain, bPlace);
-                }
+                //}
 
             } else {
                 mouseBlock.setStroke(Color.RED);

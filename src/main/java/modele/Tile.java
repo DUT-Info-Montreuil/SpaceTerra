@@ -17,6 +17,7 @@ public class Tile {
 
     private String ressource;
 
+
     public Tile(JSONObject tile){
         id = (((Long)tile.get("id")).intValue()) + 1; // On ajoute 1 parce que les id commence a 0 mais 0 = vide dans le data des layers
         tileWidth = ((Long)tile.get("imagewidth")).intValue();
@@ -59,5 +60,16 @@ public class Tile {
     }
     public String getRessource() {
         return ressource;
+    }
+    @Override
+    public String toString() {
+        return "Tile{" +
+                "id=" + id +
+                ", image=" + image.getUrl() +
+                ", tileWidth=" + tileWidth +
+                ", tileHeight=" + tileHeight +
+                ", hitbox=" + hitbox +
+                ", ressource='" + ressource + '\'' +
+                '}';
     }
 }
