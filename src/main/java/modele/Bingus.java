@@ -2,11 +2,18 @@ package modele;
 
 import controleur.Controleur;
 
+import java.util.ArrayList;
+
 public class Bingus extends Enemy {
 
     private int strenght;
     public Bingus(int x, int y, Terrain terrain) {
-        super(10, 3, new Hitbox(50,50,x,y), 200, terrain);
+        super(10, 3, new Hitbox(50,50,x,y), 200, terrain, new ArrayList<String>(){
+            {
+                add("idle");
+                add("walk");
+            }
+        });
         this.strenght = 3;
     }
 

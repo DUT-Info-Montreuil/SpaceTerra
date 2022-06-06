@@ -2,16 +2,27 @@ package modele;
 
 import controleur.Controleur;
 
+import java.util.ArrayList;
+
 public class Florb extends Enemy{
 
     private int strength;
 
     private int safeHeight = 1950;
 
+
     public Florb(int x, int y, Terrain terrain) {
-        super(10, 6, new Hitbox(22,16,x,y), 200, terrain);
+
+        super(10, 6, new Hitbox(22,16,x,y), 200, terrain, new ArrayList<String>(){
+            {
+                add("idle");
+                add("hunting");
+                add("attack");
+            }
+        });
         this.strength = 3;
         this.setFlying(true);
+
     }
 
     @Override

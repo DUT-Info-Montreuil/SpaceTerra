@@ -2,12 +2,20 @@ package modele;
 
 import controleur.Controleur;
 
+import java.util.ArrayList;
+
 public class Bib extends Enemy{
 
     private int strength;
 
     public Bib(int x, int y, Terrain terrain) {
-        super(5, 6, new Hitbox(14,18, x, y),250, terrain);
+        super(5, 6, new Hitbox(14,18, x, y),250, terrain, new ArrayList<String>(){
+            {
+                add("idle");
+                add("walk");
+                add("attack");
+            }
+        });
         this.strength = 1;
     }
 

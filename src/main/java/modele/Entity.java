@@ -2,6 +2,8 @@ package modele;
 
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
+
 
 public abstract class  Entity {
 
@@ -13,6 +15,7 @@ public abstract class  Entity {
     private boolean isJumping = false;
     private boolean flying = false;
     public double gravity = 5;
+    private ArrayList<String> actions;
 
     public Terrain getTerrain() {
         return terrain;
@@ -20,11 +23,12 @@ public abstract class  Entity {
 
     private Terrain terrain;
 
-    public Entity(int health, int speed, Hitbox hitbox, Terrain terrain) {
+    public Entity(int health, int speed, Hitbox hitbox, Terrain terrain, ArrayList<String> actions) {
         this.health = health;
         this.speed = speed;
         this.hitbox = hitbox;
         this.terrain = terrain;
+        this.actions = actions;
     }
 
     public int getSpeed() {
@@ -245,5 +249,9 @@ public abstract class  Entity {
 
     public void setGravity(double gravity) {
         this.gravity = gravity;
+    }
+
+    public ArrayList<String> getActions() {
+        return actions;
     }
 }

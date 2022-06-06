@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.ArrayList;
+
 public abstract class Enemy extends Entity{
 
     private int range;
@@ -10,8 +12,8 @@ public abstract class Enemy extends Entity{
     private int idleDirection = 0;
 
     private boolean canMove = true;
-    public Enemy(int vie, int vitesse, Hitbox hitbox,  int range, Terrain terrain) {
-        super(vie, vitesse, hitbox, terrain);
+    public Enemy(int vie, int vitesse, Hitbox hitbox, int range, Terrain terrain, ArrayList<String> actions) {
+        super(vie, vitesse, hitbox, terrain, actions);
         this.range = range;
     }
 
