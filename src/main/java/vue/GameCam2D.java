@@ -38,11 +38,9 @@ public class GameCam2D extends ParallelCamera{
     public void lookAt(DoubleProperty targetX, DoubleProperty targetY){
         try{
             if(this.currTargetX == targetX || this.currTargetY == targetY) {
-                System.out.println("getting out");
                 return;
             }
             else{
-                System.out.println("Binding shit");
                 this.layoutXProperty().unbind();
                 isBindedX = false;
                 this.layoutYProperty().unbind();
@@ -80,7 +78,6 @@ public class GameCam2D extends ParallelCamera{
         } else {
             if(!(this.getBoundsInLocal().getMinX() > currTargetX.getValue() - (panneauDeJeu.getScene().getWidth() / 2))&&!(panneauDeJeu.getBoundsInLocal().getMaxX() < currTargetX.getValue() + (panneauDeJeu.getScene().getWidth() / 2))){
                 this.layoutXProperty().bind(currTargetX.subtract(panneauDeJeu.getScene().getWidth() / 2 + this.getTranslateX()));
-                System.out.println("Binded X");
                 isBindedX = true;
             }
         }
@@ -98,7 +95,6 @@ public class GameCam2D extends ParallelCamera{
         } else {
             if(!(this.getBoundsInLocal().getMinY() > currTargetY.getValue() - (panneauDeJeu.getScene().getHeight() / 2))&&!(panneauDeJeu.getBoundsInLocal().getMaxY() < currTargetY.getValue() + (panneauDeJeu.getScene().getHeight() / 2))){
                 this.layoutYProperty().bind(currTargetY.subtract(panneauDeJeu.getScene().getHeight() / 2 + this.getTranslateY()));
-                System.out.println("Binded Y");
                 isBindedY = true;
             }
         }
@@ -121,8 +117,6 @@ public class GameCam2D extends ParallelCamera{
 
     public void translateToLook(DoubleProperty targetX, DoubleProperty targetY, int durationMillis){
         if(!isInAnimation){
-            System.out.println(layoutXProperty());
-            System.out.println(translateXProperty() + " help");
             TranslateTransition translation = new TranslateTransition(Duration.millis(durationMillis), this);
             translation.setToX((targetX.intValue() - panneauDeJeu.getScene().getWidth() / 2) - this.getLayoutX());
             translation.setToY((targetY.intValue() - panneauDeJeu.getScene().getHeight() / 2) - this.getLayoutY());
@@ -130,11 +124,8 @@ public class GameCam2D extends ParallelCamera{
             isInAnimation = true;
             translation.setOnFinished(e -> {
                 isInAnimation = false;
-                System.out.println(layoutXProperty() + " help");
-                System.out.println(translateXProperty() + " help");
                 lookAt(targetX, targetY);
             });
-            System.out.println("Translating shit");
             translation.play();
         }
         else{
