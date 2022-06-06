@@ -92,11 +92,16 @@ public class Inventory {
     public Item removeFromSlot() {
         try {
             Item item  = items.get(currSlot);
-            if(itemsQuantites.get(items.get(currSlot).getClass().toString()) > 1){
-                itemsQuantites.replace(items.get(currSlot).getClass().toString(), itemsQuantites.get(items.get(currSlot).getClass().toString())-1);
+            if(itemsQuantites.get(item.getClass().toString()) > 1){
+                itemsQuantites.replace(item.getClass().toString(), itemsQuantites.get(item.getClass().toString())-1);
+                if(itemsQuantites.get(item.getClass().toString()) % item.getMaxQuantity() == 0){
+                    items.remove(item);
+                    items.add(currSlot, null);
+                    currInventorySize--;
+                }
             }
             else {
-                itemsQuantites.remove(items.get(currSlot).getClass().toString());
+                itemsQuantites.remove(item.getClass().toString());
                 items.remove(item);
                 items.add(currSlot, null);
                 currInventorySize--;

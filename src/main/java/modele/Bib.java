@@ -122,7 +122,7 @@ public class Bib extends Enemy{
                     stopJump();
                     this.setState("hunting");
                 }
-                System.out.println(getSpeed());
+                //System.out.println(getSpeed());
                 break;
 
             default:
