@@ -33,6 +33,7 @@ public class Controleur implements Initializable {
     private Player player;
     private KeyHandler keyHandler;
     private ArrayList<Entity> entities;
+    private ArrayList<EntityView> entViews;
     private MouseHandler mouseHandler;
 
     private Rectangle zonePlayerBlock; //Rectangle dont la zone appartenant au joueur qui ne permet donc pas de poser de block dans celle-ci
@@ -49,6 +50,7 @@ public class Controleur implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         entities = new ArrayList<>();
+        entViews = new ArrayList<>();
         Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
         ParallelCamera camera = new ParallelCamera();
         scene.setCamera(camera);
@@ -120,53 +122,54 @@ public class Controleur implements Initializable {
     }
 
     public void createEnnemies() {
-        //Bingus bingus = new Bingus(10, 2030, terrain);
-        //Florb florb = new Florb(10, 2000, terrain);
+        Bingus bingus = new Bingus(10, 2030, terrain);
+        Florb florb = new Florb(10, 2000, terrain);
         Bib bib = new Bib(2000, 2030, terrain);
-        //entities.add(bingus);
-        //entities.add(florb);
+        entities.add(bingus);
+        entities.add(florb);
         entities.add(bib);
-        EntityView entView = new EntityView(bib);
+        for(Entity ent : entities)
+            entViews.add(new EntityView(ent, panneauDeJeu));
     }
 
     public void createTimelines() {
         // 16.33 = 60 fps
         timeline = new Timeline
-                (new KeyFrame(Duration.millis(16.33), actionEvent -> {
-                    entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
-                    playerMovement();
-                    cameraManager();
+            (new KeyFrame(Duration.millis(16.33), actionEvent -> {
+                entityLoop(); // Entity loop has to happen before player movement so that gravity and position fixes are applied before moving
+                playerMovement();
+                cameraManager();
 
 
-                    if (mouseHandler.isHasScrollUp()) {
-                        player.getInventory().incrementSlot();
-                        mouseHandler.setHasScrollUp(false);
-                    } else if (mouseHandler.isHasScrollDown()) {
-                        player.getInventory().decrementSlot();
-                        mouseHandler.setHasScrollDown(false);
-                    }
+                if (mouseHandler.isHasScrollUp()) {
+                    player.getInventory().incrementSlot();
+                    mouseHandler.setHasScrollUp(false);
+                } else if (mouseHandler.isHasScrollDown()) {
+                    player.getInventory().decrementSlot();
+                    mouseHandler.setHasScrollDown(false);
+                }
 
 
-                    verifKeyTyped();
-                }));
+                verifKeyTyped();
+            }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
         timelineClick = new Timeline
 
-                (new KeyFrame(Duration.millis(200), actionEvent -> {
-                    //System.out.println(mouseBlock.xProperty().intValue());
-                    //System.out.println(mouseBlock.yProperty().intValue());
+            (new KeyFrame(Duration.millis(200), actionEvent -> {
+                //System.out.println(mouseBlock.xProperty().intValue());
+                //System.out.println(mouseBlock.yProperty().intValue());
 
-                    if (mouseHandler.isHasPressedLeft()) {
-                        checkOnLeftPressed();
-                    } else if (mouseHandler.isHasClickedRight()) {
-                        checkOnRightClicked();
-                        //System.out.println("rclick");
-                        mouseHandler.setHasClickedRight(false);
-                    }
+                if (mouseHandler.isHasPressedLeft()) {
+                    checkOnLeftPressed();
+                } else if (mouseHandler.isHasClickedRight()) {
+                    checkOnRightClicked();
+                    //System.out.println("rclick");
+                    mouseHandler.setHasClickedRight(false);
+                }
 
-                }));
+            }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
         timelineClick.play();
 

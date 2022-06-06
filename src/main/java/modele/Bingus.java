@@ -65,6 +65,11 @@ public class Bingus extends Enemy {
                         }
                         else
                             this.setIdleCooldown(this.getIdleCooldown() + 1);
+
+                        if(isCanMove())
+                            this.setAction(getActions().get(1));
+                        else
+                            this.setAction(getActions().get(0));
                         break;
 
                     case 2:
@@ -83,6 +88,11 @@ public class Bingus extends Enemy {
                         }
                         else
                             this.setIdleCooldown(this.getIdleCooldown() + 1);
+
+                        if(isCanMove())
+                            this.setAction(getActions().get(1));
+                        else
+                            this.setAction(getActions().get(0));
                         break;
 
                     case 3:
@@ -100,10 +110,17 @@ public class Bingus extends Enemy {
                         }
                         else
                             this.setIdleCooldown(this.getIdleCooldown() + 1);
+
+                        if(isCanMove())
+                            this.setAction(getActions().get(1));
+                        else
+                            this.setAction(getActions().get(0));
                 }
                 break;
 
             case "hunting":
+                this.setAction(getActions().get(1));
+
                 if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 5) {
                     if (leftCheck)
                         this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
@@ -112,9 +129,6 @@ public class Bingus extends Enemy {
                     if (rightCheck)
                         this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
                 }
-
-
-
                 break;
 
             default:

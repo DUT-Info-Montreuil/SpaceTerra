@@ -13,7 +13,6 @@ public class Bib extends Enemy{
             {
                 add("idle");
                 add("walk");
-                add("attack");
             }
         });
         this.strength = 1;
@@ -34,6 +33,7 @@ public class Bib extends Enemy{
 
         switch(this.getState()) {
             case "idle":
+                this.setAction(getActions().get(0));
                 this.setSpeed(6);
                 switch (this.getIdleDirection()) {
                     case 0:
@@ -57,6 +57,11 @@ public class Bib extends Enemy{
                             this.setIdleDirection(0);
                         } else
                             this.setIdleCooldown(this.getIdleCooldown() + 1);
+
+                        if(isCanMove())
+                            this.setAction(getActions().get(1));
+                        else
+                            this.setAction(getActions().get(0));
                         break;
 
                     case 2:
@@ -73,6 +78,11 @@ public class Bib extends Enemy{
                             this.setIdleDirection(0);
                         } else
                             this.setIdleCooldown(this.getIdleCooldown() + 1);
+
+                        if(isCanMove())
+                            this.setAction(getActions().get(1));
+                        else
+                            this.setAction(getActions().get(0));
                         break;
 
                     case 3:
@@ -87,11 +97,17 @@ public class Bib extends Enemy{
                             this.setIdleDirection(0);
                         } else
                             this.setIdleCooldown(this.getIdleCooldown() + 1);
+
+                        if(isCanMove())
+                            this.setAction(getActions().get(1));
+                        else
+                            this.setAction(getActions().get(0));
                 }
                 break;
 
             case "hunting":
                 this.setSpeed(6);
+                this.setAction(getActions().get(1));
 
                 if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 112) {
                     if (leftCheck)

@@ -16,8 +16,6 @@ public class Florb extends Enemy{
         super(10, 6, new Hitbox(22,16,x,y), 200, terrain, new ArrayList<String>(){
             {
                 add("idle");
-                add("hunting");
-                add("attack");
             }
         });
         this.strength = 3;
@@ -40,6 +38,7 @@ public class Florb extends Enemy{
 
         switch(this.getState()){
             case "idle":
+                this.setAction(getActions().get(0));
                 switch(this.getIdleDirection()){
                     case 0:
                         this.setIdleDirection(Controleur.randomNum(1,3));

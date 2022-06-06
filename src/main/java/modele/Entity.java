@@ -16,6 +16,7 @@ public abstract class  Entity {
     private boolean flying = false;
     public double gravity = 5;
     private ArrayList<String> actions;
+    private String action = "idle";
 
     public Terrain getTerrain() {
         return terrain;
@@ -253,5 +254,13 @@ public abstract class  Entity {
 
     public ArrayList<String> getActions() {
         return actions;
+    }
+
+    public String getAction(){
+        return action;
+    }
+
+    public void setAction(String a){
+        action = a;
     }
 }

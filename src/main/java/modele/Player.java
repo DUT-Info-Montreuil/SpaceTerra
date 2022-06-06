@@ -9,7 +9,12 @@ public class Player extends Entity {
     private Inventory inventory = new Inventory();
 
     public Player(int x, int y, Terrain terrain){
-        super(20, 7, new Hitbox(20,38,x,y), terrain);
+        super(20, 7, new Hitbox(20,38,x,y), terrain, new ArrayList<String>(){
+            {
+                add("idle");
+                add("walk");
+            }
+        });
         inventory = new Inventory();
     }
 
@@ -18,6 +23,7 @@ public class Player extends Entity {
         if(this.getHitbox().getX().getValue() >= 10){
             if (leftCheck) {
                 if(!sideLeftCollision()){
+                    setAction(getActions().get(1));
                     getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
                 }
             }
@@ -27,10 +33,13 @@ public class Player extends Entity {
             if (rightCheck){
                 if(!sideRightCollisions()){
                     getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
+                    setAction(getActions().get(1));
                 }
             }
         }
 
+        if(!rightCheck && !leftCheck)
+            setAction(getActions().get(0));
     }
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
