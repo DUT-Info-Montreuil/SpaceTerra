@@ -17,8 +17,8 @@ public class EntityView {
         //idle = new Image(String.valueOf(getClass().getResource("/Sprite/Enemies/" + ent.getClass().getName())));
         for(int i = 0; i < STATES.length; i++){
             try{
-                System.out.println("/Sprite/Enemies/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + STATES[i] + ".gif");
-                images.put(STATES[i], new Image(String.valueOf(getClass().getResource("/Sprite/Enemies/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + STATES[i] + ".gif"))));
+                System.out.println("/Sprites/Enemies/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + STATES[i] + ".gif");
+                images.put(STATES[i], new Image(String.valueOf(getClass().getResource("/Sprites/Enemies/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + STATES[i] + ".gif"))));
             }catch (Exception e){
                 System.out.println("Couldn't find Image");
             }
