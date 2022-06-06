@@ -54,7 +54,9 @@ public class Block {
         }
         hitX = x + tile.getHitbox().getX().intValue();
         hitY = y + tile.getHitbox().getY().intValue();
+        this.id = "block" + idCount++;
         ressource = this.getTile().getRessource();
+        this.pvs = 10;
 
     }
 

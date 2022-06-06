@@ -42,7 +42,7 @@ public class InventoryView {
         }
     }
 
-    public void refreshPlace() {
+    /*public void refreshPlace() {
         if (inventory.getCurrItem() != null) {
             panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#slot" + inventory.getNextEmptySlot()));
             fullSlotImageView = new ImageView(((ItemBlock) inventory.getCurrItem()).getTypeItemBlock().getImage());
@@ -69,6 +69,31 @@ public class InventoryView {
             fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * inventory.getNextEmptySlot()));
             fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
             panneauDeJeu.getChildren().add(fullSlotImageView);
+    }
+*/
+    public void refreshInventory(){
+        for(int i  = 0; i < inventory.getItems().size(); i++){
+            if(inventory.getItems().get(i) == null){
+                panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#slot" + i));
+                emptySlotRectangle = new Rectangle();
+                emptySlotRectangle.setHeight(32);
+                emptySlotRectangle.setWidth(32);
+                emptySlotRectangle.setFill(Color.WHITE);
+                emptySlotRectangle.setStroke(Color.BLACK);
+                emptySlotRectangle.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * i));
+                emptySlotRectangle.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
+                emptySlotRectangle.setId("slot" + i);
+                panneauDeJeu.getChildren().add(emptySlotRectangle);
+            }
+            else {
+                panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#slot" + i));
+                fullSlotImageView = new ImageView(((ItemBlock) inventory.getItems().get(i)).getTypeItemBlock().getImage());
+                fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * i));
+                fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100));
+                fullSlotImageView.setId("#slot" + i);
+                panneauDeJeu.getChildren().add(fullSlotImageView);
+            }
+        }
     }
 
 

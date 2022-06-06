@@ -9,7 +9,7 @@ public class ItemBlock extends Item{
     }
 
     public ItemBlock(int id) {
-        super(id, 16);
+        super(id, 3);
         typeItemBlock = TypeItemBlock.values()[id];
     }
 

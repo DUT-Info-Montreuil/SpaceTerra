@@ -304,8 +304,8 @@ public class Controleur implements Initializable {
                     }
                     if (b.getRessource() != null) {
                         if (!player.getInventory().isInventoryFull()) {
-                            inventoryView.refreshBreak(b.getRessource());
                             player.pick(b.getRessource());
+                            inventoryView.refreshInventory();
                             //System.out.println(player.getInventory().getItems());
                         }
                     }
@@ -332,7 +332,7 @@ public class Controleur implements Initializable {
                 bPlace = new Block((ItemBlock) item, (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32, terrain);
                // if (checkDistanceBlock(player, bPlace)) {
                     terrain.getBlocks().set(terrain.getIndex(mouseHandler.getMouseX(), mouseHandler.getMouseY()), bPlace);
-                    inventoryView.refreshPlace();
+                    inventoryView.refreshInventory();
                     if (bPlace.getTile().getHitbox().isSolid()) {
                         terrain.getSolidBlocks().add(bPlace);
                     }

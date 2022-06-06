@@ -8,6 +8,11 @@ public abstract class Item {
     }
 
     private int id;
+
+    public int getMaxQuantity() {
+        return maxQuantity;
+    }
+
     private int maxQuantity;
 
 
