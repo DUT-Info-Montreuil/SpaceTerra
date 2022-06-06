@@ -46,6 +46,10 @@ public class GameCam2D extends ParallelCamera{
                 }
             }
             else{
+                if(isBindedX)
+                    this.layoutXProperty().unbind();
+                if(isBindedY)
+                    this.layoutYProperty().unbind();
                 this.layoutXProperty().bind(targetX.subtract(panneauDeJeu.getScene().getWidth() / 2));
                 this.layoutYProperty().bind(targetY.subtract(panneauDeJeu.getScene().getHeight() / 2));
                 this.currTargetX = targetX;
@@ -106,14 +110,30 @@ public class GameCam2D extends ParallelCamera{
     public void translateTo(int targetX, int targetY, int durationMillis){
         if(!isInAnimation){
             TranslateTransition translation = new TranslateTransition(Duration.millis(durationMillis), this);
-            DebugView.debugPoint(targetX, targetY, Color.GREEN);
-            DebugView.debugPoint((int)(targetX - panneauDeJeu.getScene().getWidth() / 2), (int)(targetY - panneauDeJeu.getScene().getHeight() / 2), Color.RED);
             translation.setToX((targetX - panneauDeJeu.getScene().getWidth() / 2) - this.getLayoutX());
             translation.setToY((targetY - panneauDeJeu.getScene().getHeight() / 2) - this.getLayoutY());
             translation.setCycleCount(1);
             translation.play();
             isInAnimation = true;
             translation.setOnFinished(e -> isInAnimation = false);
+        }
+        else{
+            //do nothing
+        }
+    }
+
+    public void tranlateToLook(DoubleProperty targetX, DoubleProperty targetY, int durationMillis){
+        if(!isInAnimation){
+            TranslateTransition translation = new TranslateTransition(Duration.millis(durationMillis), this);
+            translation.setToX((targetX.intValue() - panneauDeJeu.getScene().getWidth() / 2) - this.getLayoutX());
+            translation.setToY((targetY.intValue() - panneauDeJeu.getScene().getHeight() / 2) - this.getLayoutY());
+            translation.setCycleCount(1);
+            translation.play();
+            isInAnimation = true;
+            translation.setOnFinished(e -> {
+                isInAnimation = false;
+                lookAt(targetX, targetY);
+            });
         }
         else{
             //do nothing

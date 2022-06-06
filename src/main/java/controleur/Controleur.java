@@ -105,13 +105,19 @@ public class Controleur implements Initializable {
         entities.add(bib);
     }
 
+
+    private boolean doOnce = false;
     public void createTimelines() {
         // 16.33 = 60 fps
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
+                    if(!doOnce){
+                        camera.lookAt(player.getHitbox().getX(), player.getHitbox().getY());
+                        doOnce = true;
+                    }
                     entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
                     playerMovement();
-                    camera.lookAt(player.getHitbox().getX(), player.getHitbox().getY());
+
 
                     if (mouseHandler.isHasScrollUp()) {
                         player.getInventory().incrementSlot();
