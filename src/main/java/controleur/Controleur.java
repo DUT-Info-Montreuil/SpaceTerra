@@ -58,7 +58,7 @@ public class Controleur implements Initializable {
         terrainView.readMap(terrain);
         createEnnemies();
 
-        PlayerView playerView = new PlayerView(player = new Player(10, 2030, terrain), panneauDeJeu);
+        PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
         //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
@@ -99,7 +99,7 @@ public class Controleur implements Initializable {
     public void createEnnemies() {
         //Bingus bingus = new Bingus(10, 2030, terrain);
         //Florb florb = new Florb(10, 2000, terrain);
-        Bib bib = new Bib(2000, 2030, terrain);
+        Bib bib = new Bib(4000, 2030, terrain);
         //entities.add(bingus);
         //entities.add(florb);
         entities.add(bib);
@@ -189,8 +189,6 @@ public class Controleur implements Initializable {
 
         if (keyHandler.isUpPressed()) {
             if (!player.upCollisions() && player.isGrounded()) {
-                //System.out.println(entities.get(0).getHitbox().getX().intValue()+ " "+ entities.get(0).getHitbox().getY().intValue());
-                //camera.translateTo(entities.get(0).getHitbox().getX().intValue(), entities.get(0).getHitbox().getY().intValue(), 1000);
                 player.setGravity(5);
                 player.jump();
             } else if (player.isJumping()) {

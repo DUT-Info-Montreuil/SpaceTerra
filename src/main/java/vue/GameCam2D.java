@@ -108,10 +108,9 @@ public class GameCam2D extends ParallelCamera{
             TranslateTransition translation = new TranslateTransition(Duration.millis(durationMillis), this);
             DebugView.debugPoint(targetX, targetY, Color.GREEN);
             DebugView.debugPoint((int)(targetX - panneauDeJeu.getScene().getWidth() / 2), (int)(targetY - panneauDeJeu.getScene().getHeight() / 2), Color.RED);
-            translation.setByX((targetX - panneauDeJeu.getScene().getWidth() / 2) - (this.getLayoutX()));
-            //translation.setByY((targetY - panneauDeJeu.getScene().getHeight() / 2) - this.getLayoutY());
+            translation.setToX((targetX - panneauDeJeu.getScene().getWidth() / 2) - this.getLayoutX());
+            translation.setToY((targetY - panneauDeJeu.getScene().getHeight() / 2) - this.getLayoutY());
             translation.setCycleCount(1);
-            translation.setAutoReverse(true);
             translation.play();
             isInAnimation = true;
             translation.setOnFinished(e -> isInAnimation = false);
