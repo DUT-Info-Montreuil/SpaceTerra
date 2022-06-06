@@ -17,7 +17,7 @@ public class EntityView {
         imgView = new ImageView();
         images = new HashMap<>();
         //idle = new Image(String.valueOf(getClass().getResource("/Sprite/Enemies/" + ent.getClass().getName())));
-        for(String state : ent.getStates()){
+        for(String state : ent.getActions()){
             try{
                 images.put(state, new Image(String.valueOf(getClass().getResource("/Sprites/Enemies/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + state + ".gif"))));
             }catch (IllegalArgumentException e){

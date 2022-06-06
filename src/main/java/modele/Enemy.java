@@ -67,10 +67,10 @@ public abstract class Enemy extends Entity{
 
     public void detectPlayer(Player player, int rangeMultiplier){
         if((this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() - range*rangeMultiplier && this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() + range*rangeMultiplier) && (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() - range*rangeMultiplier && this.getHitbox().getY().intValue() < player.getHitbox().getY().intValue() + range*rangeMultiplier)) {
-                if(this.state != "attack") {
-                    this.state = "hunting";
-                    this.playerDetected = true;
-                }
+            if(this.state != "attack") {
+                this.state = "hunting";
+                this.playerDetected = true;
+            }
         }
         else{
             this.state = "idle";
