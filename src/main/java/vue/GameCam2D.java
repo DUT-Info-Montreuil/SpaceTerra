@@ -27,7 +27,8 @@ public class GameCam2D extends ParallelCamera{
     public void startTimeline(){
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
-                    //if(currTargetX != null && currTargetY != null) checkBounds();
+                    if(currTargetX != null && currTargetY != null)
+                        checkBounds();
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -78,7 +79,7 @@ public class GameCam2D extends ParallelCamera{
             }
         } else {
             if(!(this.getBoundsInLocal().getMinX() > currTargetX.getValue() - (panneauDeJeu.getScene().getWidth() / 2))&&!(panneauDeJeu.getBoundsInLocal().getMaxX() < currTargetX.getValue() + (panneauDeJeu.getScene().getWidth() / 2))){
-                this.layoutXProperty().bind(currTargetX.subtract(panneauDeJeu.getScene().getWidth() / 2));
+                this.layoutXProperty().bind(currTargetX.subtract(panneauDeJeu.getScene().getWidth() / 2 + this.getTranslateX()));
                 System.out.println("Binded X");
                 isBindedX = true;
             }
@@ -96,7 +97,7 @@ public class GameCam2D extends ParallelCamera{
             }
         } else {
             if(!(this.getBoundsInLocal().getMinY() > currTargetY.getValue() - (panneauDeJeu.getScene().getHeight() / 2))&&!(panneauDeJeu.getBoundsInLocal().getMaxY() < currTargetY.getValue() + (panneauDeJeu.getScene().getHeight() / 2))){
-                this.layoutYProperty().bind(currTargetY.subtract(panneauDeJeu.getScene().getHeight() / 2));
+                this.layoutYProperty().bind(currTargetY.subtract(panneauDeJeu.getScene().getHeight() / 2 + this.getTranslateY()));
                 System.out.println("Binded Y");
                 isBindedY = true;
             }
