@@ -13,9 +13,9 @@ public class Inventory {
     }
 
     public Inventory() {
-        this.slots = new ArrayList<>(10);
+        this.slots = new ArrayList<>();
         this.currSlotNumber = 0;
-        this.maxInventorySize = 10;
+        this.maxInventorySize = 50;
         this.currInventorySize = 0;
         for (int i = 0; i < maxInventorySize; i++) {
             slots.add(new Slot(null, 0));
