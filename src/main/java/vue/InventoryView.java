@@ -51,7 +51,7 @@ public class InventoryView {
                 panneauDeJeu.getChildren().add(emptySlotRectangle);
             }
             if(i >= 10){
-                hideEmptySlotRectangle(inventory.getSlots().get(i));
+                emptySlotRectangle.setVisible(false);
             }
 
         }
@@ -59,7 +59,9 @@ public class InventoryView {
 
     public void displayEmptySlotRectangle(Slot slot) {
         try{
-            panneauDeJeu.lookup("#emptySlot" + slot.getId()).setVisible(true);
+            if(slot.getId() < 10){
+                panneauDeJeu.lookup("#emptySlot" + slot.getId()).setVisible(true);
+            }
         }catch (NullPointerException e){
             System.out.println("slot null display");
         }
@@ -72,8 +74,13 @@ public class InventoryView {
         fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * getWidthMult(slot)));
         fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100 + getHeightMult(slot)));
         fullSlotImageView.setId("fullSlot" + slot.getId());
+        fullSlotImageView.setFitWidth(32);
+        fullSlotImageView.setFitHeight(32);
         System.out.println("r : " + fullSlotImageView.getId());
         panneauDeJeu.getChildren().add(fullSlotImageView);
+        if(slot.getId() >= 10){
+            fullSlotImageView.setVisible(false);
+        }
     }
 
     public void displayLabelQuantity(Slot slot){
@@ -84,6 +91,9 @@ public class InventoryView {
         quantityLabel.setTextFill(Color.WHITE);
         quantityLabel.setId("label" + slot.getId());
         panneauDeJeu.getChildren().add(quantityLabel);
+        if(slot.getId() >= 10){
+            quantityLabel.setVisible(false);
+        }
     }
 
     private int getHeightMult(Slot slot) {

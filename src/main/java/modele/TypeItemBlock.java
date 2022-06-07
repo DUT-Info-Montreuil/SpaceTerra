@@ -4,8 +4,8 @@ import javafx.scene.image.Image;
 
 public enum TypeItemBlock {
 
-    Dirt(new Image("Sprites/TileSet/Dirt17.png")),
-    Wood(new Image("Sprites/TileSet/treeTile12.png"));
+    Dirt(new Image("Sprites/Items/dirtItem.png")),
+    Wood(new Image("Sprites/Items/woodItem.png"));
     private Image image;
 
     TypeItemBlock(Image image){
