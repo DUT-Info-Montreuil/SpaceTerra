@@ -25,11 +25,11 @@ public class Controleur implements Initializable {
     @FXML
     private Pane panneauDeJeu;
     private TerrainView terrainView;
-    private Terrain terrain;
+    public static Terrain terrain;
     private Timeline timeline;
 
     private Timeline timelineClick;
-    private Player player;
+    public static Player player;
     private KeyHandler keyHandler;
     private ArrayList<Entity> entities;
     private MouseHandler mouseHandler;
@@ -67,10 +67,11 @@ public class Controleur implements Initializable {
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
         mouseHandler.mouseManager();
-        breakingManager();
+
         rectanglesManager();
         terrainView.readEntity();
         debugger = new DebugView(panneauDeJeu);
+        terrain.getBlocks().addListener(new TerrainObservator(terrainView));
         player.getInventory().getSlots().addListener(new InventoryObservator(inventoryView));
     }
 
@@ -265,40 +266,37 @@ public class Controleur implements Initializable {
         }
     }
 
-    public void breakingManager() {
-        this.terrain.getBlocks().addListener((ListChangeListener<Block>) change -> {
-            while (change.next()) {
-                for (Block b : change.getRemoved()) {
-                    this.terrainView.deleteBlock(b);
-                }
-            }
-        });
-    }
+
 
     public void checkOnLeftPressed() {
-        Block b = terrain.getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
-        //DebugView.debugPoint(mouseHandler.getMouseX(), mouseHandler.getMouseY(), Color.BLUE);
-        if (b != null) {
-            System.out.println("not null");
-            if (checkDistanceBlock(player, b)) {
-                // System.out.println("ok");
-                b.setPvs(b.getPvs() - 1);
-                System.out.println(b.getPvs());
-                System.out.println(terrain.getBlocks().indexOf(b));
-                if (b.getPvs() <= 0) {
-                    terrain.deleteBlock(b);
-                    if (b.getTile().getHitbox().isSolid()) {
-                        terrain.deleteSolidBlock(b);
-                    }
-                    if (b.getRessource() != null) {
-                        if (!player.getInventory().isInventoryFull()) {
-                            player.pick(b.getRessource());
-                            //System.out.println(player.getInventory().getItems());
+        if(player.getInventory().getCurrItem() != null){
+            player.getInventory().getCurrItem().use();
+        }
+        else {
+            Block b = terrain.getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
+            //DebugView.debugPoint(mouseHandler.getMouseX(), mouseHandler.getMouseY(), Color.BLUE);
+            if (b != null) {
+                System.out.println("not null");
+                if (checkDistanceBlock(player, b)) {
+                    // System.out.println("ok");
+                    b.setPvs(b.getPvs() - 1);
+                    System.out.println(b.getPvs());
+                    System.out.println(terrain.getBlocks().indexOf(b));
+                    if (b.getPvs() <= 0) {
+                        terrain.deleteBlock(b);
+                        if (b.getTile().getHitbox().isSolid()) {
+                            terrain.deleteSolidBlock(b);
                         }
+                        if (b.getRessource() != null) {
+                            if (!player.getInventory().isInventoryFull()) {
+                                player.pick(b.getRessource());
+                                //System.out.println(player.getInventory().getItems());
+                            }
+                        }
+                        mouseHandler.setHasPressedLeft(false);
+                        // System.out.println(player.getInventory());
                     }
-                    // System.out.println(player.getInventory());
                 }
-            }
             /*
             Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
             r.setFill(Color.TRANSPARENT);
@@ -306,32 +304,12 @@ public class Controleur implements Initializable {
             panneauDeJeu.getChildren().add(r);
             */
         }
+
+        }
     }
 
     public void checkOnRightClicked() {
-        Block bMouse = terrain.getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
-        Block bPlace;
-        if (bMouse == null /*&& !zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())*/) {
-            // System.out.println(player.getInventory());
-            Item item = player.drop();
-            if (item != null) {
-                //    System.out.println("Tu peux poser le block !");
-                bPlace = new Block((ItemBlock) item, (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32, terrain);
-               // if (checkDistanceBlock(player, bPlace)) {
-                    terrain.getBlocks().set(terrain.getIndex(mouseHandler.getMouseX(), mouseHandler.getMouseY()), bPlace);
-                    if (bPlace.getTile().getHitbox().isSolid()) {
-                        terrain.getSolidBlocks().add(bPlace);
-                    }
-                    terrainView.addBlock(terrain, bPlace);
-                //}
 
-            } else {
-                mouseBlock.setStroke(Color.RED);
-            }
-        }
-        /*if (zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
-            mouseBlock.setStroke(Color.RED);
-        }*/
     }
 
 

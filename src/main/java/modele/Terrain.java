@@ -1,9 +1,11 @@
 package modele;
 
+import controleur.Controleur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -163,8 +165,24 @@ public class Terrain {
         return this.getBlocks().get(getIndex(x, y));
     }
 
-    public int getIndex(int x, int y){
+    public int getIndex(int x, int y) {
         return (y / 32 * this.getWidth() + x / 32);
+    }
+
+    public boolean placeBlock(int x, int y, Block bPlace) {
+        Block bPos = this.getBlock(x, y);
+        if (bPos == null) {
+            // System.out.println(player.getInventory());
+            this.getBlocks().set(this.getIndex(x, y), bPlace);
+            if (bPlace.getTile().getHitbox().isSolid()) {
+                this.getSolidBlocks().add(bPlace);
+            }
+            return true;
+        }
+        /*if (zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
+            mouseBlock.setStroke(Color.RED);
+        }*/
+        return false;
     }
 
 }
