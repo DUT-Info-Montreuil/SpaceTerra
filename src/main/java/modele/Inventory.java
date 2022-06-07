@@ -1,24 +1,27 @@
 package modele;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 
 public class Inventory {
-    private ArrayList<Slot> slots;
+    private ObservableList<Slot> slots;
     private int currSlotNumber;
     private int maxInventorySize;
     private int currInventorySize;
 
-    public ArrayList<Slot> getSlots() {
+    public ObservableList<Slot> getSlots() {
         return slots;
     }
 
     public Inventory() {
-        this.slots = new ArrayList<>();
+        this.slots = FXCollections.observableArrayList();
         this.currSlotNumber = 0;
         this.maxInventorySize = 50;
         this.currInventorySize = 0;
         for (int i = 0; i < maxInventorySize; i++) {
-            slots.add(new Slot(null, 0));
+            slots.add(new Slot(null, 0, i));
         }
     }
 
@@ -96,7 +99,7 @@ public class Inventory {
                 getCurrSlot().decrementItemQuantity(1);
             }
             else {
-                slots.set(currSlotNumber, new Slot(null, 0));
+                slots.set(currSlotNumber, new Slot(null, 0, currSlotNumber));
                 currInventorySize--;
             }
             return item;
@@ -112,18 +115,18 @@ public class Inventory {
             if (this.getNotFullSlotWithItem(item) != null) {
                 this.getNotFullSlotWithItem(item).incrementItemQuantity(1);
             } else {
-                slots.set(getNextEmptySlot(), new Slot(item, 1));
+                slots.set(getNextEmptySlot(), new Slot(item, 1, getNextEmptySlot()));
                 currInventorySize++;
             }
         } else{
             System.out.println("inventaire plein !");
         }
-        System.out.println(slots);
+        //System.out.println(slots);
     }
 
     public Slot getNotFullSlotWithItem(Item item){
         for(Slot slot1 : slots){
-            if(slot1.getItem() != null && slot1.getTypeItem().equals(item.getClass().toString()) && slot1.getItemQuantity() < slot1.getMaxQuantity()){
+            if(slot1.getItem() != null && slot1.getTypeItem() == item.getId() && slot1.getItemQuantity() < slot1.getMaxQuantity()){
                 return slot1;
             }
         }

@@ -7,7 +7,7 @@ public abstract class Item {
         return id;
     }
 
-    private int id;
+    private int id = -1;
 
     public int getMaxQuantity() {
         return maxQuantity;

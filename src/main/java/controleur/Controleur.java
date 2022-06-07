@@ -79,6 +79,7 @@ public class Controleur implements Initializable {
         isBinded = true;
         terrainView.readEntity();
         debugger = new DebugView(panneauDeJeu);
+        player.getInventory().getSlots().addListener(new InventoryObservator(inventoryView));
     }
 
     public void cameraManager() {
@@ -169,7 +170,7 @@ public class Controleur implements Initializable {
                     }
 
                     if(keyHandler.isInventoryKeyTyped()){
-                        if(!inventoryView.isShow()) {
+                        /*if(!inventoryView.isShow()) {
                             inventoryView.setShow(true);
                             inventoryView.showAllInventory(true);
                             keyHandler.setInventoryKeyTyped(false);
@@ -178,7 +179,7 @@ public class Controleur implements Initializable {
                             inventoryView.setShow(false);
                             inventoryView.showAllInventory(false);
                             keyHandler.setInventoryKeyTyped(false);
-                        }
+                        }*/
                     }
 
                 }));
@@ -316,7 +317,6 @@ public class Controleur implements Initializable {
                     if (b.getRessource() != null) {
                         if (!player.getInventory().isInventoryFull()) {
                             player.pick(b.getRessource());
-                            inventoryView.refreshInventory();
                             //System.out.println(player.getInventory().getItems());
                         }
                     }
@@ -343,7 +343,6 @@ public class Controleur implements Initializable {
                 bPlace = new Block((ItemBlock) item, (mouseHandler.getMouseX()/32)*32, (mouseHandler.getMouseY()/32)*32, terrain);
                // if (checkDistanceBlock(player, bPlace)) {
                     terrain.getBlocks().set(terrain.getIndex(mouseHandler.getMouseX(), mouseHandler.getMouseY()), bPlace);
-                    inventoryView.refreshInventory();
                     if (bPlace.getTile().getHitbox().isSolid()) {
                         terrain.getSolidBlocks().add(bPlace);
                     }

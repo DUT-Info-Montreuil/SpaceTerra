@@ -6,21 +6,31 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Slot {
     private Item item;
     private IntegerProperty itemQuantity;
-    private String typeItem;
+    private int typeItem;
 
     private int maxQuantity;
 
+    private int id;
 
 
-    public Slot(Item item, int itemQuantity) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Slot(Item item, int itemQuantity, int id) {
         this.item = item;
         this.itemQuantity = new SimpleIntegerProperty(itemQuantity);
+        this.id = id;
         try{
-            this.typeItem = item.getClass().toString();
+            this.typeItem = item.getId();
             this.maxQuantity = item.getMaxQuantity();
         }
         catch(NullPointerException e){
-            this.typeItem = null;
+            this.typeItem = -1;
             this.maxQuantity = 0;
         }
 
@@ -46,11 +56,11 @@ public class Slot {
         this.itemQuantity.setValue(itemQuantity);
     }
 
-    public String getTypeItem() {
+    public int getTypeItem() {
         return typeItem;
     }
 
-    public void setTypeItem(String typeItem) {
+    public void setTypeItem(int typeItem) {
         this.typeItem = typeItem;
     }
     public int getMaxQuantity() {
@@ -74,8 +84,10 @@ public class Slot {
         return "Slot{" +
                 "item=" + item +
                 ", itemQuantity=" + itemQuantity +
-                ", TypeItem='" + typeItem + '\'' +
+                ", typeItem='" + typeItem + '\'' +
                 ", maxQuantity=" + maxQuantity +
+                ", id=" + id +
                 '}';
     }
+
 }
