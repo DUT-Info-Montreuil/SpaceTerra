@@ -57,6 +57,7 @@ public class TerrainView {
 
     public void addBlock(Terrain terrain, Block block){
         ImageView imgView = new ImageView(block.getTile().getImage());
+        System.out.println(block.getTile());
         imgView.setId(block.getId());
         imgView.setX(block.getX());
         imgView.setY(block.getY());
