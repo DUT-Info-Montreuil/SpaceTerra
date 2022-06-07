@@ -276,12 +276,12 @@ public class Controleur implements Initializable {
             Block b = terrain.getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
             //DebugView.debugPoint(mouseHandler.getMouseX(), mouseHandler.getMouseY(), Color.BLUE);
             if (b != null) {
-                System.out.println("not null");
+               // System.out.println("not null");
                 if (checkDistanceBlock(player, b)) {
                     // System.out.println("ok");
                     b.setPvs(b.getPvs() - 1);
-                    System.out.println(b.getPvs());
-                    System.out.println(terrain.getBlocks().indexOf(b));
+                  //  System.out.println(b.getPvs());
+                   // System.out.println(terrain.getBlocks().indexOf(b));
                     if (b.getPvs() <= 0) {
                         terrain.deleteBlock(b);
                         if (b.getTile().getHitbox().isSolid()) {

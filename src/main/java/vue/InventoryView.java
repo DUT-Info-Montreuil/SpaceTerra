@@ -31,7 +31,7 @@ public class InventoryView {
 
     public void initialize() {
         for (int i = 0; i < inventory.getMaxInventorySize(); i++) {
-            System.out.println(inventory.getSlots());
+           // System.out.println(inventory.getSlots());
             Rectangle emptySlotRectangle = new Rectangle();
             if (inventory.getItemFromSlot(i) == null) {
                 emptySlotRectangle.setHeight(32);
@@ -61,14 +61,14 @@ public class InventoryView {
     }
 
     public void displayFullSlotImageView(Slot slot){
-        System.out.println("id : " + slot.getId());
+      //  System.out.println("id : " + slot.getId());
         ImageView fullSlotImageView = new ImageView((inventory.getItemFromSlot(slot.getId())).getTypeItem().getImage());
         fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * getWidthMult(slot)));
         fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100 + getHeightMult(slot)));
         fullSlotImageView.setId("fullSlot" + slot.getId());
         fullSlotImageView.setFitWidth(32);
         fullSlotImageView.setFitHeight(32);
-        System.out.println("r : " + fullSlotImageView.getId());
+        //System.out.println("r : " + fullSlotImageView.getId());
         panneauDeJeu.getChildren().add(fullSlotImageView);
         if(slot.getId() >= 10){
             fullSlotImageView.setVisible(false);
@@ -82,10 +82,11 @@ public class InventoryView {
         quantityLabel.textProperty().bind(inventory.getSlots().get(slot.getId()).itemQuantityProperty().asString());
         quantityLabel.setTextFill(Color.WHITE);
         quantityLabel.setId("label" + slot.getId());
+        quantityLabel.toFront();
         panneauDeJeu.getChildren().add(quantityLabel);
-        if(slot.getId() >= 10){
+        /*if(slot.getId() >= 10){
             quantityLabel.setVisible(false);
-        }
+        }*/
     }
 
     private int getHeightMult(Slot slot) {
@@ -105,7 +106,7 @@ public class InventoryView {
         try{
             panneauDeJeu.lookup("#emptySlot" + slot.getId()).setVisible(false);
         }catch (NullPointerException e){
-            System.out.println("slot null hide");
+           // System.out.println("slot null hide");
         }
     }
     public void hideLabelQuantity(Slot slot) {
@@ -113,7 +114,7 @@ public class InventoryView {
     }
 
     public void hideFullSlotImageView(Slot slot) {
-        System.out.println("r : " + slot.getId());
+        //System.out.println("r : " + slot.getId());
         panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#fullSlot" + slot.getId()));
     }
 
