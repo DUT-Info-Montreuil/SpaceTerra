@@ -68,7 +68,6 @@ public class InventoryView {
     }
 
     public void displayFullSlotImageView(Slot slot){
-        fullSlotImageView = new ImageView();
         System.out.println("id : " + slot.getId());
         fullSlotImageView = new ImageView(((ItemBlock) inventory.getItemFromSlot(slot.getId())).getTypeItemBlock().getImage());
         fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * getWidthMult(slot)));

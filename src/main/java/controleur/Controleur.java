@@ -93,11 +93,11 @@ public class Controleur implements Initializable {
     }
 
     public void createEnnemies() {
-        //Bingus bingus = new Bingus(10, 2030, terrain);
-        //Florb florb = new Florb(10, 2000, terrain);
+        Bingus bingus = new Bingus(3500, 2030, terrain);
+        Florb florb = new Florb(3500, 2000, terrain);
         Bib bib = new Bib(4000, 2030, terrain);
-        //entities.add(bingus);
-        //entities.add(florb);
+        entities.add(bingus);
+        entities.add(florb);
         entities.add(bib);
     }
 
