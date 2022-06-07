@@ -124,6 +124,34 @@ public class InventoryView {
         System.out.println("r : " + slot.getId());
         panneauDeJeu.getChildren().remove(panneauDeJeu.lookup("#fullSlot" + slot.getId()));
     }
+
+
+    /*public void showAllInventory(boolean showAll) {
+        for(int i = 10; i < inventory.getMaxInventorySize(); i++){
+            if(showAll){
+                try{
+                    panneauDeJeu.lookup("#emptySlot" + i).setVisible(true);
+                    panneauDeJeu.lookup("#fullSlot" + i).setVisible(true);
+                    panneauDeJeu.lookup("#label" + i).setVisible(true);
+                } catch (NullPointerException e){
+
+                }
+
+            }
+            else {
+                try{
+                    panneauDeJeu.lookup("#emptySlot" + i).setVisible(false);
+                    panneauDeJeu.lookup("#fullSlot" + i).setVisible(false);
+                    panneauDeJeu.lookup("#label" + i).setVisible(false);
+                }
+                catch (NullPointerException e){
+
+                }
+            }
+        }
+    }
+
+     */
 }
 
 

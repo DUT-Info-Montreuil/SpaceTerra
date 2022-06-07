@@ -169,8 +169,8 @@ public class Controleur implements Initializable {
                         mouseHandler.setHasClickedRight(false);
                     }
 
-                    if(keyHandler.isInventoryKeyTyped()){
-                        /*if(!inventoryView.isShow()) {
+                    /*if(keyHandler.isInventoryKeyTyped()){
+                        if(!inventoryView.isShow()) {
                             inventoryView.setShow(true);
                             inventoryView.showAllInventory(true);
                             keyHandler.setInventoryKeyTyped(false);
@@ -179,8 +179,10 @@ public class Controleur implements Initializable {
                             inventoryView.setShow(false);
                             inventoryView.showAllInventory(false);
                             keyHandler.setInventoryKeyTyped(false);
-                        }*/
+                        }
                     }
+
+                     */
 
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
