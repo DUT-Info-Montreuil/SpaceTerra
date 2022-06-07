@@ -6,18 +6,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import modele.Inventory;
-import modele.ItemBlock;
 import modele.Slot;
 
 public class InventoryView {
     private Inventory inventory;
     private Pane panneauDeJeu;
-
-    private Rectangle emptySlotRectangle;
-
-    private ImageView fullSlotImageView;
-
-    private Label quantityLabel;
 
     public void setShow(boolean show) {
         this.show = show;
@@ -39,8 +32,8 @@ public class InventoryView {
     public void initialize() {
         for (int i = 0; i < inventory.getMaxInventorySize(); i++) {
             System.out.println(inventory.getSlots());
+            Rectangle emptySlotRectangle = new Rectangle();
             if (inventory.getItemFromSlot(i) == null) {
-                emptySlotRectangle = new Rectangle();
                 emptySlotRectangle.setHeight(32);
                 emptySlotRectangle.setWidth(32);
                 emptySlotRectangle.setFill(Color.WHITE);
@@ -69,7 +62,7 @@ public class InventoryView {
 
     public void displayFullSlotImageView(Slot slot){
         System.out.println("id : " + slot.getId());
-        fullSlotImageView = new ImageView(((ItemBlock) inventory.getItemFromSlot(slot.getId())).getTypeItemBlock().getImage());
+        ImageView fullSlotImageView = new ImageView((inventory.getItemFromSlot(slot.getId())).getTypeItem().getImage());
         fullSlotImageView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * getWidthMult(slot)));
         fullSlotImageView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100 + getHeightMult(slot)));
         fullSlotImageView.setId("fullSlot" + slot.getId());
@@ -83,9 +76,9 @@ public class InventoryView {
     }
 
     public void displayLabelQuantity(Slot slot){
-        quantityLabel = new Label();
-        quantityLabel.layoutXProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * getWidthMult(slot) + 20));
-        quantityLabel.layoutYProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add((100 + 18) + getHeightMult(slot)));
+        Label quantityLabel = new Label();
+        quantityLabel.layoutXProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(120 + 32 * getWidthMult(slot)));
+        quantityLabel.layoutYProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(118 + getHeightMult(slot)));
         quantityLabel.textProperty().bind(inventory.getSlots().get(slot.getId()).itemQuantityProperty().asString());
         quantityLabel.setTextFill(Color.WHITE);
         quantityLabel.setId("label" + slot.getId());
