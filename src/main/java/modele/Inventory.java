@@ -133,6 +133,10 @@ public class Inventory {
         return null;
     }
 
+    public Slot getSlot(int i){
+        return slots.get(i);
+    }
+
 }
 
 

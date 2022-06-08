@@ -62,7 +62,7 @@ public class Controleur implements Initializable {
         entities.add(player);
         playerView.displayPlayer();
         createTimelines();
-        inventoryView = new InventoryView(player.getInventory(), panneauDeJeu);
+        inventoryView = new InventoryView(panneauDeJeu);
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
@@ -72,7 +72,7 @@ public class Controleur implements Initializable {
         terrainView.readEntity();
         debugger = new DebugView(panneauDeJeu);
         terrain.getBlocks().addListener(new TerrainObservator(terrainView));
-        player.getInventory().getSlots().addListener(new InventoryObservator(inventoryView));
+        player.getInventory().getSlots().addListener(new InventoryObservator(inventoryView, player.getInventory(), panneauDeJeu));
     }
 
     public void rectanglesManager() {
@@ -144,20 +144,20 @@ public class Controleur implements Initializable {
                         mouseHandler.setHasClickedRight(false);
                     }
 
-                    /*if(keyHandler.isInventoryKeyTyped()){
+                    if(keyHandler.isInventoryKeyTyped()){
                         if(!inventoryView.isShow()) {
                             inventoryView.setShow(true);
-                            inventoryView.showAllInventory(true);
+                            inventoryView.displayAllSlotViews();
                             keyHandler.setInventoryKeyTyped(false);
                         }
                         else {
                             inventoryView.setShow(false);
-                            inventoryView.showAllInventory(false);
+                            inventoryView.displayAllSlotViews();
                             keyHandler.setInventoryKeyTyped(false);
                         }
                     }
 
-                     */
+
 
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
