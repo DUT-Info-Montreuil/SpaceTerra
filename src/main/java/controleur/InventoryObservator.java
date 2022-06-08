@@ -31,7 +31,6 @@ public class InventoryObservator implements ListChangeListener<Slot> {
                 Slot slot = change.getList().get(change.getFrom());
                     if (slot.getItem() == null) {
                         inventoryView.getSlotViews().get(slot.getId()).setItemView(null);
-                        System.out.println(true);
                     } else {
                         inventoryView.getSlotViews().get(slot.getId()).setItemView(new ImageView(inventory.getItemFromSlot(slot.getId()).getTypeItem().getImage()));
                         inventoryView.getSlotViews().get(slot.getId()).getQuantityLabel().textProperty().bind(slot.itemQuantityProperty().asString());
@@ -45,10 +44,8 @@ public class InventoryObservator implements ListChangeListener<Slot> {
                 try{
                     inventoryView.getSlotViews().add(new SlotView(i, new ImageView(inventory.getItemFromSlot(i).getTypeItem().getImage()), panneauDeJeu));
                     inventoryView.getSlotViews().get(i).getQuantityLabel().textProperty().bind(inventory.getSlot(i).itemQuantityProperty().asString());
-                    System.out.println("true");
                 } catch(NullPointerException e){
                     inventoryView.getSlotViews().add(new SlotView(i, null, panneauDeJeu));
-                    System.out.println("false");
                 }
                 inventoryView.setSlotViewPosition(i);
         }
