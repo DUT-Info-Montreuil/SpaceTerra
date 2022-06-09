@@ -131,6 +131,7 @@ public class Controleur implements Initializable {
                     if (mouseHandler.isHasPressedLeft()) {
                         playerMouseObservator.leftPressed(player, terrain, inventoryView);
                     } else if (mouseHandler.isHasClickedRight()) {
+                        playerMouseObservator.rightClick(player.getInventory(), inventoryView);
                         mouseHandler.setHasClickedRight(false);
                     }
 

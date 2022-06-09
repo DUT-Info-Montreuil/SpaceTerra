@@ -26,7 +26,7 @@ public class PlayerMouseObservator {
 
     public void leftPressed(Player player, Terrain terrain, InventoryView inventoryView){
         if(playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView) == null){
-            playerMouse.playerClickAction(player, terrain);
+            playerMouse.playerLeftPressedAction(player, terrain);
             setItemView();
         }
 
@@ -55,4 +55,12 @@ public class PlayerMouseObservator {
 
     }
 
+    public void rightClick(Inventory inventory, InventoryView inventoryView) {
+        SlotView slotView = playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
+        if(slotView != null){
+            inventory.setCurrSlotNumber(slotView.getId());
+            playerMouse.onSlotRightClicked(inventory.getSlot(slotView.getId()), inventory);
+            setItemView();
+        }
+    }
 }

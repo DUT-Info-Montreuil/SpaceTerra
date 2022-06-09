@@ -74,7 +74,7 @@ public class PlayerMouse {
     }
 
 
-    public void playerClickAction(Player player, Terrain terrain) {
+    public void playerLeftPressedAction(Player player, Terrain terrain) {
         if (player.getInventory().getCurrItem() != null) {
             if(terrain.checkDistancePosition(player, this.getX(), this.getY())){
                 player.getInventory().getCurrItem().use();
@@ -160,14 +160,59 @@ public class PlayerMouse {
         }
     }
 
-    public void decremente(int nbItem){
-        if(currentItemQuantity.getValue() - nbItem > 1){
+    public void decrementeItemQuantity(int nbItem){
+        if(currentItemQuantity.getValue() - nbItem > 0){
             currentItemQuantity.setValue(currentItemQuantity.getValue() - nbItem);
         }
         else {
             currentItemQuantity.setValue(0);
             item = null;
             maxItemQuantity = 0;
+        }
+
+    }
+
+    public void incrementItemQuantity(Item itemAdd, int nbItem){
+        if(currentItemQuantity.getValue() - nbItem > 0){
+            currentItemQuantity.setValue(currentItemQuantity.getValue() + nbItem);
+        }
+        else {
+
+            currentItemQuantity.setValue(currentItemQuantity.getValue() + nbItem);
+            item = itemAdd;
+            maxItemQuantity = item.getMaxQuantity();
+        }
+
+    }
+
+    public void onSlotRightClicked(Slot slot, Inventory inventory) {
+        if(currentItemQuantity.getValue() > 0){
+            try{
+                if(slot.getItemQuantity() > 1){
+                    if(item.getTypeItem().equals(slot.getItem().getTypeItem())){
+                        incrementItemQuantity(slot.getItem(), 1);
+                        slot.decrementItemQuantity(1);
+                    }
+                }
+                else if (slot.getItemQuantity() == 1){
+                    incrementItemQuantity(slot.getItem(), 1);
+                    inventory.getSlots().set(slot.getId(), new Slot(null,0, slot.getId()));
+                }
+
+            } catch (NullPointerException e){
+
+            }
+        }
+        else {
+            if(slot.getItemQuantity() > 1){
+                incrementItemQuantity(slot.getItem(), 1);
+                slot.decrementItemQuantity(1);
+            }
+            else if (slot.getItemQuantity() == 1){
+                incrementItemQuantity(slot.getItem(), 1);
+                inventory.getSlots().set(slot.getId(), new Slot(null,0, slot.getId()));
+            }
+
         }
 
     }

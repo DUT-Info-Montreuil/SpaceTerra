@@ -19,7 +19,7 @@ public class ItemBlock extends Item{
                Controleur.player.drop();
            }
            else if (Controleur.playerMouse.item != null){
-               Controleur.playerMouse.decremente(1);
+               Controleur.playerMouse.decrementeItemQuantity(1);
            }
 
        }
