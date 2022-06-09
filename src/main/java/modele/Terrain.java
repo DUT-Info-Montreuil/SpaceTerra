@@ -170,16 +170,12 @@ public class Terrain {
     public boolean placeBlock(int x, int y, Block bPlace) {
         Block bPos = this.getBlock(x, y);
         if (bPos == null) {
-            // System.out.println(player.getInventory());
             this.getBlocks().set(this.getIndex(x, y), bPlace);
             if (bPlace.getTile().getHitbox().isSolid()) {
                 this.getSolidBlocks().add(bPlace);
             }
             return true;
         }
-        /*if (zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
-            mouseBlock.setStroke(Color.RED);
-        }*/
         return false;
     }
 
@@ -195,10 +191,10 @@ public class Terrain {
     }
 
     public boolean checkDistanceBlock(Entity ent, Block b) {
-        //  System.out.println(ent.distanceToBlock(b));
-        if (ent.distanceToBlock(b) <= 4) {
-            return true;
-        }
-        return false;
+        return ent.distanceToBlock(b) <= ent.actionRange;
+    }
+
+    public boolean checkDistancePosition(Entity ent, int x, int y){
+        return ent.distanceToPosition(x,y) <= ent.actionRange;
     }
 }

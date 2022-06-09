@@ -74,9 +74,11 @@ public class PlayerMouse {
     }
 
 
-    public void destroyBlock(Player player, Terrain terrain) {
+    public void playerClickAction(Player player, Terrain terrain) {
         if (player.getInventory().getCurrItem() != null) {
-            player.getInventory().getCurrItem().use();
+            if(terrain.checkDistancePosition(player, this.getX(), this.getY())){
+                player.getInventory().getCurrItem().use();
+            }
         } else {
             Block b = terrain.getBlock(getX(), getY());
             if (b != null) {

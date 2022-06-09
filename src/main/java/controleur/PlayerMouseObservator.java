@@ -23,7 +23,7 @@ public class PlayerMouseObservator {
 
     public void leftPressed(Player player, Terrain terrain, MouseHandler mouseHandler, InventoryView inventoryView){
         if(playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView) == null){
-            playerMouse.destroyBlock(player, terrain);
+            playerMouse.playerClickAction(player, terrain);
         }
     }
 
