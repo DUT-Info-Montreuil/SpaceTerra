@@ -223,10 +223,11 @@ public abstract class  Entity {
         Block b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + speed, hitbox.getY().intValue() + hitbox.getHeight() - 1);
         if(b != null) {
             Block b2 = terrain.getBlock(b.getX(), b.getY() - b.getTile().getHitbox().getHeight() / 2);
+            Block b3 = terrain.getBlock(b.getX(), b.getY() - b.getTile().getHitbox().getHeight()*2);
             System.out.println("check above block");
             if (this.isGrounded())
                 if (!this.upCollisions())
-                    if (b2 == null || !b2.getTile().getHitbox().isSolid())
+                    if ((b2 == null || !b2.getTile().getHitbox().isSolid()) && (b3 == null || !b3.getTile().getHitbox().isSolid()))
                         return true;
         }
 
@@ -239,10 +240,11 @@ public abstract class  Entity {
         Block b = terrain.getBlock(hitbox.getX().intValue() - speed, hitbox.getY().intValue() + hitbox.getHeight() - 1);
         if(b != null) {
             Block b2 = terrain.getBlock(b.getX(), b.getY() - b.getTile().getHitbox().getHeight() / 2);
+            Block b3 = terrain.getBlock(b.getX(), b.getY() - b.getTile().getHitbox().getHeight()*2);
             System.out.println("check above block");
             if (this.isGrounded())
                 if (!this.upCollisions())
-                    if (b2 == null ||!b2.getTile().getHitbox().isSolid())
+                    if ((b2 == null || !b2.getTile().getHitbox().isSolid()) && (b3 == null || !b3.getTile().getHitbox().isSolid()))
                         return true;
         }
 
@@ -253,14 +255,18 @@ public abstract class  Entity {
         System.out.println("grimped");
         if (side == 1){ //check droite
             Block b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + speed, hitbox.getY().intValue() + hitbox.getHeight() - 1);
-            hitbox.setY(b.getHitY() - hitbox.getHeight());
-            hitbox.setX(this.getHitbox().getX().intValue() + getSpeed());
+            if(b != null) {
+                hitbox.setY(b.getHitY() - hitbox.getHeight());
+                hitbox.setX(this.getHitbox().getX().intValue() + getSpeed());
+            }
         }
 
         else{ //check gauche
             Block b = terrain.getBlock(hitbox.getX().intValue() - speed, hitbox.getY().intValue() + hitbox.getHeight() - 1);
-            hitbox.setY(b.getHitY() - hitbox.getHeight());
-            hitbox.setX(this.getHitbox().getX().intValue() - getSpeed());
+            if(b != null){
+                hitbox.setY(b.getHitY() - hitbox.getHeight());
+                hitbox.setX(this.getHitbox().getX().intValue() - getSpeed());
+            }
         }
     }
 

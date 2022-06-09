@@ -188,7 +188,7 @@ public class Controleur implements Initializable {
     public void playerMovement() {
         if(keyHandler.isSprintPressed() && !player.isRunning()) {
             player.setRunning(true);
-            player.setSpeed(20);
+            player.setSpeed(14);
         }
 
         if(!keyHandler.isSprintPressed() && player.isRunning()) {
