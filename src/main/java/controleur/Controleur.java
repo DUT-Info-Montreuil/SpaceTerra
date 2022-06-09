@@ -94,12 +94,12 @@ public class Controleur implements Initializable {
     }
 
     public void createEnnemies() {
-        Bingus bingus = new Bingus(3500, 2030, terrain);
-        Florb florb = new Florb(3500, 2000, terrain);
-        Bib bib = new Bib(4000, 2030, terrain);
-        entities.add(bingus);
-        entities.add(florb);
-        entities.add(bib);
+        //Bingus bingus = new Bingus(3500, 2030, terrain);
+      //  Florb florb = new Florb(3500, 2000, terrain);
+      //  Bib bib = new Bib(4000, 2030, terrain);
+      //  entities.add(bingus);
+        //entities.add(florb);
+        //entities.add(bib);
     }
 
 
@@ -207,10 +207,10 @@ public class Controleur implements Initializable {
 
         if (keyHandler.isUpPressed()) {
             if (!player.upCollisions() && player.isGrounded()) {
-                player.setGravity(5);
                 player.jump();
             } else if (player.isJumping()) {
                 if (player.upCollisions()) {
+                    System.out.println("upcollisions");
                     player.stopJump();
                 }
                 else{
@@ -223,14 +223,11 @@ public class Controleur implements Initializable {
             if (player.isJumping())
                 player.stopJump();
 
-        player.sideRightCollisions();
-        player.sideLeftCollision();
     }
 
    public void entityLoop() {
         for (Entity ent : entities) {
             if (ent instanceof Player){}
-                //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
                 if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
                     if (ent.isGrounded()) {

@@ -17,6 +17,7 @@ public class Player extends Entity {
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
         if(this.getHitbox().getX().getValue() >= 10){
             if (leftCheck) {
+                System.out.println("appuye gauche");
                 if(!sideLeftCollision())
                     getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
 
@@ -27,6 +28,7 @@ public class Player extends Entity {
 
         if(this.getHitbox().getX().getValue() <= this.getTerrain().getWidth()*32-30){
             if (rightCheck){
+                System.out.println("appuye droite");
                 if(!sideRightCollisions())
                     getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
 
