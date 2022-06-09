@@ -16,23 +16,17 @@ public class PlayerMouse {
         this.x = new SimpleIntegerProperty(0);
         this.y = new SimpleIntegerProperty(0);
         currentItemQuantity = new SimpleIntegerProperty(0);
-        try{
+        try {
             maxItemQuantity = item.getMaxQuantity();
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             maxItemQuantity = 0;
         }
     }
 
 
-
-
-    void leftPressed(Player player, Terrain terrain, MouseHandler mouseHandler){
+    void leftPressed(Player player, Terrain terrain, MouseHandler mouseHandler) {
 
     }
-
-
-
-
 
 
     public Item getItem() {
@@ -62,6 +56,7 @@ public class PlayerMouse {
     public void setCurrentItemQuantity(int currentItemQuantity) {
         this.currentItemQuantity.setValue(currentItemQuantity);
     }
+
     public int getX() {
         return x.getValue();
     }
@@ -80,19 +75,18 @@ public class PlayerMouse {
 
 
     public void destroyBlock(Player player, Terrain terrain) {
-        if(player.getInventory().getCurrItem() != null){
+        if (player.getInventory().getCurrItem() != null) {
             player.getInventory().getCurrItem().use();
-        }
-        else {
+        } else {
             Block b = terrain.getBlock(getX(), getY());
             if (b != null) {
-                //if (checkDistanceBlock(player, b)) {
-                b.setPvs(b.getPvs() - 1);
-                if(terrain.checkDestroyedBlock(b) && b.getRessource() != null && !player.getInventory().isInventoryFull()){
-                    player.pick(b.getRessource());
-                }
+                if (terrain.checkDistanceBlock(player, b)) {
+                    b.setPvs(b.getPvs() - 1);
+                    if (terrain.checkDestroyedBlock(b) && b.getRessource() != null && !player.getInventory().isInventoryFull()) {
+                        player.pick(b.getRessource());
+                    }
 
-                //}
+                }
             }
         }
     }
