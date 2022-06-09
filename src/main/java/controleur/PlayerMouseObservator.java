@@ -24,22 +24,24 @@ public class PlayerMouseObservator {
             playerMouse.onSlotLeftClickedAction(inventory.getSlot(slotView.getId()), inventory);
             setItemView();
         }
+        playerMouseView.getItemView().toFront();
     }
 
     public void leftPressed(Player player, Terrain terrain, InventoryView inventoryView){
         if(playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView) == null){
             playerMouse.playerLeftPressedAction(player, terrain);
             setItemView();
+            playerMouseView.getItemView().toFront();
         }
 
     }
 
     public void initialize(){
         playerMouseView.getItemQuantityLabel().textProperty().bind(playerMouse.currentItemQuantityProperty().asString());
-        playerMouseView.getItemQuantityLabel().layoutYProperty().setValue(MouseHandler.mouseY.getValue() + 34);
-        playerMouseView.getItemQuantityLabel().layoutXProperty().setValue(MouseHandler.mouseX.getValue() + 34);
-        playerMouseView.getItemView().layoutYProperty().bind(playerMouse.yProperty().add(32));
-        playerMouseView.getItemView().layoutXProperty().bind(playerMouse.xProperty().add(32));
+        playerMouseView.getItemView().layoutYProperty().bind(playerMouse.yProperty().add(15));
+        playerMouseView.getItemView().layoutXProperty().bind(playerMouse.xProperty().add(15));
+        //playerMouseView.getItemQuantityLabel().layoutXProperty().bind(playerMouseView.getItemView().layoutXProperty().add(playerMouseView.getItemView().getFitWidth())); // pour mettre en bas a droite de l'image
+        //playerMouseView.getItemQuantityLabel().layoutYProperty().bind(playerMouseView.getItemView().layoutYProperty().add(playerMouseView.getItemView().getFitHeight()));
     }
 
 
@@ -66,5 +68,6 @@ public class PlayerMouseObservator {
             playerMouse.onSlotRightClicked(inventory.getSlot(slotView.getId()), inventory);
             setItemView();
         }
+        playerMouseView.getItemView().toFront();
     }
 }
