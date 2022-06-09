@@ -54,14 +54,20 @@ public class InventoryView {
         if(show){
             for(SlotView slotView : this.slotViews){
                 slotView.displaySlot();
-                System.out.println("x : " + slotView.getX());
-                System.out.println("y : " + slotView.getY());
+                //System.out.println("x : " + slotView.getX());
+                //System.out.println("y : " + slotView.getY());
+                if(slotView.getItemView() != null){
+                    slotView.displayLabel();
+                }
             }
         }
         else {
             for(SlotView slotView : this.slotViews){
                 if(slotView.getId() < 10){
                     slotView.displaySlot();
+                    if(slotView.getItemView() != null) {
+                        slotView.displayLabel();
+                    }
                 }else {
                     slotView.hideSlot();
                 }

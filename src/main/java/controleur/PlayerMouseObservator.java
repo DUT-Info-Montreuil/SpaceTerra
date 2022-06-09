@@ -18,7 +18,9 @@ public class PlayerMouseObservator {
     public void leftClick(Inventory inventory, InventoryView inventoryView){
         SlotView slotView = playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
         if(slotView != null){
-            inventory.setCurrSlotNumber(slotView.getId());
+            if(!inventoryView.isShow()){
+                inventory.setCurrSlotNumber(slotView.getId());
+            }
             playerMouse.onSlotLeftClickedAction(inventory.getSlot(slotView.getId()), inventory);
             setItemView();
         }
@@ -58,7 +60,9 @@ public class PlayerMouseObservator {
     public void rightClick(Inventory inventory, InventoryView inventoryView) {
         SlotView slotView = playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
         if(slotView != null){
-            inventory.setCurrSlotNumber(slotView.getId());
+            if(!inventoryView.isShow()){
+                inventory.setCurrSlotNumber(slotView.getId());
+            }
             playerMouse.onSlotRightClicked(inventory.getSlot(slotView.getId()), inventory);
             setItemView();
         }

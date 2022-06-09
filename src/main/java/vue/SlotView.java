@@ -81,6 +81,9 @@ public class SlotView {
 
         }
         emptySlotRectangle.setVisible(true);
+    }
+
+    public void displayLabel(){
         quantityLabel.setVisible(true);
     }
     

@@ -121,7 +121,7 @@ public class Inventory {
 
             }
             else if (slots.get(slotNum).getItemQuantity() - quantity == 0){
-                slots.set(getCurrSlotNumber(), new Slot(null, 0, slotNum));
+                slots.set(slotNum, new Slot(null, 0, slotNum));
                 currInventorySize--;
             }
             else {

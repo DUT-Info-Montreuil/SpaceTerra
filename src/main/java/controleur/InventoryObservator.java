@@ -10,6 +10,8 @@ import modele.Slot;
 import vue.InventoryView;
 import vue.SlotView;
 
+import java.util.ArrayList;
+
 public class InventoryObservator implements ListChangeListener<Slot> {
 
 
@@ -32,7 +34,7 @@ public class InventoryObservator implements ListChangeListener<Slot> {
             if (change.wasReplaced()) {
                 Slot slot = change.getList().get(change.getFrom());
                 System.out.println("slot modif : " + slot);
-                System.out.println("slot 3 : " + inventory.getSlots().get(3));
+                System.out.println("slot 0 : " + inventory.getSlots().get(0));
                     if (slot.getItem() == null) {
                         inventoryView.getSlotViews().get(slot.getId()).setItemView(null);
                     } else {
