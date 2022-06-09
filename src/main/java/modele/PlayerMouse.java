@@ -92,4 +92,57 @@ public class PlayerMouse {
             }
         }
     }
+
+    public void onSlotLeftClickedAction(Slot slot, Inventory inventory) {
+        if(slot.getItem() != null){
+            if(item != null){
+                try{
+                    inventory.addIntoSlot(item, slot.getId(), currentItemQuantity.getValue());
+                    currentItemQuantity.setValue(0);
+                    maxItemQuantity = 0;
+                    item = null;
+
+                } catch (TooManyItemInSlotException e){
+                    Slot safeSlot = slot;
+                    try{
+                        inventory.removeFromSlot(slot.getId(), slot.getItemQuantity());
+                        inventory.addIntoSlot(item, slot.getId(), currentItemQuantity.getValue());
+                        currentItemQuantity.setValue(safeSlot.getItemQuantity());
+                        maxItemQuantity = safeSlot.getMaxQuantity();
+                        item = safeSlot.getItem();
+                    } catch(NotEnoughItemInSlotException | TooManyItemInSlotException e1){
+
+                    }
+
+
+                }
+
+            }
+            else {
+                item = slot.getItem();
+                maxItemQuantity = slot.getItem().getMaxQuantity();
+                currentItemQuantity = slot.itemQuantityProperty();
+                try{
+                    inventory.removeFromSlot(slot.getId(), slot.getItemQuantity());
+                } catch (NotEnoughItemInSlotException e){
+
+                }
+            }
+
+        }
+        else {
+            if(item != null){
+                try{
+                    inventory.addIntoSlot(item, slot.getId(), currentItemQuantity.getValue());
+                    currentItemQuantity.setValue(0);
+                    maxItemQuantity = 0;
+                    item = null;
+
+                } catch (TooManyItemInSlotException e){
+
+                }
+
+            }
+        }
+    }
 }

@@ -120,8 +120,8 @@ public class Inventory {
                 slots.get(slotNum).decrementItemQuantity(quantity);
 
             }
-            else if (slots.get(slotNum).getItemQuantity() == 0){
-                slots.set(getCurrSlotNumber(), new Slot(null, 0, getCurrSlotNumber()));
+            else if (slots.get(slotNum).getItemQuantity() - quantity == 0){
+                slots.set(getCurrSlotNumber(), new Slot(null, 0, slotNum));
                 currInventorySize--;
             }
             else {
@@ -146,26 +146,29 @@ public class Inventory {
 
 
     public void addIntoSlot(Item item, int slotNum, int quantity) throws TooManyItemInSlotException{
-        if(getItemFromSlot(slotNum).getTypeItem().equals(item.getTypeItem())){
-            if(slots.get(slotNum) != null){
-                if(slots.get(slotNum).getItemQuantity() + quantity <= slots.get(slotNum).getMaxQuantity()){
-                    slots.get(slotNum).incrementItemQuantity(quantity);
+        if(slots.get(slotNum) != null){
+            if(getItemFromSlot(slotNum) != null){
+                if(getItemFromSlot(slotNum).getTypeItem().equals(item.getTypeItem())){
+                    if(slots.get(slotNum).getItemQuantity() + quantity <= slots.get(slotNum).getMaxQuantity()){
+                        slots.get(slotNum).incrementItemQuantity(quantity);
+                    }
+                    else {
+                        throw new TooManyItemInSlotException(slotNum);
+                    }
                 }
-                else {
-                    throw new TooManyItemInSlotException(slotNum);
-                }
+
             }
             else {
-                if(slots.get(slotNum).getItemQuantity() + quantity <= slots.get(slotNum).getMaxQuantity()){
-                    slots.set(slotNum, new Slot(item, quantity, item.getId()));
+                if(quantity <= item.getMaxQuantity()){
+                    slots.set(slotNum, new Slot(item, quantity, slotNum));
                     currInventorySize++;
                 }
                 else{
                     throw new TooManyItemInSlotException(slotNum);
                 }
             }
-
         }
+
     }
 
     public void addIntoSlot(Item item, int slotNum) throws TooManyItemInSlotException{
@@ -180,7 +183,7 @@ public class Inventory {
             }
             else {
                 if(slots.get(slotNum).getItemQuantity() + 1 <= slots.get(slotNum).getMaxQuantity()){
-                    slots.set(slotNum, new Slot(item, 1, item.getId()));
+                    slots.set(slotNum, new Slot(item, 1, slotNum));
                     currInventorySize++;
                 }
                 else{

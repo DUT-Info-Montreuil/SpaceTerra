@@ -31,10 +31,12 @@ public class InventoryObservator implements ListChangeListener<Slot> {
         while (change.next()) {
             if (change.wasReplaced()) {
                 Slot slot = change.getList().get(change.getFrom());
+                System.out.println("slot modif : " + slot);
+                System.out.println("slot 3 : " + inventory.getSlots().get(3));
                     if (slot.getItem() == null) {
                         inventoryView.getSlotViews().get(slot.getId()).setItemView(null);
                     } else {
-                        inventoryView.getSlotViews().get(slot.getId()).setItemView(new ImageView(inventory.getItemFromSlot(slot.getId()).getTypeItem().getImage()));
+                        inventoryView.getSlotViews().get(slot.getId()).setItemView(new ImageView(slot.getItem().getTypeItem().getImage()));
                         inventoryView.getSlotViews().get(slot.getId()).getQuantityLabel().textProperty().bind(slot.itemQuantityProperty().asString());
                     }
             }
