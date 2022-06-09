@@ -210,7 +210,6 @@ public class Controleur implements Initializable {
                 player.jump();
             } else if (player.isJumping()) {
                 if (player.upCollisions()) {
-                    System.out.println("upcollisions");
                     player.stopJump();
                 }
                 else{
