@@ -24,6 +24,7 @@ public class PlayerMouseObservator {
             playerMouse.onSlotLeftClickedAction(inventory.getSlot(slotView.getId()), inventory);
             setItemView();
         }
+        playerMouseView.getItemQuantityLabel().toFront();
         playerMouseView.getItemView().toFront();
     }
 
@@ -37,11 +38,15 @@ public class PlayerMouseObservator {
     }
 
     public void initialize(){
+
+        playerMouseView.getItemQuantityLabel().layoutYProperty().bind(playerMouse.yProperty().add(20));
+        playerMouseView.getItemQuantityLabel().layoutXProperty().bind(playerMouse.xProperty().add(20));
         playerMouseView.getItemQuantityLabel().textProperty().bind(playerMouse.currentItemQuantityProperty().asString());
-        playerMouseView.getItemView().layoutYProperty().bind(playerMouse.yProperty().add(15));
-        playerMouseView.getItemView().layoutXProperty().bind(playerMouse.xProperty().add(15));
-        //playerMouseView.getItemQuantityLabel().layoutXProperty().bind(playerMouseView.getItemView().layoutXProperty().add(playerMouseView.getItemView().getFitWidth())); // pour mettre en bas a droite de l'image
-        //playerMouseView.getItemQuantityLabel().layoutYProperty().bind(playerMouseView.getItemView().layoutYProperty().add(playerMouseView.getItemView().getFitHeight()));
+        playerMouseView.getItemView().layoutYProperty().bind(playerMouse.yProperty().add(10));
+        playerMouseView.getItemView().layoutXProperty().bind(playerMouse.xProperty().add(10));
+        playerMouseView.getItemQuantityLabel().toFront();
+        playerMouseView.getItemView().toFront();
+        setItemView();
     }
 
 
@@ -68,6 +73,7 @@ public class PlayerMouseObservator {
             playerMouse.onSlotRightClicked(inventory.getSlot(slotView.getId()), inventory);
             setItemView();
         }
+        playerMouseView.getItemQuantityLabel().toFront();
         playerMouseView.getItemView().toFront();
     }
 }
