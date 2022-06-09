@@ -17,17 +17,22 @@ public class Player extends Entity {
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
         if(this.getHitbox().getX().getValue() >= 10){
             if (leftCheck) {
-                if(!sideLeftCollision()){
+                if(!sideLeftCollision())
                     getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
-                }
+
+                else if(grimpableLeft())
+                    grimper(2);
             }
         }
 
         if(this.getHitbox().getX().getValue() <= this.getTerrain().getWidth()*32-30){
             if (rightCheck){
-                if(!sideRightCollisions()){
+                if(!sideRightCollisions())
                     getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
-                }
+
+                else if(grimpableRight())
+                    grimper(1);
+
             }
         }
 
