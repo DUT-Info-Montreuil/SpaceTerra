@@ -1,5 +1,6 @@
 package controleur;
 
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.input.MouseButton;
@@ -25,7 +26,6 @@ public class MouseHandler {
     private boolean hasScrollDown;
 
 
-
     public MouseHandler(Pane pane) {
 
         this.pane = pane;
@@ -37,6 +37,7 @@ public class MouseHandler {
         mouseY = new SimpleIntegerProperty();
     }
 
+
     public void setHasScrollUp(boolean hasScrollUp) {
         this.hasScrollUp = hasScrollUp;
     }
@@ -46,41 +47,37 @@ public class MouseHandler {
     }
 
     public void mouseManager() {
+
+        pane.setOnMouseDragged(mouseEvent -> {
+            mouseX.setValue((int) mouseEvent.getX());
+            mouseY.setValue((int) mouseEvent.getY());
+            System.out.println((int) mouseEvent.getX());
+            System.out.println((int) mouseEvent.getY());
+
+        });
         pane.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasPressedLeft = true;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasPressedRight = true;
             }
         });
 
         pane.setOnMouseReleased(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasPressedLeft = false;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasPressedRight = false;
             }
         });
 
         pane.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasClickedLeft = true;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasClickedRight = true;
             }
         });

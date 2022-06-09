@@ -40,7 +40,7 @@ public class Inventory {
 
     public Item getCurrItem() {
         try {
-            System.out.println("CUUR" + currSlotNumber);
+            //System.out.println("CUUR" + currSlotNumber);
             return slots.get(currSlotNumber).getItem();
         } catch (Exception e) {
             return null;
