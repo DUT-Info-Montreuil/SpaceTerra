@@ -10,9 +10,9 @@ public class MouseHandler {
 
     private Pane pane;
 
-    private IntegerProperty mouseX;
+    public static IntegerProperty mouseX;
 
-    private IntegerProperty mouseY;
+    public static IntegerProperty mouseY;
 
     private boolean hasPressedLeft;
     private boolean hasPressedRight;

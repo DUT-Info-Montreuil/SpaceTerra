@@ -47,9 +47,9 @@ public class Block {
         this.terrain = terrain;
         this.x = x;
         this.y = y;
-        if(item.getTypeItemBlock().name().equalsIgnoreCase("Dirt")) {
+        if(item.getTypeItem().name().equalsIgnoreCase("Dirt")) {
             this.tile = terrain.getTileset().getTiles().get(18);
-        } else if (item.getTypeItemBlock().name().equalsIgnoreCase("Wood")) {
+        } else if (item.getTypeItem().name().equalsIgnoreCase("Wood")) {
             this.tile = terrain.getTileset().getTiles().get(35);
         }
         hitX = x + tile.getHitbox().getX().intValue();

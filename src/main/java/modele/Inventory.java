@@ -121,7 +121,6 @@ public class Inventory {
         } else{
             System.out.println("inventaire plein !");
         }
-        //System.out.println(slots);
     }
 
     public Slot getNotFullSlotWithItem(Item item){
@@ -131,6 +130,10 @@ public class Inventory {
             }
         }
         return null;
+    }
+
+    public Slot getSlot(int i){
+        return slots.get(i);
     }
 
 }

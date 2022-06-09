@@ -55,14 +55,20 @@ public class TerrainView {
         }catch (Exception e){}
     }
 
-    public void addBlock(Terrain terrain, Block block){
-        ImageView imgView = new ImageView(block.getTile().getImage());
-        System.out.println(block.getTile());
-        imgView.setId(block.getId());
-        imgView.setX(block.getX());
-        imgView.setY(block.getY());
-        //System.out.println(imgView.getId());
-        panneau.getChildren().add(imgView);
+    public void addBlock(Block block){
+        try{
+            ImageView imgView = new ImageView(block.getTile().getImage());
+            System.out.println(block.getTile());
+            imgView.setId(block.getId());
+            imgView.setX(block.getX());
+            imgView.setY(block.getY());
+            imgView.toBack();
+            //System.out.println(imgView.getId());
+            panneau.getChildren().add(imgView);
+        }catch(NullPointerException e){
+
+        }
+
     }
 
 }
