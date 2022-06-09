@@ -2,9 +2,7 @@ package modele;
 
 import controleur.Controleur;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -185,4 +183,22 @@ public class Terrain {
         return false;
     }
 
+    public boolean checkDestroyedBlock(Block b){
+            if (b.getPvs() <= 0) {
+                Controleur.terrain.deleteBlock(b);
+                if (b.getTile().getHitbox().isSolid()) {
+                    Controleur.terrain.deleteSolidBlock(b);
+                }
+                return true;
+            }
+            return false;
+    }
+
+    public boolean checkDistanceBlock(Entity ent, Block b) {
+        //  System.out.println(ent.distanceToBlock(b));
+        if (ent.distanceToBlock(b) <= 4) {
+            return true;
+        }
+        return false;
+    }
 }

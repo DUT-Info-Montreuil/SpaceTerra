@@ -1,7 +1,6 @@
 package controleur;
 
-import modele.Inventory;
-import modele.PlayerMouse;
+import modele.*;
 import vue.InventoryView;
 import vue.PlayerMouseView;
 import vue.SlotView;
@@ -22,5 +21,10 @@ public class PlayerMouseObservator {
         }
     }
 
+    public void leftPressed(Player player, Terrain terrain, MouseHandler mouseHandler, InventoryView inventoryView){
+        if(playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView) == null){
+            playerMouse.destroyBlock(player, terrain);
+        }
+    }
 
 }

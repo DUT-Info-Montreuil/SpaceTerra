@@ -1,5 +1,7 @@
 package controleur;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -50,6 +52,12 @@ public class InventoryObservator implements ListChangeListener<Slot> {
                 inventoryView.setSlotViewPosition(i);
         }
         inventoryView.displayAllSlotViews();
+    }
+
+    public void refreshCurrentSlotView(){
+        inventoryView.getcurrentSlotView().xProperty().setValue(panneauDeJeu.getScene().getCamera().layoutXProperty().getValue() + 99 + 32 * inventory.getCurrSlotNumber());
+        inventoryView.getcurrentSlotView().yProperty().setValue(panneauDeJeu.getScene().getCamera().layoutYProperty().getValue() + 99);
+        inventoryView.getcurrentSlotView().toFront();
     }
 }
 

@@ -1,5 +1,7 @@
 package vue;
 
+import controleur.Controleur;
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -15,11 +17,21 @@ public class InventoryView {
 
     private ArrayList<SlotView> slotViews;
 
+    private Rectangle currentSlotView;
+
     private boolean show;
 
     public InventoryView(Pane panneauDeJeu) {
         this.panneauDeJeu = panneauDeJeu;
         this.slotViews = new ArrayList<>();
+        currentSlotView = new Rectangle(0,0, 34, 34);
+        currentSlotView.setFill(Color.TRANSPARENT);
+        currentSlotView.setStroke(Color.YELLOW);
+        panneauDeJeu.getChildren().add(currentSlotView);
+    }
+
+    public void setCurrentSlotViewPosition(IntegerProperty xMult){
+        currentSlotView.toFront();
     }
     public void setShow(boolean show) {
         this.show = show;
@@ -71,6 +83,9 @@ public class InventoryView {
         return numSlot % 10;
     }
 
+    public Rectangle getcurrentSlotView() {
+        return currentSlotView;
+    }
 }
 
 

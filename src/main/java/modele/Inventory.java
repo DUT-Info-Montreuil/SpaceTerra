@@ -1,11 +1,13 @@
 package modele;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Inventory {
     private ObservableList<Slot> slots;
-    private int currSlotNumber;
+    private IntegerProperty currSlotNumber;
     private int maxInventorySize;
     private int currInventorySize;
 
@@ -13,9 +15,10 @@ public class Inventory {
         return slots;
     }
 
+
     public Inventory() {
         this.slots = FXCollections.observableArrayList();
-        this.currSlotNumber = 0;
+        this.currSlotNumber = new SimpleIntegerProperty(0);
         this.maxInventorySize = 50;
         this.currInventorySize = 0;
         for (int i = 0; i < maxInventorySize; i++) {
@@ -25,11 +28,14 @@ public class Inventory {
 
 
     public int getCurrSlotNumber() {
-        return currSlotNumber;
+        return currSlotNumber.getValue();
     }
 
+    public IntegerProperty currSlotNumberProperty() {
+        return currSlotNumber;
+    }
     public Slot getCurrSlot(){
-        return slots.get(currSlotNumber);
+        return slots.get(getCurrSlotNumber());
     }
 
     public int getMaxInventorySize() {
@@ -39,7 +45,7 @@ public class Inventory {
     public Item getCurrItem() {
         try {
             //System.out.println("CUUR" + currSlotNumber);
-            return slots.get(currSlotNumber).getItem();
+            return slots.get(getCurrSlotNumber()).getItem();
         } catch (Exception e) {
             return null;
         }
@@ -68,18 +74,18 @@ public class Inventory {
     }
 
     public void setCurrSlotNumber(int currSlotNumber) {
-        this.currSlotNumber = currSlotNumber;
+        this.currSlotNumber.setValue(currSlotNumber);
     }
 
     public void incrementSlot() {
-        if (this.currSlotNumber < 9) {
-            currSlotNumber++;
+        if (getCurrSlotNumber() < 9) {
+            setCurrSlotNumber(getCurrSlotNumber()+1);
         }
     }
 
     public void decrementSlot() {
-        if (this.currSlotNumber > 0) {
-            currSlotNumber--;
+        if (getCurrSlotNumber() > 0) {
+            setCurrSlotNumber(getCurrSlotNumber()-1);
         }
     }
 
@@ -92,12 +98,12 @@ public class Inventory {
 
     public Item removeFromCurrSlot() {
         try {
-            Item item = slots.get(currSlotNumber).getItem();
-            if(slots.get(currSlotNumber).getItemQuantity() > 1){
+            Item item = slots.get(getCurrSlotNumber()).getItem();
+            if(slots.get(getCurrSlotNumber()).getItemQuantity() > 1){
                 getCurrSlot().decrementItemQuantity(1);
             }
             else {
-                slots.set(currSlotNumber, new Slot(null, 0, currSlotNumber));
+                slots.set(getCurrSlotNumber(), new Slot(null, 0, getCurrSlotNumber()));
                 currInventorySize--;
             }
             return item;
@@ -115,7 +121,7 @@ public class Inventory {
 
             }
             else if (slots.get(slotNum).getItemQuantity() == 0){
-                slots.set(currSlotNumber, new Slot(null, 0, currSlotNumber));
+                slots.set(getCurrSlotNumber(), new Slot(null, 0, getCurrSlotNumber()));
                 currInventorySize--;
             }
             else {

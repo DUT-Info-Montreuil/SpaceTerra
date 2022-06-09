@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.MouseHandler;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -21,6 +22,19 @@ public class PlayerMouse {
             maxItemQuantity = 0;
         }
     }
+
+
+
+
+    void leftPressed(Player player, Terrain terrain, MouseHandler mouseHandler){
+
+    }
+
+
+
+
+
+
     public Item getItem() {
         return item;
     }
@@ -64,4 +78,22 @@ public class PlayerMouse {
         return y;
     }
 
+
+    public void destroyBlock(Player player, Terrain terrain) {
+        if(player.getInventory().getCurrItem() != null){
+            player.getInventory().getCurrItem().use();
+        }
+        else {
+            Block b = terrain.getBlock(getX(), getY());
+            if (b != null) {
+                //if (checkDistanceBlock(player, b)) {
+                b.setPvs(b.getPvs() - 1);
+                if(terrain.checkDestroyedBlock(b) && b.getRessource() != null && !player.getInventory().isInventoryFull()){
+                    player.pick(b.getRessource());
+                }
+
+                //}
+            }
+        }
+    }
 }
