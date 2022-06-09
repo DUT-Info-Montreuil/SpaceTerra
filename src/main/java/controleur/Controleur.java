@@ -42,7 +42,7 @@ public class Controleur implements Initializable {
 
     private InventoryObservator inventoryObservator;
 
-    private PlayerMouse playerMouse;
+    public static PlayerMouse playerMouse;
 
     public static DebugView debugger;
 
@@ -69,7 +69,7 @@ public class Controleur implements Initializable {
         playerMouse = new PlayerMouse(null);
         playerMouse.xProperty().bind(mouseHandler.getMouseXProperty());
         playerMouse.yProperty().bind(mouseHandler.getMouseYProperty());
-        playerMouseView = new PlayerMouseView();
+        playerMouseView = new PlayerMouseView(panneauDeJeu);
         playerMouseObservator = new PlayerMouseObservator(playerMouse, playerMouseView);
 
 
@@ -146,8 +146,6 @@ public class Controleur implements Initializable {
                             keyHandler.setInventoryKeyTyped(false);
                         }
                     }
-
-
 
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);

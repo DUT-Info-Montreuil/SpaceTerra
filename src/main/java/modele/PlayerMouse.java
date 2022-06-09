@@ -78,8 +78,16 @@ public class PlayerMouse {
         if (player.getInventory().getCurrItem() != null) {
             if(terrain.checkDistancePosition(player, this.getX(), this.getY())){
                 player.getInventory().getCurrItem().use();
+
             }
-        } else {
+        }
+        else if (item != null){
+            if(terrain.checkDistancePosition(player, this.getX(), this.getY())){
+                item.use();
+            }
+        }
+
+        else {
             Block b = terrain.getBlock(getX(), getY());
             if (b != null) {
                 if (terrain.checkDistanceBlock(player, b)) {
@@ -103,16 +111,26 @@ public class PlayerMouse {
                     item = null;
 
                 } catch (TooManyItemInSlotException e){
-                    Slot safeSlot = slot;
-                    try{
-                        inventory.removeFromSlot(slot.getId(), slot.getItemQuantity());
-                        inventory.addIntoSlot(item, slot.getId(), currentItemQuantity.getValue());
-                        currentItemQuantity.setValue(safeSlot.getItemQuantity());
-                        maxItemQuantity = safeSlot.getMaxQuantity();
-                        item = safeSlot.getItem();
-                    } catch(NotEnoughItemInSlotException | TooManyItemInSlotException e1){
-
+                    if(slot.getItem().getTypeItem().equals(item.getTypeItem())) {
+                        if(currentItemQuantity.getValue() > slot.getItemQuantity()){
+                            int diff = currentItemQuantity.getValue() - slot.getItemQuantity();
+                            slot.incrementItemQuantity(diff);
+                            currentItemQuantity.setValue(getCurrentItemQuantity() - diff);
+                        }
                     }
+                    else {
+                        Slot safeSlot = slot;
+                        try{
+                            inventory.removeFromSlot(slot.getId(), slot.getItemQuantity());
+                            inventory.addIntoSlot(item, slot.getId(), currentItemQuantity.getValue());
+                            currentItemQuantity.setValue(safeSlot.getItemQuantity());
+                            maxItemQuantity = safeSlot.getMaxQuantity();
+                            item = safeSlot.getItem();
+                        } catch(NotEnoughItemInSlotException | TooManyItemInSlotException e1){
+
+                        }
+                    }
+
 
 
                 }
@@ -144,5 +162,17 @@ public class PlayerMouse {
 
             }
         }
+    }
+
+    public void decremente(int nbItem){
+        if(currentItemQuantity.getValue() - nbItem > 1){
+            currentItemQuantity.setValue(currentItemQuantity.getValue() - nbItem);
+        }
+        else {
+            currentItemQuantity.setValue(0);
+            item = null;
+            maxItemQuantity = 0;
+        }
+
     }
 }
