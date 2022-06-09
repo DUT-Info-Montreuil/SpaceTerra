@@ -54,12 +54,14 @@ public class SlotView {
         emptySlotRectangle.setHeight(32);
         emptySlotRectangle.setWidth(32);
         panneauDeJeu.getChildren().add(emptySlotRectangle);
+        emptySlotRectangle.toFront();
 
         quantityLabel.layoutXProperty().bind(emptySlotRectangle.xProperty().add(20));
         quantityLabel.layoutYProperty().bind(emptySlotRectangle.yProperty().add(18));
         quantityLabel.setTextFill(Color.BLACK);
         panneauDeJeu.getChildren().add(quantityLabel);
         quantityLabel.setVisible(false);
+        quantityLabel.toFront();
     }
 
     public void hideSlot(){
@@ -119,8 +121,9 @@ public class SlotView {
 
     public void setItemView(ImageView itemView) {
         try{
-            itemView.xProperty().bind(emptySlotRectangle.xProperty().add(itemView.getImage().getWidth()/2));
-            itemView.yProperty().bind(emptySlotRectangle.yProperty().add(itemView.getImage().getHeight()/2));
+            itemView.xProperty().bind(emptySlotRectangle.xProperty().subtract(itemView.getImage().getWidth()/2 - emptySlotRectangle.getWidth()/2));
+            itemView.yProperty().bind(emptySlotRectangle.yProperty().subtract(itemView.getImage().getHeight()/2 - emptySlotRectangle.getHeight()/2));
+            itemView.toFront();
             panneauDeJeu.getChildren().add(itemView);
             quantityLabel.setVisible(true);
         }catch (NullPointerException e){
