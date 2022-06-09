@@ -1,7 +1,5 @@
 package modele;
 
-import java.util.ArrayList;
-
 public class Player extends Entity {
     private boolean isRunning = false;
 
@@ -37,11 +35,11 @@ public class Player extends Entity {
 
 
     public Item drop(){
-        return this.inventory.removeFromSlot();
+        return this.inventory.removeFromCurrSlot();
     }
 
     public void pick(Item item){
-        this.inventory.addIntoSlot(item);
+        this.inventory.addIntoNextEmptySlot(item);
     }
 
     public Inventory getInventory() {

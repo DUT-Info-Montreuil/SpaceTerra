@@ -26,6 +26,9 @@ public class Controleur implements Initializable {
     private Pane panneauDeJeu;
     private TerrainView terrainView;
     public static Terrain terrain;
+    PlayerMouseView playerMouseView;
+
+    PlayerMouseObservator playerMouseObservator;
     private Timeline timeline;
 
     private Timeline timelineClick;
@@ -42,6 +45,7 @@ public class Controleur implements Initializable {
     private InventoryView inventoryView;
     private GameCam2D camera;
 
+    private PlayerMouse playerMouse;
 
     public static DebugView debugger;
 
@@ -67,6 +71,12 @@ public class Controleur implements Initializable {
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
         mouseHandler.mouseManager();
+
+        playerMouse = new PlayerMouse(null);
+        playerMouse.xProperty().bind(mouseHandler.getMouseXProperty());
+        playerMouse.yProperty().bind(mouseHandler.getMouseYProperty());
+        playerMouseView = new PlayerMouseView();
+        playerMouseObservator = new PlayerMouseObservator(playerMouse, playerMouseView);
 
         rectanglesManager();
         terrainView.readEntity();
@@ -132,12 +142,13 @@ public class Controleur implements Initializable {
 
         timelineClick = new Timeline
 
-                (new KeyFrame(Duration.millis(200), actionEvent -> {
+                (new KeyFrame(Duration.millis(20), actionEvent -> {
                     //System.out.println(mouseBlock.xProperty().intValue());
                     //System.out.println(mouseBlock.yProperty().intValue());
 
                     if (mouseHandler.isHasPressedLeft()) {
                         checkOnLeftPressed();
+                        playerMouseObservator.leftClick(player.getInventory(), inventoryView);
                     } else if (mouseHandler.isHasClickedRight()) {
                         checkOnRightClicked();
                         //System.out.println("rclick");

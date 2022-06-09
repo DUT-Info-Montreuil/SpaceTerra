@@ -3,8 +3,6 @@ package modele;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-
 public class Inventory {
     private ObservableList<Slot> slots;
     private int currSlotNumber;
@@ -74,7 +72,7 @@ public class Inventory {
     }
 
     public void incrementSlot() {
-        if (this.currSlotNumber < this.maxInventorySize - 1) {
+        if (this.currSlotNumber < 9) {
             currSlotNumber++;
         }
     }
@@ -92,7 +90,7 @@ public class Inventory {
         return false;
     }
 
-    public Item removeFromSlot() {
+    public Item removeFromCurrSlot() {
         try {
             Item item = slots.get(currSlotNumber).getItem();
             if(slots.get(currSlotNumber).getItemQuantity() > 1){
@@ -110,7 +108,83 @@ public class Inventory {
         }
     }
 
-    public void addIntoSlot(Item item) {
+    public void removeFromSlot(int slotNum, int quantity) throws NotEnoughItemInSlotException {
+        if(getItemFromSlot(slotNum) != null){
+            if(slots.get(slotNum).getItemQuantity() > quantity){
+                slots.get(slotNum).decrementItemQuantity(quantity);
+
+            }
+            else if (slots.get(slotNum).getItemQuantity() == 0){
+                slots.set(currSlotNumber, new Slot(null, 0, currSlotNumber));
+                currInventorySize--;
+            }
+            else {
+                throw new NotEnoughItemInSlotException(slotNum);
+            }
+
+        }
+    }
+
+    public void removeFromSlot(int slotNum) {
+        if(getItemFromSlot(slotNum) != null){
+            if(slots.get(slotNum).getItemQuantity() > 1){
+                slots.get(slotNum).decrementItemQuantity(1);
+            }
+            else {
+                slots.set(slotNum, new Slot(null, 0, slotNum));
+                currInventorySize--;
+            }
+
+        }
+    }
+
+
+    public void addIntoSlot(Item item, int slotNum, int quantity) throws TooManyItemInSlotException{
+        if(getItemFromSlot(slotNum).getTypeItem().equals(item.getTypeItem())){
+            if(slots.get(slotNum) != null){
+                if(slots.get(slotNum).getItemQuantity() + quantity <= slots.get(slotNum).getMaxQuantity()){
+                    slots.get(slotNum).incrementItemQuantity(quantity);
+                }
+                else {
+                    throw new TooManyItemInSlotException(slotNum);
+                }
+            }
+            else {
+                if(slots.get(slotNum).getItemQuantity() + quantity <= slots.get(slotNum).getMaxQuantity()){
+                    slots.set(slotNum, new Slot(item, quantity, item.getId()));
+                    currInventorySize++;
+                }
+                else{
+                    throw new TooManyItemInSlotException(slotNum);
+                }
+            }
+
+        }
+    }
+
+    public void addIntoSlot(Item item, int slotNum) throws TooManyItemInSlotException{
+        if(getItemFromSlot(slotNum).getTypeItem().equals(item.getTypeItem())){
+            if(slots.get(slotNum) != null){
+                if(slots.get(slotNum).getItemQuantity() + 1 <= slots.get(slotNum).getMaxQuantity()){
+                    slots.get(slotNum).incrementItemQuantity(1);
+                }
+                else {
+                    throw new TooManyItemInSlotException(slotNum);
+                }
+            }
+            else {
+                if(slots.get(slotNum).getItemQuantity() + 1 <= slots.get(slotNum).getMaxQuantity()){
+                    slots.set(slotNum, new Slot(item, 1, item.getId()));
+                    currInventorySize++;
+                }
+                else{
+                    throw new TooManyItemInSlotException(slotNum);
+                }
+            }
+
+        }
+    }
+    public void addIntoNextEmptySlot(Item item) {
         if (!isInventoryFull()) {
             if (this.getNotFullSlotWithItem(item) != null) {
                 this.getNotFullSlotWithItem(item).incrementItemQuantity(1);
@@ -135,6 +209,7 @@ public class Inventory {
     public Slot getSlot(int i){
         return slots.get(i);
     }
+
 
 }
 
