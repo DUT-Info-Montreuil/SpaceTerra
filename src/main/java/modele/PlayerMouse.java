@@ -102,8 +102,10 @@ public class PlayerMouse {
     }
 
     public void onSlotLeftClickedAction(Slot slot, Inventory inventory) {
+
         if(slot.getItem() != null){
             if(item != null){
+                if(slot.getItem().getTypeItem().equals(item.getTypeItem())) {
                 try{
                     inventory.addIntoSlot(item, slot.getId(), currentItemQuantity.getValue());
                     currentItemQuantity.setValue(0);
@@ -111,28 +113,21 @@ public class PlayerMouse {
                     item = null;
 
                 } catch (TooManyItemInSlotException e){
-                    if(slot.getItem().getTypeItem().equals(item.getTypeItem())) {
                         if(currentItemQuantity.getValue() > slot.getItemQuantity()){
                             int diff = currentItemQuantity.getValue() - slot.getItemQuantity();
                             slot.incrementItemQuantity(diff);
                             currentItemQuantity.setValue(getCurrentItemQuantity() - diff);
                         }
                     }
-                    else {
-                        Slot safeSlot = slot;
-                        try{
-                            inventory.removeFromSlot(slot.getId(), slot.getItemQuantity());
-                            inventory.addIntoSlot(item, slot.getId(), currentItemQuantity.getValue());
-                            currentItemQuantity.setValue(safeSlot.getItemQuantity());
-                            maxItemQuantity = safeSlot.getMaxQuantity();
-                            item = safeSlot.getItem();
-                        } catch(NotEnoughItemInSlotException | TooManyItemInSlotException e1){
-
-                        }
-                    }
-
-
-
+                }
+                else {
+                    Slot safeSlot = slot;
+                    inventory.getSlots().set(slot.getId(), new Slot(null, 0, slot.getId()));
+                    inventory.getSlots().set(slot.getId(), new Slot(item, currentItemQuantity.getValue(), slot.getId()));
+                    System.out.println("ici");
+                    currentItemQuantity.setValue(safeSlot.getItemQuantity());
+                    maxItemQuantity = safeSlot.getMaxQuantity();
+                    item = safeSlot.getItem();
                 }
 
             }
@@ -146,6 +141,7 @@ public class PlayerMouse {
 
                 }
             }
+
 
         }
         else {
