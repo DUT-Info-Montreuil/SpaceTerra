@@ -293,7 +293,6 @@ public class Controleur implements Initializable {
                                 //System.out.println(player.getInventory().getItems());
                             }
                         }
-                        mouseHandler.setHasPressedLeft(false);
                         // System.out.println(player.getInventory());
                     }
                 }

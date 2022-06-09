@@ -48,36 +48,46 @@ public class MouseHandler {
 
     public void mouseManager() {
 
-        pane.setOnMouseDragged(mouseEvent -> {
-            mouseX.setValue((int) mouseEvent.getX());
-            mouseY.setValue((int) mouseEvent.getY());
-            System.out.println((int) mouseEvent.getX());
-            System.out.println((int) mouseEvent.getY());
-
+        pane.setOnMouseDragged(e -> {
+            mouseX.setValue((int) e.getX());
+            mouseY.setValue((int) e.getY());
         });
+
         pane.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
+                mouseX.setValue((int) e.getX());
+                mouseY.setValue((int) e.getY());
                 hasPressedLeft = true;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
+                mouseX.setValue((int) e.getX());
+                mouseY.setValue((int) e.getY());
                 hasPressedRight = true;
             }
         });
 
         pane.setOnMouseReleased(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
+                mouseX.setValue((int) e.getX());
+                mouseY.setValue((int) e.getY());
                 hasPressedLeft = false;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
+                mouseX.setValue((int) e.getX());
+                mouseY.setValue((int) e.getY());
                 hasPressedRight = false;
             }
         });
 
         pane.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
+                mouseX.setValue((int) e.getX());
+                mouseY.setValue((int) e.getY());
                 hasClickedLeft = true;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
+                mouseX.setValue((int) e.getX());
+                mouseY.setValue((int) e.getY());
                 hasClickedRight = true;
             }
         });

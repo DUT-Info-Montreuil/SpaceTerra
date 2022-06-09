@@ -8,7 +8,7 @@ public class ItemBlock extends Item{
 
 
     public ItemBlock(int id) {
-        super(id, 1);
+        super(id, 4);
     }
 
     @Override
