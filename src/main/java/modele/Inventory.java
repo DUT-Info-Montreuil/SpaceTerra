@@ -16,10 +16,10 @@ public class Inventory {
     }
 
 
-    public Inventory() {
+    public Inventory(int maxInventorySize) {
         this.slots = FXCollections.observableArrayList();
         this.currSlotNumber = new SimpleIntegerProperty(0);
-        this.maxInventorySize = 50;
+        this.maxInventorySize = maxInventorySize;
         this.currInventorySize = 0;
         for (int i = 0; i < maxInventorySize; i++) {
             slots.add(new Slot(null, 0, i));

@@ -31,6 +31,8 @@ public class Controleur implements Initializable {
     PlayerMouseObservator playerMouseObservator;
     private Timeline timeline;
 
+    private InventoryCraftView inventoryCraftView;
+
     private Timeline timelineClick;
     public static Player player;
     private KeyHandler keyHandler;
@@ -41,6 +43,8 @@ public class Controleur implements Initializable {
     private GameCam2D camera;
 
     private InventoryObservator inventoryObservator;
+
+    private InventoryObservator inventoryCraftObservator;
 
     public static PlayerMouse playerMouse;
 
@@ -63,6 +67,7 @@ public class Controleur implements Initializable {
         entities.add(player);
         playerView.displayPlayer();
         inventoryView = new InventoryView(panneauDeJeu);
+        inventoryCraftView = new InventoryCraftView(panneauDeJeu);
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
@@ -81,6 +86,10 @@ public class Controleur implements Initializable {
         terrain.getBlocks().addListener(new TerrainObservator(terrainView));
         inventoryObservator = new InventoryObservator(inventoryView, player.getInventory(), panneauDeJeu);
         player.getInventory().getSlots().addListener(inventoryObservator);
+        inventoryCraftObservator = new InventoryObservator(inventoryView, player.getInventory(), panneauDeJeu);
+        player.getInventory().getSlots().addListener(inventoryCraftObservator);
+
+
         deletedSlotView = new DeletedSlotView(panneauDeJeu, inventoryView);
 
         createTimelines();
