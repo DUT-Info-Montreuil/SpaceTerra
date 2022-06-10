@@ -32,10 +32,12 @@ public class PlayerMouseView {
     }
 
     public SlotView getOnSlotClicked(int x, int y, InventoryView inventoryView){
-        if(!inventoryView.isShow()){
-            for (int i = 0; i < 10; i++){
-                if(inventoryView.getSlotViews().get(i).getEmptySlotRectangle().contains(x, y)){
-                    return inventoryView.getSlotViews().get(i);
+        if(!inventoryView.isDisplay()){
+            if(inventoryView instanceof PlayerInventoryView){
+                for (int i = 0; i < 10; i++){
+                    if(inventoryView.getSlotViews().get(i).getEmptySlotRectangle().contains(x, y)){
+                        return inventoryView.getSlotViews().get(i);
+                    }
                 }
             }
         }

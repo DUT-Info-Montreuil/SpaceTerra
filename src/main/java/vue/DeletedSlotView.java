@@ -8,10 +8,10 @@ public class DeletedSlotView {
 
     private Rectangle deletedRectangle;
 
-    public DeletedSlotView(Pane panneauDeJeu, InventoryView inventoryView){
+    public DeletedSlotView(Pane panneauDeJeu, PlayerInventoryView playerInventoryView){
         deletedRectangle = new Rectangle();
-        deletedRectangle.xProperty().bind(inventoryView.getSlotViews().get(inventoryView.getSlotViews().size() - 1).getXProperty().add(32));
-        deletedRectangle.yProperty().bind(inventoryView.getSlotViews().get(inventoryView.getSlotViews().size() - 1).getYProperty());
+        deletedRectangle.xProperty().bind(playerInventoryView.getSlotViews().get(playerInventoryView.getSlotViews().size() - 1).getXProperty().add(32));
+        deletedRectangle.yProperty().bind(playerInventoryView.getSlotViews().get(playerInventoryView.getSlotViews().size() - 1).getYProperty());
         deletedRectangle.setFill(Color.RED);
         deletedRectangle.setStroke(Color.BLACK);
         deletedRectangle.setWidth(32);

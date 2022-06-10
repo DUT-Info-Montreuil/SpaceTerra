@@ -5,10 +5,19 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Inventory {
+public abstract class Inventory {
     private ObservableList<Slot> slots;
-    private IntegerProperty currSlotNumber;
     private int maxInventorySize;
+
+
+    public int getCurrInventorySize() {
+        return currInventorySize;
+    }
+
+    public void setCurrInventorySize(int currInventorySize) {
+        this.currInventorySize = currInventorySize;
+    }
+
     private int currInventorySize;
 
     public ObservableList<Slot> getSlots() {
@@ -18,7 +27,6 @@ public class Inventory {
 
     public Inventory(int maxInventorySize) {
         this.slots = FXCollections.observableArrayList();
-        this.currSlotNumber = new SimpleIntegerProperty(0);
         this.maxInventorySize = maxInventorySize;
         this.currInventorySize = 0;
         for (int i = 0; i < maxInventorySize; i++) {
@@ -27,28 +35,8 @@ public class Inventory {
     }
 
 
-    public int getCurrSlotNumber() {
-        return currSlotNumber.getValue();
-    }
-
-    public IntegerProperty currSlotNumberProperty() {
-        return currSlotNumber;
-    }
-    public Slot getCurrSlot(){
-        return slots.get(getCurrSlotNumber());
-    }
-
     public int getMaxInventorySize() {
         return maxInventorySize;
-    }
-
-    public Item getCurrItem() {
-        try {
-            //System.out.println("CUUR" + currSlotNumber);
-            return slots.get(getCurrSlotNumber()).getItem();
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public Item getItemFromSlot(int numSlot) {
@@ -73,21 +61,6 @@ public class Inventory {
         this.maxInventorySize = maxInventorySize;
     }
 
-    public void setCurrSlotNumber(int currSlotNumber) {
-        this.currSlotNumber.setValue(currSlotNumber);
-    }
-
-    public void incrementSlot() {
-        if (getCurrSlotNumber() < 9) {
-            setCurrSlotNumber(getCurrSlotNumber()+1);
-        }
-    }
-
-    public void decrementSlot() {
-        if (getCurrSlotNumber() > 0) {
-            setCurrSlotNumber(getCurrSlotNumber()-1);
-        }
-    }
 
     public boolean isInventoryFull() {
         if (currInventorySize >= maxInventorySize) {
@@ -96,23 +69,6 @@ public class Inventory {
         return false;
     }
 
-    public Item removeFromCurrSlot() {
-        try {
-            Item item = slots.get(getCurrSlotNumber()).getItem();
-            if(slots.get(getCurrSlotNumber()).getItemQuantity() > 1){
-                getCurrSlot().decrementItemQuantity(1);
-            }
-            else {
-                slots.set(getCurrSlotNumber(), new Slot(null, 0, getCurrSlotNumber()));
-                currInventorySize--;
-            }
-            return item;
-
-        } catch (IndexOutOfBoundsException | NullPointerException e) {
-            System.out.println("slot vide !");
-            return null;
-        }
-    }
 
     public void removeFromSlot(int slotNum, int quantity) throws NotEnoughItemInSlotException {
         if(getItemFromSlot(slotNum) != null){

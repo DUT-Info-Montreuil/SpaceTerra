@@ -19,7 +19,7 @@ public class ItemBlock extends Item{
                System.out.println("itemMouse : " + Controleur.playerMouse.item);
                Controleur.playerMouse.decrementeItemQuantity(1);
            }
-           else if(Controleur.player.getInventory().getCurrItem() != null){
+           else if(Controleur.player.getPlayerInventory().getCurrItem() != null){
                Controleur.player.drop();
            }
 

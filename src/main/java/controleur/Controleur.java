@@ -2,16 +2,13 @@ package controleur;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import modele.*;
-import modele.Block;
 import modele.Terrain;
 import modele.Player;
 import vue.*;
@@ -31,7 +28,7 @@ public class Controleur implements Initializable {
     PlayerMouseObservator playerMouseObservator;
     private Timeline timeline;
 
-    private InventoryCraftView inventoryCraftView;
+    private CraftInventoryView craftInventoryView;
 
     private Timeline timelineClick;
     public static Player player;
@@ -39,12 +36,12 @@ public class Controleur implements Initializable {
     private ArrayList<Entity> entities;
     private MouseHandler mouseHandler;
 
-    private InventoryView inventoryView;
+    private PlayerInventoryView playerInventoryView;
     private GameCam2D camera;
 
-    private InventoryObservator inventoryObservator;
+    private PlayerInventoryObservator playerInventoryObservator;
 
-    private InventoryObservator inventoryCraftObservator;
+    private CraftInventoryObservator craftInventoryObservator;
 
     public static PlayerMouse playerMouse;
 
@@ -66,8 +63,8 @@ public class Controleur implements Initializable {
         PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
-        inventoryView = new InventoryView(panneauDeJeu);
-        inventoryCraftView = new InventoryCraftView(panneauDeJeu);
+        playerInventoryView = new PlayerInventoryView(panneauDeJeu);
+        craftInventoryView = new CraftInventoryView(panneauDeJeu);
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
@@ -84,13 +81,13 @@ public class Controleur implements Initializable {
         terrainView.readEntity();
         debugger = new DebugView(panneauDeJeu);
         terrain.getBlocks().addListener(new TerrainObservator(terrainView));
-        inventoryObservator = new InventoryObservator(inventoryView, player.getInventory(), panneauDeJeu);
-        player.getInventory().getSlots().addListener(inventoryObservator);
-        inventoryCraftObservator = new InventoryObservator(inventoryView, player.getInventory(), panneauDeJeu);
-        player.getInventory().getSlots().addListener(inventoryCraftObservator);
+        playerInventoryObservator = new PlayerInventoryObservator(playerInventoryView, player.getPlayerInventory(), panneauDeJeu);
+        player.getPlayerInventory().getSlots().addListener(playerInventoryObservator);
+        craftInventoryObservator = new CraftInventoryObservator(craftInventoryView, player.getCraftInventory(), panneauDeJeu);
+        player.getCraftInventory().getSlots().addListener(craftInventoryObservator);
 
 
-        deletedSlotView = new DeletedSlotView(panneauDeJeu, inventoryView);
+        deletedSlotView = new DeletedSlotView(panneauDeJeu, playerInventoryView);
 
         createTimelines();
     }
@@ -119,12 +116,12 @@ public class Controleur implements Initializable {
                     entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
                     playerMovement();
 
-                    inventoryObservator.refreshCurrentSlotView();
+                    playerInventoryObservator.refreshCurrentSlotView();
                     if (mouseHandler.isHasScrollUp()) {
-                        player.getInventory().decrementSlot();
+                        player.getPlayerInventory().decrementSlot();
                         mouseHandler.setHasScrollUp(false);
                     } else if (mouseHandler.isHasScrollDown()) {
-                        player.getInventory().incrementSlot();
+                        player.getPlayerInventory().incrementSlot();
                         mouseHandler.setHasScrollDown(false);
                     }
 
@@ -138,28 +135,33 @@ public class Controleur implements Initializable {
 
                 (new KeyFrame(Duration.millis(20), actionEvent -> {
                     if(mouseHandler.isHasClickedLeft()){
-                        playerMouseObservator.leftClick(player.getInventory(), inventoryView, deletedSlotView);
+                        playerMouseObservator.leftClick(player.getPlayerInventory(), playerInventoryView, deletedSlotView);
+                        playerMouseObservator.leftClick(player.getCraftInventory(), craftInventoryView, deletedSlotView);
                         mouseHandler.setHasClickedLeft(false);
                     }
                     if (mouseHandler.isHasPressedLeft()) {
-                        playerMouseObservator.leftPressed(player, terrain, inventoryView);
+                        playerMouseObservator.leftPressed(player, terrain, playerInventoryView);
+                        playerMouseObservator.leftPressed(player, terrain, craftInventoryView);
                     } else if (mouseHandler.isHasClickedRight()) {
-                        playerMouseObservator.rightClick(player.getInventory(), inventoryView, deletedSlotView);
+                        playerMouseObservator.rightClick(player.getPlayerInventory(), playerInventoryView);
+                        playerMouseObservator.rightClick(player.getCraftInventory(), craftInventoryView);
+                        playerMouseObservator.rightClickDeletedSlotView(deletedSlotView);
                         mouseHandler.setHasClickedRight(false);
                     }
 
                     if(keyHandler.isInventoryKeyTyped()){
-                        if(!inventoryView.isShow()) {
-                            inventoryView.setShow(true);
-                            inventoryView.displayAllSlotViews();
+                        if(!playerInventoryView.isDisplay()) {
+                            playerInventoryView.setDisplay(true);
+                            playerInventoryView.displayAllSlotViews();
+                            craftInventoryView.setDisplay(true);
                             deletedSlotView.display(true);
-                            System.out.println(" xRd : " + deletedSlotView.getDeletedRectangle().getX());
-                            System.out.println(" yRd : " + deletedSlotView.getDeletedRectangle().getY());
                             keyHandler.setInventoryKeyTyped(false);
+
                         }
                         else {
-                            inventoryView.setShow(false);
-                            inventoryView.displayAllSlotViews();
+                            playerInventoryView.setDisplay(false);
+                            playerInventoryView.displayAllSlotViews();
+                            craftInventoryView.setDisplay(false);
                             deletedSlotView.display(false);
                             keyHandler.setInventoryKeyTyped(false);
                         }
@@ -259,34 +261,34 @@ public class Controleur implements Initializable {
 
     public void verifKeyTyped() {
         if (keyHandler.isSlotOneTyped()) {
-            player.getInventory().setCurrSlotNumber(0);
+            player.getPlayerInventory().setCurrSlotNumber(0);
             keyHandler.setSlotOneTyped(false);
         } else if (keyHandler.isSlotTwoTyped()) {
-            player.getInventory().setCurrSlotNumber(1);
+            player.getPlayerInventory().setCurrSlotNumber(1);
             keyHandler.setSlotTwoTyped(false);
         } else if (keyHandler.isSlotThreeTyped()) {
-            player.getInventory().setCurrSlotNumber(2);
+            player.getPlayerInventory().setCurrSlotNumber(2);
             keyHandler.setSlotThreeTyped(false);
         } else if (keyHandler.isSlotFourTyped()) {
-            player.getInventory().setCurrSlotNumber(3);
+            player.getPlayerInventory().setCurrSlotNumber(3);
             keyHandler.setSlotFourTyped(false);
         } else if (keyHandler.isSlotFiveTyped()) {
-            player.getInventory().setCurrSlotNumber(4);
+            player.getPlayerInventory().setCurrSlotNumber(4);
             keyHandler.setSlotFiveTyped(false);
         } else if (keyHandler.isSlotSixTyped()) {
-            player.getInventory().setCurrSlotNumber(5);
+            player.getPlayerInventory().setCurrSlotNumber(5);
             keyHandler.setSlotSixTyped(false);
         } else if (keyHandler.isSlotSevenTyped()) {
-            player.getInventory().setCurrSlotNumber(6);
+            player.getPlayerInventory().setCurrSlotNumber(6);
             keyHandler.setSlotSevenTyped(false);
         } else if (keyHandler.isSlotEightTyped()) {
-            player.getInventory().setCurrSlotNumber(7);
+            player.getPlayerInventory().setCurrSlotNumber(7);
             keyHandler.setSlotEightTyped(false);
         } else if (keyHandler.isSlotNineTyped()) {
-            player.getInventory().setCurrSlotNumber(8);
+            player.getPlayerInventory().setCurrSlotNumber(8);
             keyHandler.setSlotNineTyped(false);
         } else if (keyHandler.isSlotTenTyped()) {
-            player.getInventory().setCurrSlotNumber(9);
+            player.getPlayerInventory().setCurrSlotNumber(9);
             keyHandler.setSlotTenTyped(false);
         }
     }

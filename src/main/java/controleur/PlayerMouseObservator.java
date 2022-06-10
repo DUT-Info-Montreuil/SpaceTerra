@@ -1,10 +1,7 @@
 package controleur;
 
 import modele.*;
-import vue.DeletedSlotView;
-import vue.InventoryView;
-import vue.PlayerMouseView;
-import vue.SlotView;
+import vue.*;
 
 public class PlayerMouseObservator {
     private PlayerMouse playerMouse;
@@ -19,9 +16,7 @@ public class PlayerMouseObservator {
     public void leftClick(Inventory inventory, InventoryView inventoryView, DeletedSlotView deletedSlotView){
         SlotView slotView = playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
         if(slotView != null){
-            if(!inventoryView.isShow()){
-                inventory.setCurrSlotNumber(slotView.getId());
-            }
+            verifIsDisplay(inventory, inventoryView, slotView);
             playerMouse.onSlotLeftClickedAction(inventory.getSlot(slotView.getId()), inventory);
         }
         if (playerMouseView.getOnDeletedSlotClicked(playerMouse.getX(), playerMouse.getY(), deletedSlotView)){
@@ -30,6 +25,13 @@ public class PlayerMouseObservator {
         playerMouseView.getItemQuantityLabel().toFront();
         playerMouseView.getItemView().toFront();
         setItemView();
+    }
+
+    private void verifIsDisplay(Inventory inventory, InventoryView inventoryView, SlotView slotView) {
+        if(!inventoryView.isDisplay()){
+            if(inventory instanceof PlayerInventory)
+            ((PlayerInventory) inventory).setCurrSlotNumber(slotView.getId());
+        }
     }
 
     public void leftPressed(Player player, Terrain terrain, InventoryView inventoryView){
@@ -67,17 +69,23 @@ public class PlayerMouseObservator {
 
     }
 
-    public void rightClick(Inventory inventory, InventoryView inventoryView, DeletedSlotView deletedSlotView) {
+    public void rightClick(Inventory inventory, InventoryView inventoryView) {
         SlotView slotView = playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
         if(slotView != null){
-            if(!inventoryView.isShow()){
-                inventory.setCurrSlotNumber(slotView.getId());
-            }
+            verifIsDisplay(inventory,inventoryView,slotView);
             playerMouse.onSlotRightClicked(inventory.getSlot(slotView.getId()), inventory);
-        }
-        if(playerMouseView.getOnDeletedSlotClicked(playerMouse.getX(), playerMouse.getY(), deletedSlotView)){
-            playerMouse.onDeletedSLotRightClicked();
         }
         setItemView();
     }
+    public void rightClickDeletedSlotView(DeletedSlotView deletedSlotView){
+
+        if(playerMouseView.getOnDeletedSlotClicked(playerMouse.getX(), playerMouse.getY(), deletedSlotView)){
+
+            if(playerMouseView.getOnDeletedSlotClicked(playerMouse.getX(), playerMouse.getY(), deletedSlotView)){
+                playerMouse.onDeletedSLotRightClicked();
+            }
+        }
+        setItemView();
+    }
+
 }

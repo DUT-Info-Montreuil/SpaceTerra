@@ -75,9 +75,9 @@ public class PlayerMouse {
 
 
     public void playerLeftPressedAction(Player player, Terrain terrain) {
-        if (player.getInventory().getCurrItem() != null) {
+        if (player.getPlayerInventory().getCurrItem() != null) {
             if (terrain.checkDistancePosition(player, this.getX(), this.getY())) {
-                player.getInventory().getCurrItem().use();
+                player.getPlayerInventory().getCurrItem().use();
 
             }
         } else if (item != null) {
@@ -89,7 +89,7 @@ public class PlayerMouse {
             if (b != null) {
                 if (terrain.checkDistanceBlock(player, b)) {
                     b.setPvs(b.getPvs() - 1);
-                    if (terrain.checkDestroyedBlock(b) && b.getRessource() != null && !player.getInventory().isInventoryFull()) {
+                    if (terrain.checkDestroyedBlock(b) && b.getRessource() != null && !player.getPlayerInventory().isInventoryFull()) {
                         player.pick(b.getRessource());
                     }
 

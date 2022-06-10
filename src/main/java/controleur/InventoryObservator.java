@@ -1,23 +1,32 @@
 package controleur;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import modele.Inventory;
 import modele.Slot;
 import vue.InventoryView;
+import vue.PlayerInventoryView;
 import vue.SlotView;
 
-import java.util.ArrayList;
+public abstract class InventoryObservator implements ListChangeListener<Slot> {
 
-public class InventoryObservator implements ListChangeListener<Slot> {
 
+    public InventoryView getInventoryView() {
+        return inventoryView;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
 
     private InventoryView inventoryView;
 
     private Inventory inventory;
+
+    public Pane getPanneauDeJeu() {
+        return panneauDeJeu;
+    }
 
     Pane panneauDeJeu;
     public InventoryObservator(InventoryView inventoryView, Inventory inventory, Pane panneauDeJeu) {
@@ -33,8 +42,6 @@ public class InventoryObservator implements ListChangeListener<Slot> {
         while (change.next()) {
             if (change.wasReplaced()) {
                 Slot slot = change.getList().get(change.getFrom());
-                System.out.println("slot modif : " + slot);
-                System.out.println("slot 0 : " + inventory.getSlots().get(0));
                     if (slot.getItem() == null) {
                         inventoryView.getSlotViews().get(slot.getId()).setItemView(null);
                     } else {
@@ -55,13 +62,14 @@ public class InventoryObservator implements ListChangeListener<Slot> {
                 }
                 inventoryView.setSlotViewPosition(i);
         }
+        displayInventory(false);
+    }
+
+    public void displayInventory(boolean display){
+        inventoryView.setDisplay(display);
         inventoryView.displayAllSlotViews();
     }
 
-    public void refreshCurrentSlotView(){
-        inventoryView.getcurrentSlotView().xProperty().setValue(panneauDeJeu.getScene().getCamera().layoutXProperty().getValue() + 99 + 32 * inventory.getCurrSlotNumber());
-        inventoryView.getcurrentSlotView().yProperty().setValue(panneauDeJeu.getScene().getCamera().layoutYProperty().getValue() + 99);
-        inventoryView.getcurrentSlotView().toFront();
-    }
+
 }
 
