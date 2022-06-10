@@ -1,6 +1,7 @@
 package controleur;
 
 import modele.*;
+import vue.DeletedSlotView;
 import vue.InventoryView;
 import vue.PlayerMouseView;
 import vue.SlotView;
@@ -15,17 +16,20 @@ public class PlayerMouseObservator {
         initialize();
     }
 
-    public void leftClick(Inventory inventory, InventoryView inventoryView){
+    public void leftClick(Inventory inventory, InventoryView inventoryView, DeletedSlotView deletedSlotView){
         SlotView slotView = playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
         if(slotView != null){
             if(!inventoryView.isShow()){
                 inventory.setCurrSlotNumber(slotView.getId());
             }
             playerMouse.onSlotLeftClickedAction(inventory.getSlot(slotView.getId()), inventory);
-            setItemView();
+        }
+        if (playerMouseView.getOnDeletedSlotClicked(playerMouse.getX(), playerMouse.getY(), deletedSlotView)){
+            playerMouse.onDeletedSLotLeftClicked();
         }
         playerMouseView.getItemQuantityLabel().toFront();
         playerMouseView.getItemView().toFront();
+        setItemView();
     }
 
     public void leftPressed(Player player, Terrain terrain, InventoryView inventoryView){
@@ -41,7 +45,6 @@ public class PlayerMouseObservator {
 
         playerMouseView.getItemQuantityLabel().layoutYProperty().bind(playerMouse.yProperty().add(20));
         playerMouseView.getItemQuantityLabel().layoutXProperty().bind(playerMouse.xProperty().add(20));
-        playerMouseView.getItemQuantityLabel().textProperty().bind(playerMouse.currentItemQuantityProperty().asString());
         playerMouseView.getItemView().layoutYProperty().bind(playerMouse.yProperty().add(10));
         playerMouseView.getItemView().layoutXProperty().bind(playerMouse.xProperty().add(10));
         playerMouseView.getItemQuantityLabel().toFront();
@@ -55,6 +58,7 @@ public class PlayerMouseObservator {
         try {
             playerMouseView.getItemView().setImage(playerMouse.getItem().getTypeItem().getImage());
             playerMouseView.displayItemQuantityLabel(true);
+            playerMouseView.getItemQuantityLabel().setText(playerMouse.currentItemQuantityProperty().getValue().toString());
         }
         catch (NullPointerException e){
             playerMouseView.getItemView().setImage(null);
@@ -64,16 +68,19 @@ public class PlayerMouseObservator {
 
     }
 
-    public void rightClick(Inventory inventory, InventoryView inventoryView) {
+    public void rightClick(Inventory inventory, InventoryView inventoryView, DeletedSlotView deletedSlotView) {
         SlotView slotView = playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
         if(slotView != null){
             if(!inventoryView.isShow()){
                 inventory.setCurrSlotNumber(slotView.getId());
             }
             playerMouse.onSlotRightClicked(inventory.getSlot(slotView.getId()), inventory);
-            setItemView();
+        }
+        if(playerMouseView.getOnDeletedSlotClicked(playerMouse.getX(), playerMouse.getY(), deletedSlotView)){
+            playerMouse.onDeletedSLotRightClicked();
         }
         playerMouseView.getItemQuantityLabel().toFront();
         playerMouseView.getItemView().toFront();
+        setItemView();
     }
 }

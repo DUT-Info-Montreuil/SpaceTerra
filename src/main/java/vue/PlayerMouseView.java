@@ -50,6 +50,11 @@ public class PlayerMouseView {
         return null;
     }
 
+    public boolean getOnDeletedSlotClicked(int x, int y, DeletedSlotView deletedSlotView){
+        return deletedSlotView.getDeletedRectangle().contains(x,y);
+
+    }
+
     public void displayItemQuantityLabel(boolean display){
         if(display){
             itemQuantityLabel.setVisible(true);

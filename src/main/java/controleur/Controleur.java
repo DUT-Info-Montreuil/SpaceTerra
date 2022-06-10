@@ -46,6 +46,8 @@ public class Controleur implements Initializable {
 
     public static DebugView debugger;
 
+    private DeletedSlotView deletedSlotView;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         entities = new ArrayList<>();
@@ -66,6 +68,7 @@ public class Controleur implements Initializable {
         mouseHandler = new MouseHandler(panneauDeJeu);
         mouseHandler.mouseManager();
 
+
         playerMouse = new PlayerMouse(null);
         playerMouse.xProperty().bind(mouseHandler.getMouseXProperty());
         playerMouse.yProperty().bind(mouseHandler.getMouseYProperty());
@@ -78,6 +81,7 @@ public class Controleur implements Initializable {
         terrain.getBlocks().addListener(new TerrainObservator(terrainView));
         inventoryObservator = new InventoryObservator(inventoryView, player.getInventory(), panneauDeJeu);
         player.getInventory().getSlots().addListener(inventoryObservator);
+        deletedSlotView = new DeletedSlotView(panneauDeJeu, inventoryView);
 
         createTimelines();
     }
@@ -125,13 +129,13 @@ public class Controleur implements Initializable {
 
                 (new KeyFrame(Duration.millis(20), actionEvent -> {
                     if(mouseHandler.isHasClickedLeft()){
-                        playerMouseObservator.leftClick(player.getInventory(), inventoryView);
+                        playerMouseObservator.leftClick(player.getInventory(), inventoryView, deletedSlotView);
                         mouseHandler.setHasClickedLeft(false);
                     }
                     if (mouseHandler.isHasPressedLeft()) {
                         playerMouseObservator.leftPressed(player, terrain, inventoryView);
                     } else if (mouseHandler.isHasClickedRight()) {
-                        playerMouseObservator.rightClick(player.getInventory(), inventoryView);
+                        playerMouseObservator.rightClick(player.getInventory(), inventoryView, deletedSlotView);
                         mouseHandler.setHasClickedRight(false);
                     }
 
@@ -139,11 +143,15 @@ public class Controleur implements Initializable {
                         if(!inventoryView.isShow()) {
                             inventoryView.setShow(true);
                             inventoryView.displayAllSlotViews();
+                            deletedSlotView.display(true);
+                            System.out.println(" xRd : " + deletedSlotView.getDeletedRectangle().getX());
+                            System.out.println(" yRd : " + deletedSlotView.getDeletedRectangle().getY());
                             keyHandler.setInventoryKeyTyped(false);
                         }
                         else {
                             inventoryView.setShow(false);
                             inventoryView.displayAllSlotViews();
+                            deletedSlotView.display(false);
                             keyHandler.setInventoryKeyTyped(false);
                         }
                     }

@@ -110,11 +110,11 @@ public class PlayerMouse {
                         item = null;
 
                     } catch (TooManyItemInSlotException e) {
-                        if (currentItemQuantity.getValue() > slot.getItemQuantity()) {
-                            int diff = currentItemQuantity.getValue() - slot.getItemQuantity();
+
+                            int diff = maxItemQuantity - slot.getItemQuantity();
                             slot.incrementItemQuantity(diff);
                             currentItemQuantity.setValue(getCurrentItemQuantity() - diff);
-                        }
+
                     }
                 } else {
                     Slot safeSlot = slot;
@@ -191,6 +191,11 @@ public class PlayerMouse {
                         incrementItemQuantity(slot.getItem(), 1);
                         inventory.getSlots().set(slot.getId(), new Slot(null, 0, slot.getId()));
                     }
+                    else {
+                        inventory.getSlots().set(slot.getId(), new Slot(item, 1, slot.getId()));
+                        decrementeItemQuantity(1);
+
+                    }
 
 
                 } catch (NullPointerException e) {
@@ -212,6 +217,15 @@ public class PlayerMouse {
 
     }
 
+    public void onDeletedSLotLeftClicked() {
+        item = null;
+        maxItemQuantity = 0;
+        currentItemQuantity.setValue(0);
+    }
+
+    public void onDeletedSLotRightClicked() {
+        decrementeItemQuantity(1);
+    }
 }
 
 
