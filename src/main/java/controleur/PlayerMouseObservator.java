@@ -36,7 +36,6 @@ public class PlayerMouseObservator {
         if(playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView) == null){
             playerMouse.playerLeftPressedAction(player, terrain);
             setItemView();
-            playerMouseView.getItemView().toFront();
         }
 
     }
@@ -47,8 +46,6 @@ public class PlayerMouseObservator {
         playerMouseView.getItemQuantityLabel().layoutXProperty().bind(playerMouse.xProperty().add(20));
         playerMouseView.getItemView().layoutYProperty().bind(playerMouse.yProperty().add(10));
         playerMouseView.getItemView().layoutXProperty().bind(playerMouse.xProperty().add(10));
-        playerMouseView.getItemQuantityLabel().toFront();
-        playerMouseView.getItemView().toFront();
         setItemView();
     }
 
@@ -59,6 +56,8 @@ public class PlayerMouseObservator {
             playerMouseView.getItemView().setImage(playerMouse.getItem().getTypeItem().getImage());
             playerMouseView.displayItemQuantityLabel(true);
             playerMouseView.getItemQuantityLabel().setText(playerMouse.currentItemQuantityProperty().getValue().toString());
+            playerMouseView.getItemQuantityLabel().toFront();
+            playerMouseView.getItemView().toFront();
         }
         catch (NullPointerException e){
             playerMouseView.getItemView().setImage(null);
@@ -79,8 +78,6 @@ public class PlayerMouseObservator {
         if(playerMouseView.getOnDeletedSlotClicked(playerMouse.getX(), playerMouse.getY(), deletedSlotView)){
             playerMouse.onDeletedSLotRightClicked();
         }
-        playerMouseView.getItemQuantityLabel().toFront();
-        playerMouseView.getItemView().toFront();
         setItemView();
     }
 }
