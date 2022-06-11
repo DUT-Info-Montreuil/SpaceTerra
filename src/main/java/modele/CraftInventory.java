@@ -21,7 +21,10 @@ public class CraftInventory  extends Inventory{
         for(int i = 0; i < recipe.size(); i++){
 
             try{
-                if (getSlots().get(i).getItem().getTypeItem().equals(recipe.get(i).getTypeItem())){
+                if (!(getSlots().get(i).getItem().getTypeItem().equals(recipe.get(i).getTypeItem()))){
+                    return 0;
+                }
+                else {
                     if(getSlots().get(i).getItemQuantity() < smallestNumber){
                         smallestNumber = getSlots().get(i).getItemQuantity();
                     }
