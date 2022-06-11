@@ -78,6 +78,17 @@ public class CraftInventory  extends Inventory{
         verifCraft();
     }
 
+    public void transferInventoryToPlayer(Player player){
+        for(Slot slot : getSlots()){
+            try{
+                player.pick(slot.getItem(), slot.getItemQuantity());
+                getSlots().set(slot.getId(), new Slot(null, 0, slot.getId()));
+            } catch (NullPointerException e){
 
+            }
+
+
+        }
+    }
 
 }

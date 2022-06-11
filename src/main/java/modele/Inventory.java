@@ -162,6 +162,27 @@ public abstract class Inventory {
         }
     }
 
+    public void addIntoNextEmptySlot(Item item, int quantity) {
+        if (!isInventoryFull()) {
+            if (this.getNotFullSlotWithItem(item) != null) {
+                if (this.getNotFullSlotWithItem(item).getItemQuantity() + quantity <=  this.getNotFullSlotWithItem(item).getMaxQuantity()){
+                    this.getNotFullSlotWithItem(item).incrementItemQuantity(quantity);
+                }
+                else {
+                    int diff = this.getNotFullSlotWithItem(item).getMaxQuantity() - this.getNotFullSlotWithItem(item).getItemQuantity();
+                    quantity -= diff;
+                    this.getNotFullSlotWithItem(item).incrementItemQuantity(diff);
+                    addIntoNextEmptySlot(item, quantity);
+                }
+            } else {
+                slots.set(getNextEmptySlot(), new Slot(item, quantity, getNextEmptySlot()));
+                currInventorySize++;
+            }
+        } else{
+            System.out.println("inventaire plein !");
+        }
+    }
+
     public Slot getNotFullSlotWithItem(Item item){
         for(Slot slot1 : slots){
             if(slot1.getItem() != null && slot1.getTypeItem() == item.getId() && slot1.getItemQuantity() < slot1.getMaxQuantity()){

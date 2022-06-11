@@ -47,6 +47,10 @@ public class Player extends Entity {
         this.playerInventory.addIntoNextEmptySlot(item);
     }
 
+    public void pick(Item item, int quantity){
+        this.playerInventory.addIntoNextEmptySlot(item, quantity);
+    }
+
     public PlayerInventory getPlayerInventory() {
         return playerInventory;
     }
