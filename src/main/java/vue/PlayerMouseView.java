@@ -1,9 +1,16 @@
 package vue;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+
+import java.awt.*;
 
 
 public class PlayerMouseView {
@@ -21,6 +28,8 @@ public class PlayerMouseView {
         itemNameLabel = new Label();
         itemView = new ImageView();
         itemQuantityLabel.setTextFill(Color.BLACK);
+        itemNameLabel.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(5.0), new Insets(-5.0))));
+        itemNameLabel.setTextFill(Color.WHITE);
         panneauDeJeu.getChildren().add(itemQuantityLabel);
         panneauDeJeu.getChildren().add(itemView);
         panneauDeJeu.getChildren().add(itemNameLabel);
