@@ -53,6 +53,11 @@ public class MouseHandler {
             mouseY.setValue((int) e.getY());
         });
 
+        pane.setOnMouseMoved(e -> {
+            mouseX.setValue((int) e.getX());
+            mouseY.setValue((int) e.getY());
+        });
+
         pane.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 mouseX.setValue((int) e.getX());

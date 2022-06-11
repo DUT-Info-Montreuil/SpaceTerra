@@ -17,6 +17,12 @@ public abstract class  Entity {
     private boolean flying = false;
     public double gravity = 5;
 
+    public int getActionRange() {
+        return actionRange;
+    }
+
+    public int actionRange = 4;
+
     public Terrain getTerrain() {
         return terrain;
     }
@@ -198,7 +204,13 @@ public abstract class  Entity {
         double centerBX = b.getHitX() + b.getTile().getHitbox().getWidth() / 2; //centre du block en x
         double centerBY = b.getHitY() + b.getTile().getHitbox().getHeight() / 2; // centre du block en y
         double sqrt = Math.sqrt(Math.pow(centerBX - centerPX, 2.0) + Math.pow(centerBY - centerPY, 2.0));
-        System.out.println("distance block : " + sqrt / 32);
+        return (int) sqrt / 32; //distance euclidienne / 32 pour avoir une distance en blocks
+    }
+
+    public int distanceToPosition(int x, int y){
+        double centerPX = this.hitbox.getX().intValue() + this.hitbox.getWidth() / 2; //centre du joueur en x
+        double centerPY = this.hitbox.getY().intValue() + this.hitbox.getHeight() / 2; //centre du joueur en y
+        double sqrt = Math.sqrt(Math.pow(x - centerPX, 2.0) + Math.pow(y - centerPY, 2.0));
         return (int) sqrt / 32; //distance euclidienne / 32 pour avoir une distance en blocks
     }
 

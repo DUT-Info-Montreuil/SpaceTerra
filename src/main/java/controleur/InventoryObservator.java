@@ -6,14 +6,27 @@ import javafx.scene.layout.Pane;
 import modele.Inventory;
 import modele.Slot;
 import vue.InventoryView;
+import vue.PlayerInventoryView;
 import vue.SlotView;
 
-public class InventoryObservator implements ListChangeListener<Slot> {
+public abstract class InventoryObservator implements ListChangeListener<Slot> {
 
+
+    public InventoryView getInventoryView() {
+        return inventoryView;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
 
     private InventoryView inventoryView;
 
     private Inventory inventory;
+
+    public Pane getPanneauDeJeu() {
+        return panneauDeJeu;
+    }
 
     Pane panneauDeJeu;
     public InventoryObservator(InventoryView inventoryView, Inventory inventory, Pane panneauDeJeu) {
@@ -32,7 +45,7 @@ public class InventoryObservator implements ListChangeListener<Slot> {
                     if (slot.getItem() == null) {
                         inventoryView.getSlotViews().get(slot.getId()).setItemView(null);
                     } else {
-                        inventoryView.getSlotViews().get(slot.getId()).setItemView(new ImageView(inventory.getItemFromSlot(slot.getId()).getTypeItem().getImage()));
+                        inventoryView.getSlotViews().get(slot.getId()).setItemView(new ImageView(slot.getItem().getTypeItem().getImage()));
                         inventoryView.getSlotViews().get(slot.getId()).getQuantityLabel().textProperty().bind(slot.itemQuantityProperty().asString());
                     }
             }
@@ -49,7 +62,14 @@ public class InventoryObservator implements ListChangeListener<Slot> {
                 }
                 inventoryView.setSlotViewPosition(i);
         }
+        displayInventory(false);
+    }
+
+    public void displayInventory(boolean display){
+        inventoryView.setDisplay(display);
         inventoryView.displayAllSlotViews();
     }
+
+
 }
 

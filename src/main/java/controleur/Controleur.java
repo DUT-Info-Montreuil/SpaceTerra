@@ -2,16 +2,13 @@ package controleur;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import modele.*;
-import modele.Block;
 import modele.Terrain;
 import modele.Player;
 import vue.*;
@@ -26,7 +23,12 @@ public class Controleur implements Initializable {
     private Pane panneauDeJeu;
     private TerrainView terrainView;
     public static Terrain terrain;
+    PlayerMouseView playerMouseView;
+
+    PlayerMouseObservator playerMouseObservator;
     private Timeline timeline;
+
+    private CraftInventoryView craftInventoryView;
 
     private Timeline timelineClick;
     public static Player player;
@@ -34,16 +36,20 @@ public class Controleur implements Initializable {
     private ArrayList<Entity> entities;
     private MouseHandler mouseHandler;
 
-    private Rectangle zonePlayerBlock; //Rectangle dont la zone appartenant au joueur qui ne permet donc pas de poser de block dans celle-ci
-
-    private Rectangle mouseBlock; //Rectangle dont la zone du block est celle ou la souris se positionne
-
-    private Rectangle currentSlotView;
-    private InventoryView inventoryView;
+    private PlayerInventoryView playerInventoryView;
     private GameCam2D camera;
 
+    private PlayerInventoryObservator playerInventoryObservator;
+
+    private CraftInventoryObservator craftInventoryObservator;
+
+    private ResultSlotObservator resultSlotObservator;
+
+    public static PlayerMouse playerMouse;
 
     public static DebugView debugger;
+
+    private DeletedSlotView deletedSlotView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -57,41 +63,38 @@ public class Controleur implements Initializable {
         createEnnemies();
 
         PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);
-        //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
-        //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
-        createTimelines();
-        inventoryView = new InventoryView(panneauDeJeu);
+        playerInventoryView = new PlayerInventoryView(panneauDeJeu);
+        craftInventoryView = new CraftInventoryView(panneauDeJeu);
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
         mouseHandler.mouseManager();
 
-        rectanglesManager();
+
+        playerMouse = new PlayerMouse(null);
+        playerMouse.xProperty().bind(mouseHandler.getMouseXProperty());
+        playerMouse.yProperty().bind(mouseHandler.getMouseYProperty());
+        playerMouseView = new PlayerMouseView(panneauDeJeu);
+        playerMouseObservator = new PlayerMouseObservator(playerMouse, playerMouseView);
+
+
         terrainView.readEntity();
         debugger = new DebugView(panneauDeJeu);
         terrain.getBlocks().addListener(new TerrainObservator(terrainView));
-        player.getInventory().getSlots().addListener(new InventoryObservator(inventoryView, player.getInventory(), panneauDeJeu));
+        playerInventoryObservator = new PlayerInventoryObservator(playerInventoryView, player.getPlayerInventory(), panneauDeJeu);
+        player.getPlayerInventory().getSlots().addListener(playerInventoryObservator);
+        craftInventoryObservator = new CraftInventoryObservator(craftInventoryView, player.getCraftInventory(), panneauDeJeu);
+        resultSlotObservator = new ResultSlotObservator(9, player.getCraftInventory(), panneauDeJeu, craftInventoryView);
+        player.getCraftInventory().getSlots().addListener(craftInventoryObservator);
+
+
+        deletedSlotView = new DeletedSlotView(panneauDeJeu, playerInventoryView);
+
+        createTimelines();
     }
 
-    public void rectanglesManager() {
-        mouseBlock = new Rectangle();
-        mouseBlock.setWidth(32);
-        mouseBlock.setHeight(32);
-        mouseBlock.xProperty().bind(mouseHandler.getMouseXProperty().divide(32).multiply(32));
-        mouseBlock.yProperty().bind(mouseHandler.getMouseYProperty().divide(32).multiply(32));
-        mouseBlock.setFill(Color.TRANSPARENT);
-        mouseBlock.setStroke(Color.TRANSPARENT);
-        currentSlotView = new Rectangle();
-        currentSlotView.setFill(Color.TRANSPARENT);
-        currentSlotView.setStroke(Color.YELLOW);
-        currentSlotView.setWidth(34);
-        currentSlotView.setHeight(34);
-        currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32 * player.getInventory().getCurrSlotNumber()));
-        currentSlotView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(99));
-        panneauDeJeu.getChildren().addAll(mouseBlock, currentSlotView);
-    }
 
     public void createEnnemies() {
         Bingus bingus = new Bingus(3500, 2030, terrain);
@@ -104,23 +107,24 @@ public class Controleur implements Initializable {
 
 
     private boolean doOnce = false;
+
     public void createTimelines() {
         // 16.33 = 60 fps
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
-                    if(!doOnce){
+                    if (!doOnce) {
                         camera.lookAt(player.getHitbox().getX(), player.getHitbox().getY());
                         doOnce = true;
                     }
                     entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
                     playerMovement();
 
-
+                    playerInventoryObservator.refreshCurrentSlotView();
                     if (mouseHandler.isHasScrollUp()) {
-                        player.getInventory().incrementSlot();
+                        player.getPlayerInventory().decrementSlot();
                         mouseHandler.setHasScrollUp(false);
                     } else if (mouseHandler.isHasScrollDown()) {
-                        player.getInventory().decrementSlot();
+                        player.getPlayerInventory().incrementSlot();
                         mouseHandler.setHasScrollDown(false);
                     }
 
@@ -132,32 +136,56 @@ public class Controleur implements Initializable {
 
         timelineClick = new Timeline
 
-                (new KeyFrame(Duration.millis(200), actionEvent -> {
-                    //System.out.println(mouseBlock.xProperty().intValue());
-                    //System.out.println(mouseBlock.yProperty().intValue());
+                (new KeyFrame(Duration.millis(20), actionEvent -> {
+                    if (mouseHandler.isHasClickedLeft()) {
+                        if(playerInventoryView.isDisplay()){
+                            playerMouseObservator.leftClickInventory(player.getPlayerInventory(), playerInventoryView, deletedSlotView);
+                            playerMouseObservator.leftClickInventory(player.getCraftInventory(), craftInventoryView, deletedSlotView);
+                            playerMouseObservator.leftClickResultSlot(resultSlotObservator.getResultSlotView(), player.getCraftInventory().getResultSlot(), player.getCraftInventory());
+                            craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
+                        }
+                        else {
+                            playerMouseObservator.changeCurrSlot(player.getPlayerInventory(), playerInventoryView);
+                        }
 
+                        mouseHandler.setHasClickedLeft(false);
+                    }
                     if (mouseHandler.isHasPressedLeft()) {
-                        checkOnLeftPressed();
+                        playerMouseObservator.leftPressed(player, terrain, playerInventoryView);
+                        playerMouseObservator.leftPressed(player, terrain, craftInventoryView);
                     } else if (mouseHandler.isHasClickedRight()) {
-                        checkOnRightClicked();
-                        //System.out.println("rclick");
+                        if(playerInventoryView.isDisplay()) {
+                            playerMouseObservator.rightClickInventory(player.getPlayerInventory(), playerInventoryView);
+                            playerMouseObservator.rightClickInventory(player.getCraftInventory(), craftInventoryView);
+                            playerMouseObservator.rightClickDeletedSlotView(deletedSlotView);
+                            playerMouseObservator.rightClickResultSlot(resultSlotObservator.getResultSlotView(), player.getCraftInventory().getResultSlot(), player.getCraftInventory());
+                            craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
+                        }
+
                         mouseHandler.setHasClickedRight(false);
                     }
 
-                    if(keyHandler.isInventoryKeyTyped()){
-                        if(!inventoryView.isShow()) {
-                            inventoryView.setShow(true);
-                            inventoryView.displayAllSlotViews();
+                    if (keyHandler.isInventoryKeyTyped()) {
+                        if (!playerInventoryView.isDisplay()) {
+                            playerInventoryView.setDisplay(true);
+                            playerInventoryView.displayAllSlotViews();
+                            craftInventoryView.setDisplay(true);
+                            craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
+                            deletedSlotView.display(true);
                             keyHandler.setInventoryKeyTyped(false);
-                        }
-                        else {
-                            inventoryView.setShow(false);
-                            inventoryView.displayAllSlotViews();
+
+                        } else {
+                            playerMouseObservator.inventoryclosed(player);
+                            playerInventoryView.setDisplay(false);
+                            playerInventoryView.displayAllSlotViews();
+                            craftInventoryView.setDisplay(false);
+                            craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
+                            deletedSlotView.display(false);
                             keyHandler.setInventoryKeyTyped(false);
                         }
                     }
-
-
+                    playerMouseObservator.displayItemName(player.getPlayerInventory(), playerInventoryView);
+                   //playerMouseObservator.displayItemName(player.getCraftInventory(), craftInventoryView);
 
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
@@ -165,43 +193,21 @@ public class Controleur implements Initializable {
 
     }
 
-/*
-    public int checkSideBlock(Entity ent) { // -1 = left, 1 = right, 0 = none
-                if (ent.sideCollisions(panneauDeJeu) == 1)
-                    return 1;
-                else if (ent.sideCollisions(panneauDeJeu) == -1)
-                    return -1;
-
-        return 0;
-    }
-*/
-    public boolean checkDistanceBlock(Entity ent, Block b) {
-        //  System.out.println(ent.distanceToBlock(b));
-        if (ent.distanceToBlock(b) <= 4) {
-            mouseBlock.setStroke(Color.GREEN);
-            return true;
-        }
-        mouseBlock.setStroke(Color.RED);
-        return false;
-    }
-
 
     public void playerMovement() {
-        if(keyHandler.isSprintPressed() && !player.isRunning()) {
+        if (keyHandler.isSprintPressed() && !player.isRunning()) {
             player.setRunning(true);
             player.setSpeed(14);
         }
 
-        if(!keyHandler.isSprintPressed() && player.isRunning()) {
+        if (!keyHandler.isSprintPressed() && player.isRunning()) {
             player.setRunning(false);
             player.setSpeed(7);
         }
 
-        if (keyHandler.isLeftPressed()){
+        if (keyHandler.isLeftPressed()) {
             player.movement(null, keyHandler.isLeftPressed(), false);
-        }
-
-        else if (keyHandler.isRightPressed()){
+        } else if (keyHandler.isRightPressed()) {
             player.movement(null, false, keyHandler.isRightPressed());
         }
 
@@ -212,8 +218,7 @@ public class Controleur implements Initializable {
             } else if (player.isJumping()) {
                 if (player.upCollisions()) {
                     player.stopJump();
-                }
-                else{
+                } else {
                     player.jump();
                 }
             }
@@ -227,21 +232,19 @@ public class Controleur implements Initializable {
         player.sideLeftCollision();
     }
 
-   public void entityLoop() {
+    public void entityLoop() {
         for (Entity ent : entities) {
-            if (ent instanceof Player){}
-                //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
+            if (ent instanceof Player) {
+            }
+            //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
                 if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
                     if (ent.isGrounded()) {
                         ent.setGravity(5);
                         ent.jump();
-                    }
-
-                    else if (ent.isJumping())
+                    } else if (ent.isJumping())
                         ent.jump();
-                }
-                else {
+                } else {
                     if (ent.isJumping()) {
                         ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
                         ent.stopJump();
@@ -259,7 +262,7 @@ public class Controleur implements Initializable {
                         player.applyGrav();
                     }
                 } else {
-                    if(!ent.isFlying())
+                    if (!ent.isFlying())
                         ent.applyGrav();
                 }
             }
@@ -267,86 +270,38 @@ public class Controleur implements Initializable {
     }
 
 
-
-    public void checkOnLeftPressed() {
-        if(player.getInventory().getCurrItem() != null){
-            player.getInventory().getCurrItem().use();
-        }
-        else {
-            Block b = terrain.getBlock(mouseHandler.getMouseX(), mouseHandler.getMouseY());
-            //DebugView.debugPoint(mouseHandler.getMouseX(), mouseHandler.getMouseY(), Color.BLUE);
-            if (b != null) {
-               // System.out.println("not null");
-                if (checkDistanceBlock(player, b)) {
-                    // System.out.println("ok");
-                    b.setPvs(b.getPvs() - 1);
-                  //  System.out.println(b.getPvs());
-                   // System.out.println(terrain.getBlocks().indexOf(b));
-                    if (b.getPvs() <= 0) {
-                        terrain.deleteBlock(b);
-                        if (b.getTile().getHitbox().isSolid()) {
-                            terrain.deleteSolidBlock(b);
-                        }
-                        if (b.getRessource() != null) {
-                            if (!player.getInventory().isInventoryFull()) {
-                                player.pick(b.getRessource());
-                                //System.out.println(player.getInventory().getItems());
-                            }
-                        }
-                        // System.out.println(player.getInventory());
-                    }
-                }
-            /*
-            Rectangle r = new Rectangle(b.getHitX(), b.getHitY(), b.getTile().getHitbox().getWidth(), b.getTile().getHitbox().getHeight());
-            r.setFill(Color.TRANSPARENT);
-            r.setStroke(Color.BLACK);
-            panneauDeJeu.getChildren().add(r);
-            */
-        }
-
-        }
-    }
-
-    public void checkOnRightClicked() {
-
-    }
-
-
     public void verifKeyTyped() {
         if (keyHandler.isSlotOneTyped()) {
-            player.getInventory().setCurrSlotNumber(0);
+            player.getPlayerInventory().setCurrSlotNumber(0);
             keyHandler.setSlotOneTyped(false);
         } else if (keyHandler.isSlotTwoTyped()) {
-            player.getInventory().setCurrSlotNumber(1);
+            player.getPlayerInventory().setCurrSlotNumber(1);
             keyHandler.setSlotTwoTyped(false);
         } else if (keyHandler.isSlotThreeTyped()) {
-            player.getInventory().setCurrSlotNumber(2);
+            player.getPlayerInventory().setCurrSlotNumber(2);
             keyHandler.setSlotThreeTyped(false);
         } else if (keyHandler.isSlotFourTyped()) {
-            player.getInventory().setCurrSlotNumber(3);
+            player.getPlayerInventory().setCurrSlotNumber(3);
             keyHandler.setSlotFourTyped(false);
         } else if (keyHandler.isSlotFiveTyped()) {
-            player.getInventory().setCurrSlotNumber(4);
+            player.getPlayerInventory().setCurrSlotNumber(4);
             keyHandler.setSlotFiveTyped(false);
         } else if (keyHandler.isSlotSixTyped()) {
-            player.getInventory().setCurrSlotNumber(5);
+            player.getPlayerInventory().setCurrSlotNumber(5);
             keyHandler.setSlotSixTyped(false);
         } else if (keyHandler.isSlotSevenTyped()) {
-            player.getInventory().setCurrSlotNumber(6);
+            player.getPlayerInventory().setCurrSlotNumber(6);
             keyHandler.setSlotSevenTyped(false);
         } else if (keyHandler.isSlotEightTyped()) {
-            player.getInventory().setCurrSlotNumber(7);
+            player.getPlayerInventory().setCurrSlotNumber(7);
             keyHandler.setSlotEightTyped(false);
         } else if (keyHandler.isSlotNineTyped()) {
-            player.getInventory().setCurrSlotNumber(8);
+            player.getPlayerInventory().setCurrSlotNumber(8);
             keyHandler.setSlotNineTyped(false);
         } else if (keyHandler.isSlotTenTyped()) {
-            player.getInventory().setCurrSlotNumber(9);
+            player.getPlayerInventory().setCurrSlotNumber(9);
             keyHandler.setSlotTenTyped(false);
         }
-        currentSlotView.xProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(99 + 32 * player.getInventory().getCurrSlotNumber()));
-        currentSlotView.yProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(99));
-        currentSlotView.toFront();
     }
 
     public static int randomNum(int min, int max) {

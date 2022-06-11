@@ -1,16 +1,19 @@
 package modele;
 
-import java.util.ArrayList;
-
 public class Player extends Entity {
     private boolean isRunning = false;
 
 
-    private Inventory inventory;
+    private PlayerInventory playerInventory;
+
+
+    private CraftInventory craftInventory;
+
 
     public Player(int x, int y, Terrain terrain){
         super(20, 7, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif", terrain);
-        inventory = new Inventory();
+        playerInventory = new PlayerInventory(50);
+        craftInventory = new CraftInventory(9);
     }
 
     @Override
@@ -42,15 +45,23 @@ public class Player extends Entity {
 
 
     public Item drop(){
-        return this.inventory.removeFromSlot();
+        return this.playerInventory.removeFromCurrSlot();
     }
 
     public void pick(Item item){
-        this.inventory.addIntoSlot(item);
+        this.playerInventory.addIntoNextEmptySlot(item);
     }
 
-    public Inventory getInventory() {
-        return inventory;
+    public void pick(Item item, int quantity){
+        this.playerInventory.addIntoNextEmptySlot(item, quantity);
+    }
+
+    public PlayerInventory getPlayerInventory() {
+        return playerInventory;
+    }
+
+    public CraftInventory getCraftInventory() {
+        return craftInventory;
     }
 
     public boolean isRunning() {
@@ -60,4 +71,5 @@ public class Player extends Entity {
     public void setRunning(boolean running) {
         isRunning = running;
     }
+
 }
