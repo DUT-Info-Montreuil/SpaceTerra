@@ -135,7 +135,6 @@ public class Controleur implements Initializable {
         timeline.play();
 
         timelineClick = new Timeline
-
                 (new KeyFrame(Duration.millis(20), actionEvent -> {
                     if (mouseHandler.isHasClickedLeft()) {
                         if(playerInventoryView.isDisplay()){
@@ -185,12 +184,9 @@ public class Controleur implements Initializable {
                         }
                     }
                     playerMouseObservator.displayItemName(player.getPlayerInventory(), playerInventoryView);
-                   //playerMouseObservator.displayItemName(player.getCraftInventory(), craftInventoryView);
-
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);
         timelineClick.play();
-
     }
 
 
