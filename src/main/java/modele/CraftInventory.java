@@ -3,40 +3,46 @@ package modele;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class CraftInventory  extends Inventory{
 
     private ObjectProperty<Slot> resultSlot;
 
+    private HashMap<String, ArrayList<Item>> recipesName;
+    private HashMap<ArrayList<Item>, Item> craftRecipes;
+
+    private int nbItemCrafted;
+
     public CraftInventory(int maxInventorySize) {
         super(maxInventorySize);
         resultSlot = new SimpleObjectProperty<>(new Slot(null, 0, 9));
-
+        buildRecipes();
     }
 
     public int verifRecipe(ArrayList<Item> recipe){
-        int smallestNumber = Integer.MAX_VALUE;
+        nbItemCrafted = Integer.MAX_VALUE;
         for(int i = 0; i < recipe.size(); i++){
 
             try{
                 if (!(getSlots().get(i).getItem().getTypeItem().equals(recipe.get(i).getTypeItem()))){
+                    nbItemCrafted = 0;
                     return 0;
                 }
                 else {
-                    if(getSlots().get(i).getItemQuantity() < smallestNumber){
-                        smallestNumber = getSlots().get(i).getItemQuantity();
+                    if(getSlots().get(i).getItemQuantity() < nbItemCrafted){
+                        nbItemCrafted = getSlots().get(i).getItemQuantity();
                     }
                 }
             } catch (NullPointerException e){
                 if(!(getSlots().get(i).getItem() == null && recipe.get(i) == null)){
+                    nbItemCrafted = 0;
                     return 0;
                 }
             }
 
         }
-        return smallestNumber;
+        return nbItemCrafted;
     }
 
     public Slot getResultSlot() {
@@ -52,16 +58,22 @@ public class CraftInventory  extends Inventory{
     }
 
     public void verifCraft(){
-        ItemBlock dirt = new ItemBlock(0);
-        ItemBlock wood = new ItemBlock(1);
-        ArrayList<Item> woodRecipe = new ArrayList<>(Arrays.asList(null, dirt, null, null, dirt, null, null, dirt, null));
-        int nbItemCrafted = verifRecipe(woodRecipe);
-        if(nbItemCrafted > 0){
-            resultSlot.setValue(new Slot(wood,nbItemCrafted, getResultSlot().getId()));
-        }
-        else {
+        /*
+        craftRecipes.forEach((currentRecipe,result) -> {
+            int nbItemCrafted = verifRecipe(currentRecipe);
+            if(nbItemCrafted > 0)
+        });
+
+         */
+        try{
+            ArrayList<Item> goodRecipe = (craftRecipes.keySet().stream().filter(currentRecipe -> verifRecipe(currentRecipe) > 0).findFirst()).get();
+            Item itemCrafted = craftRecipes.get(goodRecipe);
+            resultSlot.setValue(new Slot(itemCrafted,nbItemCrafted, getResultSlot().getId()));
+        } catch (NoSuchElementException e){
             resultSlot.setValue(new Slot(null, 0, getResultSlot().getId()));
+
         }
+
     }
 
     public void decrementResultSlot(int nb){
@@ -89,6 +101,18 @@ public class CraftInventory  extends Inventory{
 
 
         }
+    }
+
+    public void buildRecipes(){
+        ItemBlock dirt = new ItemBlock(0);
+        ItemBlock wood = new ItemBlock(1);
+
+        craftRecipes = new HashMap<>();
+        recipesName = new HashMap<>();
+
+        recipesName.put("wood1", new ArrayList<>(Arrays.asList(null, dirt, null, null, dirt, null, null, dirt, null)));
+        craftRecipes.put(recipesName.get("wood1"), wood);
+
     }
 
 }
