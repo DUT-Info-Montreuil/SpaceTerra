@@ -76,7 +76,7 @@ public class Slot {
     }
 
     public void decrementItemQuantity(int quantity){
-        if(itemQuantity.getValue() > 1){
+        if(itemQuantity.getValue() > 0){
             this.itemQuantity.setValue(getItemQuantity() -  quantity);
         }
     }

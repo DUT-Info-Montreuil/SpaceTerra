@@ -13,17 +13,24 @@ public class PlayerMouseObservator {
         initialize();
     }
 
-    public void leftClick(Inventory inventory, InventoryView inventoryView, DeletedSlotView deletedSlotView){
-        SlotView slotView = playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
-        if(slotView != null){
-            verifIsDisplay(inventory, inventoryView, slotView);
-            playerMouse.onSlotLeftClickedAction(inventory.getSlot(slotView.getId()), inventory);
+    public void leftClickInventory(Inventory inventory, InventoryView inventoryView, DeletedSlotView deletedSlotView){
+        SlotView inventorySlotView = playerMouseView.getOnInventorySlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
+        if(inventorySlotView != null){
+            verifIsDisplay(inventory, inventoryView, inventorySlotView);
+            playerMouse.onInventorySlotLeftClickedAction(inventory.getSlot(inventorySlotView.getId()), inventory);
         }
         if (playerMouseView.getOnDeletedSlotClicked(playerMouse.getX(), playerMouse.getY(), deletedSlotView)){
             playerMouse.onDeletedSLotLeftClicked();
         }
         playerMouseView.getItemQuantityLabel().toFront();
         playerMouseView.getItemView().toFront();
+        setItemView();
+    }
+
+    public void leftClickResultSlot(SlotView slotView, Slot slot, CraftInventory craftInventory){
+        if(playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), slotView)){
+            playerMouse.onResultSlotLeftClicked(slot, craftInventory);
+        }
         setItemView();
     }
 
@@ -35,7 +42,7 @@ public class PlayerMouseObservator {
     }
 
     public void leftPressed(Player player, Terrain terrain, InventoryView inventoryView){
-        if(playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView) == null){
+        if(playerMouseView.getOnInventorySlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView) == null){
             playerMouse.playerLeftPressedAction(player, terrain);
             setItemView();
         }
@@ -69,21 +76,25 @@ public class PlayerMouseObservator {
 
     }
 
-    public void rightClick(Inventory inventory, InventoryView inventoryView) {
-        SlotView slotView = playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
+    public void rightClickInventory(Inventory inventory, InventoryView inventoryView) {
+        SlotView slotView = playerMouseView.getOnInventorySlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
         if(slotView != null){
             verifIsDisplay(inventory,inventoryView,slotView);
-            playerMouse.onSlotRightClicked(inventory.getSlot(slotView.getId()), inventory);
+            playerMouse.onInventorySlotRightClicked(inventory.getSlot(slotView.getId()), inventory);
+        }
+        setItemView();
+    }
+
+    public void rightClickResultSlot(SlotView slotView, Slot slot, CraftInventory craftInventory){
+        if(playerMouseView.getOnSlotClicked(playerMouse.getX(), playerMouse.getY(), slotView)){
+            playerMouse.onResultSlotRightClicked(slot, craftInventory);
         }
         setItemView();
     }
     public void rightClickDeletedSlotView(DeletedSlotView deletedSlotView){
 
         if(playerMouseView.getOnDeletedSlotClicked(playerMouse.getX(), playerMouse.getY(), deletedSlotView)){
-
-            if(playerMouseView.getOnDeletedSlotClicked(playerMouse.getX(), playerMouse.getY(), deletedSlotView)){
                 playerMouse.onDeletedSLotRightClicked();
-            }
         }
         setItemView();
     }

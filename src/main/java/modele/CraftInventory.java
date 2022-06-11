@@ -1,33 +1,80 @@
 package modele;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class CraftInventory  extends Inventory{
 
-    private Slot resultSlot;
+    private ObjectProperty<Slot> resultSlot;
 
     public CraftInventory(int maxInventorySize) {
         super(maxInventorySize);
-        resultSlot = new Slot(null, 0, 9);
+        resultSlot = new SimpleObjectProperty<>(new Slot(null, 0, 9));
+
     }
 
-    public boolean verifRecipe(Item item1, Item item2, Item item3, Item item4, Item item5, Item item6, Item item7, Item item8, Item item9){
-        if(getSlot(0).getItem().getTypeItem().equals(item1.getTypeItem()) && getSlot(1).getItem().getTypeItem().equals(item2.getTypeItem()) && getSlot(2).getItem().getTypeItem().equals(item3.getTypeItem()) && getSlot(3).getItem().getTypeItem().equals(item4.getTypeItem()) && getSlot(4).getItem().getTypeItem().equals(item5.getTypeItem()) && getSlot(5).getItem().getTypeItem().equals(item6.getTypeItem()) && getSlot(6).getItem().getTypeItem().equals(item7.getTypeItem()) && getSlot(7).getItem().getTypeItem().equals(item8.getTypeItem()) &&  getSlot(8).getItem().getTypeItem().equals(item9)){
-            return true;
+    public int verifRecipe(ArrayList<Item> recipe){
+        int smallestNumber = Integer.MAX_VALUE;
+        for(int i = 0; i < recipe.size(); i++){
+
+            try{
+                if (getSlots().get(i).getItem().getTypeItem().equals(recipe.get(i).getTypeItem())){
+                    if(getSlots().get(i).getItemQuantity() < smallestNumber){
+                        smallestNumber = getSlots().get(i).getItemQuantity();
+                    }
+                }
+            } catch (NullPointerException e){
+                if(!(getSlots().get(i).getItem() == null && recipe.get(i) == null)){
+                    return 0;
+                }
+            }
+
         }
-        return false;
+        return smallestNumber;
     }
+
     public Slot getResultSlot() {
+        return resultSlot.getValue();
+    }
+
+    public ObjectProperty<Slot> resultSlotProperty() {
         return resultSlot;
     }
 
     public void setResultSlot(Slot resultSlot) {
-        this.resultSlot = resultSlot;
+        this.resultSlot.set(resultSlot);
     }
 
     public void verifCraft(){
         ItemBlock dirt = new ItemBlock(0);
-        if(verifRecipe(null, dirt, null, null, dirt, null, null, dirt, null)){
-            resultSlot = new Slot(dirt,1, resultSlot.getId());
+        ItemBlock wood = new ItemBlock(1);
+        ArrayList<Item> woodRecipe = new ArrayList<>(Arrays.asList(null, dirt, null, null, dirt, null, null, dirt, null));
+        int nbItemCrafted = verifRecipe(woodRecipe);
+        if(nbItemCrafted > 0){
+            resultSlot.setValue(new Slot(wood,nbItemCrafted, getResultSlot().getId()));
+        }
+        else {
+            resultSlot.setValue(new Slot(null, 0, getResultSlot().getId()));
         }
     }
+
+    public void decrementResultSlot(int nb){
+        for(Slot slot : getSlots()){
+            if (slot.getItem() != null){
+                if(slot.getItemQuantity() - nb > 0){
+                    slot.decrementItemQuantity(nb);
+                }
+                else {
+                    getSlots().set(slot.getId(), new Slot(null, 0, slot.getId()));
+                }
+            }
+        }
+        verifCraft();
+    }
+
+
 
 }

@@ -98,7 +98,7 @@ public class PlayerMouse {
         }
     }
 
-    public void onSlotLeftClickedAction(Slot slot, Inventory inventory) {
+    public void onInventorySlotLeftClickedAction(Slot slot, Inventory inventory) {
 
         if (slot.getItem() != null) {
             if (item != null) {
@@ -111,9 +111,9 @@ public class PlayerMouse {
 
                     } catch (TooManyItemInSlotException e) {
 
-                            int diff = maxItemQuantity - slot.getItemQuantity();
-                            slot.incrementItemQuantity(diff);
-                            currentItemQuantity.setValue(getCurrentItemQuantity() - diff);
+                        int diff = maxItemQuantity - slot.getItemQuantity();
+                        slot.incrementItemQuantity(diff);
+                        currentItemQuantity.setValue(getCurrentItemQuantity() - diff);
 
                     }
                 } else {
@@ -166,18 +166,16 @@ public class PlayerMouse {
     }
 
     public void incrementItemQuantity(Item itemAdd, int nbItem) {
-        if (currentItemQuantity.getValue() - nbItem > 0) {
+        if (currentItemQuantity.getValue() + nbItem <= maxItemQuantity) {
             currentItemQuantity.setValue(currentItemQuantity.getValue() + nbItem);
-        } else {
-
+        } else if (currentItemQuantity.getValue() == 0) {
             currentItemQuantity.setValue(currentItemQuantity.getValue() + nbItem);
             item = itemAdd;
             maxItemQuantity = item.getMaxQuantity();
         }
-
     }
 
-    public void onSlotRightClicked(Slot slot, Inventory inventory) {
+    public void onInventorySlotRightClicked(Slot slot, Inventory inventory) {
 
         if (currentItemQuantity.getValue() > 0) {
             if (currentItemQuantity.getValue() < maxItemQuantity) {
@@ -190,8 +188,7 @@ public class PlayerMouse {
                     } else if (slot.getItemQuantity() == 1) {
                         incrementItemQuantity(slot.getItem(), 1);
                         inventory.getSlots().set(slot.getId(), new Slot(null, 0, slot.getId()));
-                    }
-                    else {
+                    } else {
                         inventory.getSlots().set(slot.getId(), new Slot(item, 1, slot.getId()));
                         decrementeItemQuantity(1);
 
@@ -202,9 +199,18 @@ public class PlayerMouse {
 
                 }
             }
+            else if (currentItemQuantity.getValue() == maxItemQuantity){
+                if(slot.getItemQuantity() == 0){
+                    inventory.getSlots().set(slot.getId(), new Slot(item, 1, slot.getId()));
+                    decrementeItemQuantity(1);
+                }
+
+            }
 
 
-        } else {
+        }
+
+        else {
 
             if (slot.getItemQuantity() > 1) {
                 incrementItemQuantity(slot.getItem(), 1);
@@ -214,8 +220,8 @@ public class PlayerMouse {
                 inventory.getSlots().set(slot.getId(), new Slot(null, 0, slot.getId()));
             }
         }
-
     }
+
 
     public void onDeletedSLotLeftClicked() {
         item = null;
@@ -225,6 +231,33 @@ public class PlayerMouse {
 
     public void onDeletedSLotRightClicked() {
         decrementeItemQuantity(1);
+    }
+
+    public void onResultSlotLeftClicked(Slot slot, CraftInventory craftInventory) {
+        if (slot.getItem() != null) {
+            if (item == null) {
+                incrementItemQuantity(slot.getItem(), slot.getItemQuantity());
+                craftInventory.decrementResultSlot(slot.getItemQuantity());
+                slot.decrementItemQuantity(slot.getItemQuantity());
+            }
+        }
+    }
+
+    public void onResultSlotRightClicked(Slot slot, CraftInventory craftInventory) {
+        if (slot.getItem() != null) {
+            if (currentItemQuantity.getValue() > 0) {
+                if (slot.getItem().getTypeItem().equals(item.getTypeItem())) {
+                    incrementItemQuantity(slot.getItem(), 1);
+                    slot.decrementItemQuantity(1);
+                    craftInventory.decrementResultSlot(1);
+                }
+            } else {
+                incrementItemQuantity(slot.getItem(), 1);
+                slot.decrementItemQuantity(1);
+                craftInventory.decrementResultSlot(1);
+            }
+        }
+
     }
 }
 

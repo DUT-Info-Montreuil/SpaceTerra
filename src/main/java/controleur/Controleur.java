@@ -43,6 +43,8 @@ public class Controleur implements Initializable {
 
     private CraftInventoryObservator craftInventoryObservator;
 
+    private ResultSlotObservator resultSlotObservator;
+
     public static PlayerMouse playerMouse;
 
     public static DebugView debugger;
@@ -84,6 +86,7 @@ public class Controleur implements Initializable {
         playerInventoryObservator = new PlayerInventoryObservator(playerInventoryView, player.getPlayerInventory(), panneauDeJeu);
         player.getPlayerInventory().getSlots().addListener(playerInventoryObservator);
         craftInventoryObservator = new CraftInventoryObservator(craftInventoryView, player.getCraftInventory(), panneauDeJeu);
+        resultSlotObservator = new ResultSlotObservator(9, player.getCraftInventory(), panneauDeJeu, craftInventoryView);
         player.getCraftInventory().getSlots().addListener(craftInventoryObservator);
 
 
@@ -91,7 +94,6 @@ public class Controleur implements Initializable {
 
         createTimelines();
     }
-
 
 
     public void createEnnemies() {
@@ -105,11 +107,12 @@ public class Controleur implements Initializable {
 
 
     private boolean doOnce = false;
+
     public void createTimelines() {
         // 16.33 = 60 fps
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
-                    if(!doOnce){
+                    if (!doOnce) {
                         camera.lookAt(player.getHitbox().getX(), player.getHitbox().getY());
                         doOnce = true;
                     }
@@ -134,34 +137,39 @@ public class Controleur implements Initializable {
         timelineClick = new Timeline
 
                 (new KeyFrame(Duration.millis(20), actionEvent -> {
-                    if(mouseHandler.isHasClickedLeft()){
-                        playerMouseObservator.leftClick(player.getPlayerInventory(), playerInventoryView, deletedSlotView);
-                        playerMouseObservator.leftClick(player.getCraftInventory(), craftInventoryView, deletedSlotView);
+                    if (mouseHandler.isHasClickedLeft()) {
+                        playerMouseObservator.leftClickInventory(player.getPlayerInventory(), playerInventoryView, deletedSlotView);
+                        playerMouseObservator.leftClickInventory(player.getCraftInventory(), craftInventoryView, deletedSlotView);
+                        playerMouseObservator.leftClickResultSlot(resultSlotObservator.getResultSlotView(), player.getCraftInventory().getResultSlot(), player.getCraftInventory());
+                        craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
                         mouseHandler.setHasClickedLeft(false);
                     }
                     if (mouseHandler.isHasPressedLeft()) {
                         playerMouseObservator.leftPressed(player, terrain, playerInventoryView);
                         playerMouseObservator.leftPressed(player, terrain, craftInventoryView);
                     } else if (mouseHandler.isHasClickedRight()) {
-                        playerMouseObservator.rightClick(player.getPlayerInventory(), playerInventoryView);
-                        playerMouseObservator.rightClick(player.getCraftInventory(), craftInventoryView);
+                        playerMouseObservator.rightClickInventory(player.getPlayerInventory(), playerInventoryView);
+                        playerMouseObservator.rightClickInventory(player.getCraftInventory(), craftInventoryView);
                         playerMouseObservator.rightClickDeletedSlotView(deletedSlotView);
+                        playerMouseObservator.rightClickResultSlot(resultSlotObservator.getResultSlotView(), player.getCraftInventory().getResultSlot(), player.getCraftInventory());
+                        craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
                         mouseHandler.setHasClickedRight(false);
                     }
 
-                    if(keyHandler.isInventoryKeyTyped()){
-                        if(!playerInventoryView.isDisplay()) {
+                    if (keyHandler.isInventoryKeyTyped()) {
+                        if (!playerInventoryView.isDisplay()) {
                             playerInventoryView.setDisplay(true);
                             playerInventoryView.displayAllSlotViews();
                             craftInventoryView.setDisplay(true);
+                            craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
                             deletedSlotView.display(true);
                             keyHandler.setInventoryKeyTyped(false);
 
-                        }
-                        else {
+                        } else {
                             playerInventoryView.setDisplay(false);
                             playerInventoryView.displayAllSlotViews();
                             craftInventoryView.setDisplay(false);
+                            craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
                             deletedSlotView.display(false);
                             keyHandler.setInventoryKeyTyped(false);
                         }
@@ -174,24 +182,20 @@ public class Controleur implements Initializable {
     }
 
 
-
-
     public void playerMovement() {
-        if(keyHandler.isSprintPressed() && !player.isRunning()) {
+        if (keyHandler.isSprintPressed() && !player.isRunning()) {
             player.setRunning(true);
             player.setSpeed(20);
         }
 
-        if(!keyHandler.isSprintPressed() && player.isRunning()) {
+        if (!keyHandler.isSprintPressed() && player.isRunning()) {
             player.setRunning(false);
             player.setSpeed(7);
         }
 
-        if (keyHandler.isLeftPressed()){
+        if (keyHandler.isLeftPressed()) {
             player.movement(null, keyHandler.isLeftPressed(), false);
-        }
-
-        else if (keyHandler.isRightPressed()){
+        } else if (keyHandler.isRightPressed()) {
             player.movement(null, false, keyHandler.isRightPressed());
         }
 
@@ -202,8 +206,7 @@ public class Controleur implements Initializable {
             } else if (player.isJumping()) {
                 if (player.upCollisions()) {
                     player.stopJump();
-                }
-                else{
+                } else {
                     player.jump();
                 }
             }
@@ -217,21 +220,19 @@ public class Controleur implements Initializable {
         player.sideLeftCollision();
     }
 
-   public void entityLoop() {
+    public void entityLoop() {
         for (Entity ent : entities) {
-            if (ent instanceof Player){}
-                //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
+            if (ent instanceof Player) {
+            }
+            //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
                 if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
                     if (ent.isGrounded()) {
                         ent.setGravity(5);
                         ent.jump();
-                    }
-
-                    else if (ent.isJumping())
+                    } else if (ent.isJumping())
                         ent.jump();
-                }
-                else {
+                } else {
                     if (ent.isJumping()) {
                         ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
                         ent.stopJump();
@@ -249,14 +250,12 @@ public class Controleur implements Initializable {
                         player.applyGrav();
                     }
                 } else {
-                    if(!ent.isFlying())
+                    if (!ent.isFlying())
                         ent.applyGrav();
                 }
             }
         }
     }
-
-
 
 
     public void verifKeyTyped() {
