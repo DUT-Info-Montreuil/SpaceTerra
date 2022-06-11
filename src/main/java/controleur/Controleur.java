@@ -88,7 +88,8 @@ public class Controleur implements Initializable {
         craftInventoryObservator = new CraftInventoryObservator(craftInventoryView, player.getCraftInventory(), panneauDeJeu);
         resultSlotObservator = new ResultSlotObservator(9, player.getCraftInventory(), panneauDeJeu, craftInventoryView);
         player.getCraftInventory().getSlots().addListener(craftInventoryObservator);
-
+        HpBarView hpBarView = new HpBarView(panneauDeJeu, 750, 100, player, 20);
+        hpBarView.initialize();
 
         deletedSlotView = new DeletedSlotView(panneauDeJeu, playerInventoryView);
 

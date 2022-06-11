@@ -1,11 +1,13 @@
 package modele;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 
 
 public abstract class  Entity {
 
-    private int health;
+    private IntegerProperty health;
     private int speed;
     private Hitbox hitbox;
     private Image image;
@@ -28,7 +30,7 @@ public abstract class  Entity {
     private Terrain terrain;
 
     public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain) {
-        this.health = health;
+        this.health = new SimpleIntegerProperty(health);
         this.speed = speed;
         this.hitbox = hitbox;
         this.image = new Image(String.valueOf((getClass().getResource(path))));
@@ -43,12 +45,12 @@ public abstract class  Entity {
         this.speed = speed;
     }
 
-    public int getLife() {
+    public IntegerProperty getLife() {
         return health;
     }
 
     public void setLife(int health) {
-        this.health = health;
+        this.health.setValue(health);
     }
 
     public Hitbox getHitbox() {
