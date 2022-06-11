@@ -138,21 +138,30 @@ public class Controleur implements Initializable {
 
                 (new KeyFrame(Duration.millis(20), actionEvent -> {
                     if (mouseHandler.isHasClickedLeft()) {
-                        playerMouseObservator.leftClickInventory(player.getPlayerInventory(), playerInventoryView, deletedSlotView);
-                        playerMouseObservator.leftClickInventory(player.getCraftInventory(), craftInventoryView, deletedSlotView);
-                        playerMouseObservator.leftClickResultSlot(resultSlotObservator.getResultSlotView(), player.getCraftInventory().getResultSlot(), player.getCraftInventory());
-                        craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
+                        if(playerInventoryView.isDisplay()){
+                            playerMouseObservator.leftClickInventory(player.getPlayerInventory(), playerInventoryView, deletedSlotView);
+                            playerMouseObservator.leftClickInventory(player.getCraftInventory(), craftInventoryView, deletedSlotView);
+                            playerMouseObservator.leftClickResultSlot(resultSlotObservator.getResultSlotView(), player.getCraftInventory().getResultSlot(), player.getCraftInventory());
+                            craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
+                        }
+                        else {
+                            playerMouseObservator.changeCurrSlot(player.getPlayerInventory(), playerInventoryView);
+                        }
+
                         mouseHandler.setHasClickedLeft(false);
                     }
                     if (mouseHandler.isHasPressedLeft()) {
                         playerMouseObservator.leftPressed(player, terrain, playerInventoryView);
                         playerMouseObservator.leftPressed(player, terrain, craftInventoryView);
                     } else if (mouseHandler.isHasClickedRight()) {
-                        playerMouseObservator.rightClickInventory(player.getPlayerInventory(), playerInventoryView);
-                        playerMouseObservator.rightClickInventory(player.getCraftInventory(), craftInventoryView);
-                        playerMouseObservator.rightClickDeletedSlotView(deletedSlotView);
-                        playerMouseObservator.rightClickResultSlot(resultSlotObservator.getResultSlotView(), player.getCraftInventory().getResultSlot(), player.getCraftInventory());
-                        craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
+                        if(playerInventoryView.isDisplay()) {
+                            playerMouseObservator.rightClickInventory(player.getPlayerInventory(), playerInventoryView);
+                            playerMouseObservator.rightClickInventory(player.getCraftInventory(), craftInventoryView);
+                            playerMouseObservator.rightClickDeletedSlotView(deletedSlotView);
+                            playerMouseObservator.rightClickResultSlot(resultSlotObservator.getResultSlotView(), player.getCraftInventory().getResultSlot(), player.getCraftInventory());
+                            craftInventoryObservator.updateResultSlotView(player.getCraftInventory(), craftInventoryView, resultSlotObservator);
+                        }
+
                         mouseHandler.setHasClickedRight(false);
                     }
 
@@ -166,6 +175,7 @@ public class Controleur implements Initializable {
                             keyHandler.setInventoryKeyTyped(false);
 
                         } else {
+                            playerMouseObservator.inventoryclosed(player);
                             playerInventoryView.setDisplay(false);
                             playerInventoryView.displayAllSlotViews();
                             craftInventoryView.setDisplay(false);
@@ -174,6 +184,8 @@ public class Controleur implements Initializable {
                             keyHandler.setInventoryKeyTyped(false);
                         }
                     }
+                    playerMouseObservator.displayItemName(player.getPlayerInventory(), playerInventoryView);
+                   //playerMouseObservator.displayItemName(player.getCraftInventory(), craftInventoryView);
 
                 }));
         timelineClick.setCycleCount(Timeline.INDEFINITE);

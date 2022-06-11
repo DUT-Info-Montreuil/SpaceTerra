@@ -1,5 +1,6 @@
 package controleur;
 
+import javafx.scene.control.Label;
 import modele.*;
 import vue.*;
 
@@ -16,7 +17,6 @@ public class PlayerMouseObservator {
     public void leftClickInventory(Inventory inventory, InventoryView inventoryView, DeletedSlotView deletedSlotView){
         SlotView inventorySlotView = playerMouseView.getOnInventorySlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
         if(inventorySlotView != null){
-            verifIsDisplay(inventory, inventoryView, inventorySlotView);
             playerMouse.onInventorySlotLeftClickedAction(inventory.getSlot(inventorySlotView.getId()), inventory);
         }
         if (playerMouseView.getOnDeletedSlotClicked(playerMouse.getX(), playerMouse.getY(), deletedSlotView)){
@@ -34,10 +34,10 @@ public class PlayerMouseObservator {
         setItemView();
     }
 
-    private void verifIsDisplay(Inventory inventory, InventoryView inventoryView, SlotView slotView) {
-        if(!inventoryView.isDisplay()){
-            if(inventory instanceof PlayerInventory)
-            ((PlayerInventory) inventory).setCurrSlotNumber(slotView.getId());
+    public void changeCurrSlot(PlayerInventory playerInventory, PlayerInventoryView playerInventoryView) {
+        SlotView inventorySlotView = playerMouseView.getOnInventorySlotClicked(playerMouse.getX(), playerMouse.getY(), playerInventoryView);
+        if(inventorySlotView != null){
+            playerInventory.setCurrSlotNumber(inventorySlotView.getId());
         }
     }
 
@@ -49,12 +49,25 @@ public class PlayerMouseObservator {
 
     }
 
+    public void inventoryclosed(Player player){
+        if(playerMouse.getItem() != null){
+            player.pick(playerMouse.getItem(), playerMouse.getCurrentItemQuantity());
+            playerMouse.setCurrentItemQuantity(0);
+            playerMouse.setMaxItemQuantity(0);
+            playerMouse.setItem(null);
+            setItemView();
+        }
+
+    }
+
     public void initialize(){
 
         playerMouseView.getItemQuantityLabel().layoutYProperty().bind(playerMouse.yProperty().add(20));
         playerMouseView.getItemQuantityLabel().layoutXProperty().bind(playerMouse.xProperty().add(20));
         playerMouseView.getItemView().layoutYProperty().bind(playerMouse.yProperty().add(10));
         playerMouseView.getItemView().layoutXProperty().bind(playerMouse.xProperty().add(10));
+        playerMouseView.getItemNameLabel().layoutYProperty().bind(playerMouse.yProperty().add(10));
+        playerMouseView.getItemNameLabel().layoutXProperty().bind(playerMouse.xProperty().add(10));
         setItemView();
     }
 
@@ -79,7 +92,6 @@ public class PlayerMouseObservator {
     public void rightClickInventory(Inventory inventory, InventoryView inventoryView) {
         SlotView slotView = playerMouseView.getOnInventorySlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
         if(slotView != null){
-            verifIsDisplay(inventory,inventoryView,slotView);
             playerMouse.onInventorySlotRightClicked(inventory.getSlot(slotView.getId()), inventory);
         }
         setItemView();
@@ -97,6 +109,24 @@ public class PlayerMouseObservator {
                 playerMouse.onDeletedSLotRightClicked();
         }
         setItemView();
+    }
+
+    public void displayItemName(Inventory inventory, InventoryView inventoryView){
+        SlotView inventorySlotView = playerMouseView.getOnInventorySlotClicked(playerMouse.getX(), playerMouse.getY(), inventoryView);
+        if(inventorySlotView != null){
+            if(inventorySlotView.getItemView() != null && playerMouse.getItem() == null){
+                playerMouseView.displayItemNameLabel(true);
+                playerMouseView.getItemNameLabel().setText(inventory.getSlot(inventorySlotView.getId()).getItem().getTypeItem().getName());
+                playerMouseView.getItemNameLabel().toFront();
+            }
+            else {
+                playerMouseView.displayItemNameLabel(false);
+            }
+        }
+        else  {
+            playerMouseView.displayItemNameLabel(false);
+        }
+
     }
 
 }

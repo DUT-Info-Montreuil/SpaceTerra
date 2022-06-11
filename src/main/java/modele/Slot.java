@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Slot {
     private Item item;
     private IntegerProperty itemQuantity;
+
     private int typeItem;
 
     private int maxQuantity;
