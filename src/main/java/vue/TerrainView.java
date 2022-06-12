@@ -62,9 +62,9 @@ public class TerrainView {
             imgView.setId(block.getId());
             imgView.setX(block.getX());
             imgView.setY(block.getY());
-            imgView.toBack();
             //System.out.println(imgView.getId());
             panneau.getChildren().add(imgView);
+            imgView.toBack();
         }catch(NullPointerException e){
 
         }

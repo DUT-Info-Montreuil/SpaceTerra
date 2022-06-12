@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Slot {
     private Item item;
     private IntegerProperty itemQuantity;
+
     private int typeItem;
 
     private int maxQuantity;
@@ -76,7 +77,9 @@ public class Slot {
     }
 
     public void decrementItemQuantity(int quantity){
-        this.itemQuantity.setValue(getItemQuantity() -  quantity);
+        if(itemQuantity.getValue() > 0){
+            this.itemQuantity.setValue(getItemQuantity() -  quantity);
+        }
     }
 
     @Override

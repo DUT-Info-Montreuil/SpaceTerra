@@ -1,76 +1,54 @@
 package vue;
 
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import modele.Inventory;
-import modele.Slot;
 
 import java.util.ArrayList;
 
-public class InventoryView {
+public abstract class InventoryView {
+
     public static Pane panneauDeJeu;
 
     private ArrayList<SlotView> slotViews;
 
-    private boolean show;
+    public boolean isDisplay() {
+        return display;
+    }
+
+    public void setDisplay(boolean display) {
+        this.display = display;
+        displayAllSlotViews();
+    }
+
+    private boolean display;
+
+
 
     public InventoryView(Pane panneauDeJeu) {
         this.panneauDeJeu = panneauDeJeu;
         this.slotViews = new ArrayList<>();
     }
-    public void setShow(boolean show) {
-        this.show = show;
+
+    public static Pane getPanneauDeJeu() {
+        return panneauDeJeu;
     }
 
-    public boolean isShow() {
-        return show;
-    }
 
     public ArrayList<SlotView> getSlotViews() {
         return slotViews;
     }
 
-    public void setSlotViewPosition(int numSlot){
-        slotViews.get(numSlot).getXProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * getWidthMult(numSlot)));
-        slotViews.get(numSlot).getYProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100 + getHeightMult(numSlot)));
-    }
+    public abstract void setSlotViewPosition(int numSlot);
 
-    public void displayAllSlotViews(){
-        if(show){
-            for(SlotView slotView : this.slotViews){
-                slotView.displaySlot();
-                System.out.println("x : " + slotView.getX());
-                System.out.println("y : " + slotView.getY());
-            }
-        }
-        else {
-            for(SlotView slotView : this.slotViews){
-                if(slotView.getId() < 10){
-                    slotView.displaySlot();
-                }else {
-                    slotView.hideSlot();
-                }
+    public abstract void displayAllSlotViews();
 
-            }
-        }
 
-    }
 
-    private int getHeightMult(int numSlot) {
+    public abstract int getHeightMult(int numSlot);
 
-        int heightMult = numSlot/10;
-        heightMult *= 32;
-
-        return heightMult;
-    }
-
-    private int getWidthMult(int numSlot) {
-        return numSlot % 10;
-    }
-
+    public abstract int getWidthMult(int numSlot);
 }
 
 

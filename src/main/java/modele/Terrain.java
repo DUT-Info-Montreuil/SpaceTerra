@@ -2,9 +2,7 @@ package modele;
 
 import controleur.Controleur;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -172,17 +170,31 @@ public class Terrain {
     public boolean placeBlock(int x, int y, Block bPlace) {
         Block bPos = this.getBlock(x, y);
         if (bPos == null) {
-            // System.out.println(player.getInventory());
             this.getBlocks().set(this.getIndex(x, y), bPlace);
             if (bPlace.getTile().getHitbox().isSolid()) {
                 this.getSolidBlocks().add(bPlace);
             }
             return true;
         }
-        /*if (zonePlayerBlock.intersects(mouseBlock.getBoundsInLocal())) {
-            mouseBlock.setStroke(Color.RED);
-        }*/
         return false;
     }
 
+    public boolean checkDestroyedBlock(Block b){
+            if (b.getPvs() <= 0) {
+                Controleur.terrain.deleteBlock(b);
+                if (b.getTile().getHitbox().isSolid()) {
+                    Controleur.terrain.deleteSolidBlock(b);
+                }
+                return true;
+            }
+            return false;
+    }
+
+    public boolean checkDistanceBlock(Entity ent, Block b) {
+        return ent.distanceToBlock(b) <= ent.actionRange;
+    }
+
+    public boolean checkDistancePosition(Entity ent, int x, int y){
+        return ent.distanceToPosition(x,y) <= ent.actionRange;
+    }
 }

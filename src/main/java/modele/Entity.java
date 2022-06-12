@@ -1,5 +1,7 @@
 package modele;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import vue.DebugView;
@@ -7,7 +9,7 @@ import vue.DebugView;
 
 public abstract class  Entity {
 
-    private int health;
+    private IntegerProperty health;
     private int speed;
     private Hitbox hitbox;
     private Image image;
@@ -17,6 +19,12 @@ public abstract class  Entity {
     private boolean flying = false;
     public double gravity = 5;
 
+    public int getActionRange() {
+        return actionRange;
+    }
+
+    public int actionRange = 4;
+
     public Terrain getTerrain() {
         return terrain;
     }
@@ -24,7 +32,7 @@ public abstract class  Entity {
     private Terrain terrain;
 
     public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain) {
-        this.health = health;
+        this.health = new SimpleIntegerProperty(health);
         this.speed = speed;
         this.hitbox = hitbox;
         this.image = new Image(String.valueOf((getClass().getResource(path))));
@@ -39,12 +47,20 @@ public abstract class  Entity {
         this.speed = speed;
     }
 
-    public int getLife() {
+    public IntegerProperty getHealth() {
         return health;
     }
 
-    public void setLife(int health) {
-        this.health = health;
+    public void setHealth(int health) {
+        this.health.setValue(health);
+    }
+
+    public void decreaseHealth(int health) {
+        this.health.subtract(health);
+    }
+
+    public void increaseHealth(int health) {
+        this.health.add(health);
     }
 
     public Hitbox getHitbox() {
@@ -198,7 +214,13 @@ public abstract class  Entity {
         double centerBX = b.getHitX() + b.getTile().getHitbox().getWidth() / 2; //centre du block en x
         double centerBY = b.getHitY() + b.getTile().getHitbox().getHeight() / 2; // centre du block en y
         double sqrt = Math.sqrt(Math.pow(centerBX - centerPX, 2.0) + Math.pow(centerBY - centerPY, 2.0));
-        System.out.println("distance block : " + sqrt / 32);
+        return (int) sqrt / 32; //distance euclidienne / 32 pour avoir une distance en blocks
+    }
+
+    public int distanceToPosition(int x, int y){
+        double centerPX = this.hitbox.getX().intValue() + this.hitbox.getWidth() / 2; //centre du joueur en x
+        double centerPY = this.hitbox.getY().intValue() + this.hitbox.getHeight() / 2; //centre du joueur en y
+        double sqrt = Math.sqrt(Math.pow(x - centerPX, 2.0) + Math.pow(y - centerPY, 2.0));
         return (int) sqrt / 32; //distance euclidienne / 32 pour avoir une distance en blocks
     }
 

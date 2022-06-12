@@ -1,8 +1,6 @@
 package vue;
 
-import controleur.Controleur;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -68,7 +66,6 @@ public class SlotView {
         try{
             itemView.setVisible(false);
         }catch (NullPointerException e){
-
         }
         emptySlotRectangle.setVisible(false);
         quantityLabel.setVisible(false);
@@ -81,7 +78,22 @@ public class SlotView {
 
         }
         emptySlotRectangle.setVisible(true);
+    }
+
+    public void diplayEmptySlot(){
+        emptySlotRectangle.setVisible(true);
+    }
+
+    public void displayLabel(){
         quantityLabel.setVisible(true);
+    }
+
+    public void hideItemView(){
+        try{
+            itemView.setVisible(false);
+        }catch (NullPointerException e){
+
+        }
     }
     
     public void setX(double x){
