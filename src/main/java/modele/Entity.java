@@ -232,8 +232,6 @@ public abstract class  Entity {
             if (jumpCount <= 0) {
                 stopJump();
             } else {
-                //System.out.println("Le saut");
-                //System.out.println(jumpCount);
                 getHitbox().setY(getHitbox().getY().intValue() - --jumpCount);
             }
         }
@@ -241,12 +239,10 @@ public abstract class  Entity {
     }
 
     public boolean grimpableRight(){
-        System.out.println("checkGrimp");
         Block b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + speed, hitbox.getY().intValue() + hitbox.getHeight() - 1);
         if(b != null) {
             Block b2 = terrain.getBlock(b.getX(), b.getY() - b.getTile().getHitbox().getHeight() / 2);
             Block b3 = terrain.getBlock(b.getX(), b.getY() - b.getTile().getHitbox().getHeight()*2);
-            System.out.println("check above block");
             if (this.isGrounded())
                 if (!this.upCollisions())
                     if ((b2 == null || !b2.getTile().getHitbox().isSolid()) && (b3 == null || !b3.getTile().getHitbox().isSolid()))
@@ -258,12 +254,10 @@ public abstract class  Entity {
     }
 
     public boolean grimpableLeft(){
-        System.out.println("checkGrimp");
         Block b = terrain.getBlock(hitbox.getX().intValue() - speed, hitbox.getY().intValue() + hitbox.getHeight() - 1);
         if(b != null) {
             Block b2 = terrain.getBlock(b.getX(), b.getY() - b.getTile().getHitbox().getHeight() / 2);
             Block b3 = terrain.getBlock(b.getX(), b.getY() - b.getTile().getHitbox().getHeight()*2);
-            System.out.println("check above block");
             if (this.isGrounded())
                 if (!this.upCollisions())
                     if ((b2 == null || !b2.getTile().getHitbox().isSolid()) && (b3 == null || !b3.getTile().getHitbox().isSolid()))
@@ -274,7 +268,6 @@ public abstract class  Entity {
     }
 
     public void grimper(int side){
-        System.out.println("grimped");
         if (side == 1){ //check droite
             Block b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + speed, hitbox.getY().intValue() + hitbox.getHeight() - 1);
             if(b != null) {

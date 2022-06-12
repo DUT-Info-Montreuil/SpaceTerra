@@ -120,7 +120,6 @@ public class PlayerMouse {
                     Slot safeSlot = slot;
                     inventory.getSlots().set(slot.getId(), new Slot(null, 0, slot.getId()));
                     inventory.getSlots().set(slot.getId(), new Slot(item, currentItemQuantity.getValue(), slot.getId()));
-                    System.out.println("ici");
                     currentItemQuantity.setValue(safeSlot.getItemQuantity());
                     maxItemQuantity = safeSlot.getMaxQuantity();
                     item = safeSlot.getItem();
