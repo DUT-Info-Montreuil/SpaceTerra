@@ -39,7 +39,7 @@ public class HpBarView {
 
         pvBar.layoutXProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(x));
         pvBar.layoutYProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(y));
-        pvBar.widthProperty().bind(ent.getLife().multiply(8));
+        pvBar.widthProperty().bind(ent.getHealth().multiply(8));
         pvBar.setHeight(15);
         pvBar.setFill(Color.RED);
         panneauDeJeu.getChildren().add(pvBar);

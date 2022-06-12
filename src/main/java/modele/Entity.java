@@ -45,12 +45,20 @@ public abstract class  Entity {
         this.speed = speed;
     }
 
-    public IntegerProperty getLife() {
+    public IntegerProperty getHealth() {
         return health;
     }
 
-    public void setLife(int health) {
+    public void setHealth(int health) {
         this.health.setValue(health);
+    }
+
+    public void decreaseHealth(int health) {
+        this.health.subtract(health);
+    }
+
+    public void increaseHealth(int health) {
+        this.health.add(health);
     }
 
     public Hitbox getHitbox() {
