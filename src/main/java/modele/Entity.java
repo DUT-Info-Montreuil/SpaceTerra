@@ -3,8 +3,6 @@ package modele;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import vue.DebugView;
 
 
 public abstract class  Entity {
@@ -13,8 +11,8 @@ public abstract class  Entity {
     private int speed;
     private Hitbox hitbox;
     private Image image;
-    private final int jumpHeight = 20;
-    public int jumpCount = jumpHeight;
+    private final int jumpHeight;
+    public int jumpCount;
     private boolean isJumping = false;
     private boolean flying = false;
     public double gravity = 5;
@@ -31,12 +29,14 @@ public abstract class  Entity {
 
     private Terrain terrain;
 
-    public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain) {
+    public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain, int jumpHeight) {
         this.health = new SimpleIntegerProperty(health);
         this.speed = speed;
         this.hitbox = hitbox;
         this.image = new Image(String.valueOf((getClass().getResource(path))));
         this.terrain = terrain;
+        this.jumpHeight = jumpHeight;
+        this.jumpCount = jumpHeight;
     }
 
     public int getSpeed() {
@@ -238,7 +238,7 @@ public abstract class  Entity {
 
     }
 
-    public boolean grimpableRight(){
+    public boolean canClimbRight(){
         Block b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + speed, hitbox.getY().intValue() + hitbox.getHeight() - 1);
         if(b != null) {
             Block b2 = terrain.getBlock(b.getX(), b.getY() - b.getTile().getHitbox().getHeight() / 2);
@@ -253,7 +253,7 @@ public abstract class  Entity {
 
     }
 
-    public boolean grimpableLeft(){
+    public boolean canClimbLeft(){
         Block b = terrain.getBlock(hitbox.getX().intValue() - speed, hitbox.getY().intValue() + hitbox.getHeight() - 1);
         if(b != null) {
             Block b2 = terrain.getBlock(b.getX(), b.getY() - b.getTile().getHitbox().getHeight() / 2);
@@ -267,7 +267,7 @@ public abstract class  Entity {
         return false;
     }
 
-    public void grimper(int side){
+    public void climb(int side){
         if (side == 1){ //check droite
             Block b = terrain.getBlock(hitbox.getX().intValue() + hitbox.getWidth() + speed, hitbox.getY().intValue() + hitbox.getHeight() - 1);
             if(b != null) {

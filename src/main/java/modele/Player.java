@@ -11,7 +11,7 @@ public class Player extends Entity {
 
 
     public Player(int x, int y, Terrain terrain){
-        super(20, 7, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif", terrain);
+        super(20, 7, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif", terrain, 20);
         playerInventory = new PlayerInventory(50);
         craftInventory = new CraftInventory(9);
     }
@@ -23,8 +23,8 @@ public class Player extends Entity {
                 if(!sideLeftCollision())
                     getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
 
-                else if(grimpableLeft())
-                    grimper(2);
+                else if(canClimbLeft())
+                    climb(2);
             }
         }
 
@@ -33,8 +33,8 @@ public class Player extends Entity {
                 if(!sideRightCollisions())
                     getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
 
-                else if(grimpableRight())
-                    grimper(1);
+                else if(canClimbRight())
+                    climb(1);
 
             }
         }

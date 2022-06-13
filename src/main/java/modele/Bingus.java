@@ -1,13 +1,11 @@
 package modele;
 
 import controleur.Controleur;
-
+/*
 public class Bingus extends Enemy {
 
-    private int strenght;
     public Bingus(int x, int y, Terrain terrain) {
-        super(10, 3, new Hitbox(50,50,x,y), "/Sprites/Enemies/Bingus/Bingus.gif", 200, terrain);
-        this.strenght = 3;
+        super(10, 3, new Hitbox(50,50,x,y), "/Sprites/Enemies/Bingus/Bingus.gif", 6, 3, terrain);
     }
 
     public int getStrenght() {
@@ -35,7 +33,7 @@ public class Bingus extends Enemy {
             case "idle":
                 switch(this.getIdleDirection()){
                     case 0:
-                        this.setIdleDirection(Controleur.randomNum(1,3));
+                        this.setIdleDirection(proba());
                         break;
 
                     case 1:
@@ -118,3 +116,4 @@ public class Bingus extends Enemy {
 
     }
 }
+*/

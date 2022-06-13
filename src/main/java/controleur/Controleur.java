@@ -98,11 +98,11 @@ public class Controleur implements Initializable {
 
 
     public void createEnnemies() {
-        Bingus bingus = new Bingus(3500, 2030, terrain);
-        Florb florb = new Florb(3500, 2000, terrain);
+        //Bingus bingus = new Bingus(3500, 2030, terrain);
+        //Florb florb = new Florb(3500, 2000, terrain);
         Bib bib = new Bib(4000, 2030, terrain);
-        entities.add(bingus);
-        entities.add(florb);
+       // entities.add(bingus);
+        //entities.add(florb);
         entities.add(bib);
     }
 
@@ -235,18 +235,20 @@ public class Controleur implements Initializable {
             }
             //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
-                if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
+               // if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
                     if (ent.isGrounded()) {
                         ent.setGravity(5);
                         ent.jump();
                     } else if (ent.isJumping())
                         ent.jump();
-                } else {
+               // } else {
                     if (ent.isJumping()) {
                         ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
                         ent.stopJump();
                     }
-                }
+               // }
+
+
 
                 ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
                 ent.sideLeftCollision();
@@ -299,13 +301,5 @@ public class Controleur implements Initializable {
             player.getPlayerInventory().setCurrSlotNumber(9);
             keyHandler.setSlotTenTyped(false);
         }
-    }
-
-    public static int randomNum(int min, int max) {
-        if (min == max)
-            return max;
-        int range = max - min + 1;
-        int rand = (int) (Math.random() * range) + min;
-        return rand;
     }
 }

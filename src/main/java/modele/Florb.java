@@ -1,16 +1,13 @@
 package modele;
 
 import controleur.Controleur;
-
+/*
 public class Florb extends Enemy{
-
-    private int strength;
 
     private int safeHeight = 1950;
 
     public Florb(int x, int y, Terrain terrain) {
-        super(10, 6, new Hitbox(22,16,x,y),"/Sprites/Enemies/Florb/Florb.gif", 200, terrain);
-        this.strength = 3;
+        super(10, 6, new Hitbox(22,16,x,y),"/Sprites/Enemies/Florb/Florb.gif", 200, 3, terrain);
         this.setFlying(true);
     }
 
@@ -31,7 +28,7 @@ public class Florb extends Enemy{
             case "idle":
                 switch(this.getIdleDirection()){
                     case 0:
-                        this.setIdleDirection(Controleur.randomNum(1,3));
+                        this.setIdleDirection(this.proba());
                         break;
 
                     case 1:
@@ -128,3 +125,5 @@ public class Florb extends Enemy{
         }
     }
 }
+
+ */
