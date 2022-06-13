@@ -12,7 +12,12 @@ public enum TypeItem {
     Iron("Iron", new Image("Sprites/Items/ironIngot.png")),
     Gold("Gold", new Image("Sprites/Items/goldIngot.png")),
     Fluxium("Fluxium", new Image("Sprites/Items/fluxiumItem.png"));
-
+    //WoodPick("Wooden pickaxe", ),
+    //StonePick("Stone pickaxe"),
+    //IronPick("Iron pickaxe"),
+    //WoodAxe("Wood axe"),
+    //StoneAxe("Stone axe"),
+    //IronAxe("Iron axe");
 
     private Image image;
     private String name;
