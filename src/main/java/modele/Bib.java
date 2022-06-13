@@ -28,19 +28,15 @@ public class Bib extends Enemy {
             idle();
         } else {
             this.setRangeMultiplier(2);
-            if (this.isJumping() && !this.isGrounded()) {
+            /* if (this.isJumping() && !this.isGrounded()) {
                 this.jump();
-            }
-            /*else {
-                this.stopJump();
             }*/
-            // else {
             if (this.getState() == 1) {
                 hunting();
             } else {
+                idle();
                 attack();
             }
-            // }
         }
        // System.out.println(this.getState());
 
@@ -86,11 +82,18 @@ public class Bib extends Enemy {
     @Override
     public void idle() {
         if (getIdleCooldown() > 0 && isCanMove()) {
-            if (getIdleDirection() == -1 && !this.sideLeftCollision()) {
-                move(-1);
-            } else if (getIdleDirection() == 1 && !this.sideRightCollisions()) {
-                move(1);
-            } else {
+            move(getIdleDirection());
+            if (getIdleDirection() == -1) {
+                if(this.sideLeftCollision()) {
+                    jump();
+                }
+
+            } else if (getIdleDirection() == 1) {
+                if(this.sideRightCollisions()){
+                    jump();
+                }
+                }
+             else {
                 this.setIdleDirection(this.proba());
             }
         } else {
