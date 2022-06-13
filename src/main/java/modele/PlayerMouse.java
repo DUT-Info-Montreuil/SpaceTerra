@@ -185,11 +185,13 @@ public class PlayerMouse {
                             slot.decrementItemQuantity(1);
                         }
                     } else if (slot.getItemQuantity() == 1) {
-                        incrementItemQuantity(slot.getItem(), 1);
-                        inventory.getSlots().set(slot.getId(), new Slot(null, 0, slot.getId()));
+                        if (item.getTypeItem().equals(slot.getItem().getTypeItem())){
+                            incrementItemQuantity(slot.getItem(), 1);
+                            inventory.getSlots().set(slot.getId(), new Slot(null, 0, slot.getId()));
+                        }
                     } else {
-                        inventory.getSlots().set(slot.getId(), new Slot(item, 1, slot.getId()));
-                        decrementeItemQuantity(1);
+                            inventory.getSlots().set(slot.getId(), new Slot(item, 1, slot.getId()));
+                            decrementeItemQuantity(1);
 
                     }
 
