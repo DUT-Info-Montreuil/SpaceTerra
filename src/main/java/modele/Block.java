@@ -51,6 +51,8 @@ public class Block {
             this.tile = terrain.getTileset().getTiles().get(18);
         } else if (item.getTypeItem().name().equalsIgnoreCase("Wood")) {
             this.tile = terrain.getTileset().getTiles().get(35);
+        } else if(item.getTypeItem().name().equalsIgnoreCase("Stone")){
+            this.tile = terrain.getTileset().getTiles().get(42);
         }
         hitX = x + tile.getHitbox().getX().intValue();
         hitY = y + tile.getHitbox().getY().intValue();
@@ -84,17 +86,34 @@ public class Block {
     }
 
     public Item getRessource(){
-        ItemBlock itemBlock = null;
+        Item item = null;
         try {
-            //System.out.println(this.getTile().getRessource());
-            if (this.getTile().getRessource().equals("dirt"))
-                itemBlock = new ItemBlock(0);
-            else if (this.getTile().getRessource().equals("wood"))
-                itemBlock = new ItemBlock(1);
-        }catch (Exception e) {
-
-        }
-        return itemBlock;
+            switch(this.getTile().getRessource()){
+                case "dirt":
+                    item = new ItemBlock(0);
+                    break;
+                case "wood":
+                    item = new ItemBlock(1);
+                    break;
+                case "stone":
+                    item = new ItemBlock(3);
+                    break;
+                case "coal":
+                    item = new CraftResource(4);
+                    break;
+                case "iron":
+                    item = new CraftResource(5);
+                    break;
+                case "gold":
+                    item = new CraftResource(6);
+                    break;
+                case "fluxium":
+                    item = new CraftResource(7);
+                    break;
+                default:
+                    break;
+            }
+        }catch (Exception e) {}
+        return item;
     }
-
 }

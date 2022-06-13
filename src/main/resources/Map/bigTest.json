@@ -1846,7 +1846,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -1870,7 +1869,7 @@
                         {
                          "name":"ressource",
                          "type":"string",
-                         "value":"rock"
+                         "value":"stone"
                         }]
                 }, 
                 {
@@ -1881,7 +1880,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -1905,7 +1903,7 @@
                         {
                          "name":"ressource",
                          "type":"string",
-                         "value":"rock"
+                         "value":"stone"
                         }]
                 }, 
                 {
@@ -1916,7 +1914,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -1940,7 +1937,7 @@
                         {
                          "name":"ressource",
                          "type":"string",
-                         "value":"rock"
+                         "value":"stone"
                         }]
                 }, 
                 {
@@ -1951,7 +1948,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -1975,7 +1971,7 @@
                         {
                          "name":"ressource",
                          "type":"string",
-                         "value":"rock"
+                         "value":"stone"
                         }]
                 }, 
                 {
@@ -1986,7 +1982,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -2010,7 +2005,7 @@
                         {
                          "name":"ressource",
                          "type":"string",
-                         "value":"rock"
+                         "value":"stone"
                         }]
                 }, 
                 {
@@ -2021,7 +2016,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -2045,7 +2039,7 @@
                         {
                          "name":"ressource",
                          "type":"string",
-                         "value":"rock"
+                         "value":"stone"
                         }]
                 }, 
                 {
@@ -2056,7 +2050,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -2080,7 +2073,7 @@
                         {
                          "name":"ressource",
                          "type":"string",
-                         "value":"rock"
+                         "value":"stone"
                         }]
                 }, 
                 {
@@ -2091,7 +2084,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -2115,7 +2107,7 @@
                         {
                          "name":"ressource",
                          "type":"string",
-                         "value":"rock"
+                         "value":"stone"
                         }]
                 }, 
                 {
@@ -2126,7 +2118,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -2150,7 +2141,7 @@
                         {
                          "name":"ressource",
                          "type":"string",
-                         "value":"rock"
+                         "value":"stone"
                         }]
                 }, 
                 {
@@ -2161,7 +2152,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -2196,7 +2186,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -2231,7 +2220,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -2266,7 +2254,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {

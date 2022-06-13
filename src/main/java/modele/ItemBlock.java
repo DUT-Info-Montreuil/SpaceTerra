@@ -4,9 +4,6 @@ import controleur.Controleur;
 import controleur.MouseHandler;
 
 public class ItemBlock extends Item{
-
-
-
     public ItemBlock(int id) {
         super(id, 4);
     }

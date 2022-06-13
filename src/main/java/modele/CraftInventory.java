@@ -58,13 +58,6 @@ public class CraftInventory  extends Inventory{
     }
 
     public void verifCraft(){
-        /*
-        craftRecipes.forEach((currentRecipe,result) -> {
-            int nbItemCrafted = verifRecipe(currentRecipe);
-            if(nbItemCrafted > 0)
-        });
-
-         */
         try{
             ArrayList<Item> goodRecipe = (craftRecipes.keySet().stream().filter(currentRecipe -> verifRecipe(currentRecipe) > 0).findFirst()).get();
             Item itemCrafted = craftRecipes.get(goodRecipe);
@@ -104,15 +97,13 @@ public class CraftInventory  extends Inventory{
     }
 
     public void buildRecipes(){
-        ItemBlock dirt = new ItemBlock(0);
         ItemBlock wood = new ItemBlock(1);
 
         craftRecipes = new HashMap<>();
         recipesName = new HashMap<>();
 
-        recipesName.put("wood1", new ArrayList<>(Arrays.asList(null, dirt, null, null, dirt, null, null, dirt, null)));
-        craftRecipes.put(recipesName.get("wood1"), wood);
-
+        // 3 woods = 1 stick
+        recipesName.put("stick1", new ArrayList<>(Arrays.asList(null, wood, null, null, wood, null, null, wood, null))); // maybe declare ressources for crafts above so it doesn't load many ?
+        craftRecipes.put(recipesName.get("stick1"), new CraftResource(2)); // declare new results so it doesn't have two of the same item in different slots since it's passed down ?
     }
-
 }

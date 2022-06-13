@@ -1,12 +1,16 @@
 package modele;
 
 public class Tool extends Item{
-    public Tool(int id, int maxQuantity) {
-        super(id, maxQuantity);
+
+    private int pickPower;
+    private int axePower;
+
+    public Tool(int id) {
+        super(id, 1);
     }
 
     @Override
     public void use() {
-
+        //break block
     }
 }
