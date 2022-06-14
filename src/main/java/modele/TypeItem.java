@@ -14,11 +14,11 @@ public enum TypeItem {
     Fluxium("Fluxium", new Image("Sprites/Items/fluxiumItem.png")),
     Vine("Vine", new Image("Sprites/Items/fluxiumItem.png")),
     WoodPick("Wooden pickaxe", new Image("Sprites/Items/Tools/woodenPickaxe.png")),
-    StonePick("Stone pickaxe", new Image("Sprites/Items/Tools/woodenPickaxe.png")), // 10
-    IronPick("Iron pickaxe", new Image("Sprites/Items/Tools/woodenPickaxe.png")),
+    StonePick("Stone pickaxe", new Image("Sprites/Items/Tools/stonePickaxe.png")), // 10
+    IronPick("Iron pickaxe", new Image("Sprites/Items/Tools/ironPickaxe.png")),
     WoodAxe("Wooden axe", new Image("Sprites/Items/Tools/woodenAxe.png")),
-    StoneAxe("Stone axe", new Image("Sprites/Items/Tools/woodenAxe.png")),
-    IronAxe("Iron axe", new Image("Sprites/Items/Tools/woodenAxe.png"));
+    StoneAxe("Stone axe", new Image("Sprites/Items/Tools/stoneAxe.png")),
+    IronAxe("Iron axe", new Image("Sprites/Items/Tools/ironAxe.png"));
 
     private Image image;
     private String name;

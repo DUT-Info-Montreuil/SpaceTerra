@@ -98,6 +98,7 @@ public class CraftInventory  extends Inventory{
 
     public void buildRecipes(){
         ItemBlock wood = new ItemBlock(1);
+        ItemBlock stone = new ItemBlock(3);
         CraftResource stick = new CraftResource(2);
         CraftResource vine = new CraftResource(8);
 
@@ -111,12 +112,35 @@ public class CraftInventory  extends Inventory{
                 null, wood, null))); // maybe declare ressources for crafts above so it doesn't load many ?
         craftRecipes.put(recipesName.get("stick1"), stick);
 
-        //1 stick + 1 vine + 1 wood
+        //2 stick + 1 vine + 1 wood
         recipesName.put("woodPick", new ArrayList<>(Arrays.asList
-                (null, null, null,
-                null, vine, wood,
-                null, stick, null))); // maybe declare ressources for crafts above so it doesn't load many ?
-        craftRecipes.put(recipesName.get("woodPick"), new CraftResource(9)); // declare new results so it doesn't have two of the same item in different slots since it's passed down ?
+                (null, vine, wood,
+                null, stick, null,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("woodPick"), new CraftResource(9));
+
+
+        //2 stick + 2 vine + 2 wood
+        recipesName.put("woodAxe", new ArrayList<>(Arrays.asList
+                (null, vine, wood,
+                null, stick, wood,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("woodAxe"), new CraftResource(12));
+
+        //2 stick + 1 vine + 1 stone
+        recipesName.put("stonePick", new ArrayList<>(Arrays.asList
+                (null, vine, stone,
+                null, stick, null,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("stonePick"), new CraftResource(10));
+
+
+        //2 stick + 2 vine + 2 stone
+        recipesName.put("stoneAxe", new ArrayList<>(Arrays.asList
+                (null, vine, stone,
+                null, stick, stone,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("stoneAxe"), new CraftResource(13));
 
     }
 }
