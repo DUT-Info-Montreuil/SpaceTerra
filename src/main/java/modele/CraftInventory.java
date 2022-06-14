@@ -117,7 +117,7 @@ public class CraftInventory  extends Inventory{
                 (null, vine, wood,
                 null, stick, null,
                 null, stick, null)));
-        craftRecipes.put(recipesName.get("woodPick"), new CraftResource(9));
+        craftRecipes.put(recipesName.get("woodPick"), new Tool(9));
 
 
         //2 stick + 2 vine + 2 wood
@@ -125,14 +125,14 @@ public class CraftInventory  extends Inventory{
                 (null, vine, wood,
                 null, stick, wood,
                 null, stick, null)));
-        craftRecipes.put(recipesName.get("woodAxe"), new CraftResource(12));
+        craftRecipes.put(recipesName.get("woodAxe"), new Tool(12));
 
         //2 stick + 1 vine + 1 stone
         recipesName.put("stonePick", new ArrayList<>(Arrays.asList
                 (null, vine, stone,
                 null, stick, null,
                 null, stick, null)));
-        craftRecipes.put(recipesName.get("stonePick"), new CraftResource(10));
+        craftRecipes.put(recipesName.get("stonePick"), new Tool(10));
 
 
         //2 stick + 2 vine + 2 stone
@@ -140,7 +140,7 @@ public class CraftInventory  extends Inventory{
                 (null, vine, stone,
                 null, stick, stone,
                 null, stick, null)));
-        craftRecipes.put(recipesName.get("stoneAxe"), new CraftResource(13));
+        craftRecipes.put(recipesName.get("stoneAxe"), new Tool(13));
 
     }
 }

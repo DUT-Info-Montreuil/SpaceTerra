@@ -1,5 +1,8 @@
 package modele;
 
+import static controleur.Controleur.player;
+import static controleur.Controleur.playerMouse;
+
 public class Tool extends Item{
 
     private int pickPower;
@@ -13,6 +16,7 @@ public class Tool extends Item{
 
     @Override
     public void use() {
-        //break block
+        System.out.println("used Tool");
+        player.breakBlock(playerMouse.getX(), playerMouse.getY(), pickPower);
     }
 }

@@ -72,4 +72,15 @@ public class Player extends Entity {
         isRunning = running;
     }
 
+    public void breakBlock(int x, int y, int pow) {
+        Block b = getTerrain().getBlock(x, y);
+        if (b != null) {
+            if (getTerrain().checkDistanceBlock(this, b)) {
+                b.setPvs(b.getPvs() - pow);
+                if (getTerrain().checkDestroyedBlock(b) && b.getRessource() != null && !this.getPlayerInventory().isInventoryFull()) {
+                    this.pick(b.getRessource());
+                }
+            }
+        }
+    }
 }
