@@ -99,6 +99,7 @@ public class CraftInventory  extends Inventory{
     public void buildRecipes(){
         ItemBlock wood = new ItemBlock(1);
         ItemBlock stone = new ItemBlock(3);
+        CraftResource iron = new CraftResource(5);
         CraftResource stick = new CraftResource(2);
         CraftResource vine = new CraftResource(8);
 
@@ -119,7 +120,6 @@ public class CraftInventory  extends Inventory{
                 null, stick, null)));
         craftRecipes.put(recipesName.get("woodPick"), new Tool(9));
 
-
         //2 stick + 2 vine + 2 wood
         recipesName.put("woodAxe", new ArrayList<>(Arrays.asList
                 (null, vine, wood,
@@ -134,7 +134,6 @@ public class CraftInventory  extends Inventory{
                 null, stick, null)));
         craftRecipes.put(recipesName.get("stonePick"), new Tool(10));
 
-
         //2 stick + 2 vine + 2 stone
         recipesName.put("stoneAxe", new ArrayList<>(Arrays.asList
                 (null, vine, stone,
@@ -142,5 +141,18 @@ public class CraftInventory  extends Inventory{
                 null, stick, null)));
         craftRecipes.put(recipesName.get("stoneAxe"), new Tool(13));
 
+        //2 stick + 2 iron
+        recipesName.put("ironPick", new ArrayList<>(Arrays.asList
+                (iron, iron, iron,
+                null, stick, null,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("ironPick"), new Tool(11));
+
+        //2 stick + 3 iron
+        recipesName.put("ironAxe", new ArrayList<>(Arrays.asList
+                (null, iron, iron,
+                null, stick, iron,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("ironAxe"), new Tool(14));
     }
 }
