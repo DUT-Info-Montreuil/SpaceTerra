@@ -1,8 +1,10 @@
 package modele;
 
+import controleur.Controleur;
+
 import java.util.Random;
 
-public abstract class Enemy extends Entity{
+public abstract class Enemy extends Entity {
 
     private int range;
     private boolean playerDetected;
@@ -17,6 +19,7 @@ public abstract class Enemy extends Entity{
     private int strenght;
 
     private boolean canMove;
+
     public Enemy(int vie, int vitesse, Hitbox hitbox, String path, int range, int strenght, Terrain terrain, int jumpHeight) {
         super(vie, vitesse, hitbox, path, terrain);
         this.range = range;
@@ -41,11 +44,11 @@ public abstract class Enemy extends Entity{
         return state;
     }
 
-    public int getRangeMultiplier(){
+    public int getRangeMultiplier() {
         return rangeMultiplier;
     }
 
-    public void setRangeMultiplier(int rangeMultiplier){
+    public void setRangeMultiplier(int rangeMultiplier) {
         this.rangeMultiplier = rangeMultiplier;
     }
 
@@ -85,15 +88,13 @@ public abstract class Enemy extends Entity{
         this.idleDirection = idleDirection;
     }
 
-    public void detectPlayer(Player player, int rangeMultiplier){
-        if(Math.abs(this.getHitbox().getX().intValue() - player.getHitbox().getX().intValue()) <= 5){
+    public void detectPlayer(Player player, int rangeMultiplier) {
+        if (Math.abs(this.getHitbox().getX().intValue() - player.getHitbox().getX().intValue()) <= 5) {
             this.setState(2);
-        }
-        else if(distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) < (range * rangeMultiplier)) {
+        } else if (distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) < (range * rangeMultiplier)) {
             this.state = 1;
             this.playerDetected = true;
-        }
-        else{
+        } else {
             this.state = 0;
             this.playerDetected = false;
         }
@@ -101,7 +102,6 @@ public abstract class Enemy extends Entity{
 
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
         this.detectPlayer(player, getRangeMultiplier());
-
         if (this.getState() == 0) {
             this.setRangeMultiplier(1);
             idle();
@@ -114,21 +114,30 @@ public abstract class Enemy extends Entity{
                 attack();
             }
         }
+    }
 
+    public void checkJump() {
         if (this.isGrounded()) {
             this.setGravity(5);
-            this.jump();
-        } else if (this.isJumping())
-            this.jump();
-        // } else {
+            //this.jump();
+        } else if (this.isJumping()) {
+            if (this.upCollisions()) {
+                this.stopJump();
+            }
+        }
+        if (!this.isGrounded()) {
+            if (!this.isFlying())
+                this.applyGrav();
+        }
         if (this.isJumping()) {
-            this.movement(player, !this.sideLeftCollision(), !this.sideRightCollisions());
             this.stopJump();
         }
     }
 
     public abstract void idle();
+
     public abstract void hunting();
+
     public abstract void attack();
 
     public int proba() {

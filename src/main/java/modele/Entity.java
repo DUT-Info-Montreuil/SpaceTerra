@@ -209,22 +209,7 @@ public abstract class Entity {
 
     public abstract void movement(Player player, boolean leftCheck, boolean rightCheck);
 
-    public void checkJump() {
-        if (this.isGrounded()) {
-            this.setGravity(5);
-            this.jump();
-        } else if (this.isJumping()) {
-            this.movement(Controleur.player, !this.sideLeftCollision(), !this.sideRightCollisions());
-            this.stopJump();
-            if (this.upCollisions()) {
-                this.stopJump();
-            }
-        }
-        if (this.isGrounded()) {
-            if (!this.isFlying())
-                this.applyGrav();
-        }
-    }
+
 
     public int distanceToBlock(Block b) {
         double centerPX = this.hitbox.getX().intValue() + this.hitbox.getWidth() / 2; //centre du joueur en x

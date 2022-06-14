@@ -50,13 +50,14 @@ public class Controleur implements Initializable {
         scene.setCamera(camera);
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(env.getTerrain());
+        createEnnemies();
         terrainView.readEntity();
         env.getTerrain().getBlocks().addListener(new TerrainObservator(terrainView));
 
         player = new Player(3500, 2030, env.getTerrain());
         PlayerView playerView = new PlayerView(player, panneauDeJeu);
         env.getEntities().add(player);
-        createEnnemies();
+
         playerView.displayPlayer();
         playerInventoryView = new PlayerInventoryView(panneauDeJeu);
         craftInventoryView = new CraftInventoryView(panneauDeJeu);
@@ -114,6 +115,14 @@ public class Controleur implements Initializable {
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
                     if (!Controleur.player.isGrounded() && !Controleur.player.isJumping()) {
                         Controleur.player.applyGrav();
+                    }
+                    for (Entity ent : env.getEntities()) {
+                        if (ent instanceof Enemy) {
+                            ent.movement(Controleur.player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
+                            ((Enemy) ent).checkJump();
+                        }
+                        ent.sideLeftCollision();
+                        ent.sideRightCollisions();
                     }
                     keyPlayerMovement();
                 }));
@@ -218,8 +227,6 @@ public class Controleur implements Initializable {
             if (player.isJumping())
                 player.stopJump();
 
-        player.sideRightCollisions();
-        player.sideLeftCollision();
     }
 
 
