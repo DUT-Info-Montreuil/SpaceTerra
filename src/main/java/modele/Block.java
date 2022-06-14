@@ -95,6 +95,9 @@ public class Block {
                 case "wood":
                     item = new ItemBlock(1);
                     break;
+                case "leaf":
+                    item = new CraftResource(8);
+                    break;
                 case "stone":
                     item = new ItemBlock(3);
                     break;

@@ -4,20 +4,21 @@ import javafx.scene.image.Image;
 
 public enum TypeItem {
 
-    Dirt("Dirt", new Image("Sprites/Items/dirtItem.png")),
+    Dirt("Dirt", new Image("Sprites/Items/dirtItem.png")), // 0
     Wood("Wood", new Image("Sprites/Items/woodItem.png")),
     WoodStick("Wooden stick", new Image("Sprites/Items/woodenStick.png")),
     Stone("Stone", new Image("Sprites/Items/rockItem.png")),
     Coal("Coal", new Image("Sprites/Items/coalItem.png")),
-    Iron("Iron", new Image("Sprites/Items/ironIngot.png")),
+    Iron("Iron", new Image("Sprites/Items/ironIngot.png")), // 5
     Gold("Gold", new Image("Sprites/Items/goldIngot.png")),
-    Fluxium("Fluxium", new Image("Sprites/Items/fluxiumItem.png"));
-    //WoodPick("Wooden pickaxe", ),
-    //StonePick("Stone pickaxe"),
-    //IronPick("Iron pickaxe"),
-    //WoodAxe("Wood axe"),
-    //StoneAxe("Stone axe"),
-    //IronAxe("Iron axe");
+    Fluxium("Fluxium", new Image("Sprites/Items/fluxiumItem.png")),
+    Vine("Vine", new Image("Sprites/Items/fluxiumItem.png")),
+    WoodPick("Wooden pickaxe", new Image("Sprites/Items/Tools/woodenPickaxe.png")),
+    StonePick("Stone pickaxe", new Image("Sprites/Items/Tools/woodenPickaxe.png")), // 10
+    IronPick("Iron pickaxe", new Image("Sprites/Items/Tools/woodenPickaxe.png")),
+    WoodAxe("Wooden axe", new Image("Sprites/Items/Tools/woodenAxe.png")),
+    StoneAxe("Stone axe", new Image("Sprites/Items/Tools/woodenAxe.png")),
+    IronAxe("Iron axe", new Image("Sprites/Items/Tools/woodenAxe.png"));
 
     private Image image;
     private String name;

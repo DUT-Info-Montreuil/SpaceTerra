@@ -98,12 +98,25 @@ public class CraftInventory  extends Inventory{
 
     public void buildRecipes(){
         ItemBlock wood = new ItemBlock(1);
+        CraftResource stick = new CraftResource(2);
+        CraftResource vine = new CraftResource(8);
 
         craftRecipes = new HashMap<>();
         recipesName = new HashMap<>();
 
         // 3 woods = 1 stick
-        recipesName.put("stick1", new ArrayList<>(Arrays.asList(null, wood, null, null, wood, null, null, wood, null))); // maybe declare ressources for crafts above so it doesn't load many ?
-        craftRecipes.put(recipesName.get("stick1"), new CraftResource(2)); // declare new results so it doesn't have two of the same item in different slots since it's passed down ?
+        recipesName.put("stick1", new ArrayList<>(Arrays.asList
+                (null, wood, null,
+                null, wood, null,
+                null, wood, null))); // maybe declare ressources for crafts above so it doesn't load many ?
+        craftRecipes.put(recipesName.get("stick1"), stick);
+
+        //1 stick + 1 vine + 1 wood
+        recipesName.put("woodPick", new ArrayList<>(Arrays.asList
+                (null, null, null,
+                null, vine, wood,
+                null, stick, null))); // maybe declare ressources for crafts above so it doesn't load many ?
+        craftRecipes.put(recipesName.get("woodPick"), new CraftResource(9)); // declare new results so it doesn't have two of the same item in different slots since it's passed down ?
+
     }
 }
