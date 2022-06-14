@@ -19,6 +19,26 @@ public abstract class Entity {
     private boolean isJumping = false;
     private boolean flying = false;
     public double gravity = 5;
+    private Terrain terrain;
+
+    private boolean canAttack;
+
+    public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain) {
+        this.health = new SimpleIntegerProperty(health);
+        this.speed = speed;
+        this.hitbox = hitbox;
+        this.image = new Image(String.valueOf((getClass().getResource(path))));
+        this.terrain = terrain;
+        this.canAttack = true;
+    }
+
+    public void setCanAttack(boolean canAttack) {
+        this.canAttack = canAttack;
+    }
+
+    public boolean getCanAttack() {
+        return canAttack;
+    }
 
     public int getActionRange() {
         return actionRange;
@@ -29,17 +49,6 @@ public abstract class Entity {
     public Terrain getTerrain() {
         return terrain;
     }
-
-    private Terrain terrain;
-
-    public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain) {
-        this.health = new SimpleIntegerProperty(health);
-        this.speed = speed;
-        this.hitbox = hitbox;
-        this.image = new Image(String.valueOf((getClass().getResource(path))));
-        this.terrain = terrain;
-    }
-
     public int getSpeed() {
         return speed;
     }

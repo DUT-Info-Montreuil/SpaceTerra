@@ -62,10 +62,36 @@ public class Bib extends Enemy {
 
     @Override
     public void attack() {
-        if (this.isGrounded() && !isJumping()) {
-            this.setGravity(5);
-            this.jump();
-        } else if (isJumping())
-            this.jump();
+        /*
+        if (this.getAttackCooldown() > 0 && isCanAttack()) {
+
+            setAttackCooldown(getAttackCooldown() - 10);
+            if (this.isGrounded() && !isJumping()) {
+                this.jump();
+            }
+            else if (isJumping()){
+                if(distanceToPosition(Controleur.player.getHitbox().getX().intValue(), Controleur.player.getHitbox().getY().intValue()) == 0 && !Controleur.player.isInvicible()){
+                    Controleur.player.decreaseHealth(1);
+                }
+                Controleur.player.launchInvicibleCooldown();
+                this.jump();
+            }
+            move(getIdleDirection());
+        } else {
+            setCanAttack(false);
+            if (getAttackCooldown() < 1000 && !isCanAttack()) {
+                setAttackCooldown(getAttackCooldown() + 5);
+            } else {
+                setCanAttack(true);
+            }
+            if (this.getHitbox().getX().intValue() < Controleur.player.getHitbox().getX().intValue()) {
+                this.setIdleDirection(1);
+            }
+            else if (this.getHitbox().getX().intValue() > Controleur.player.getHitbox().getX().intValue()){
+                this.setIdleDirection(-1);
+            }
+        }
+
+         */
     }
 }
