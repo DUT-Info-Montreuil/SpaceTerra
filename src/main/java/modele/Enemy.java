@@ -8,17 +8,15 @@ public abstract class Enemy extends Entity {
 
     private int range;
     private boolean playerDetected;
-
     private int rangeMultiplier;
-
     // pour state : 0 c'est idle, 1 c'est hunting et 2 c'est attack
     private int state;
     private int idleCooldown;
     private int idleDirection;
 
     private int strenght;
-
     private boolean canMove;
+    private int attackCooldown;
 
     public Enemy(int vie, int vitesse, Hitbox hitbox, String path, int range, int strenght, Terrain terrain, int jumpHeight) {
         super(vie, vitesse, hitbox, path, terrain);
@@ -29,7 +27,15 @@ public abstract class Enemy extends Entity {
         this.playerDetected = false;
         this.rangeMultiplier = 1;
         this.canMove = true;
+        this.attackCooldown = 100;
+    }
 
+    public int getAttackCooldown() {
+        return attackCooldown;
+    }
+
+    public void setAttackCooldown(int attackCooldown) {
+        this.attackCooldown = attackCooldown;
     }
 
     public int getRange() {
@@ -89,12 +95,22 @@ public abstract class Enemy extends Entity {
     }
 
     public void detectPlayer(Player player, int rangeMultiplier) {
-        if (Math.abs(this.getHitbox().getX().intValue() - player.getHitbox().getX().intValue()) <= 5) {
+        if(distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) <= 3){
             this.setState(2);
-        } else if (distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) < (range * rangeMultiplier)) {
-            this.state = 1;
-            this.playerDetected = true;
-        } else {
+        }
+        else if(distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) < (range * rangeMultiplier)) {
+            if(getState() == 2 && isJumping()){
+                this.state = 1;
+                this.playerDetected = true;
+            }
+            else if (getState() == 0){
+                this.state = 1;
+                this.playerDetected = true;
+                this.setAttackCooldown(1000);
+            }
+
+        }
+        else{
             this.state = 0;
             this.playerDetected = false;
         }

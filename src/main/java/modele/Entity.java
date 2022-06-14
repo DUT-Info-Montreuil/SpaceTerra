@@ -22,9 +22,7 @@ public abstract class Entity {
     private Terrain terrain;
     private boolean canAttack;
 
-    private boolean isInvicible;
 
-    private int invicibleCooldown;
 
     public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain) {
         this.health = new SimpleIntegerProperty(health);
@@ -33,8 +31,7 @@ public abstract class Entity {
         this.image = new Image(String.valueOf((getClass().getResource(path))));
         this.terrain = terrain;
         this.canAttack = true;
-        this.isInvicible = false;
-        this.invicibleCooldown = 5;
+
 
     }
 
@@ -342,22 +339,5 @@ public abstract class Entity {
         this.gravity = gravity;
     }
 
-    public boolean isInvicible() {
-        return isInvicible;
-    }
 
-    public void setInvicible(boolean invicible) {
-        isInvicible = invicible;
-    }
-
-    public void launchInvicibleCooldown() {
-        if (this.invicibleCooldown > 0) {
-            isInvicible = true;
-            invicibleCooldown--;
-            System.out.println(invicibleCooldown);
-        } else {
-            this.isInvicible = false;
-            this.invicibleCooldown = 5;
-        }
-    }
 }

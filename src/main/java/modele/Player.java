@@ -11,11 +11,17 @@ public class Player extends Entity {
 
     private CraftInventory craftInventory;
 
+    private boolean isInvicible;
+
+    private int invicibleCooldown;
+
 
     public Player(int x, int y, Terrain terrain){
         super(20, 7, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif", terrain);
         playerInventory = new PlayerInventory(50);
         craftInventory = new CraftInventory(9);
+        this.isInvicible = false;
+        this.invicibleCooldown = 5;
     }
 
     @Override
@@ -74,6 +80,25 @@ public class Player extends Entity {
 
     public void setRunning(boolean running) {
         isRunning = running;
+    }
+
+    public boolean isInvicible() {
+        return isInvicible;
+    }
+
+    public void setInvicible(boolean invicible) {
+        isInvicible = invicible;
+    }
+
+    public void launchInvicibleCooldown() {
+        if (this.invicibleCooldown > 0) {
+            isInvicible = true;
+            invicibleCooldown--;
+            System.out.println(invicibleCooldown);
+        } else {
+            this.isInvicible = false;
+            this.invicibleCooldown = 5;
+        }
     }
 
 }
