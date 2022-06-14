@@ -22,8 +22,7 @@ public class ItemBlock extends Item{
                 else if(player.getPlayerInventory().getCurrItem() != null){
                     player.drop();
                 }
-        }
-
+            }
        }
     }
 }
