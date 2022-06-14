@@ -107,15 +107,23 @@ public abstract class Enemy extends Entity{
             idle();
         } else {
             this.setRangeMultiplier(2);
-            /* if (this.isJumping() && !this.isGrounded()) {
-                this.jump();
-            }*/
             if (this.getState() == 1) {
                 hunting();
             } else {
                 idle();
                 attack();
             }
+        }
+
+        if (this.isGrounded()) {
+            this.setGravity(5);
+            this.jump();
+        } else if (this.isJumping())
+            this.jump();
+        // } else {
+        if (this.isJumping()) {
+            this.movement(player, !this.sideLeftCollision(), !this.sideRightCollisions());
+            this.stopJump();
         }
     }
 

@@ -19,36 +19,28 @@ public class Controleur implements Initializable {
 
     @FXML
     private Pane panneauDeJeu;
-
     public static Environnement env;
     private TerrainView terrainView;
     PlayerMouseView playerMouseView;
-
     PlayerMouseObservator playerMouseObservator;
-    private Timeline timeline;
-
+    private Timeline timelineCamera;
+    private Timeline timelineGame;
     private CraftInventoryView craftInventoryView;
+    private Timeline timelineInventory;
 
-    private Timeline timelineClick;
     public static Player player;
     private KeyHandler keyHandler;
-
     private MouseHandler mouseHandler;
-
     private PlayerInventoryView playerInventoryView;
     private GameCam2D camera;
-
     private PlayerInventoryObservator playerInventoryObservator;
-
     private CraftInventoryObservator craftInventoryObservator;
-
     private ResultSlotObservator resultSlotObservator;
-
     public static PlayerMouse playerMouse;
-
     public static DebugView debugger;
-
     private DeletedSlotView deletedSlotView;
+    private HpBarView hpBarView;
+    private boolean doOnce = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,18 +50,27 @@ public class Controleur implements Initializable {
         scene.setCamera(camera);
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(env.getTerrain());
-        createEnnemies();
+        terrainView.readEntity();
+        env.getTerrain().getBlocks().addListener(new TerrainObservator(terrainView));
 
-        PlayerView playerView = new PlayerView(player = new Player(3500, 2030, env.getTerrain()), panneauDeJeu);
+        player = new Player(3500, 2030, env.getTerrain());
+        PlayerView playerView = new PlayerView(player, panneauDeJeu);
         env.getEntities().add(player);
+        createEnnemies();
         playerView.displayPlayer();
         playerInventoryView = new PlayerInventoryView(panneauDeJeu);
         craftInventoryView = new CraftInventoryView(panneauDeJeu);
+        playerInventoryObservator = new PlayerInventoryObservator(playerInventoryView, player.getPlayerInventory(), panneauDeJeu);
+        player.getPlayerInventory().getSlots().addListener(playerInventoryObservator);
+        craftInventoryObservator = new CraftInventoryObservator(craftInventoryView, player.getCraftInventory(), panneauDeJeu);
+        resultSlotObservator = new ResultSlotObservator(9, player.getCraftInventory(), panneauDeJeu, craftInventoryView);
+        player.getCraftInventory().getSlots().addListener(craftInventoryObservator);
+        deletedSlotView = new DeletedSlotView(panneauDeJeu, playerInventoryView);
+
         keyHandler = new KeyHandler(panneauDeJeu);
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
         mouseHandler.mouseManager();
-
 
         playerMouse = new PlayerMouse(null);
         playerMouse.xProperty().bind(mouseHandler.getMouseXProperty());
@@ -77,19 +78,10 @@ public class Controleur implements Initializable {
         playerMouseView = new PlayerMouseView(panneauDeJeu);
         playerMouseObservator = new PlayerMouseObservator(playerMouse, playerMouseView);
 
-
-        terrainView.readEntity();
         debugger = new DebugView(panneauDeJeu);
-        env.getTerrain().getBlocks().addListener(new TerrainObservator(terrainView));
-        playerInventoryObservator = new PlayerInventoryObservator(playerInventoryView, player.getPlayerInventory(), panneauDeJeu);
-        player.getPlayerInventory().getSlots().addListener(playerInventoryObservator);
-        craftInventoryObservator = new CraftInventoryObservator(craftInventoryView, player.getCraftInventory(), panneauDeJeu);
-        resultSlotObservator = new ResultSlotObservator(9, player.getCraftInventory(), panneauDeJeu, craftInventoryView);
-        player.getCraftInventory().getSlots().addListener(craftInventoryObservator);
-        HpBarView hpBarView = new HpBarView(panneauDeJeu, 750, 100, player, 20);
-        hpBarView.initialize();
 
-        deletedSlotView = new DeletedSlotView(panneauDeJeu, playerInventoryView);
+        hpBarView = new HpBarView(panneauDeJeu, 750, 100, player, 20);
+        hpBarView.initialize();
 
         createTimelines();
     }
@@ -105,35 +97,29 @@ public class Controleur implements Initializable {
     }
 
 
-    private boolean doOnce = false;
-
     public void createTimelines() {
         // 16.33 = 60 fps
-        timeline = new Timeline
+        timelineCamera = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
                     if (!doOnce) {
                         camera.lookAt(player.getHitbox().getX(), player.getHitbox().getY());
                         doOnce = true;
                     }
-                    unTour(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
 
-                    playerInventoryObservator.refreshCurrentSlotView();
-                    if (mouseHandler.isHasScrollUp()) {
-                        player.getPlayerInventory().decrementSlot();
-                        mouseHandler.setHasScrollUp(false);
-                    } else if (mouseHandler.isHasScrollDown()) {
-                        player.getPlayerInventory().incrementSlot();
-                        mouseHandler.setHasScrollDown(false);
-                    }
-
-
-                    verifKeyTyped();
                 }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        timelineCamera.setCycleCount(Timeline.INDEFINITE);
+        timelineCamera.play();
 
-        timelineClick = new Timeline
-                (new KeyFrame(Duration.millis(20), actionEvent -> {
+        timelineGame = new Timeline
+                (new KeyFrame(Duration.millis(16.33), actionEvent -> {
+                   env.unTour();
+                   keyPlayerMovement();
+                }));
+        timelineGame.setCycleCount(Timeline.INDEFINITE);
+        timelineGame.play();
+
+        timelineInventory = new Timeline
+                (new KeyFrame(Duration.millis(16.33), actionEvent -> {
                     if (mouseHandler.isHasClickedLeft()) {
                         if(playerInventoryView.isDisplay()){
                             playerMouseObservator.leftClickInventory(player.getPlayerInventory(), playerInventoryView, deletedSlotView);
@@ -182,13 +168,22 @@ public class Controleur implements Initializable {
                         }
                     }
                     playerMouseObservator.displayItemName(player.getPlayerInventory(), playerInventoryView);
+                    if (mouseHandler.isHasScrollUp()) {
+                        player.getPlayerInventory().decrementSlot();
+                        mouseHandler.setHasScrollUp(false);
+                    } else if (mouseHandler.isHasScrollDown()) {
+                        player.getPlayerInventory().incrementSlot();
+                        mouseHandler.setHasScrollDown(false);
+                    }
+                    verifKeyTyped();
+                    playerInventoryObservator.refreshCurrentSlotView();
                 }));
-        timelineClick.setCycleCount(Timeline.INDEFINITE);
-        timelineClick.play();
+        timelineInventory.setCycleCount(Timeline.INDEFINITE);
+        timelineInventory.play();
     }
 
 
-    public void playerMovement() {
+    public void keyPlayerMovement() {
         if (keyHandler.isSprintPressed() && !player.isRunning()) {
             player.setRunning(true);
             player.setSpeed(14);
@@ -217,52 +212,12 @@ public class Controleur implements Initializable {
                 }
             }
         }
-
         if (!keyHandler.isUpPressed())
             if (player.isJumping())
                 player.stopJump();
 
         player.sideRightCollisions();
         player.sideLeftCollision();
-    }
-
-    public void unTour() {
-        for (Entity ent : env.getEntities()) {
-            if (ent instanceof Player) {
-                playerMovement();
-            }
-            else {
-               // if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
-                    if (ent.isGrounded()) {
-                        ent.setGravity(5);
-                        ent.jump();
-                    } else if (ent.isJumping())
-                        ent.jump();
-               // } else {
-                    if (ent.isJumping()) {
-                        ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
-                        ent.stopJump();
-                    }
-               // }
-
-
-
-                ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
-                ent.sideLeftCollision();
-                ent.sideRightCollisions();
-            }
-
-            if (!ent.isGrounded()) {
-                if (ent instanceof Player) {
-                    if (!player.isJumping()) {
-                        player.applyGrav();
-                    }
-                } else {
-                    if (!ent.isFlying())
-                        ent.applyGrav();
-                }
-            }
-        }
     }
 
 
