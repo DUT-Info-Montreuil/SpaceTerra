@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 public class TerrainView {
     private Pane panneau;
-
-    private ArrayList<Entity> entities;
     public TerrainView(Pane panneau) {
         this.panneau = panneau;
     }
@@ -32,15 +30,6 @@ public class TerrainView {
 
             }
 
-        }
-    }
-
-    public void readEntity(){
-        for (Entity entity : Controleur.env.getEntities()){
-            ImageView imgView = new ImageView(entity.getImage());
-            imgView.xProperty().bind(entity.getHitbox().getX().subtract(entity.getImage().getWidth()/2 - entity.getHitbox().getWidth()/2));
-            imgView.yProperty().bind(entity.getHitbox().getY().subtract(entity.getImage().getHeight() - entity.getHitbox().getHeight()));
-            panneau.getChildren().add(imgView);
         }
     }
 

@@ -27,4 +27,7 @@ public class Environnement {
         return this.entities;
     }
 
+    public void deleteEntity(Entity entity) {
+        this.getEntities().remove(entity);
+    }
 }

@@ -22,7 +22,10 @@ public abstract class Entity {
     private Terrain terrain;
     private boolean canAttack;
 
+    private String id;
+    public int actionRange = 4;
 
+    public static int compteur = 0;
 
     public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain) {
         this.health = new SimpleIntegerProperty(health);
@@ -31,8 +34,13 @@ public abstract class Entity {
         this.image = new Image(String.valueOf((getClass().getResource(path))));
         this.terrain = terrain;
         this.canAttack = true;
+        this.id = "E"+compteur;
+        compteur++;
 
+    }
 
+    public String getId() {
+        return id;
     }
 
     public void setCanAttack(boolean canAttack) {
@@ -46,8 +54,6 @@ public abstract class Entity {
     public int getActionRange() {
         return actionRange;
     }
-
-    public int actionRange = 4;
 
     public Terrain getTerrain() {
         return terrain;

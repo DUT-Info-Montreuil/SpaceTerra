@@ -40,6 +40,8 @@ public class Controleur implements Initializable {
     public static DebugView debugger;
     private DeletedSlotView deletedSlotView;
     private HpBarView hpBarView;
+
+    private EntityView entityView;
     private boolean doOnce = false;
 
     @Override
@@ -50,8 +52,10 @@ public class Controleur implements Initializable {
         scene.setCamera(camera);
         terrainView = new TerrainView(panneauDeJeu);
         terrainView.readMap(env.getTerrain());
+        entityView = new EntityView(panneauDeJeu);
+        this.env.getEntities().addListener(new EntityObservator(entityView));
         createEnnemies();
-        terrainView.readEntity();
+
         env.getTerrain().getBlocks().addListener(new TerrainObservator(terrainView));
 
         player = new Player(3500, 2030, env.getTerrain());

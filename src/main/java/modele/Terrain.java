@@ -20,7 +20,6 @@ public class Terrain {
     private JSONObject map;
     private ArrayList<Layer> layers;
     private ObservableList<Block> blocks;
-
     private ObservableList<Block> solidBlocks;
     private Tileset tileSet;
     private int height, width;
@@ -180,9 +179,9 @@ public class Terrain {
 
     public boolean checkDestroyedBlock(Block b){
             if (b.getPvs() <= 0) {
-                Controleur.env.getTerrain().deleteBlock(b);
+                this.deleteBlock(b);
                 if (b.getTile().getHitbox().isSolid()) {
-                    Controleur.env.getTerrain().deleteSolidBlock(b);
+                    this.deleteSolidBlock(b);
                 }
                 return true;
             }
@@ -195,5 +194,9 @@ public class Terrain {
 
     public boolean checkDistancePosition(Entity ent, int x, int y){
         return ent.distanceToPosition(x,y) <= ent.actionRange;
+    }
+
+    public void deleteEntity(Entity entity) {
+
     }
 }
