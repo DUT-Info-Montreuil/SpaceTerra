@@ -118,18 +118,14 @@ public class Block {
     }
 
     public void resourceStats(){
-        health = 10;
+        health = 20;
         switch(ressource){
-            case "dirt":
+            case "dirt": case "leaf":
                 pickDef = 1;
                 axeDef = 1;
                 break;
             case "wood":
                 pickDef = 10;
-                axeDef = 1;
-                break;
-            case "leaf":
-                pickDef = 1;
                 axeDef = 1;
                 break;
             case "stone":
