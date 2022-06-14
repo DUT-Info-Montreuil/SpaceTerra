@@ -2,22 +2,14 @@ package controleur;
 
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class KeyHandler {
-    private boolean rightPressed, leftPressed, upPressed, downPressed,sprintPressed;
-    private boolean slotOneTyped;
-    private boolean slotTwoTyped;
-    private boolean slotThreeTyped;
-    private boolean slotFourTyped;
-    private boolean slotFiveTyped;
-    private boolean slotSixTyped;
-    private boolean slotSevenTyped;
-    private boolean slotEightTyped;
-    private boolean slotNineTyped;
-    private boolean slotTenTyped;
 
-
-
+    boolean rightPressed, leftPressed, upPressed, downPressed,sprintPressed;
+    private boolean slotOneTyped, slotTwoTyped, slotThreeTyped, slotFourTyped, slotFiveTyped, slotSixTyped, slotSevenTyped, slotEightTyped, slotNineTyped, slotTenTyped;
 
     private boolean inventoryKeyTyped;
 
@@ -42,18 +34,20 @@ public class KeyHandler {
         leftPressed = false;
         upPressed = false;
         downPressed = false;
-        slotTenTyped = false;
-        slotNineTyped = false;
-        slotEightTyped = false;
-        slotSevenTyped = false;
-        slotSixTyped = false;
-        slotFiveTyped = false;
-        slotFourTyped = false;
-        slotThreeTyped = false;
-        slotTwoTyped = false;
-        slotOneTyped = false;
         inventoryKeyTyped = false;
+        slotOneTyped = false;
+        slotTwoTyped = false;
+        slotThreeTyped = false;
+        slotFourTyped = false;
+        slotFiveTyped = false;
+        slotSixTyped = false;
+        slotSevenTyped = false;
+        slotEightTyped = false;
+        slotNineTyped = false;
+        slotTenTyped = false;
         this.pane = pane;
+
+
     }
 
     private void keyPressed() {
@@ -218,4 +212,5 @@ public class KeyHandler {
     public void setInventoryKeyTyped(boolean inventoryKeyTyped) {
         this.inventoryKeyTyped = inventoryKeyTyped;
     }
+
 }

@@ -180,9 +180,9 @@ public class Terrain {
 
     public boolean checkDestroyedBlock(Block b){
             if (b.getPvs() <= 0) {
-                Controleur.terrain.deleteBlock(b);
+                Controleur.env.getTerrain().deleteBlock(b);
                 if (b.getTile().getHitbox().isSolid()) {
-                    Controleur.terrain.deleteSolidBlock(b);
+                    Controleur.env.getTerrain().deleteSolidBlock(b);
                 }
                 return true;
             }

@@ -13,8 +13,8 @@ public class ItemBlock extends Item{
 
     @Override
     public void use() {
-       Block bPlace = new Block(this, (MouseHandler.mouseX.getValue()/32) * 32, (MouseHandler.mouseY.getValue()/ 32) * 32, Controleur.terrain);
-       if (Controleur.terrain.placeBlock(bPlace.getHitX(), bPlace.getHitY(), bPlace)) {
+       Block bPlace = new Block(this, (MouseHandler.mouseX.getValue()/32) * 32, (MouseHandler.mouseY.getValue()/ 32) * 32, Controleur.env.getTerrain());
+       if (Controleur.env.getTerrain().placeBlock(bPlace.getHitX(), bPlace.getHitY(), bPlace)) {
            if (Controleur.playerMouse.item != null){
                Controleur.playerMouse.decrementeItemQuantity(1);
            }

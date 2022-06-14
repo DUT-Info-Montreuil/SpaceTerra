@@ -9,20 +9,19 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import modele.*;
-import modele.Terrain;
 import modele.Player;
 import vue.*;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controleur implements Initializable {
 
     @FXML
     private Pane panneauDeJeu;
+
+    public static Environnement env;
     private TerrainView terrainView;
-    public static Terrain terrain;
     PlayerMouseView playerMouseView;
 
     PlayerMouseObservator playerMouseObservator;
@@ -33,7 +32,7 @@ public class Controleur implements Initializable {
     private Timeline timelineClick;
     public static Player player;
     private KeyHandler keyHandler;
-    private ArrayList<Entity> entities;
+
     private MouseHandler mouseHandler;
 
     private PlayerInventoryView playerInventoryView;
@@ -53,17 +52,16 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        entities = new ArrayList<>();
         Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
+        env = new Environnement();
         camera = new GameCam2D(panneauDeJeu);
         scene.setCamera(camera);
-        terrain = new Terrain("src/main/resources/Map/bigTest.json");
-        terrainView = new TerrainView(panneauDeJeu, entities);
-        terrainView.readMap(terrain);
+        terrainView = new TerrainView(panneauDeJeu);
+        terrainView.readMap(env.getTerrain());
         createEnnemies();
 
-        PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);
-        entities.add(player);
+        PlayerView playerView = new PlayerView(player = new Player(3500, 2030, env.getTerrain()), panneauDeJeu);
+        env.getEntities().add(player);
         playerView.displayPlayer();
         playerInventoryView = new PlayerInventoryView(panneauDeJeu);
         craftInventoryView = new CraftInventoryView(panneauDeJeu);
@@ -82,7 +80,7 @@ public class Controleur implements Initializable {
 
         terrainView.readEntity();
         debugger = new DebugView(panneauDeJeu);
-        terrain.getBlocks().addListener(new TerrainObservator(terrainView));
+        env.getTerrain().getBlocks().addListener(new TerrainObservator(terrainView));
         playerInventoryObservator = new PlayerInventoryObservator(playerInventoryView, player.getPlayerInventory(), panneauDeJeu);
         player.getPlayerInventory().getSlots().addListener(playerInventoryObservator);
         craftInventoryObservator = new CraftInventoryObservator(craftInventoryView, player.getCraftInventory(), panneauDeJeu);
@@ -98,12 +96,12 @@ public class Controleur implements Initializable {
 
 
     public void createEnnemies() {
-        Bingus bingus = new Bingus(3500, 2030, terrain);
-        Florb florb = new Florb(3500, 2000, terrain);
-        Bib bib = new Bib(4000, 2030, terrain);
-        entities.add(bingus);
-        entities.add(florb);
-        entities.add(bib);
+        Bingus bingus = new Bingus(3500, 2030, this.env.getTerrain());
+        Florb florb = new Florb(3500, 2000, this.env.getTerrain());
+        Bib bib = new Bib(4000, 2030, this.env.getTerrain());
+        this.env.addEntities(bingus);
+        this.env.addEntities(bib);
+        this.env.addEntities(florb);
     }
 
 
@@ -117,8 +115,7 @@ public class Controleur implements Initializable {
                         camera.lookAt(player.getHitbox().getX(), player.getHitbox().getY());
                         doOnce = true;
                     }
-                    entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
-                    playerMovement();
+                    unTour(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
 
                     playerInventoryObservator.refreshCurrentSlotView();
                     if (mouseHandler.isHasScrollUp()) {
@@ -151,8 +148,8 @@ public class Controleur implements Initializable {
                         mouseHandler.setHasClickedLeft(false);
                     }
                     if (mouseHandler.isHasPressedLeft()) {
-                        playerMouseObservator.leftPressed(player, terrain, playerInventoryView);
-                        playerMouseObservator.leftPressed(player, terrain, craftInventoryView);
+                        playerMouseObservator.leftPressed(player, env.getTerrain(), playerInventoryView);
+                        playerMouseObservator.leftPressed(player, env.getTerrain(), craftInventoryView);
                     } else if (mouseHandler.isHasClickedRight()) {
                         if(playerInventoryView.isDisplay()) {
                             playerMouseObservator.rightClickInventory(player.getPlayerInventory(), playerInventoryView);
@@ -229,24 +226,26 @@ public class Controleur implements Initializable {
         player.sideLeftCollision();
     }
 
-    public void entityLoop() {
-        for (Entity ent : entities) {
+    public void unTour() {
+        for (Entity ent : env.getEntities()) {
             if (ent instanceof Player) {
+                playerMovement();
             }
-            //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
-                if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
+               // if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
                     if (ent.isGrounded()) {
                         ent.setGravity(5);
                         ent.jump();
                     } else if (ent.isJumping())
                         ent.jump();
-                } else {
+               // } else {
                     if (ent.isJumping()) {
                         ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
                         ent.stopJump();
                     }
-                }
+               // }
+
+
 
                 ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
                 ent.sideLeftCollision();
@@ -286,26 +285,19 @@ public class Controleur implements Initializable {
         } else if (keyHandler.isSlotSixTyped()) {
             player.getPlayerInventory().setCurrSlotNumber(5);
             keyHandler.setSlotSixTyped(false);
-        } else if (keyHandler.isSlotSevenTyped()) {
+        }  else if (keyHandler.isSlotSevenTyped()) {
             player.getPlayerInventory().setCurrSlotNumber(6);
             keyHandler.setSlotSevenTyped(false);
-        } else if (keyHandler.isSlotEightTyped()) {
+        }  else if (keyHandler.isSlotEightTyped()) {
             player.getPlayerInventory().setCurrSlotNumber(7);
             keyHandler.setSlotEightTyped(false);
-        } else if (keyHandler.isSlotNineTyped()) {
+        }  else if (keyHandler.isSlotNineTyped()) {
             player.getPlayerInventory().setCurrSlotNumber(8);
             keyHandler.setSlotNineTyped(false);
-        } else if (keyHandler.isSlotTenTyped()) {
+        }  else if (keyHandler.isSlotTenTyped()) {
             player.getPlayerInventory().setCurrSlotNumber(9);
             keyHandler.setSlotTenTyped(false);
         }
-    }
 
-    public static int randomNum(int min, int max) {
-        if (min == max)
-            return max;
-        int range = max - min + 1;
-        int rand = (int) (Math.random() * range) + min;
-        return rand;
     }
 }

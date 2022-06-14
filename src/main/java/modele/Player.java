@@ -40,6 +40,8 @@ public class Player extends Entity {
         }
 
     }
+
+
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
 

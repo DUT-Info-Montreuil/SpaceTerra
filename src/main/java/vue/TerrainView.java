@@ -1,5 +1,6 @@
 package vue;
 
+import controleur.Controleur;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -12,15 +13,10 @@ public class TerrainView {
     private Pane panneau;
 
     private ArrayList<Entity> entities;
-    public TerrainView(Pane panneau, ArrayList<Entity> ent) {
-
+    public TerrainView(Pane panneau) {
         this.panneau = panneau;
-        this.entities = ent;
     }
 
-    public void addEntite(Entity entity){
-        this.entities.add(entity);
-    }
 
     public void readMap(Terrain terrain) {
         int id = 0;
@@ -40,7 +36,7 @@ public class TerrainView {
     }
 
     public void readEntity(){
-        for (Entity entity : entities){
+        for (Entity entity : Controleur.env.getEntities()){
             ImageView imgView = new ImageView(entity.getImage());
             imgView.xProperty().bind(entity.getHitbox().getX().subtract(entity.getImage().getWidth()/2 - entity.getHitbox().getWidth()/2));
             imgView.yProperty().bind(entity.getHitbox().getY().subtract(entity.getImage().getHeight() - entity.getHitbox().getHeight()));

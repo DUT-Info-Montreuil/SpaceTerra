@@ -1,18 +1,32 @@
 package modele;
 
+import java.util.Random;
+
 public abstract class Enemy extends Entity{
 
     private int range;
-    private boolean playerDetected = false;
+    private boolean playerDetected;
 
-    private String state = "idle";
-    private int idleCooldown = 50;
-    private int idleDirection = 0;
+    private int rangeMultiplier;
 
-    private boolean canMove = true;
-    public Enemy(int vie, int vitesse, Hitbox hitbox, String path, int range, Terrain terrain) {
+    // pour state : 0 c'est idle, 1 c'est hunting et 2 c'est attack
+    private int state;
+    private int idleCooldown;
+    private int idleDirection;
+
+    private int strenght;
+
+    private boolean canMove;
+    public Enemy(int vie, int vitesse, Hitbox hitbox, String path, int range, int strenght, Terrain terrain, int jumpHeight) {
         super(vie, vitesse, hitbox, path, terrain);
         this.range = range;
+        this.state = 0;
+        this.idleCooldown = 0;
+        this.idleDirection = 0;
+        this.playerDetected = false;
+        this.rangeMultiplier = 1;
+        this.canMove = true;
+
     }
 
     public int getRange() {
@@ -23,11 +37,19 @@ public abstract class Enemy extends Entity{
         this.range = range;
     }
 
-    public String getState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public int getRangeMultiplier(){
+        return rangeMultiplier;
+    }
+
+    public void setRangeMultiplier(int rangeMultiplier){
+        this.rangeMultiplier = rangeMultiplier;
+    }
+
+    public void setState(int state) {
         this.state = state;
     }
 
@@ -64,15 +86,45 @@ public abstract class Enemy extends Entity{
     }
 
     public void detectPlayer(Player player, int rangeMultiplier){
-        if((this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() - range*rangeMultiplier && this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() + range*rangeMultiplier) && (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() - range*rangeMultiplier && this.getHitbox().getY().intValue() < player.getHitbox().getY().intValue() + range*rangeMultiplier)) {
-                if(this.state != "attack") {
-                    this.state = "hunting";
-                    this.playerDetected = true;
-                }
+        if(Math.abs(this.getHitbox().getX().intValue() - player.getHitbox().getX().intValue()) <= 5){
+            this.setState(2);
+        }
+        else if(distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) < (range * rangeMultiplier)) {
+            this.state = 1;
+            this.playerDetected = true;
         }
         else{
-            this.state = "idle";
+            this.state = 0;
             this.playerDetected = false;
         }
+    }
+
+    public void movement(Player player, boolean leftCheck, boolean rightCheck) {
+        this.detectPlayer(player, getRangeMultiplier());
+
+        if (this.getState() == 0) {
+            this.setRangeMultiplier(1);
+            idle();
+        } else {
+            this.setRangeMultiplier(2);
+            /* if (this.isJumping() && !this.isGrounded()) {
+                this.jump();
+            }*/
+            if (this.getState() == 1) {
+                hunting();
+            } else {
+                idle();
+                attack();
+            }
+        }
+    }
+
+    public abstract void idle();
+    public abstract void hunting();
+    public abstract void attack();
+
+    public int proba() {
+        Random r = new Random();
+        return r.nextInt(3) - 1;
     }
 }
