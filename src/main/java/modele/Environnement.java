@@ -1,11 +1,7 @@
 package modele;
 
-import controleur.Controleur;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.util.ArrayList;
 
 public class Environnement {
 
@@ -31,8 +27,9 @@ public class Environnement {
         return this.entities;
     }
 
-    public void unTour() {
+    public void entityLoop() {
             for (Entity ent : this.getEntities()) {
+                /*
                 if (!(ent instanceof Player)) {
                     if (ent.isGrounded()) {
                         ent.setGravity(5);
@@ -51,9 +48,9 @@ public class Environnement {
                     ent.jump();
                 }
 
-                if (!Controleur.player.isGrounded() && !Controleur.player.isJumping()) {
-                    Controleur.player.applyGrav();
-                }
+                 */
+
+
 
             }
 

@@ -1,5 +1,7 @@
 package modele;
 
+import controleur.Controleur;
+
 public class Player extends Entity {
     private boolean isRunning = false;
 

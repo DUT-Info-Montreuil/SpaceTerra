@@ -112,8 +112,10 @@ public class Controleur implements Initializable {
 
         timelineGame = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
-                   //env.unTour();
-                   keyPlayerMovement();
+                    if (!Controleur.player.isGrounded() && !Controleur.player.isJumping()) {
+                        Controleur.player.applyGrav();
+                    }
+                    keyPlayerMovement();
                 }));
         timelineGame.setCycleCount(Timeline.INDEFINITE);
         timelineGame.play();
