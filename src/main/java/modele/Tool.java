@@ -7,6 +7,8 @@ public class Tool extends Item{
 
     public Tool(int id) {
         super(id, 1);
+        pickPower = 10;
+        axePower = 5;
     }
 
     @Override
