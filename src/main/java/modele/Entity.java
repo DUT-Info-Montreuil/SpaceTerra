@@ -56,7 +56,7 @@ public abstract class  Entity {
     }
 
     public void decreaseHealth(int health) {
-        this.health.subtract(health);
+        this.health.setValue(this.health.getValue() - health);
     }
 
     public void increaseHealth(int health) {

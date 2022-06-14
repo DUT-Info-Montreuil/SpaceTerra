@@ -136,16 +136,20 @@ public class Bib extends Enemy {
 
     @Override
     public void attack() {
-        setSpeed(3);
         if (this.getAttackCooldown() > 0 && isCanAttack()) {
+
             setAttackCooldown(getAttackCooldown() - 10);
             if (this.isGrounded() && !isJumping()) {
                 this.jump();
             }
             else if (isJumping()){
+                if(distanceToPosition(Controleur.player.getHitbox().getX().intValue(), Controleur.player.getHitbox().getY().intValue()) == 0 && !Controleur.player.isInvicible()){
+                    Controleur.player.decreaseHealth(1);
+                }
+                Controleur.player.launchInvicibleCooldown();
                 this.jump();
-                move(getIdleDirection());
             }
+            move(getIdleDirection());
         } else {
             setCanAttack(false);
             if (getAttackCooldown() < 1000 && !isCanAttack()) {

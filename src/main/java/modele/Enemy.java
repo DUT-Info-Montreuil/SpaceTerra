@@ -92,7 +92,7 @@ public abstract class Enemy extends Entity{
     }
 
     public void detectPlayer(Player player, int rangeMultiplier){
-        if(Math.abs(this.getHitbox().getX().intValue() - player.getHitbox().getX().intValue()) <= 64){
+        if(distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) <= 3){
             this.setState(2);
         }
         else if(distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) < (range * rangeMultiplier)) {

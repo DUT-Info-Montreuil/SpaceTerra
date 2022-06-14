@@ -6,34 +6,38 @@ public class Player extends Entity {
 
     private PlayerInventory playerInventory;
 
+    private boolean isInvicible;
 
+    private int invicibleCooldown;
     private CraftInventory craftInventory;
 
 
-    public Player(int x, int y, Terrain terrain){
-        super(20, 7, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif", terrain, 20);
+    public Player(int x, int y, Terrain terrain) {
+        super(20, 7, new Hitbox(20, 38, x, y), "/Sprites/MC/MCSpace_Idle_right.gif", terrain, 20);
         playerInventory = new PlayerInventory(50);
         craftInventory = new CraftInventory(9);
+        this.isInvicible = false;
+        this.invicibleCooldown = 5;
     }
 
     @Override
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
-        if(this.getHitbox().getX().getValue() >= 10){
+        if (this.getHitbox().getX().getValue() >= 10) {
             if (leftCheck) {
-                if(!sideLeftCollision())
+                if (!sideLeftCollision())
                     getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
 
-                else if(canClimbLeft())
+                else if (canClimbLeft())
                     climb(2);
             }
         }
 
-        if(this.getHitbox().getX().getValue() <= this.getTerrain().getWidth()*32-30){
-            if (rightCheck){
-                if(!sideRightCollisions())
+        if (this.getHitbox().getX().getValue() <= this.getTerrain().getWidth() * 32 - 30) {
+            if (rightCheck) {
+                if (!sideRightCollisions())
                     getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
 
-                else if(canClimbRight())
+                else if (canClimbRight())
                     climb(1);
 
             }
@@ -44,15 +48,15 @@ public class Player extends Entity {
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
 
 
-    public Item drop(){
+    public Item drop() {
         return this.playerInventory.removeFromCurrSlot();
     }
 
-    public void pick(Item item){
+    public void pick(Item item) {
         this.playerInventory.addIntoNextEmptySlot(item);
     }
 
-    public void pick(Item item, int quantity){
+    public void pick(Item item, int quantity) {
         this.playerInventory.addIntoNextEmptySlot(item, quantity);
     }
 
@@ -70,6 +74,25 @@ public class Player extends Entity {
 
     public void setRunning(boolean running) {
         isRunning = running;
+    }
+
+    public boolean isInvicible() {
+        return isInvicible;
+    }
+
+    public void setInvicible(boolean invicible) {
+        isInvicible = invicible;
+    }
+
+    public void launchInvicibleCooldown() {
+        if (this.invicibleCooldown > 0) {
+            isInvicible = true;
+            invicibleCooldown--;
+            System.out.println(invicibleCooldown);
+        } else {
+            this.isInvicible = false;
+            this.invicibleCooldown = 5;
+        }
     }
 
 }
