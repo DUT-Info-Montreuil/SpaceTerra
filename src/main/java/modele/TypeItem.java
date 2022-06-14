@@ -12,7 +12,7 @@ public enum TypeItem {
     Iron("Iron", new Image("Sprites/Items/ironIngot.png")), // 5
     Gold("Gold", new Image("Sprites/Items/goldIngot.png")),
     Fluxium("Fluxium", new Image("Sprites/Items/fluxiumItem.png")),
-    Vine("Vine", new Image("Sprites/Items/fluxiumItem.png")),
+    Vine("Vine", new Image("Sprites/Items/vineItem.png")),
     WoodPick("Wooden pickaxe", new Image("Sprites/Items/Tools/woodenPickaxe.png")),
     StonePick("Stone pickaxe", new Image("Sprites/Items/Tools/stonePickaxe.png")), // 10
     IronPick("Iron pickaxe", new Image("Sprites/Items/Tools/ironPickaxe.png")),

@@ -15,17 +15,23 @@ public class Tool extends Item{
 
     private void setStats() {
         if(getTypeItem().name().equalsIgnoreCase("WoodPick")) {
-            pickPower = 0;
+            pickPower = 4;
+            axePower = 2;
         } else if (getTypeItem().name().equalsIgnoreCase("StonePick")) {
-            pickPower = 0;
+            pickPower = 6;
+            axePower = 3;
         } else if(getTypeItem().name().equalsIgnoreCase("IronPick")){
-
+            pickPower = 8;
+            axePower = 4;
         } else if(getTypeItem().name().equalsIgnoreCase("WoodAxe")) {
-
+            axePower = 4;
+            pickPower = 2;
         } else if (getTypeItem().name().equalsIgnoreCase("StoneAxe")) {
-
+            axePower = 6;
+            pickPower = 3;
         } else if(getTypeItem().name().equalsIgnoreCase("IronAxe")){
-
+            axePower = 8;
+            pickPower = 4;
         }
     }
 
