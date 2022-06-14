@@ -62,7 +62,7 @@ public class Bib extends Enemy {
 
     @Override
     public void attack() {
-        /*
+
         if (this.getAttackCooldown() > 0 && isCanAttack()) {
 
             setAttackCooldown(getAttackCooldown() - 10);
@@ -92,6 +92,6 @@ public class Bib extends Enemy {
             }
         }
 
-         */
+
     }
 }
