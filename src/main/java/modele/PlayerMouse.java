@@ -80,7 +80,7 @@ public class PlayerMouse {
         } else if (item != null) {
             item.use();
         } else {
-            player.breakBlock(getX(), getY(), 1);
+            player.breakBlock(getX(), getY(), 2, 2);
         }
     }
 

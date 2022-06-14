@@ -3,7 +3,6 @@ package modele;
 import controleur.Controleur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.paint.Color;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -179,7 +178,7 @@ public class Terrain {
     }
 
     public boolean checkDestroyedBlock(Block b){
-            if (b.getPvs() <= 0) {
+            if (b.getHealth() <= 0) {
                 Controleur.terrain.deleteBlock(b);
                 if (b.getTile().getHitbox().isSolid()) {
                     Controleur.terrain.deleteSolidBlock(b);

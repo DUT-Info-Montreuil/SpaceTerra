@@ -72,13 +72,21 @@ public class Player extends Entity {
         isRunning = running;
     }
 
-    public void breakBlock(int x, int y, int pow) {
+    public void breakBlock(int x, int y, int pickPow, int axePow) {
         Block b = getTerrain().getBlock(x, y);
         if (b != null) {
             if (getTerrain().checkDistanceBlock(this, b)) {
-                b.setPvs(b.getPvs() - pow);
-                if (getTerrain().checkDestroyedBlock(b) && b.getRessource() != null && !this.getPlayerInventory().isInventoryFull()) {
-                    this.pick(b.getRessource());
+                int damage;
+                if(pickPow - b.getPickDef() > axePow - b.getAxeDef())
+                    damage = pickPow - b.getPickDef();
+                else
+                    damage = axePow - b.getAxeDef();
+                System.out.println(damage + ", pick"+ b.getPickDef() + ", axe" + b.getAxeDef());
+                if(damage > 0){
+                    b.setHealth(b.getHealth() - damage);
+                    if (getTerrain().checkDestroyedBlock(b) && b.getRessourceAsItem() != null && !this.getPlayerInventory().isInventoryFull()) {
+                        this.pick(b.getRessourceAsItem());
+                    }
                 }
             }
         }

@@ -6,7 +6,6 @@ public class Block {
 
     private String ressource;
 
-    private final int insideOffset = 10;
 
     private Tile tile;
 
@@ -21,14 +20,16 @@ public class Block {
         return id;
     }
 
-    private int pvs;
+    private int health;
+    private int pickDef;
+    private int axeDef;
 
-    public int getPvs() {
-        return pvs;
+    public int getHealth() {
+        return health;
     }
 
-    public void setPvs(int pvs) {
-        this.pvs = pvs;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public Block(Tile tile, int x, int y, Terrain terrain) {
@@ -38,9 +39,9 @@ public class Block {
         hitX = x + tile.getHitbox().getX().intValue();
         hitY = y + tile.getHitbox().getY().intValue();
         this.id = "block" + idCount++;
-        this.pvs = 1;
         this.terrain = terrain;
         ressource = this.getTile().getRessource();
+        resourceStats();
     }
 
     public Block(ItemBlock item, int x, int y, Terrain terrain){
@@ -58,8 +59,7 @@ public class Block {
         hitY = y + tile.getHitbox().getY().intValue();
         this.id = "block" + idCount++;
         ressource = this.getTile().getRessource();
-        this.pvs = 10;
-
+        resourceStats();
     }
 
     public int getX() {
@@ -81,14 +81,11 @@ public class Block {
     public int getHitY() {
         return hitY;
     }
-    public int getInsideOffset() {
-        return insideOffset;
-    }
 
-    public Item getRessource(){
+    public Item getRessourceAsItem(){
         Item item = null;
         try {
-            switch(this.getTile().getRessource()){
+            switch(ressource){
                 case "dirt":
                     item = new ItemBlock(0);
                     break;
@@ -118,5 +115,55 @@ public class Block {
             }
         }catch (Exception e) {}
         return item;
+    }
+
+    public void resourceStats(){
+        health = 10;
+        switch(ressource){
+            case "dirt":
+                pickDef = 1;
+                axeDef = 1;
+                break;
+            case "wood":
+                pickDef = 10;
+                axeDef = 1;
+                break;
+            case "leaf":
+                pickDef = 1;
+                axeDef = 1;
+                break;
+            case "stone":
+                pickDef = 2;
+                axeDef = 20;
+                break;
+            case "coal":
+                pickDef = 3;
+                axeDef = 20;
+                break;
+            case "iron":
+                pickDef = 4;
+                axeDef = 20;
+                break;
+            case "gold":
+                pickDef = 5;
+                axeDef = 20;
+                break;
+            case "fluxium":
+                pickDef = 6;
+                axeDef = 20;
+                break;
+            default:
+                pickDef = 9999;
+                axeDef = 9999;
+                break;
+        }
+    }
+
+    public int getPickDef() {
+        return pickDef;
+    }
+
+    public int getAxeDef() {
+        return axeDef;
     }
 }
