@@ -112,7 +112,7 @@ public class Controleur implements Initializable {
 
         timelineGame = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
-                   env.unTour();
+                   //env.unTour();
                    keyPlayerMovement();
                 }));
         timelineGame.setCycleCount(Timeline.INDEFINITE);

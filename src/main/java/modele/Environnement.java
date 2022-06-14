@@ -33,16 +33,29 @@ public class Environnement {
 
     public void unTour() {
             for (Entity ent : this.getEntities()) {
-                ent.sideLeftCollision();
-                ent.sideRightCollisions();
-                ent.movement(Controleur.player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
-                if (ent.isGrounded())    {
-                    if (!ent.isFlying())
-                        ent.applyGrav();
+                if (!(ent instanceof Player)) {
+                    if (ent.isGrounded()) {
+                        ent.setGravity(5);
+                        ent.jump();
+                    } else if (ent.isJumping()) {
+                        ent.movement(Controleur.player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
+                        ent.stopJump();
+                        if (ent.upCollisions()) {
+                            ent.stopJump();
+                        }
+                    }if (ent.isGrounded()) {
+                        if (!ent.isFlying())
+                            ent.applyGrav();
+                    }
+                    ent.movement(Controleur.player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
+                    ent.jump();
                 }
+
+                if (!Controleur.player.isGrounded() && !Controleur.player.isJumping()) {
+                    Controleur.player.applyGrav();
+                }
+
             }
-            if (!Controleur.player.isGrounded() && !Controleur.player.isJumping()) {
-                Controleur.player.applyGrav();
-            }
+
     }
 }
