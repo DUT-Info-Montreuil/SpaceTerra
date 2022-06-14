@@ -9,9 +9,13 @@ public abstract class Enemy extends Entity{
 
     private int rangeMultiplier;
 
+    private boolean canAttack;
+
     // pour state : 0 c'est idle, 1 c'est hunting et 2 c'est attack
     private int state;
     private int idleCooldown;
+
+    private int attackCooldown;
     private int idleDirection;
 
     private int strenght;
@@ -26,7 +30,9 @@ public abstract class Enemy extends Entity{
         this.playerDetected = false;
         this.rangeMultiplier = 1;
         this.canMove = true;
-
+        this.attackCooldown = 0;
+        this.canAttack = true;
+        this.attackCooldown = 100;
     }
 
     public int getRange() {
@@ -86,12 +92,20 @@ public abstract class Enemy extends Entity{
     }
 
     public void detectPlayer(Player player, int rangeMultiplier){
-        if(Math.abs(this.getHitbox().getX().intValue() - player.getHitbox().getX().intValue()) <= 5){
+        if(Math.abs(this.getHitbox().getX().intValue() - player.getHitbox().getX().intValue()) <= 64){
             this.setState(2);
         }
         else if(distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) < (range * rangeMultiplier)) {
-            this.state = 1;
-            this.playerDetected = true;
+            if(getState() == 2 && isJumping()){
+                this.state = 1;
+                this.playerDetected = true;
+            }
+            else if (getState() == 0){
+                this.state = 1;
+                this.playerDetected = true;
+                this.setAttackCooldown(1000);
+            }
+
         }
         else{
             this.state = 0;
@@ -104,6 +118,22 @@ public abstract class Enemy extends Entity{
     public abstract void idle();
     public abstract void hunting();
     public abstract void attack();
+
+    public int getAttackCooldown() {
+        return attackCooldown;
+    }
+
+    public void setAttackCooldown(int attackCooldown) {
+        this.attackCooldown = attackCooldown;
+    }
+
+    public boolean isCanAttack() {
+        return canAttack;
+    }
+
+    public void setCanAttack(boolean canAttack) {
+        this.canAttack = canAttack;
+    }
 
     public int proba() {
         Random r = new Random();

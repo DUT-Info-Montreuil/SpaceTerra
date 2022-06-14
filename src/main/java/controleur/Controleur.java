@@ -231,6 +231,7 @@ public class Controleur implements Initializable {
 
     public void entityLoop() {
         for (Entity ent : entities) {
+            //camera.translateToLook(ent.getHitbox().getX(), ent.getHitbox().getY(), 1000);
             if (ent instanceof Player) {
             }
             //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
@@ -239,7 +240,11 @@ public class Controleur implements Initializable {
                     if (ent.isGrounded()) {
                         ent.setGravity(5);
                         ent.jump();
-                    } else if (ent.isJumping())
+                    } else if (ent.isJumping()){
+                        if(ent.upCollisions()){
+                            ent.stopJump();
+                        }
+                    }
                         ent.jump();
                // } else {
                     if (ent.isJumping()) {

@@ -11,7 +11,7 @@ public abstract class  Entity {
     private int speed;
     private Hitbox hitbox;
     private Image image;
-    private final int jumpHeight;
+    private int jumpHeight;
     public int jumpCount;
     private boolean isJumping = false;
     private boolean flying = false;
@@ -324,5 +324,9 @@ public abstract class  Entity {
 
     public void setGravity(double gravity) {
         this.gravity = gravity;
+    }
+
+    public void setJumpHeight(int jumpHeight){
+        this.jumpHeight = jumpHeight;
     }
 }
