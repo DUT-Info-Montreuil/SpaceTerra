@@ -11,19 +11,16 @@ public abstract class InventoryView {
 
     public static Pane panneauDeJeu;
 
+    private boolean display;
+
     private ArrayList<SlotView> slotViews;
 
-    public boolean isDisplay() {
-        return display;
-    }
+
 
     public void setDisplay(boolean display) {
         this.display = display;
         displayAllSlotViews();
     }
-
-    private boolean display;
-
 
 
     public InventoryView(Pane panneauDeJeu) {
@@ -31,10 +28,10 @@ public abstract class InventoryView {
         this.slotViews = new ArrayList<>();
     }
 
+
     public static Pane getPanneauDeJeu() {
         return panneauDeJeu;
     }
-
 
     public ArrayList<SlotView> getSlotViews() {
         return slotViews;
@@ -44,7 +41,9 @@ public abstract class InventoryView {
 
     public abstract void displayAllSlotViews();
 
-
+    public boolean isDisplay() {
+        return display;
+    }
 
     public abstract int getHeightMult(int numSlot);
 

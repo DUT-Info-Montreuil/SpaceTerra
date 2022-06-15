@@ -31,9 +31,6 @@ public class CraftInventoryView extends InventoryView{
         }
     }
 
-
-
-
     public int getHeightMult(int numSlot) {
 
         int heightMult = numSlot / 3;
@@ -41,6 +38,7 @@ public class CraftInventoryView extends InventoryView{
 
         return heightMult;
     }
+
 
     public int getWidthMult(int numSlot) {
         return numSlot % 3;

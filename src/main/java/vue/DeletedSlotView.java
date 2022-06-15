@@ -1,5 +1,7 @@
 package vue;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -20,6 +22,12 @@ public class DeletedSlotView {
         deletedRectangle.toFront();
         deletedRectangle.setVisible(false);
 
+        ImageView trashCan = new ImageView(new Image("Sprites/Items/dirtItem.png")); // Image temp
+        trashCan.xProperty().bind(deletedRectangle.xProperty().subtract(trashCan.getImage().getWidth()/2 - deletedRectangle.getWidth() / 2));
+        trashCan.yProperty().bind(deletedRectangle.yProperty().subtract(trashCan.getImage().getHeight()/2 - deletedRectangle.getHeight() / 2));
+        trashCan.visibleProperty().bind(deletedRectangle.visibleProperty());
+        panneauDeJeu.getChildren().add(trashCan);
+        trashCan.toFront();
     }
 
     public void display(boolean diplay){

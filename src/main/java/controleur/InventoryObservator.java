@@ -11,24 +11,12 @@ import vue.SlotView;
 
 public abstract class InventoryObservator implements ListChangeListener<Slot> {
 
-
-    public InventoryView getInventoryView() {
-        return inventoryView;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
     private InventoryView inventoryView;
 
     private Inventory inventory;
 
-    public Pane getPanneauDeJeu() {
-        return panneauDeJeu;
-    }
+    private Pane panneauDeJeu;
 
-    Pane panneauDeJeu;
     public InventoryObservator(InventoryView inventoryView, Inventory inventory, Pane panneauDeJeu) {
         super();
         this.inventoryView = inventoryView;
@@ -71,5 +59,16 @@ public abstract class InventoryObservator implements ListChangeListener<Slot> {
     }
 
 
+    public Pane getPanneauDeJeu() {
+        return panneauDeJeu;
+    }
+
+    public InventoryView getInventoryView() {
+        return inventoryView;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
 }
 

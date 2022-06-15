@@ -91,9 +91,7 @@ public class SlotView {
     public void hideItemView(){
         try{
             itemView.setVisible(false);
-        }catch (NullPointerException e){
-
-        }
+        }catch (NullPointerException e){}
     }
     
     public void setX(double x){

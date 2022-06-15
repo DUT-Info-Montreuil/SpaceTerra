@@ -21,13 +21,13 @@ public class PlayerInventoryView extends InventoryView{
         panneauDeJeu.getChildren().add(currentSlotView);
     }
 
-    public void setCurrentSlotViewPosition(IntegerProperty xMult){
-        currentSlotView.toFront();
-    }
-
     public void setSlotViewPosition(int numSlot){
         getSlotViews().get(numSlot).getXProperty().bind(panneauDeJeu.getScene().getCamera().layoutXProperty().add(100 + 32 * getWidthMult(numSlot)));
         getSlotViews().get(numSlot).getYProperty().bind(panneauDeJeu.getScene().getCamera().layoutYProperty().add(100 + getHeightMult(numSlot)));
+    }
+
+    public void setCurrentSlotViewPosition(IntegerProperty xMult){
+        currentSlotView.toFront();
     }
 
     @Override
@@ -50,11 +50,9 @@ public class PlayerInventoryView extends InventoryView{
                 }else {
                     slotView.hideSlot();
                 }
-
             }
         }
     }
-
 
     public int getHeightMult(int numSlot) {
 
@@ -63,6 +61,7 @@ public class PlayerInventoryView extends InventoryView{
 
         return heightMult;
     }
+
 
     public int getWidthMult(int numSlot) {
         return numSlot % 10;
