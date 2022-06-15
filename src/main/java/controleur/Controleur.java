@@ -60,7 +60,7 @@ public class Controleur implements Initializable {
         terrain = new Terrain("src/main/resources/Map/bigTest.json");
         terrainView = new TerrainView(panneauDeJeu, entities);
         terrainView.readMap(terrain);
-        createEnnemies();
+        createEntities();
 
         PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);
         entities.add(player);
@@ -97,13 +97,15 @@ public class Controleur implements Initializable {
     }
 
 
-    public void createEnnemies() {
+    public void createEntities() {
         Bingus bingus = new Bingus(3500, 2030, terrain);
         Florb florb = new Florb(3500, 2000, terrain);
         Bib bib = new Bib(4000, 2030, terrain);
+        Moobius moobius = new Moobius(terrain,4000, 2030);
         entities.add(bingus);
         entities.add(florb);
         entities.add(bib);
+        entities.add(moobius);
     }
 
 
