@@ -9,7 +9,7 @@ import java.util.Iterator;
 public class Tileset {
 
     private int tileCount;
-    private ArrayList<Tile> tiles;
+    private ArrayList<BlocLoader> blocLoaders;
 
     public Tileset(JSONObject tileSet){
         tileCount = ((Long)tileSet.get("tilecount")).intValue();
@@ -17,17 +17,17 @@ public class Tileset {
     }
 
     public void parseTiles(JSONObject tileSet){
-        tiles = new ArrayList<>();
+        blocLoaders = new ArrayList<>();
         JSONArray tilesData = (JSONArray) tileSet.get("tiles");
         Iterator<JSONObject> tilesIterator = tilesData.iterator();
         while(tilesIterator.hasNext()){
             JSONObject currentTile = tilesIterator.next();
-            tiles.add(new Tile(currentTile));
+            blocLoaders.add(new BlocLoader(currentTile));
         }
         System.out.println("All Tiles loaded");
     }
 
-    public ArrayList<Tile> getTiles(){
-        return tiles;
+    public ArrayList<BlocLoader> getTiles(){
+        return blocLoaders;
     }
 }

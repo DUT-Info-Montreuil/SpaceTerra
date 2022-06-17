@@ -2,8 +2,6 @@ package vue;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import modele.*;
 
 import java.util.ArrayList;
@@ -42,8 +40,8 @@ public class TerrainView {
     public void readEntity(){
         for (Entity entity : entities){
             ImageView imgView = new ImageView(entity.getImage());
-            imgView.xProperty().bind(entity.getHitbox().getX().subtract(entity.getImage().getWidth()/2 - entity.getHitbox().getWidth()/2));
-            imgView.yProperty().bind(entity.getHitbox().getY().subtract(entity.getImage().getHeight() - entity.getHitbox().getHeight()));
+            imgView.xProperty().bind(entity.getHitbox().xProperty().subtract(entity.getImage().getWidth()/2 - entity.getHitbox().getWidth()/2));
+            imgView.yProperty().bind(entity.getHitbox().yProperty().subtract(entity.getImage().getHeight() - entity.getHitbox().getHeight()));
             panneau.getChildren().add(imgView);
         }
     }

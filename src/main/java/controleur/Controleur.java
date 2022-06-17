@@ -114,7 +114,7 @@ public class Controleur implements Initializable {
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
                     if (!doOnce) {
-                        camera.lookAt(player.getHitbox().getX(), player.getHitbox().getY());
+                        camera.lookAt(player.getHitbox().xProperty(), player.getHitbox().yProperty());
                         doOnce = true;
                     }
                     entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving

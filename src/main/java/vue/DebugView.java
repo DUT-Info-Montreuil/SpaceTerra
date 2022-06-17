@@ -30,10 +30,10 @@ public class DebugView {
         Rectangle r = new Rectangle();
         r.setFill(Color.TRANSPARENT);
         r.setStroke(color);
-        r.setX(block.getHitX());
-        r.setY(block.getHitY());
-        r.setWidth(block.getTile().getHitbox().getWidth());
-        r.setHeight(block.getTile().getHitbox().getHeight());
+        r.setX(block.getHitbox().getX());
+        r.setY(block.getHitbox().getY());
+        r.setWidth(block.getHitbox().getWidth());
+        r.setHeight(block.getHitbox().getHeight());
         panneau.getChildren().add(r);
     }
 
@@ -46,9 +46,9 @@ public class DebugView {
     }
 
     public static void debugEntity(Entity ent){
-        Rectangle r = new Rectangle(ent.getHitbox().getX().intValue(), ent.getHitbox().getY().intValue(), ent.getHitbox().getWidth(), ent.getHitbox().getHeight());
-        r.xProperty().bind(ent.getHitbox().getX());
-        r.yProperty().bind(ent.getHitbox().getY());
+        Rectangle r = new Rectangle(ent.getHitbox().xProperty().intValue(), ent.getHitbox().yProperty().intValue(), ent.getHitbox().getWidth(), ent.getHitbox().getHeight());
+        r.xProperty().bind(ent.getHitbox().xProperty());
+        r.yProperty().bind(ent.getHitbox().yProperty());
         r.setFill(Color.TRANSPARENT);
         r.setStroke(Color.RED);
         panneau.getChildren().add(r);

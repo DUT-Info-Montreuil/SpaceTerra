@@ -18,20 +18,20 @@ public class Player extends Entity {
 
     @Override
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
-        if(this.getHitbox().getX().getValue() >= 10){
+        if(this.getHitbox().xProperty().getValue() >= 10){
             if (leftCheck) {
                 if(!sideLeftCollision())
-                    getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
+                    getHitbox().setX(this.getHitbox().xProperty().intValue() - getSpeed());
 
                 else if(grimpableLeft())
                     grimper(2);
             }
         }
 
-        if(this.getHitbox().getX().getValue() <= this.getTerrain().getWidth()*32-30){
+        if(this.getHitbox().xProperty().getValue() <= this.getTerrain().getWidth()*32-30){
             if (rightCheck){
                 if(!sideRightCollisions())
-                    getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
+                    getHitbox().setX(this.getHitbox().xProperty().intValue() + getSpeed());
 
                 else if(grimpableRight())
                     grimper(1);

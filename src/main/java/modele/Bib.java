@@ -34,7 +34,7 @@ public class Bib extends Enemy{
 
                     case 1:
                         if (leftCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                            this.getHitbox().setX(this.getHitbox().xProperty().intValue() + this.getSpeed());
                             this.setIdleCooldown(this.getIdleCooldown() - 1);
 
                             if (this.getIdleCooldown() == 0) {
@@ -53,7 +53,7 @@ public class Bib extends Enemy{
 
                     case 2:
                         if (rightCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                            this.getHitbox().setX(this.getHitbox().xProperty().intValue() - this.getSpeed());
                             this.setIdleCooldown(this.getIdleCooldown() - 1);
 
                             if (this.getIdleCooldown() == 0) {
@@ -85,14 +85,14 @@ public class Bib extends Enemy{
             case "hunting":
                 this.setSpeed(6);
 
-                if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 112) {
+                if (this.getHitbox().xProperty().intValue() < player.getHitbox().xProperty().intValue() - 112) {
                     if (leftCheck)
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                        this.getHitbox().setX(this.getHitbox().xProperty().intValue() + this.getSpeed());
                 }
 
-                else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 112) {
+                else if (this.getHitbox().xProperty().intValue() > player.getHitbox().xProperty().intValue() + 112) {
                     if (rightCheck)
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                        this.getHitbox().setX(this.getHitbox().xProperty().intValue() - this.getSpeed());
                 }
 
                 else
@@ -110,12 +110,12 @@ public class Bib extends Enemy{
                 else if(isJumping())
                     this.jump();
 
-                if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 6 && this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() - 112) {
-                    this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                if (this.getHitbox().xProperty().intValue() < player.getHitbox().xProperty().intValue() - 6 && this.getHitbox().xProperty().intValue() > player.getHitbox().xProperty().intValue() - 112) {
+                    this.getHitbox().setX(this.getHitbox().xProperty().intValue() + this.getSpeed());
                 }
 
-                else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 6 && this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() + 112) {
-                    this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                else if (this.getHitbox().xProperty().intValue() > player.getHitbox().xProperty().intValue() + 6 && this.getHitbox().xProperty().intValue() < player.getHitbox().xProperty().intValue() + 112) {
+                    this.getHitbox().setX(this.getHitbox().xProperty().intValue() - this.getSpeed());
                 }
 
                 else{

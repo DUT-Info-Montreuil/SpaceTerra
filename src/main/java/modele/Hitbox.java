@@ -2,7 +2,6 @@ package modele;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class Hitbox {
@@ -28,10 +27,8 @@ public class Hitbox {
         this.isSolid = false;
         this.width = width;
         this.height = height;
-        this.x = new SimpleDoubleProperty();
-        this.y = new SimpleDoubleProperty();
-        this.x.setValue(x);
-        this.y.setValue(y);
+        this.x = new SimpleDoubleProperty(x);
+        this.y = new SimpleDoubleProperty(y);
     }
 
     public int getCenterXPos(){
@@ -66,12 +63,20 @@ public class Hitbox {
         return height;
     }
 
-    public DoubleProperty getX() {
+    public DoubleProperty xProperty() {
         return x;
     }
 
-    public DoubleProperty getY() {
+    public DoubleProperty yProperty() {
         return y;
+    }
+
+    public double getX(){
+        return x.getValue();
+    }
+
+    public double getY(){
+        return y.getValue();
     }
 
     public void setX(double x) {

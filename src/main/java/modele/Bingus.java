@@ -40,7 +40,7 @@ public class Bingus extends Enemy {
 
                     case 1:
                         if (leftCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                            this.getHitbox().setX(this.getHitbox().xProperty().intValue() + this.getSpeed());
                             this.setIdleCooldown(this.getIdleCooldown()-1);
 
                             if(this.getIdleCooldown() == 0) {
@@ -62,7 +62,7 @@ public class Bingus extends Enemy {
 
                     case 2:
                         if (rightCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                            this.getHitbox().setX(this.getHitbox().xProperty().intValue() - this.getSpeed());
                             this.setIdleCooldown(this.getIdleCooldown()-1);
 
                             if(this.getIdleCooldown() == 0) {
@@ -97,13 +97,13 @@ public class Bingus extends Enemy {
                 break;
 
             case "hunting":
-                if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 5) {
+                if (this.getHitbox().xProperty().intValue() < player.getHitbox().xProperty().intValue() - 5) {
                     if (leftCheck)
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                        this.getHitbox().setX(this.getHitbox().xProperty().intValue() + this.getSpeed());
                 }
-                else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 5) {
+                else if (this.getHitbox().xProperty().intValue() > player.getHitbox().xProperty().intValue() + 5) {
                     if (rightCheck)
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                        this.getHitbox().setX(this.getHitbox().xProperty().intValue() - this.getSpeed());
                 }
 
 
