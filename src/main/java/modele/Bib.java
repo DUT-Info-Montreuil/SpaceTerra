@@ -17,8 +17,8 @@ public class Bib extends Enemy {
     @Override
     public void attack() {
         if (this.getAttackCooldown() > 0 && isCanAttack()) {
-
-            setAttackCooldown(getAttackCooldown() - 10);
+            System.out.println(getIdleDirection());
+            setAttackCooldown(getAttackCooldown() - 20);
             if (this.isGrounded() && !isJumping()) {
                 this.jump();
             } else if (isJumping()) {
@@ -28,10 +28,10 @@ public class Bib extends Enemy {
                 Controleur.player.launchInvicibleCooldown();
                 this.jump();
             }
-            if(getIdleDirection() == 1 && !sideRightCollisions()){
+            if(getIdleDirection() == 1 && !sideRightCollisions() && this.getHitbox().getX().getValue() <= this.getTerrain().getWidth() * 32 - 30){
                 moveX(1);
             }
-            else if (getIdleDirection() == -1 && !sideLeftCollision()){
+            else if (getIdleDirection() == -1 && !sideLeftCollision() && this.getHitbox().getX().getValue() >= 10){
                 moveX(-1);
             }
         } else {

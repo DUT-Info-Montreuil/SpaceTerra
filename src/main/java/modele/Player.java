@@ -93,7 +93,13 @@ public class Player extends Entity {
         }
     }
 
-    public void mourrir(){
+    public void checkDie(){
+        if(this.getHealth().getValue() <= 0){
+            this.getHitbox().setX(2500);
+            this.getHitbox().setY(2030);
+            this.setHealth(20);
+            this.launchInvicibleCooldown();
+        }
 
     }
 

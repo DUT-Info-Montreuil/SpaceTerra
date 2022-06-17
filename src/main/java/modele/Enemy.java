@@ -115,9 +115,9 @@ public abstract class Enemy extends Entity {
 
     public void idle() {
         if (getIdleCooldown() > 0 && isCanMove()) {
-            moveX(getIdleDirection());
             if (getIdleDirection() == -1) {
                 if (this.getHitbox().getX().getValue() >= 10) {
+                    moveX(getIdleDirection());
                     if (this.sideLeftCollision()) {
                         action();
                     }
@@ -125,6 +125,7 @@ public abstract class Enemy extends Entity {
                 }
             } else if (getIdleDirection() == 1) {
                 if (this.getHitbox().getX().getValue() <= this.getTerrain().getWidth() * 32 - 30) {
+                    moveX(getIdleDirection());
                     if (this.sideRightCollisions()) {
                         action();
                     }
@@ -205,16 +206,20 @@ public abstract class Enemy extends Entity {
     public void huntingX() {
         if (this.getHitbox().getX().intValue() < Controleur.player.getHitbox().getX().intValue()) {
             if (!sideRightCollisions()) {
-                moveX(1);
+                setIdleDirection(1);
+                moveX(getIdleDirection());
             } else {
-                moveX(1);
+                setIdleDirection(1);
+                moveX(getIdleDirection());
                 action();
             }
         } else {
             if (!sideLeftCollision()) {
-                moveX(-1);
+                setIdleDirection(-1);
+                moveX(getIdleDirection());
             } else {
-                moveX(-1);
+                setIdleDirection(-1);
+                moveX(getIdleDirection());
                 action();
             }
         }

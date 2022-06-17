@@ -98,10 +98,10 @@ public class Controleur implements Initializable {
 
 
     public void createEnnemies() {
-            //Bingus bingus = new Bingus(3500, 2030, terrain);
+        Bingus bingus = new Bingus(3500, 2030, terrain);
         Florb florb = new Florb(3500, 1980, terrain);
         Bib bib = new Bib(4000, 2030, terrain);
-       // entities.add(bingus);
+        entities.add(bingus);
         entities.add(florb);
         entities.add(bib);
     }
@@ -192,6 +192,7 @@ public class Controleur implements Initializable {
 
 
     public void playerMovement() {
+        player.checkDie();
         if (keyHandler.isSprintPressed() && !player.isRunning()) {
             player.setRunning(true);
             player.setSpeed(14);
