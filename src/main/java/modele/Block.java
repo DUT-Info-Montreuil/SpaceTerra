@@ -11,6 +11,7 @@ public class Block {
 
     private int hitX; // hitBox pos in relation to its Tile
     private int hitY;
+    private Hitbox hitbox;
     private static int idCount = 0;
     private String id;
 
@@ -32,9 +33,10 @@ public class Block {
         this.health = health;
     }
 
-    public Block(Tile tile, int x, int y, Terrain terrain) {
+    public Block(Tile tile, int x, int y, Terrain terrain, Hitbox hitbox) {
         this.x = x;
         this.y = y;
+        this.hitbox = hitbox;
         this.tile = tile;
         hitX = x + tile.getHitbox().getX().intValue();
         hitY = y + tile.getHitbox().getY().intValue();

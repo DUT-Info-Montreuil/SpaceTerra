@@ -15,9 +15,8 @@ import java.util.Iterator;
 public class JsonGameLoader {
 
     private JSONObject map;
-    private HashMap<Integer, String> tileImages;
+    private HashMap<Integer, String> tileImages; //
     private ArrayList<Layer> layers;
-    private ArrayList<Tile> tileSet;
 
     public JsonGameLoader(String mapPath){
         tileImages = new HashMap<>();
@@ -58,13 +57,12 @@ public class JsonGameLoader {
         System.out.println("All layers loaded");
     }
 
-    public void parseTiles(JSONObject tileSet){
-        tileSet = new ArrayList<>();
-        JSONArray tilesData = (JSONArray) tileSet.get("tiles");
+    public void parseTiles(){
+        JSONObject jTileSet = (JSONObject) ((JSONArray) map.get("tilesets")).get(0);
+        JSONArray tilesData = (JSONArray) jTileSet.get("tiles");
         Iterator<JSONObject> tilesIterator = tilesData.iterator();
         while(tilesIterator.hasNext()){
             JSONObject currentTile = tilesIterator.next();
-            tileSet.add(new Tile(currentTile));
         }
         System.out.println("All Tiles loaded");
     }

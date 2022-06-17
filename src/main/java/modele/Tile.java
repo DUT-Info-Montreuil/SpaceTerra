@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 
 public class Tile {
     private int id;
-    private Image image;
+    private String image;
     private int tileWidth, tileHeight;
 
     private Hitbox hitbox;
@@ -22,7 +22,7 @@ public class Tile {
         id = (((Long)tile.get("id")).intValue()) + 1; // On ajoute 1 parce que les id commence a 0 mais 0 = vide dans le data des layers
         tileWidth = ((Long)tile.get("imagewidth")).intValue();
         tileHeight = ((Long)tile.get("imageheight")).intValue();
-        image = new Image(String.valueOf(getClass().getResource("/Sprites/TileSet/" + findTileFileName(tile))));
+        image = String.valueOf(getClass().getResource("/Sprites/TileSet/" + findTileFileName(tile)));
         hitbox = new Hitbox((JSONObject) ((JSONArray)((JSONObject) tile.get("objectgroup")).get("objects")).get(0));
         JSONArray properties = (JSONArray)tile.get("properties");
         JSONObject ressourceObject = (JSONObject) properties.get(0);
@@ -32,7 +32,7 @@ public class Tile {
 
     public Tile(int id, String path, int tileWidth, int tileHeight, Hitbox hitbox){
         this.id = id;
-        image = new Image(String.valueOf(getClass().getResource(path)));
+        image = String.valueOf(getClass().getResource(path));
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
         this.hitbox = hitbox;
@@ -47,7 +47,7 @@ public class Tile {
         return id;
     }
 
-    public Image getImage(){
+    public String getImage(){
         return image;
     }
 
@@ -69,7 +69,7 @@ public class Tile {
     public String toString() {
         return "Tile{" +
                 "id=" + id +
-                ", image=" + image.getUrl() +
+                ", image=" + image +
                 ", tileWidth=" + tileWidth +
                 ", tileHeight=" + tileHeight +
                 ", hitbox=" + hitbox +
