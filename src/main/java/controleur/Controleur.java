@@ -230,8 +230,8 @@ public class Controleur implements Initializable {
     }
 
     public void entityLoop() {
+        //camera.translateToLook(entities.get(0).getHitbox().getX(), entities.get(0).getHitbox().getY(), 1000);
         for (Entity ent : entities) {
-            //camera.translateToLook(ent.getHitbox().getX(), ent.getHitbox().getY(), 1000);
             if (ent instanceof Player) {
             }
             //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur

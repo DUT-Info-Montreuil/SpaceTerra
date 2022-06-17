@@ -2,8 +2,6 @@ package modele;
 
 public class Player extends Entity {
     private boolean isRunning = false;
-
-
     private PlayerInventory playerInventory;
 
     private boolean isInvicible;
@@ -17,7 +15,7 @@ public class Player extends Entity {
         playerInventory = new PlayerInventory(50);
         craftInventory = new CraftInventory(9);
         this.isInvicible = false;
-        this.invicibleCooldown = 5;
+        this.invicibleCooldown = 10;
     }
 
     @Override
@@ -91,8 +89,12 @@ public class Player extends Entity {
            // System.out.println(invicibleCooldown);
         } else {
             this.isInvicible = false;
-            this.invicibleCooldown = 5;
+            this.invicibleCooldown = 10;
         }
+    }
+
+    public void mourrir(){
+
     }
 
 }

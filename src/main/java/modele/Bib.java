@@ -28,8 +28,12 @@ public class Bib extends Enemy {
                 Controleur.player.launchInvicibleCooldown();
                 this.jump();
             }
-            moveX(getIdleDirection());
-
+            if(getIdleDirection() == 1 && !sideRightCollisions()){
+                moveX(1);
+            }
+            else if (getIdleDirection() == -1 && !sideLeftCollision()){
+                moveX(-1);
+            }
         } else {
             setCanAttack(false);
             if (getAttackCooldown() < 1000 && !isCanAttack()) {

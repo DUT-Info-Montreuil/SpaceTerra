@@ -146,8 +146,10 @@ public abstract class Enemy extends Entity {
 
     @Override
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
+        if(this.getAttackCooldown() < 100){
+            this.setAttackCooldown(this.getAttackCooldown() + 1);
+        }
         this.detectPlayer(player, getRangeMultiplier());
-        System.out.println(getIdleDirection());
         if (this.getState() == 0) {
             if (this.isFlying()) {
                 action();
