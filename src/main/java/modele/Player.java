@@ -70,6 +70,12 @@ public class Player extends Entity {
 
     public void setRunning(boolean running) {
         isRunning = running;
+        if(isRunning){
+            setSpeed(14);
+        }
+        else{
+            setSpeed(7);
+        }
     }
 
     public void breakBlock(int x, int y, int pickPow, int axePow) {
