@@ -1,5 +1,7 @@
 package modele;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public abstract class  Entity {
     private boolean flying = false;
     public double gravity = 5;
     private ArrayList<String> actions;
-    private String action = "idle";
+    private StringProperty action = new SimpleStringProperty("idle");
 
     public Terrain getTerrain() {
         return terrain;
@@ -257,10 +259,13 @@ public abstract class  Entity {
     }
 
     public String getAction(){
-        return action;
+        return action.getValue();
     }
 
+    public StringProperty actionProperty(){
+        return action;}
+
     public void setAction(String a){
-        action = a;
+        action.setValue(a);
     }
 }
