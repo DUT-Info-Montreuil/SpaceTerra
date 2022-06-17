@@ -47,6 +47,7 @@ public abstract class InventoryObservator implements ListChangeListener<Slot> {
                     } else {
                         inventoryView.getSlotViews().get(slot.getId()).setItemView(new ImageView(slot.getItem().getTypeItem().getImage()));
                         inventoryView.getSlotViews().get(slot.getId()).getQuantityLabel().textProperty().bind(slot.itemQuantityProperty().asString());
+                        inventoryView.displayAllSlotViews();
                     }
             }
         }
