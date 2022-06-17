@@ -143,11 +143,20 @@ public class Terrain {
     }
 
     public void deleteBlock(Block block) {
-        this.getBlocks().set(this.getBlocks().indexOf(block), null);
+        try{
+            this.getBlocks().set(this.getBlocks().indexOf(block), null);
+        } catch (IndexOutOfBoundsException e){
+
+        }
+
     }
 
     public void deleteSolidBlock(Block block) {
+        try{
         this.getSolidBlocks().set(this.getSolidBlocks().indexOf(block), null);
+        } catch (IndexOutOfBoundsException e){
+
+        }
     }
 
     public int getHeight() {

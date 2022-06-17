@@ -98,7 +98,6 @@ public class Player extends Entity {
             this.getHitbox().setX(2500);
             this.getHitbox().setY(2030);
             this.setHealth(20);
-            this.launchInvicibleCooldown();
         }
 
     }
