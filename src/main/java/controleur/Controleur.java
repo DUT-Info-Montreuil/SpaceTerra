@@ -53,13 +53,24 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        debugger = new DebugView(panneauDeJeu);
         entities = new ArrayList<>();
         Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
         camera = new GameCam2D(panneauDeJeu);
         scene.setCamera(camera);
-        terrain = new Terrain("src/main/resources/Map/bigTest.json");
-        terrainView = new TerrainView(panneauDeJeu, entities);
+
+        JsonGameLoader loader = new JsonGameLoader("src/main/resources/Map/bigTest.json");
+        terrain = new Terrain(loader);
+        terrainView = new TerrainView(panneauDeJeu, entities, loader.getTileImages());
         terrainView.readMap(terrain);
+
+        for(Block b : terrain.getBlocks()){
+            if(b != null){
+                //DebugView.debugBlock(b, Color.RED);
+                DebugView.debugBlockHitbox(b, Color.PINK);
+            }
+        }
+
         createEnnemies();
 
         PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);
@@ -81,7 +92,7 @@ public class Controleur implements Initializable {
 
 
         terrainView.readEntity();
-        debugger = new DebugView(panneauDeJeu);
+
         terrain.getBlocks().addListener(new TerrainObservator(terrainView));
         playerInventoryObservator = new PlayerInventoryObservator(playerInventoryView, player.getPlayerInventory(), panneauDeJeu);
         player.getPlayerInventory().getSlots().addListener(playerInventoryObservator);

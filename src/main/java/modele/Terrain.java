@@ -20,7 +20,10 @@ public class Terrain {
 
     private ObservableList<Block> solidBlocks;
 
-    private JsonGameLoader mapData;
+    private ArrayList<Layer> layers;
+    private ArrayList<BlocLoader> blocLoaders;
+    private int height, width; // in tiles
+    private int tileWidth, tileHeight;
 
 
     public Terrain(JsonGameLoader data) {
@@ -29,17 +32,26 @@ public class Terrain {
         for (int i = 0; i < 250000; i++) {
             blocks.add(null);
         }
-        this.mapData = data;
+        loadData(data);
         loadBlocks();
+    }
+
+    public void loadData(JsonGameLoader data){
+        this.layers = data.getLayers();
+        this.blocLoaders = data.getTiles();
+        this.height = data.getHeight();
+        this.width = data.getWidth();
+        this.tileWidth = data.getTileWidth();
+        this.tileHeight = data.getTileHeight();
     }
 
 
 
     public void loadBlocks() {
-        for (int l = 0; l < mapData.getLayers().size(); ++l) {
+        for (int l = 0; l < layers.size(); ++l) {
             int i = 0;
-            if (((Layer) mapData.getLayers().get(l)).getIsVisible()) {
-                Layer currentLayer = (Layer) mapData.getLayers().get(l);
+            if (layers.get(l).getIsVisible()) {
+                Layer currentLayer = layers.get(l);
                 int x = currentLayer.getxPos();
                 int y = currentLayer.getyPos();
                 int[] data = currentLayer.getData();
@@ -54,15 +66,15 @@ public class Terrain {
                         if (data[t] == 0 && l == 0) {
                             blocks.set(i, null);
                         } else {
-                            Iterator tilesIterator = mapData.getTiles().iterator();
+                            Iterator tilesIterator = blocLoaders.iterator();
 
                             while (tilesIterator.hasNext()) {
                                 BlocLoader currBlocLoader = (BlocLoader) tilesIterator.next();
 
                                 if (data[t] == currBlocLoader.getId()) {
-                                    Block b = new Block(currBlocLoader, x, y);
+                                    Block b = new Block(currBlocLoader, x, y, t);
                                     blocks.set(i, b);
-                                    System.out.println(i);
+                                    System.out.println("Loaded Block : " + i);
                                     if (b.getHitbox().isSolid()) {
                                         solidBlocks.add(b);
                                     }
@@ -94,7 +106,7 @@ public class Terrain {
     }
 
     public int getIndex(int x, int y) {
-        return (y / 32 * mapData.getWidth() + x / 32);
+        return (y / 32 * width + x / 32);
     }
 
     public boolean placeBlock(int x, int y, Block bPlace) {
@@ -137,7 +149,27 @@ public class Terrain {
         return solidBlocks;
     }
 
-    public JsonGameLoader getMapData() {
-        return mapData;
+    public ArrayList<Layer> getLayers() {
+        return layers;
+    }
+
+    public ArrayList<BlocLoader> getBlocLoaders() {
+        return blocLoaders;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getTileWidth() {
+        return tileWidth;
+    }
+
+    public int getTileHeight() {
+        return tileHeight;
     }
 }

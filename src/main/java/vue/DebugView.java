@@ -19,8 +19,8 @@ public class DebugView {
         Rectangle r = new Rectangle();
         r.setFill(Color.TRANSPARENT);
         r.setStroke(color);
-        r.setX(block.getX());
-        r.setY(block.getY());
+        r.setX(block.getGridX());
+        r.setY(block.getGridY());
         r.setWidth(32);
         r.setHeight(32);
         panneau.getChildren().add(r);

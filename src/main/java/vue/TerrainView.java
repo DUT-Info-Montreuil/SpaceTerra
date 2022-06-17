@@ -1,19 +1,31 @@
 package vue;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import modele.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TerrainView {
     private Pane panneau;
 
     private ArrayList<Entity> entities;
-    public TerrainView(Pane panneau, ArrayList<Entity> ent) {
+    private HashMap<Integer, Image> tileImages;
 
+    public TerrainView(Pane panneau, ArrayList<Entity> ent, HashMap<Integer, String> imagesPath) {
         this.panneau = panneau;
         this.entities = ent;
+        initImages(imagesPath);
+    }
+
+    private void initImages(HashMap<Integer, String> imagesPath) {
+        tileImages = new HashMap<>();
+        imagesPath.forEach((k, v) -> {
+            tileImages.put(k, new Image(v));
+            System.out.println("loaded block image " + k + " : " + v);
+        });
     }
 
     public void addEntite(Entity entity){
@@ -24,14 +36,16 @@ public class TerrainView {
         int id = 0;
         for (Block block : terrain.getBlocks()) {
             try{
-                ImageView imgView = new ImageView(block.getTile().getImage());
+                ImageView imgView = new ImageView(tileImages.get(block.getDataId()));
+                System.out.println("Image : " + tileImages.get(block.getDataId()).toString());
                 imgView.setId(block.getId());
-                imgView.setX(block.getX());
-                imgView.setY(block.getY());
+                imgView.setX(block.getGridX());
+                imgView.setY(block.getGridY());
                 //System.out.println(imgView.getId());
                 panneau.getChildren().add(imgView);
+                System.out.println("Added block image to view");
             } catch (NullPointerException e){
-
+                //System.out.println("Image is null");
             }
 
         }
@@ -55,10 +69,10 @@ public class TerrainView {
 
     public void addBlock(Block block){
         try{
-            ImageView imgView = new ImageView(block.getTile().getImage());
+            ImageView imgView = new ImageView(tileImages.get(block.getDataId()));
             imgView.setId(block.getId());
-            imgView.setX(block.getX());
-            imgView.setY(block.getY());
+            imgView.setX(block.getGridX());
+            imgView.setY(block.getGridY());
             //System.out.println(imgView.getId());
             panneau.getChildren().add(imgView);
             imgView.toBack();
