@@ -4,6 +4,7 @@ package controleur;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public class MouseHandler {
@@ -48,51 +49,35 @@ public class MouseHandler {
 
     public void mouseManager() {
 
-        pane.setOnMouseDragged(e -> {
+        pane.addEventHandler(MouseEvent.ANY, e -> {
             mouseX.setValue((int) e.getX());
             mouseY.setValue((int) e.getY());
         });
 
-        pane.setOnMouseMoved(e -> {
-            mouseX.setValue((int) e.getX());
-            mouseY.setValue((int) e.getY());
-        });
 
         pane.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasPressedLeft = true;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasPressedRight = true;
             }
         });
 
         pane.setOnMouseReleased(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasPressedLeft = false;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasPressedRight = false;
             }
         });
 
         pane.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasClickedLeft = true;
             }
             else if(e.getButton() == MouseButton.SECONDARY){
-                mouseX.setValue((int) e.getX());
-                mouseY.setValue((int) e.getY());
                 hasClickedRight = true;
             }
         });

@@ -58,13 +58,6 @@ public class CraftInventory  extends Inventory{
     }
 
     public void verifCraft(){
-        /*
-        craftRecipes.forEach((currentRecipe,result) -> {
-            int nbItemCrafted = verifRecipe(currentRecipe);
-            if(nbItemCrafted > 0)
-        });
-
-         */
         try{
             ArrayList<Item> goodRecipe = (craftRecipes.keySet().stream().filter(currentRecipe -> verifRecipe(currentRecipe) > 0).findFirst()).get();
             Item itemCrafted = craftRecipes.get(goodRecipe);
@@ -104,15 +97,62 @@ public class CraftInventory  extends Inventory{
     }
 
     public void buildRecipes(){
-        ItemBlock dirt = new ItemBlock(0);
         ItemBlock wood = new ItemBlock(1);
+        ItemBlock stone = new ItemBlock(3);
+        CraftResource iron = new CraftResource(5);
+        CraftResource stick = new CraftResource(2);
+        CraftResource vine = new CraftResource(8);
 
         craftRecipes = new HashMap<>();
         recipesName = new HashMap<>();
 
-        recipesName.put("wood1", new ArrayList<>(Arrays.asList(null, dirt, null, null, dirt, null, null, dirt, null)));
-        craftRecipes.put(recipesName.get("wood1"), wood);
+        // 3 woods = 1 stick
+        recipesName.put("stick1", new ArrayList<>(Arrays.asList
+                (null, wood, null,
+                null, wood, null,
+                null, wood, null))); // maybe declare ressources for crafts above so it doesn't load many ?
+        craftRecipes.put(recipesName.get("stick1"), stick);
 
+        //2 stick + 1 vine + 1 wood
+        recipesName.put("woodPick", new ArrayList<>(Arrays.asList
+                (null, vine, wood,
+                null, stick, null,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("woodPick"), new Tool(9));
+
+        //2 stick + 2 vine + 2 wood
+        recipesName.put("woodAxe", new ArrayList<>(Arrays.asList
+                (null, vine, wood,
+                null, stick, wood,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("woodAxe"), new Tool(12));
+
+        //2 stick + 1 vine + 1 stone
+        recipesName.put("stonePick", new ArrayList<>(Arrays.asList
+                (null, vine, stone,
+                null, stick, null,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("stonePick"), new Tool(10));
+
+        //2 stick + 2 vine + 2 stone
+        recipesName.put("stoneAxe", new ArrayList<>(Arrays.asList
+                (null, vine, stone,
+                null, stick, stone,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("stoneAxe"), new Tool(13));
+
+        //2 stick + 2 iron
+        recipesName.put("ironPick", new ArrayList<>(Arrays.asList
+                (iron, iron, iron,
+                null, stick, null,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("ironPick"), new Tool(11));
+
+        //2 stick + 3 iron
+        recipesName.put("ironAxe", new ArrayList<>(Arrays.asList
+                (null, iron, iron,
+                null, stick, iron,
+                null, stick, null)));
+        craftRecipes.put(recipesName.get("ironAxe"), new Tool(14));
     }
-
 }
