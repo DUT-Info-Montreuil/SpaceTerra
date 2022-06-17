@@ -62,7 +62,7 @@ public class Controleur implements Initializable {
         terrainView.readMap(terrain);
         createEnnemies();
 
-        PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);
+        PlayerView playerView = new PlayerView(player = new Player(0, 2030, terrain), panneauDeJeu);
         entities.add(player);
         playerView.displayPlayer();
         playerInventoryView = new PlayerInventoryView(panneauDeJeu);
@@ -98,9 +98,9 @@ public class Controleur implements Initializable {
 
 
     public void createEnnemies() {
-        Bingus bingus = new Bingus(3500, 2030, terrain);
-        Florb florb = new Florb(3500, 1980, terrain);
-        Bib bib = new Bib(4000, 2030, terrain);
+        Bingus bingus = new Bingus(15000, 2030, terrain);
+        Florb florb = new Florb(10000, 1980, terrain);
+        Bib bib = new Bib(5000, 2030, terrain);
         entities.add(bingus);
         entities.add(florb);
         entities.add(bib);
