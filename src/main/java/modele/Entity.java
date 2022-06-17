@@ -14,7 +14,7 @@ public abstract class  Entity {
     private int jumpHeight;
     public int jumpCount;
     private boolean isJumping = false;
-    private boolean flying = false;
+    private boolean flying;
     public double gravity = 5;
 
     public int getActionRange() {
@@ -29,7 +29,7 @@ public abstract class  Entity {
 
     private Terrain terrain;
 
-    public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain, int jumpHeight) {
+    public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain, int jumpHeight, boolean flying) {
         this.health = new SimpleIntegerProperty(health);
         this.speed = speed;
         this.hitbox = hitbox;
@@ -37,6 +37,7 @@ public abstract class  Entity {
         this.terrain = terrain;
         this.jumpHeight = jumpHeight;
         this.jumpCount = jumpHeight;
+        this.flying = flying;
     }
 
     public int getSpeed() {
@@ -202,6 +203,7 @@ public abstract class  Entity {
 
 
     public void applyGrav() {
+
         hitbox.getY().set(hitbox.getY().getValue() + gravity);
         gravity += 0.05;
     }

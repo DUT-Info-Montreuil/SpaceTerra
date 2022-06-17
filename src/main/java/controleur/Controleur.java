@@ -98,11 +98,11 @@ public class Controleur implements Initializable {
 
 
     public void createEnnemies() {
-        //Bingus bingus = new Bingus(3500, 2030, terrain);
-        //Florb florb = new Florb(3500, 2000, terrain);
+            //Bingus bingus = new Bingus(3500, 2030, terrain);
+        Florb florb = new Florb(3500, 1980, terrain);
         Bib bib = new Bib(4000, 2030, terrain);
        // entities.add(bingus);
-        //entities.add(florb);
+        entities.add(florb);
         entities.add(bib);
     }
 
@@ -203,9 +203,9 @@ public class Controleur implements Initializable {
         }
 
         if (keyHandler.isLeftPressed()) {
-            player.movement(null, keyHandler.isLeftPressed(), false);
+            player.movement(null, true, false);
         } else if (keyHandler.isRightPressed()) {
-            player.movement(null, false, keyHandler.isRightPressed());
+            player.movement(null, false, true);
         }
 
         if (keyHandler.isUpPressed()) {
@@ -248,14 +248,14 @@ public class Controleur implements Initializable {
                         ent.jump();
                // } else {
                     if (ent.isJumping()) {
-                        ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
+                        ent.movement(player, false, false);
                         ent.stopJump();
                     }
                // }
 
 
 
-                ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
+                ent.movement(player, false, false);
                 ent.sideLeftCollision();
                 ent.sideRightCollisions();
             }

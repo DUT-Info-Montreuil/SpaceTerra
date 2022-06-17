@@ -1,8 +1,10 @@
 package modele;
 
+import controleur.Controleur;
+
 import java.util.Random;
 
-public abstract class Enemy extends Entity{
+public abstract class Enemy extends Entity {
 
     private int range;
     private boolean playerDetected;
@@ -21,8 +23,9 @@ public abstract class Enemy extends Entity{
     private int strenght;
 
     private boolean canMove;
-    public Enemy(int vie, int vitesse, Hitbox hitbox, String path, int range, int strenght, Terrain terrain, int jumpHeight) {
-        super(vie, vitesse, hitbox, path, terrain, jumpHeight);
+
+    public Enemy(int vie, int vitesse, Hitbox hitbox, String path, int range, int strenght, Terrain terrain, int jumpHeight, boolean flying) {
+        super(vie, vitesse, hitbox, path, terrain, jumpHeight, flying);
         this.range = range;
         this.state = 0;
         this.idleCooldown = 0;
@@ -47,11 +50,11 @@ public abstract class Enemy extends Entity{
         return state;
     }
 
-    public int getRangeMultiplier(){
+    public int getRangeMultiplier() {
         return rangeMultiplier;
     }
 
-    public void setRangeMultiplier(int rangeMultiplier){
+    public void setRangeMultiplier(int rangeMultiplier) {
         this.rangeMultiplier = rangeMultiplier;
     }
 
@@ -91,32 +94,76 @@ public abstract class Enemy extends Entity{
         this.idleDirection = idleDirection;
     }
 
-    public void detectPlayer(Player player, int rangeMultiplier){
-        if(distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) <= 3){
+    public void detectPlayer(Player player, int rangeMultiplier) {
+        if (distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) <= range / 2) {
             this.setState(2);
-        }
-        else if(distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) < (range * rangeMultiplier)) {
-            if(getState() == 2 && isJumping()){
+        } else if (distanceToPosition(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue()) < (range * rangeMultiplier)) {
+            if (getState() == 2 && isJumping()) {
                 this.state = 1;
                 this.playerDetected = true;
-            }
-            else if (getState() == 0){
+            } else if (getState() == 0) {
                 this.state = 1;
                 this.playerDetected = true;
                 this.setAttackCooldown(1000);
             }
 
-        }
-        else{
+        } else {
             this.state = 0;
             this.playerDetected = false;
         }
     }
 
-    public abstract void movement(Player player, boolean leftCheck, boolean rightCheck);
+    public void idle() {
+        if (getIdleCooldown() > 0 && isCanMove()) {
+            moveX(getIdleDirection());
+            if (getIdleDirection() == -1) {
+                if (this.getHitbox().getX().getValue() >= 10) {
+                    if (this.sideLeftCollision()) {
+                        action();
+                    }
 
-    public abstract void idle();
-    public abstract void hunting();
+                }
+            } else if (getIdleDirection() == 1) {
+                if (this.getHitbox().getX().getValue() <= this.getTerrain().getWidth() * 32 - 30) {
+                    if (this.sideRightCollisions()) {
+                        action();
+                    }
+                }
+            } else {
+                this.setIdleDirection(this.proba());
+            }
+
+        } else {
+            this.setIdleDirection(0);
+            setCanMove(false);
+            if (getIdleCooldown() < 500 && !isCanMove()) {
+                setIdleCooldown(getIdleCooldown() + 1);
+            } else {
+                setCanMove(true);
+            }
+        }
+    }
+
+    @Override
+    public void movement(Player player, boolean leftCheck, boolean rightCheck) {
+        this.detectPlayer(player, getRangeMultiplier());
+        System.out.println(getIdleDirection());
+        if (this.getState() == 0) {
+            if (this.isFlying()) {
+                action();
+            }
+            this.setRangeMultiplier(1);
+            idle();
+        } else {
+            this.setRangeMultiplier(2);
+            if (this.getState() == 1) {
+                hunting();
+            } else {
+                attack();
+            }
+        }
+    }
+
     public abstract void attack();
 
     public int getAttackCooldown() {
@@ -139,4 +186,43 @@ public abstract class Enemy extends Entity{
         Random r = new Random();
         return r.nextInt(3) - 1;
     }
+
+    public void moveX(int direction) {
+        // if (this.getIdleCooldown() <= 50 && this.isCanMove()) {
+        this.getHitbox().setX(this.getHitbox().getX().intValue() + (this.getSpeed()) * direction);
+        if (this.getState() == 0) {
+            this.setIdleCooldown(this.getIdleCooldown() - 1);
+        }
+    }
+
+    public void hunting() {
+        huntingX();
+        huntingY();
+    }
+
+    public void huntingX() {
+        if (this.getHitbox().getX().intValue() < Controleur.player.getHitbox().getX().intValue()) {
+            if (!sideRightCollisions()) {
+                moveX(1);
+            } else {
+                moveX(1);
+                action();
+            }
+        } else {
+            if (!sideLeftCollision()) {
+                moveX(-1);
+            } else {
+                moveX(-1);
+                action();
+            }
+        }
+    }
+
+    public abstract void huntingY();
+
+    public abstract void action();
+
+
+    // System.out.println(getIdleDirection());
+
 }

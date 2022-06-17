@@ -13,7 +13,7 @@ public class Player extends Entity {
 
 
     public Player(int x, int y, Terrain terrain) {
-        super(20, 7, new Hitbox(20, 38, x, y), "/Sprites/MC/MCSpace_Idle_right.gif", terrain, 20);
+        super(20, 7, new Hitbox(20, 38, x, y), "/Sprites/MC/MCSpace_Idle_right.gif", terrain, 20, false);
         playerInventory = new PlayerInventory(50);
         craftInventory = new CraftInventory(9);
         this.isInvicible = false;
@@ -22,24 +22,24 @@ public class Player extends Entity {
 
     @Override
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
-        if (this.getHitbox().getX().getValue() >= 10) {
-            if (leftCheck) {
+        if(leftCheck){
+            if (this.getHitbox().getX().getValue() >= 10) {
                 if (!sideLeftCollision())
                     getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
 
                 else if (canClimbLeft())
                     climb(2);
             }
+
         }
 
-        if (this.getHitbox().getX().getValue() <= this.getTerrain().getWidth() * 32 - 30) {
-            if (rightCheck) {
+        if(rightCheck){
+            if (this.getHitbox().getX().getValue() <= this.getTerrain().getWidth() * 32 - 30) {
                 if (!sideRightCollisions())
                     getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
 
                 else if (canClimbRight())
                     climb(1);
-
             }
         }
 
@@ -88,7 +88,7 @@ public class Player extends Entity {
         if (this.invicibleCooldown > 0) {
             isInvicible = true;
             invicibleCooldown--;
-            System.out.println(invicibleCooldown);
+           // System.out.println(invicibleCooldown);
         } else {
             this.isInvicible = false;
             this.invicibleCooldown = 5;
