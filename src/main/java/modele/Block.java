@@ -6,7 +6,6 @@ public class Block {
 
     private String ressource;
 
-    private final int insideOffset = 10;
 
     private Tile tile;
 
@@ -21,14 +20,16 @@ public class Block {
         return id;
     }
 
-    private int pvs;
+    private int health;
+    private int pickDef;
+    private int axeDef;
 
-    public int getPvs() {
-        return pvs;
+    public int getHealth() {
+        return health;
     }
 
-    public void setPvs(int pvs) {
-        this.pvs = pvs;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public Block(Tile tile, int x, int y, Terrain terrain) {
@@ -38,9 +39,9 @@ public class Block {
         hitX = x + tile.getHitbox().getX().intValue();
         hitY = y + tile.getHitbox().getY().intValue();
         this.id = "block" + idCount++;
-        this.pvs = 1;
         this.terrain = terrain;
         ressource = this.getTile().getRessource();
+        resourceStats();
     }
 
     public Block(ItemBlock item, int x, int y, Terrain terrain){
@@ -51,13 +52,14 @@ public class Block {
             this.tile = terrain.getTileset().getTiles().get(18);
         } else if (item.getTypeItem().name().equalsIgnoreCase("Wood")) {
             this.tile = terrain.getTileset().getTiles().get(35);
+        } else if(item.getTypeItem().name().equalsIgnoreCase("Stone")){
+            this.tile = terrain.getTileset().getTiles().get(42);
         }
         hitX = x + tile.getHitbox().getX().intValue();
         hitY = y + tile.getHitbox().getY().intValue();
         this.id = "block" + idCount++;
         ressource = this.getTile().getRessource();
-        this.pvs = 10;
-
+        resourceStats();
     }
 
     public int getX() {
@@ -79,22 +81,85 @@ public class Block {
     public int getHitY() {
         return hitY;
     }
-    public int getInsideOffset() {
-        return insideOffset;
-    }
 
-    public Item getRessource(){
-        ItemBlock itemBlock = null;
+    public Item getRessourceAsItem(){
+        Item item = null;
         try {
-            //System.out.println(this.getTile().getRessource());
-            if (this.getTile().getRessource().equals("dirt"))
-                itemBlock = new ItemBlock(0);
-            else if (this.getTile().getRessource().equals("wood"))
-                itemBlock = new ItemBlock(1);
-        }catch (Exception e) {
-
-        }
-        return itemBlock;
+            switch(ressource){
+                case "dirt":
+                    item = new ItemBlock(0);
+                    break;
+                case "wood":
+                    item = new ItemBlock(1);
+                    break;
+                case "leaf":
+                    item = new CraftResource(8);
+                    break;
+                case "stone":
+                    item = new ItemBlock(3);
+                    break;
+                case "coal":
+                    item = new CraftResource(4);
+                    break;
+                case "iron":
+                    item = new CraftResource(5);
+                    break;
+                case "gold":
+                    item = new CraftResource(6);
+                    break;
+                case "fluxium":
+                    item = new CraftResource(7);
+                    break;
+                default:
+                    break;
+            }
+        }catch (Exception e) {}
+        return item;
     }
 
+    public void resourceStats(){
+        health = 20;
+        switch(ressource){
+            case "dirt": case "leaf":
+                pickDef = 1;
+                axeDef = 1;
+                break;
+            case "wood":
+                pickDef = 10;
+                axeDef = 1;
+                break;
+            case "stone":
+                pickDef = 2;
+                axeDef = 20;
+                break;
+            case "coal":
+                pickDef = 3;
+                axeDef = 20;
+                break;
+            case "iron":
+                pickDef = 4;
+                axeDef = 20;
+                break;
+            case "gold":
+                pickDef = 5;
+                axeDef = 20;
+                break;
+            case "fluxium":
+                pickDef = 6;
+                axeDef = 20;
+                break;
+            default:
+                pickDef = 9999;
+                axeDef = 9999;
+                break;
+        }
+    }
+
+    public int getPickDef() {
+        return pickDef;
+    }
+
+    public int getAxeDef() {
+        return axeDef;
+    }
 }
