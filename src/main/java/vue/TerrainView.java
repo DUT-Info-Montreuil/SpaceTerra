@@ -24,7 +24,7 @@ public class TerrainView {
         tileImages = new HashMap<>();
         imagesPath.forEach((k, v) -> {
             tileImages.put(k, new Image(v));
-            System.out.println("loaded block image " + k + " : " + v);
+            System.out.println("loaded block image " + k + " : " + tileImages.get(k).getUrl());
         });
     }
 

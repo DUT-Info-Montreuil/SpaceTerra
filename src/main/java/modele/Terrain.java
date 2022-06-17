@@ -72,7 +72,7 @@ public class Terrain {
                                 BlocLoader currBlocLoader = (BlocLoader) tilesIterator.next();
 
                                 if (data[t] == currBlocLoader.getId()) {
-                                    Block b = new Block(currBlocLoader, x, y, t);
+                                    Block b = new Block(currBlocLoader, x, y);
                                     blocks.set(i, b);
                                     System.out.println("Loaded Block : " + i);
                                     if (b.getHitbox().isSolid()) {

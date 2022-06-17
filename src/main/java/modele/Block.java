@@ -18,12 +18,13 @@ public class Block {
 
 
 
-    public Block(BlocLoader blocLoader, int gridX, int gridY, int dataId) {
+    public Block(BlocLoader blocLoader, int gridX, int gridY) {
         this.gridX = gridX;
         this.gridY = gridY;
         hitbox = new Hitbox(blocLoader.getHitbox().getWidth(), blocLoader.getHitbox().getHeight(), gridX + blocLoader.getHitbox().xProperty().intValue(), gridY + blocLoader.getHitbox().yProperty().intValue());
         this.id = "block" + idCount++;
         ressource = blocLoader.getRessource();
+        this.dataId = blocLoader.getId();
         resourceStats();
     }
 
@@ -41,6 +42,7 @@ public class Block {
         hitbox = new Hitbox(blocLoader.getHitbox().getWidth(), blocLoader.getHitbox().getHeight(), gridX + blocLoader.getHitbox().getX(), gridY + blocLoader.getHitbox().getY());
 
         this.id = "block" + idCount++;
+        dataId = blocLoader.getId();
         ressource = blocLoader.getRessource();
         resourceStats();
     }
