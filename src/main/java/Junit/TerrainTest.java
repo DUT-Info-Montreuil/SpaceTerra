@@ -1,5 +1,6 @@
 package Junit;
 
+import modele.Block;
 import modele.JsonGameLoader;
 import modele.Terrain;
 import org.junit.jupiter.api.DisplayName;
@@ -34,5 +35,17 @@ public class TerrainTest {
         assertNotNull(testTerrain.getBlock(10, 2130));
         testTerrain.deleteBlock(testTerrain.getBlock(10, 2130));
         assertNull(testTerrain.getBlock(10, 2130));
+    }
+
+    @Test
+    @DisplayName("Blocks get placed when given a position in pixels")
+    public void placeBlockTest(){
+        Block testBlock = testTerrain.getBlock(10, 2130);
+        assertNotNull(testTerrain.getBlock(10, 2130));
+
+        assertNull(testTerrain.getBlock(10, 10));
+
+        testTerrain.placeBlock(10, 10, testBlock);
+        assertNotNull(testTerrain.getBlock(10, 10));
     }
 }
