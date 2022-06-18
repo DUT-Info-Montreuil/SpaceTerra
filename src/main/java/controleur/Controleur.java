@@ -87,8 +87,6 @@ public class Controleur implements Initializable {
         playerMouseObservator = new PlayerMouseObservator(playerMouse, playerMouseView);
 
 
-        terrainView.readEntity();
-
         terrain.getBlocks().addListener(new TerrainObservator(terrainView));
         playerInventoryObservator = new PlayerInventoryObservator(playerInventoryView, player.getPlayerInventory(), panneauDeJeu);
         player.getPlayerInventory().getSlots().addListener(playerInventoryObservator);
