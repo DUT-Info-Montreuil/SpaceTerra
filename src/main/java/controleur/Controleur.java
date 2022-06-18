@@ -66,9 +66,9 @@ public class Controleur implements Initializable {
         terrainView = new TerrainView(panneauDeJeu, entities, loader.getTileImages());
         terrainView.readMap(terrain);
 
-        createEnnemies();
+        createEntities();
 
-        entViews.add(new EntityView(player = new Player(10, 2030, terrain), panneauDeJeu));
+        PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);
         entities.add(player);
         playerInventoryView = new PlayerInventoryView(panneauDeJeu);
         craftInventoryView = new CraftInventoryView(panneauDeJeu);
@@ -100,13 +100,15 @@ public class Controleur implements Initializable {
     }
 
 
-    public void createEnnemies() {
+    public void createEntities() {
         Bingus bingus = new Bingus(3500, 2030, terrain);
         Florb florb = new Florb(3500, 2000, terrain);
         Bib bib = new Bib(4000, 2030, terrain);
+        Moobius moobius = new Moobius(terrain,4000, 2030);
         entities.add(bingus);
         entities.add(florb);
         entities.add(bib);
+        entities.add(moobius);
         for(Entity ent : entities)
             entViews.add(new EntityView(ent, panneauDeJeu));
     }
