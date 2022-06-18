@@ -21,7 +21,7 @@ public class Block {
     public Block(BlocLoader blocLoader, int gridX, int gridY) {
         this.gridX = gridX;
         this.gridY = gridY;
-        hitbox = new Hitbox(blocLoader.getHitbox().getWidth(), blocLoader.getHitbox().getHeight(), gridX + blocLoader.getHitbox().xProperty().intValue(), gridY + blocLoader.getHitbox().yProperty().intValue());
+        hitbox = new Hitbox(blocLoader.getHitbox().getWidth(), blocLoader.getHitbox().getHeight(), gridX + blocLoader.getHitbox().xProperty().intValue(), gridY + blocLoader.getHitbox().yProperty().intValue(), true);
         this.id = "block" + idCount++;
         ressource = blocLoader.getRessource();
         this.dataId = blocLoader.getId();
@@ -39,7 +39,7 @@ public class Block {
         } else if(item.getTypeItem().name().equalsIgnoreCase("Stone")){
             blocLoader = terrain.getBlocLoaders().get(42);
         }
-        hitbox = new Hitbox(blocLoader.getHitbox().getWidth(), blocLoader.getHitbox().getHeight(), gridX + blocLoader.getHitbox().getX(), gridY + blocLoader.getHitbox().getY());
+        hitbox = new Hitbox(blocLoader.getHitbox().getWidth(), blocLoader.getHitbox().getHeight(), gridX + blocLoader.getHitbox().getX(), gridY + blocLoader.getHitbox().getY(), true);
 
         this.id = "block" + idCount++;
         dataId = blocLoader.getId();

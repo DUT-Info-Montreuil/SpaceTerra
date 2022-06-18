@@ -75,28 +75,28 @@ public abstract class  Entity {
 
 
     public boolean sideRightCollisions() {
-        Block b = terrain.getBlock(hitbox.xProperty().intValue() + hitbox.getWidth() + speed, hitbox.yProperty().intValue()); // rightUp
+        Block b = terrain.getBlock((int)hitbox.getX() + hitbox.getWidth() + speed, (int)hitbox.getY()); // rightUp
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.xProperty().intValue() + hitbox.getWidth() >= b.getHitbox().getX() && hitbox.xProperty().intValue() + hitbox.getWidth() <= b.getHitbox().getX() + 10){
-                this.hitbox.setX(hitbox.xProperty().intValue() - ((hitbox.xProperty().intValue() + hitbox.getWidth()) - b.getHitbox().getX()));
+            if(hitbox.getX() + hitbox.getWidth() >= b.getHitbox().getX() && hitbox.getX() + hitbox.getWidth() <= b.getHitbox().getX() + 10){
+                this.hitbox.setX(hitbox.getX() - ((hitbox.getX() + hitbox.getWidth()) - b.getHitbox().getX()));
                 //DebugView.debugBlock(b, Color.VIOLET);
                 //System.out.println("Right");
                 return true;
             }
         }
-        b = terrain.getBlock(hitbox.xProperty().intValue() + hitbox.getWidth() + speed, hitbox.yProperty().intValue() + hitbox.getHeight() / 2); // rightMiddle
+        b = terrain.getBlock((int)hitbox.getX() + hitbox.getWidth() + speed, (int)hitbox.getY() + hitbox.getHeight() / 2); // rightMiddle
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.xProperty().intValue() + hitbox.getWidth() >= b.getHitbox().getX() && hitbox.xProperty().intValue() + hitbox.getWidth() <= b.getHitbox().getX() + 10){
-                this.hitbox.setX(hitbox.xProperty().intValue() - ((hitbox.xProperty().intValue() + hitbox.getWidth()) - b.getHitbox().getX()));
+            if(hitbox.getX() + hitbox.getWidth() >= b.getHitbox().getX() && hitbox.getX() + hitbox.getWidth() <= b.getHitbox().getX() + 10){
+                this.hitbox.setX(hitbox.getX() - ((hitbox.getX() + hitbox.getWidth()) - b.getHitbox().getX()));
                 //DebugView.debugBlock(b, Color.BLUEVIOLET);
                 //System.out.println("Right");
                 return true;
             }
         }
-        b = terrain.getBlock(hitbox.xProperty().intValue() + hitbox.getWidth() + speed, hitbox.yProperty().intValue() + hitbox.getHeight() - 1); // rightDown
+        b = terrain.getBlock((int)hitbox.getX() + hitbox.getWidth() + speed, (int)hitbox.getY() + hitbox.getHeight() - 1); // rightDown
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.xProperty().intValue() + hitbox.getWidth() >= b.getHitbox().getX() && hitbox.xProperty().intValue() + hitbox.getWidth() <= b.getHitbox().getX() + 10){
-                this.hitbox.setX(hitbox.xProperty().intValue() - ((hitbox.xProperty().intValue() + hitbox.getWidth()) - b.getHitbox().getX()));
+            if(hitbox.getX() + hitbox.getWidth() >= b.getHitbox().getX() && hitbox.getX() + hitbox.getWidth() <= b.getHitbox().getX() + 10){
+                this.hitbox.setX(hitbox.getX() - ((hitbox.getX() + hitbox.getWidth()) - b.getHitbox().getX()));
                 //DebugView.debugBlock(b, Color.DARKVIOLET);
                 //System.out.println("Right");
                 return true;
@@ -106,28 +106,28 @@ public abstract class  Entity {
     }
 
     public boolean sideLeftCollision(){
-        Block b = terrain.getBlock(hitbox.xProperty().intValue() - speed, hitbox.yProperty().intValue()); // leftUp
+        Block b = terrain.getBlock((int)hitbox.getX() - speed, (int)hitbox.getY()); // leftUp
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.xProperty().intValue() <= b.getHitbox().getX() + b.getHitbox().getWidth() && hitbox.xProperty().intValue() >= b.getHitbox().getX() + b.getHitbox().getWidth() - 10){
-                this.hitbox.setX(hitbox.xProperty().intValue() + ((b.getHitbox().getX() + b.getHitbox().getWidth()) - hitbox.xProperty().intValue()));
+            if(hitbox.getX() <= b.getHitbox().getX() + b.getHitbox().getWidth() && hitbox.getX() >= b.getHitbox().getX() + b.getHitbox().getWidth() - 10){
+                this.hitbox.setX(hitbox.getX() + ((b.getHitbox().getX() + b.getHitbox().getWidth()) - hitbox.getX()));
                 //System.out.println("LeftUp");
                 //DebugView.debugBlock(b, Color.VIOLET);
                 return true;
             }
         }
-        b = terrain.getBlock(hitbox.xProperty().intValue() - speed, hitbox.yProperty().intValue() + hitbox.getHeight() / 2); // leftMiddle
+        b = terrain.getBlock((int)hitbox.getX() - speed, (int)hitbox.getY() + hitbox.getHeight() / 2); // leftMiddle
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.xProperty().intValue() <= b.getHitbox().getX() + b.getHitbox().getWidth() && hitbox.xProperty().intValue() >= b.getHitbox().getX() + b.getHitbox().getWidth() - 10){
-                this.hitbox.setX(hitbox.xProperty().intValue() + ((b.getHitbox().getX() + b.getHitbox().getWidth()) - hitbox.xProperty().intValue()));
+            if(hitbox.getX() <= b.getHitbox().getX() + b.getHitbox().getWidth() && hitbox.getX() >= b.getHitbox().getX() + b.getHitbox().getWidth() - 10){
+                this.hitbox.setX(hitbox.getX() + ((b.getHitbox().getX() + b.getHitbox().getWidth()) - hitbox.getX()));
                 //System.out.println("LeftMiddle");
                 //DebugView.debugBlock(b, Color.YELLOW);
                 return true;
             }
         }
-        b = terrain.getBlock(hitbox.xProperty().intValue() - speed, hitbox.yProperty().intValue() + hitbox.getHeight() - 1); // leftDown
+        b = terrain.getBlock((int)hitbox.getX() - speed, (int)hitbox.getY() + hitbox.getHeight() - 1); // leftDown
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.xProperty().intValue() <= b.getHitbox().getX() + b.getHitbox().getWidth() && hitbox.xProperty().intValue() >= b.getHitbox().getX() + b.getHitbox().getWidth() - 10){
-                this.hitbox.setX(hitbox.xProperty().intValue() + ((b.getHitbox().getX() + b.getHitbox().getWidth()) - hitbox.xProperty().intValue()));
+            if(hitbox.getX() <= b.getHitbox().getX() + b.getHitbox().getWidth() && hitbox.getX() >= b.getHitbox().getX() + b.getHitbox().getWidth() - 10){
+                this.hitbox.setX(hitbox.getX() + ((b.getHitbox().getX() + b.getHitbox().getWidth()) - hitbox.getX()));
                 //System.out.println("LeftDown");
                 //DebugView.debugBlock(b, Color.GREEN);
                 return true;
@@ -137,28 +137,28 @@ public abstract class  Entity {
     }
 
     public boolean upCollisions(){ // can allow clipping rn if player gets stuck innit
-        Block b = terrain.getBlock(hitbox.xProperty().intValue() + 5, hitbox.yProperty().intValue() - jumpCount);// upLeft
+        Block b = terrain.getBlock((int)hitbox.getX() + 5, (int)hitbox.getY() - jumpCount);// upLeft
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.yProperty().intValue() <= b.getHitbox().getY() + b.getHitbox().getHeight() && hitbox.yProperty().intValue() >= b.getHitbox().getY() + b.getHitbox().getHeight() - 20){
-                this.hitbox.setY(hitbox.yProperty().intValue() + ((b.getHitbox().getY() + b.getHitbox().getHeight()) - hitbox.yProperty().intValue()));
+            if(hitbox.getY() <= b.getHitbox().getY() + b.getHitbox().getHeight() && hitbox.getY() >= b.getHitbox().getY() + b.getHitbox().getHeight() - 20){
+                this.hitbox.setY(hitbox.getY() + ((b.getHitbox().getY() + b.getHitbox().getHeight()) - hitbox.getY()));
                 //DebugView.debugBlock(b, Color.DARKGRAY);
                 //System.out.println("UpCol");
                 return true;
             }
         }
-        b = terrain.getBlock(hitbox.xProperty().intValue() + hitbox.getWidth() / 2, hitbox.yProperty().intValue() - jumpCount);// upMiddle
+        b = terrain.getBlock((int)hitbox.getX() + hitbox.getWidth() / 2, (int)hitbox.getY() - jumpCount);// upMiddle
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.yProperty().intValue() <= b.getHitbox().getY() + b.getHitbox().getHeight() && hitbox.yProperty().intValue() >= b.getHitbox().getY() + b.getHitbox().getHeight() - 20){
-                this.hitbox.setY(hitbox.yProperty().intValue() + ((b.getHitbox().getY() + b.getHitbox().getHeight()) - hitbox.yProperty().intValue()));
+            if(hitbox.getY() <= b.getHitbox().getY() + b.getHitbox().getHeight() && hitbox.getY() >= b.getHitbox().getY() + b.getHitbox().getHeight() - 20){
+                this.hitbox.setY(hitbox.getY() + ((b.getHitbox().getY() + b.getHitbox().getHeight()) - hitbox.getY()));
                 //DebugView.debugBlock(b, Color.DIMGRAY);
                 //System.out.println("UpCol");
                 return true;
             }
         }
-        b = terrain.getBlock(hitbox.xProperty().intValue() + hitbox.getWidth() - 5, hitbox.yProperty().intValue() - jumpCount);// upRight
+        b = terrain.getBlock((int)hitbox.getX() + hitbox.getWidth() - 5, (int)hitbox.getY() - jumpCount);// upRight
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.yProperty().intValue() <= b.getHitbox().getY() + b.getHitbox().getHeight() && hitbox.yProperty().intValue() >= b.getHitbox().getY() + b.getHitbox().getHeight() - 20){
-                this.hitbox.setY(hitbox.yProperty().intValue() + ((b.getHitbox().getY() + b.getHitbox().getHeight()) - hitbox.yProperty().intValue()));
+            if(hitbox.getY() <= b.getHitbox().getY() + b.getHitbox().getHeight() && hitbox.getY() >= b.getHitbox().getY() + b.getHitbox().getHeight() - 20){
+                this.hitbox.setY(hitbox.getY() + ((b.getHitbox().getY() + b.getHitbox().getHeight()) - hitbox.getY()));
                 //DebugView.debugBlock(b, Color.SLATEGRAY);
                 //System.out.println("UpCol");
                 return true;
@@ -168,30 +168,30 @@ public abstract class  Entity {
     }
 
     public boolean isGrounded() {
-        Block b = terrain.getBlock(hitbox.xProperty().intValue() + 5, hitbox.yProperty().intValue() + hitbox.getHeight() + (int)gravity);// downLeft
+        Block b = terrain.getBlock((int)hitbox.getX() + 5, (int)hitbox.getY() + hitbox.getHeight() + (int)gravity);// downLeft
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.yProperty().intValue() + hitbox.getHeight() >= b.getHitbox().getY() && hitbox.yProperty().intValue() + hitbox.getHeight() <= b.getHitbox().getY() + 10){
+            if(hitbox.getY() + hitbox.getHeight() >= b.getHitbox().getY() && hitbox.getY() + hitbox.getHeight() <= b.getHitbox().getY() + 10){
                 //DebugView.debugBlock(b, Color.RED);
                 //System.out.println("isGrounded");
-                this.hitbox.setY(hitbox.yProperty().intValue() - ((hitbox.yProperty().intValue() + hitbox.getHeight()) - b.getHitbox().getY()));
+                this.hitbox.setY(hitbox.getY() - ((hitbox.getY() + hitbox.getHeight()) - b.getHitbox().getY()));
                 return true;
             }
         }
-        b = terrain.getBlock(hitbox.xProperty().intValue() + hitbox.getWidth() / 2, hitbox.yProperty().intValue() + hitbox.getHeight() + (int)gravity);// downMiddle
+        b = terrain.getBlock((int)hitbox.getX() + hitbox.getWidth() / 2, (int)hitbox.getY() + hitbox.getHeight() + (int)gravity);// downMiddle
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.yProperty().intValue() + hitbox.getHeight() >= b.getHitbox().getY() && hitbox.yProperty().intValue() + hitbox.getHeight() <= b.getHitbox().getY() + 10){
+            if(hitbox.getY() + hitbox.getHeight() >= b.getHitbox().getY() && hitbox.getY() + hitbox.getHeight() <= b.getHitbox().getY() + 10){
                 //DebugView.debugBlock(b, Color.MEDIUMVIOLETRED);
                 //System.out.println("isGrounded");
-                this.hitbox.setY(hitbox.yProperty().intValue() - ((hitbox.yProperty().intValue() + hitbox.getHeight()) - b.getHitbox().getY()));
+                this.hitbox.setY(hitbox.getY() - ((hitbox.getY() + hitbox.getHeight()) - b.getHitbox().getY()));
                 return true;
             }
         }
-        b = terrain.getBlock(hitbox.xProperty().intValue() + hitbox.getWidth() - 5, hitbox.yProperty().intValue() + hitbox.getHeight() + (int)gravity);// downRight
+        b = terrain.getBlock((int)hitbox.getX() + hitbox.getWidth() - 5, (int)hitbox.getY() + hitbox.getHeight() + (int)gravity);// downRight
         if(b != null && b.getHitbox().isSolid()){
-            if(hitbox.yProperty().intValue() + hitbox.getHeight() >= b.getHitbox().getY() && hitbox.yProperty().intValue() + hitbox.getHeight() <= b.getHitbox().getY() + 10){
+            if(hitbox.getY() + hitbox.getHeight() >= b.getHitbox().getY() && hitbox.getY() + hitbox.getHeight() <= b.getHitbox().getY() + 10){
                 //DebugView.debugBlock(b, Color.DARKRED);
                 //System.out.println("isGrounded");
-                this.hitbox.setY(hitbox.yProperty().intValue() - ((hitbox.yProperty().intValue() + hitbox.getHeight()) - b.getHitbox().getY()));
+                this.hitbox.setY(hitbox.getY() - ((hitbox.getY() + hitbox.getHeight()) - b.getHitbox().getY()));
                 return true;
             }
         }
@@ -200,15 +200,15 @@ public abstract class  Entity {
 
 
     public void applyGrav() {
-        hitbox.yProperty().set(hitbox.yProperty().getValue() + gravity);
+        hitbox.yProperty().set(hitbox.getY() + gravity);
         gravity += 0.05;
     }
 
     public abstract void movement(Player player, boolean leftCheck, boolean rightCheck);
 
     public int distanceToBlock(Block b) {
-        double centerPX = this.hitbox.xProperty().intValue() + this.hitbox.getWidth() / 2; //centre du joueur en x
-        double centerPY = this.hitbox.yProperty().intValue() + this.hitbox.getHeight() / 2; //centre du joueur en y
+        double centerPX = this.hitbox.getX() + this.hitbox.getWidth() / 2; //centre du joueur en x
+        double centerPY = this.hitbox.getY() + this.hitbox.getHeight() / 2; //centre du joueur en y
         double centerBX = b.getHitbox().getX() + b.getHitbox().getWidth() / 2; //centre du block en x
         double centerBY = b.getHitbox().getY() + b.getHitbox().getHeight() / 2; // centre du block en y
         double sqrt = Math.sqrt(Math.pow(centerBX - centerPX, 2.0) + Math.pow(centerBY - centerPY, 2.0));
@@ -216,8 +216,8 @@ public abstract class  Entity {
     }
 
     public int distanceToPosition(int x, int y){
-        double centerPX = this.hitbox.xProperty().intValue() + this.hitbox.getWidth() / 2; //centre du joueur en x
-        double centerPY = this.hitbox.yProperty().intValue() + this.hitbox.getHeight() / 2; //centre du joueur en y
+        double centerPX = this.hitbox.getX() + this.hitbox.getWidth() / 2; //centre du joueur en x
+        double centerPY = this.hitbox.getY() + this.hitbox.getHeight() / 2; //centre du joueur en y
         double sqrt = Math.sqrt(Math.pow(x - centerPX, 2.0) + Math.pow(y - centerPY, 2.0));
         return (int) sqrt / 32; //distance euclidienne / 32 pour avoir une distance en blocks
     }
@@ -225,19 +225,19 @@ public abstract class  Entity {
     public void jump() {
         if (!this.isJumping()) {
             this.setJumping(true);
-            getHitbox().setY(getHitbox().yProperty().intValue() - --jumpCount);
+            getHitbox().setY(getHitbox().getY() - --jumpCount);
         } else {
             if (jumpCount <= 0) {
                 stopJump();
             } else {
-                getHitbox().setY(getHitbox().yProperty().intValue() - --jumpCount);
+                getHitbox().setY(getHitbox().getY() - --jumpCount);
             }
         }
 
     }
 
     public boolean grimpableRight(){
-        Block b = terrain.getBlock(hitbox.xProperty().intValue() + hitbox.getWidth() + speed, hitbox.yProperty().intValue() + hitbox.getHeight() - 1);
+        Block b = terrain.getBlock((int)hitbox.getX() + hitbox.getWidth() + speed, (int)hitbox.getY() + hitbox.getHeight() - 1);
         if(b != null) {
             Block b2 = terrain.getBlock(b.getGridX(), b.getGridY() - b.getHitbox().getHeight() / 2);
             Block b3 = terrain.getBlock(b.getGridX(), b.getGridY() - b.getHitbox().getHeight()*2);
@@ -252,7 +252,7 @@ public abstract class  Entity {
     }
 
     public boolean grimpableLeft(){
-        Block b = terrain.getBlock(hitbox.xProperty().intValue() - speed, hitbox.yProperty().intValue() + hitbox.getHeight() - 1);
+        Block b = terrain.getBlock((int)hitbox.getX() - speed, (int)hitbox.getY() + hitbox.getHeight() - 1);
         if(b != null) {
             Block b2 = terrain.getBlock(b.getGridX(), b.getGridY() - b.getHitbox().getHeight() / 2);
             Block b3 = terrain.getBlock(b.getGridX(), b.getGridY() - b.getHitbox().getHeight()*2);
@@ -267,18 +267,18 @@ public abstract class  Entity {
 
     public void grimper(int side){
         if (side == 1){ //check droite
-            Block b = terrain.getBlock(hitbox.xProperty().intValue() + hitbox.getWidth() + speed, hitbox.yProperty().intValue() + hitbox.getHeight() - 1);
+            Block b = terrain.getBlock((int)hitbox.getX() + hitbox.getWidth() + speed, (int)hitbox.getY() + hitbox.getHeight() - 1);
             if(b != null) {
                 hitbox.setY(b.getHitbox().getY() - hitbox.getHeight());
-                hitbox.setX(this.getHitbox().xProperty().intValue() + getSpeed());
+                hitbox.setX(this.getHitbox().getX() + getSpeed());
             }
         }
 
         else{ //check gauche
-            Block b = terrain.getBlock(hitbox.xProperty().intValue() - speed, hitbox.yProperty().intValue() + hitbox.getHeight() - 1);
+            Block b = terrain.getBlock((int)hitbox.getX() - speed, (int)hitbox.getY() + hitbox.getHeight() - 1);
             if(b != null){
                 hitbox.setY(b.getHitbox().getY() - hitbox.getHeight());
-                hitbox.setX(this.getHitbox().xProperty().intValue() - getSpeed());
+                hitbox.setX(this.getHitbox().getX() - getSpeed());
             }
         }
     }

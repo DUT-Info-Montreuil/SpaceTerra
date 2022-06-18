@@ -64,13 +64,6 @@ public class Controleur implements Initializable {
         terrainView = new TerrainView(panneauDeJeu, entities, loader.getTileImages());
         terrainView.readMap(terrain);
 
-        for(Block b : terrain.getBlocks()){
-            if(b != null){
-                //DebugView.debugBlock(b, Color.RED);
-                DebugView.debugBlockHitbox(b, Color.PINK);
-            }
-        }
-
         createEnnemies();
 
         PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);

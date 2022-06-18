@@ -11,7 +11,7 @@ public class Player extends Entity {
 
 
     public Player(int x, int y, Terrain terrain){
-        super(20, 7, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif", terrain);
+        super(20, 7, new Hitbox(20,38,x,y, false),"/Sprites/MC/MCSpace_Idle_right.gif", terrain);
         playerInventory = new PlayerInventory(50);
         craftInventory = new CraftInventory(9);
     }

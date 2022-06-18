@@ -23,12 +23,13 @@ public class Hitbox {
         y.setValue(((Long) hitbox.get("y")).intValue());
     }
 
-    public Hitbox(int width, int height, double x, double y){
+    public Hitbox(int width, int height, double x, double y, boolean isSolid){
         this.isSolid = false;
         this.width = width;
         this.height = height;
         this.x = new SimpleDoubleProperty(x);
         this.y = new SimpleDoubleProperty(y);
+        this.isSolid = isSolid;
     }
 
     public int getCenterXPos(){

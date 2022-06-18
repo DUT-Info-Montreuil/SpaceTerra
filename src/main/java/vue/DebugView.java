@@ -16,14 +16,16 @@ public class DebugView {
     }
 
     public static void debugBlock(Block block, Color color){
-        Rectangle r = new Rectangle();
-        r.setFill(Color.TRANSPARENT);
-        r.setStroke(color);
-        r.setX(block.getGridX());
-        r.setY(block.getGridY());
-        r.setWidth(32);
-        r.setHeight(32);
-        panneau.getChildren().add(r);
+        if(block != null){
+            Rectangle r = new Rectangle();
+            r.setFill(Color.TRANSPARENT);
+            r.setStroke(color);
+            r.setX(block.getGridX());
+            r.setY(block.getGridY());
+            r.setWidth(32);
+            r.setHeight(32);
+            panneau.getChildren().add(r);
+        }
     }
 
     public static void debugBlockHitbox(Block block, Color color){
