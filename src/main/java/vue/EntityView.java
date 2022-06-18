@@ -2,6 +2,7 @@ package vue;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -44,7 +45,10 @@ public class EntityView {
         this.imgView.yProperty().bind(ent.getHitbox().getY().subtract(images.get("idle").getHeight() - ent.getHitbox().getHeight()));
         System.out.println(images.size());
         pane.getChildren().add(imgView);
-        startTimeline();
+        imgView.setImage(images.get(ent.getAction()));
+        ent.actionProperty().addListener(property -> {
+            imgView.setImage(images.get(((StringProperty)property).getValue()));
+        });
     }
 
     public void startTimeline(){
