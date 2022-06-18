@@ -2,9 +2,16 @@ package modele;
 
 import controleur.Controleur;
 
+import java.util.ArrayList;
+
 public class Moobius extends Animal{
     public Moobius(Terrain terrain,int x, int y) {
-        super(20, 5, new Hitbox(39,31,x,y), "/Sprites/Mobs/Moobius/moobiusIdle.gif", terrain);
+        super(20, 5, new Hitbox(39,31,x,y, false), terrain, new ArrayList<String>(){
+            {
+                add("idle");
+                add("walk");
+            }
+        });
     }
 
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
@@ -15,7 +22,7 @@ public class Moobius extends Animal{
 
             case 1:
                 if (leftCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                    this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                    this.getHitbox().setX(this.getHitbox().getX() + this.getSpeed());
                     this.setIdleCooldown(this.getIdleCooldown() - 1);
 
                     if (this.getIdleCooldown() == 0) {
@@ -30,11 +37,15 @@ public class Moobius extends Animal{
                     this.setDirection(0);
                 } else
                     this.setIdleCooldown(this.getIdleCooldown() + 1);
+                if(isCanMove())
+                    this.setAction(getActions().get(1));
+                else
+                    this.setAction(getActions().get(0));
                 break;
 
             case 2:
                 if (rightCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                    this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                    this.getHitbox().setX(this.getHitbox().getX() - this.getSpeed());
                     this.setIdleCooldown(this.getIdleCooldown() - 1);
 
                     if (this.getIdleCooldown() == 0) {
@@ -48,6 +59,10 @@ public class Moobius extends Animal{
                     this.setDirection(0);
                 } else
                     this.setIdleCooldown(this.getIdleCooldown() + 1);
+                if(isCanMove())
+                    this.setAction(getActions().get(1));
+                else
+                    this.setAction(getActions().get(0));
                 break;
 
             case 3:
@@ -62,7 +77,10 @@ public class Moobius extends Animal{
                     this.setDirection(0);
                 } else
                     this.setIdleCooldown(this.getIdleCooldown() + 1);
-
+                if(isCanMove())
+                    this.setAction(getActions().get(1));
+                else
+                    this.setAction(getActions().get(0));
                 break;
         }
     }

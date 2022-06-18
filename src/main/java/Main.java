@@ -12,7 +12,7 @@ public class Main extends Application {
         stage.setScene(root.getScene());
         stage.setResizable(false);
         stage.setTitle("Meilleur jeu du monde");
-        stage.getIcons().add(new Image("/Sprites/Enemies/Bingus/Bingus.gif"));
+        stage.getIcons().add(new Image("Sprites/MC/MCSpace_Idle_left.gif"));
         stage.show();
         root.requestFocus();
     }

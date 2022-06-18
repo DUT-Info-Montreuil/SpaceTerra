@@ -66,10 +66,11 @@ public class Controleur implements Initializable {
         terrainView = new TerrainView(panneauDeJeu, entities, loader.getTileImages());
         terrainView.readMap(terrain);
 
+
+        player = new Player(3500, 2030, terrain);
+        entities.add(player);
         createEntities();
 
-        PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);
-        entities.add(player);
         playerInventoryView = new PlayerInventoryView(panneauDeJeu);
         craftInventoryView = new CraftInventoryView(panneauDeJeu);
         keyHandler = new KeyHandler(panneauDeJeu);
