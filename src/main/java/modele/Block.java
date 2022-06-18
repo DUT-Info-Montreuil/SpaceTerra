@@ -57,7 +57,6 @@ public class Block {
         this.id = "block" + idCount++;
         ressource = this.getTile().getRessource();
         this.pvs = 10;
-
     }
 
     public int getX() {
