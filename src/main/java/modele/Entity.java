@@ -2,7 +2,11 @@ package modele;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
+
+import java.util.ArrayList;
 
 
 public abstract class  Entity {
@@ -10,12 +14,13 @@ public abstract class  Entity {
     private IntegerProperty health;
     private int speed;
     private Hitbox hitbox;
-    private Image image;
     private final int jumpHeight = 20;
     public int jumpCount = jumpHeight;
     private boolean isJumping = false;
     private boolean flying = false;
     public double gravity = 5;
+    private ArrayList<String> actions;
+    private StringProperty action = new SimpleStringProperty("idle");
 
     public int getActionRange() {
         return actionRange;
@@ -29,12 +34,12 @@ public abstract class  Entity {
 
     private Terrain terrain;
 
-    public Entity(int health, int speed, Hitbox hitbox, String path, Terrain terrain) {
+    public Entity(int health, int speed, Hitbox hitbox, Terrain terrain, ArrayList<String> actions) {
         this.health = new SimpleIntegerProperty(health);
         this.speed = speed;
         this.hitbox = hitbox;
-        this.image = new Image(String.valueOf((getClass().getResource(path))));
         this.terrain = terrain;
+        this.actions = actions;
     }
 
     public int getSpeed() {
@@ -63,14 +68,6 @@ public abstract class  Entity {
 
     public Hitbox getHitbox() {
         return hitbox;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(String path) {
-        this.image = new Image(String.valueOf(getClass().getResource(path)));
     }
 
 
@@ -322,5 +319,20 @@ public abstract class  Entity {
 
     public void setGravity(double gravity) {
         this.gravity = gravity;
+    }
+
+    public ArrayList<String> getActions() {
+        return actions;
+    }
+
+    public String getAction(){
+        return action.getValue();
+    }
+
+    public StringProperty actionProperty(){
+        return action;}
+
+    public void setAction(String a){
+        action.setValue(a);
     }
 }

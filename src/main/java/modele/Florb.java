@@ -2,14 +2,21 @@ package modele;
 
 import controleur.Controleur;
 
+import java.util.ArrayList;
+
 public class Florb extends Enemy{
 
     private int strength;
 
     private int safeHeight = 1950;
 
+
     public Florb(int x, int y, Terrain terrain) {
-        super(10, 6, new Hitbox(22,16,x,y, false),"/Sprites/Enemies/Florb/Florb.gif", 200, terrain);
+        super(10, 6, new Hitbox(22,16,x,y, false), 200, terrain, new ArrayList<String>(){
+            {
+                add("idle");
+            }
+        });
         this.strength = 3;
         this.setFlying(true);
     }
@@ -29,6 +36,7 @@ public class Florb extends Enemy{
 
         switch(this.getState()){
             case "idle":
+                this.setAction(getActions().get(0));
                 switch(this.getIdleDirection()){
                     case 0:
                         this.setIdleDirection(Controleur.randomNum(1,3));

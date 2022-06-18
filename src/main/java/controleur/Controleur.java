@@ -34,6 +34,7 @@ public class Controleur implements Initializable {
     public static Player player;
     private KeyHandler keyHandler;
     private ArrayList<Entity> entities;
+    private ArrayList<EntityView> entViews;
     private MouseHandler mouseHandler;
 
     private PlayerInventoryView playerInventoryView;
@@ -55,6 +56,7 @@ public class Controleur implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         debugger = new DebugView(panneauDeJeu);
         entities = new ArrayList<>();
+        entViews = new ArrayList<>();
         Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
         camera = new GameCam2D(panneauDeJeu);
         scene.setCamera(camera);
@@ -66,9 +68,10 @@ public class Controleur implements Initializable {
 
         createEnnemies();
 
-        PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);
+        entViews.add(new EntityView(player = new Player(10, 2030, terrain), panneauDeJeu));
+        //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
+        //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
-        playerView.displayPlayer();
         playerInventoryView = new PlayerInventoryView(panneauDeJeu);
         craftInventoryView = new CraftInventoryView(panneauDeJeu);
         keyHandler = new KeyHandler(panneauDeJeu);
@@ -108,6 +111,8 @@ public class Controleur implements Initializable {
         entities.add(bingus);
         entities.add(florb);
         entities.add(bib);
+        for(Entity ent : entities)
+            entViews.add(new EntityView(ent, panneauDeJeu));
     }
 
 
@@ -210,6 +215,8 @@ public class Controleur implements Initializable {
             player.movement(null, keyHandler.isLeftPressed(), false);
         } else if (keyHandler.isRightPressed()) {
             player.movement(null, false, keyHandler.isRightPressed());
+        } else{ // this sucks and we should probably find a way to make it work another way but I'm leaving it here for testing/demonstration purposes
+            player.setAction(player.getActions().get(0));
         }
 
         if (keyHandler.isUpPressed()) {

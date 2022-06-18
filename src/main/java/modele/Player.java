@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.ArrayList;
+
 public class Player extends Entity {
     private boolean isRunning = false;
 
@@ -11,7 +13,12 @@ public class Player extends Entity {
 
 
     public Player(int x, int y, Terrain terrain){
-        super(20, 7, new Hitbox(20,38,x,y, false),"/Sprites/MC/MCSpace_Idle_right.gif", terrain);
+        super(20, 7, new Hitbox(20,38,x,y, false), terrain, new ArrayList<String>(){
+            {
+                add("idle");
+                add("walk");
+            }
+        });
         playerInventory = new PlayerInventory(50);
         craftInventory = new CraftInventory(9);
     }
@@ -38,7 +45,6 @@ public class Player extends Entity {
 
             }
         }
-
     }
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height

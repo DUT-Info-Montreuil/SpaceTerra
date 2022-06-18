@@ -28,10 +28,6 @@ public class TerrainView {
         });
     }
 
-    public void addEntite(Entity entity){
-        this.entities.add(entity);
-    }
-
     public void readMap(Terrain terrain) {
         int id = 0;
         for (Block block : terrain.getBlocks()) {
@@ -48,15 +44,6 @@ public class TerrainView {
                 //System.out.println("Image is null");
             }
 
-        }
-    }
-
-    public void readEntity(){
-        for (Entity entity : entities){
-            ImageView imgView = new ImageView(entity.getImage());
-            imgView.xProperty().bind(entity.getHitbox().xProperty().subtract(entity.getImage().getWidth()/2 - entity.getHitbox().getWidth()/2));
-            imgView.yProperty().bind(entity.getHitbox().yProperty().subtract(entity.getImage().getHeight() - entity.getHitbox().getHeight()));
-            panneau.getChildren().add(imgView);
         }
     }
 
