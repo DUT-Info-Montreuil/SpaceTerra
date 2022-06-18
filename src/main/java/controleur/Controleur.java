@@ -69,8 +69,6 @@ public class Controleur implements Initializable {
         createEnnemies();
 
         entViews.add(new EntityView(player = new Player(10, 2030, terrain), panneauDeJeu));
-        //PlayerView playerView = new PlayerView(player = new Player(15000, 3730), panneauDeJeu);
-        //PlayerView playerView = new PlayerView(player = new Player(30, 0), panneauDeJeu);
         entities.add(player);
         playerInventoryView = new PlayerInventoryView(panneauDeJeu);
         craftInventoryView = new CraftInventoryView(panneauDeJeu);

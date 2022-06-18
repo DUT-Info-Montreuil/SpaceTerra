@@ -93,7 +93,6 @@ public class Player extends Entity {
                     damage = pickPow - b.getPickDef();
                 else
                     damage = axePow - b.getAxeDef();
-                System.out.println(damage + ", pick"+ b.getPickDef() + ", axe" + b.getAxeDef());
                 if(damage > 0){
                     b.setHealth(b.getHealth() - damage);
                     if (getTerrain().checkDestroyedBlock(b) && b.getRessourceAsItem() != null && !this.getPlayerInventory().isInventoryFull()) {
