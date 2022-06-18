@@ -23,7 +23,7 @@ public class Player extends Entity {
         if(this.getHitbox().getX().getValue() >= 10){
             if (leftCheck) {
                 if(!sideLeftCollision()){
-                    setAction(getActions().get(1));
+                    //setAction(getActions().get(1));
                     getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
                 }
             }
@@ -33,7 +33,7 @@ public class Player extends Entity {
             if (rightCheck){
                 if(!sideRightCollisions()){
                     getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
-                    setAction(getActions().get(1));
+                    //setAction(getActions().get(1));
                 }
             }
         }
