@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.ArrayList;
+
 public class Player extends Entity {
     private boolean isRunning = false;
 
@@ -11,34 +13,38 @@ public class Player extends Entity {
 
 
     public Player(int x, int y, Terrain terrain){
-        super(20, 7, new Hitbox(20,38,x,y),"/Sprites/MC/MCSpace_Idle_right.gif", terrain);
+        super(20, 7, new Hitbox(20,38,x,y, false), terrain, new ArrayList<String>(){
+            {
+                add("idle");
+                add("walk");
+            }
+        });
         playerInventory = new PlayerInventory(50);
         craftInventory = new CraftInventory(9);
     }
 
     @Override
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
-        if(this.getHitbox().getX().getValue() >= 10){
+        if(this.getHitbox().xProperty().getValue() >= 10){
             if (leftCheck) {
                 if(!sideLeftCollision())
-                    getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
+                    getHitbox().setX(this.getHitbox().xProperty().intValue() - getSpeed());
 
                 else if(grimpableLeft())
                     grimper(2);
             }
         }
 
-        if(this.getHitbox().getX().getValue() <= this.getTerrain().getWidth()*32-30){
+        if(this.getHitbox().xProperty().getValue() <= this.getTerrain().getWidth()*32-30){
             if (rightCheck){
                 if(!sideRightCollisions())
-                    getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
+                    getHitbox().setX(this.getHitbox().xProperty().intValue() + getSpeed());
 
                 else if(grimpableRight())
                     grimper(1);
 
             }
         }
-
     }
     // haut du block = block.getHitY(); bas du block = block.getHitY() + block.getTile().getHitbox().getHeight()
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
@@ -70,6 +76,12 @@ public class Player extends Entity {
 
     public void setRunning(boolean running) {
         isRunning = running;
+        if(isRunning){
+            setSpeed(14);
+        }
+        else{
+            setSpeed(7);
+        }
     }
 
     public void breakBlock(int x, int y, int pickPow, int axePow) {
@@ -81,7 +93,6 @@ public class Player extends Entity {
                     damage = pickPow - b.getPickDef();
                 else
                     damage = axePow - b.getAxeDef();
-                System.out.println(damage + ", pick"+ b.getPickDef() + ", axe" + b.getAxeDef());
                 if(damage > 0){
                     b.setHealth(b.getHealth() - damage);
                     if (getTerrain().checkDestroyedBlock(b) && b.getRessourceAsItem() != null && !this.getPlayerInventory().isInventoryFull()) {

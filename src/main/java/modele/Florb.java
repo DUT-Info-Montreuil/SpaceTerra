@@ -2,14 +2,21 @@ package modele;
 
 import controleur.Controleur;
 
+import java.util.ArrayList;
+
 public class Florb extends Enemy{
 
     private int strength;
 
     private int safeHeight = 1950;
 
+
     public Florb(int x, int y, Terrain terrain) {
-        super(10, 6, new Hitbox(22,16,x,y),"/Sprites/Enemies/Florb/Florb.gif", 200, terrain);
+        super(10, 6, new Hitbox(22,16,x,y, false), 200, terrain, new ArrayList<String>(){
+            {
+                add("idle");
+            }
+        });
         this.strength = 3;
         this.setFlying(true);
     }
@@ -29,6 +36,7 @@ public class Florb extends Enemy{
 
         switch(this.getState()){
             case "idle":
+                this.setAction(getActions().get(0));
                 switch(this.getIdleDirection()){
                     case 0:
                         this.setIdleDirection(Controleur.randomNum(1,3));
@@ -36,9 +44,9 @@ public class Florb extends Enemy{
 
                     case 1:
                         if (leftCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            if (this.getHitbox().getY().intValue() > safeHeight)
-                                this.getHitbox().setY(this.getHitbox().getY().intValue() - this.getSpeed());
-                            this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                            if (this.getHitbox().yProperty().intValue() > safeHeight)
+                                this.getHitbox().setY(this.getHitbox().yProperty().intValue() - this.getSpeed());
+                            this.getHitbox().setX(this.getHitbox().xProperty().intValue() + this.getSpeed());
                             this.setIdleCooldown(this.getIdleCooldown()-1);
 
                             if(this.getIdleCooldown() == 0) {
@@ -60,10 +68,10 @@ public class Florb extends Enemy{
 
                     case 2:
                         if (rightCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                            this.getHitbox().setX(this.getHitbox().xProperty().intValue() - this.getSpeed());
                             this.setIdleCooldown(this.getIdleCooldown()-1);
-                            if (this.getHitbox().getY().intValue() > safeHeight)
-                                this.getHitbox().setY(this.getHitbox().getY().intValue() - this.getSpeed());
+                            if (this.getHitbox().yProperty().intValue() > safeHeight)
+                                this.getHitbox().setY(this.getHitbox().yProperty().intValue() - this.getSpeed());
 
                             if(this.getIdleCooldown() == 0) {
                                 this.setCanMove(false);
@@ -97,28 +105,28 @@ public class Florb extends Enemy{
                 break;
 
             case "hunting":
-                if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 5) {
+                if (this.getHitbox().xProperty().intValue() < player.getHitbox().xProperty().intValue() - 5) {
                     if (leftCheck) {
 
-                        if(this.getHitbox().getY().intValue() < player.getHitbox().getY().intValue() - 5)
-                            this.getHitbox().setY(this.getHitbox().getY().intValue() + this.getSpeed());
+                        if(this.getHitbox().yProperty().intValue() < player.getHitbox().yProperty().intValue() - 5)
+                            this.getHitbox().setY(this.getHitbox().yProperty().intValue() + this.getSpeed());
 
-                        else if(this.getHitbox().getY().intValue() > player.getHitbox().getY().intValue() + 5)
-                            this.getHitbox().setY(this.getHitbox().getY().intValue() - this.getSpeed());
+                        else if(this.getHitbox().yProperty().intValue() > player.getHitbox().yProperty().intValue() + 5)
+                            this.getHitbox().setY(this.getHitbox().yProperty().intValue() - this.getSpeed());
 
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                        this.getHitbox().setX(this.getHitbox().xProperty().intValue() + this.getSpeed());
                     }
                 }
-                else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 5) {
+                else if (this.getHitbox().xProperty().intValue() > player.getHitbox().xProperty().intValue() + 5) {
                     if (rightCheck) {
 
-                        if(this.getHitbox().getY().intValue() < player.getHitbox().getY().intValue() - 5)
-                            this.getHitbox().setY(this.getHitbox().getY().intValue() + this.getSpeed());
+                        if(this.getHitbox().yProperty().intValue() < player.getHitbox().yProperty().intValue() - 5)
+                            this.getHitbox().setY(this.getHitbox().yProperty().intValue() + this.getSpeed());
 
-                        else if(this.getHitbox().getY().intValue() > player.getHitbox().getY().intValue() + 5)
-                            this.getHitbox().setY(this.getHitbox().getY().intValue() - this.getSpeed());
+                        else if(this.getHitbox().yProperty().intValue() > player.getHitbox().yProperty().intValue() + 5)
+                            this.getHitbox().setY(this.getHitbox().yProperty().intValue() - this.getSpeed());
 
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                        this.getHitbox().setX(this.getHitbox().xProperty().intValue() - this.getSpeed());
                     }
                 }
                 break;

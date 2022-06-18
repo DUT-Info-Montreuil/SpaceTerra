@@ -1,6 +1,7 @@
 package controleur;
 
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import modele.*;
 import vue.*;
 
@@ -75,7 +76,7 @@ public class PlayerMouseObservator {
 
     public void setItemView(){
         try {
-            playerMouseView.getItemView().setImage(playerMouse.getItem().getTypeItem().getImage());
+            playerMouseView.getItemView().setImage(new Image(playerMouse.getItem().getTypeItem().getImage()));
             playerMouseView.displayItemQuantityLabel(true);
             playerMouseView.getItemQuantityLabel().setText(playerMouse.currentItemQuantityProperty().getValue().toString());
             playerMouseView.getItemQuantityLabel().toFront();

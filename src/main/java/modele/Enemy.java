@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.ArrayList;
+
 public abstract class Enemy extends Entity{
 
     private int range;
@@ -10,8 +12,8 @@ public abstract class Enemy extends Entity{
     private int idleDirection = 0;
 
     private boolean canMove = true;
-    public Enemy(int vie, int vitesse, Hitbox hitbox, String path, int range, Terrain terrain) {
-        super(vie, vitesse, hitbox, path, terrain);
+    public Enemy(int vie, int vitesse, Hitbox hitbox, int range, Terrain terrain, ArrayList<String> actions) {
+        super(vie, vitesse, hitbox, terrain, actions);
         this.range = range;
     }
 
@@ -64,7 +66,7 @@ public abstract class Enemy extends Entity{
     }
 
     public void detectPlayer(Player player, int rangeMultiplier){
-        if((this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() - range*rangeMultiplier && this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() + range*rangeMultiplier) && (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() - range*rangeMultiplier && this.getHitbox().getY().intValue() < player.getHitbox().getY().intValue() + range*rangeMultiplier)) {
+        if((this.getHitbox().xProperty().intValue() > player.getHitbox().xProperty().intValue() - range*rangeMultiplier && this.getHitbox().xProperty().intValue() < player.getHitbox().xProperty().intValue() + range*rangeMultiplier) && (this.getHitbox().xProperty().intValue() > player.getHitbox().xProperty().intValue() - range*rangeMultiplier && this.getHitbox().yProperty().intValue() < player.getHitbox().yProperty().intValue() + range*rangeMultiplier)) {
                 if(this.state != "attack") {
                     this.state = "hunting";
                     this.playerDetected = true;

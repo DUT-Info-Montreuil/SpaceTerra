@@ -34,6 +34,7 @@ public class Controleur implements Initializable {
     public static Player player;
     private KeyHandler keyHandler;
     private ArrayList<Entity> entities;
+    private ArrayList<EntityView> entViews;
     private MouseHandler mouseHandler;
 
     private PlayerInventoryView playerInventoryView;
@@ -53,18 +54,22 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        debugger = new DebugView(panneauDeJeu);
         entities = new ArrayList<>();
+        entViews = new ArrayList<>();
         Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
         camera = new GameCam2D(panneauDeJeu);
         scene.setCamera(camera);
-        terrain = new Terrain("src/main/resources/Map/bigTest.json");
-        terrainView = new TerrainView(panneauDeJeu, entities);
+
+        JsonGameLoader loader = new JsonGameLoader("src/main/resources/Map/bigTest.json");
+        terrain = new Terrain(loader);
+        terrainView = new TerrainView(panneauDeJeu, entities, loader.getTileImages());
         terrainView.readMap(terrain);
+
         createEnnemies();
 
-        PlayerView playerView = new PlayerView(player = new Player(3500, 2030, terrain), panneauDeJeu);
+        entViews.add(new EntityView(player = new Player(10, 2030, terrain), panneauDeJeu));
         entities.add(player);
-        playerView.displayPlayer();
         playerInventoryView = new PlayerInventoryView(panneauDeJeu);
         craftInventoryView = new CraftInventoryView(panneauDeJeu);
         keyHandler = new KeyHandler(panneauDeJeu);
@@ -80,8 +85,6 @@ public class Controleur implements Initializable {
         playerMouseObservator = new PlayerMouseObservator(playerMouse, playerMouseView);
 
 
-        terrainView.readEntity();
-        debugger = new DebugView(panneauDeJeu);
         terrain.getBlocks().addListener(new TerrainObservator(terrainView));
         playerInventoryObservator = new PlayerInventoryObservator(playerInventoryView, player.getPlayerInventory(), panneauDeJeu);
         player.getPlayerInventory().getSlots().addListener(playerInventoryObservator);
@@ -104,6 +107,8 @@ public class Controleur implements Initializable {
         entities.add(bingus);
         entities.add(florb);
         entities.add(bib);
+        for(Entity ent : entities)
+            entViews.add(new EntityView(ent, panneauDeJeu));
     }
 
 
@@ -114,7 +119,7 @@ public class Controleur implements Initializable {
         timeline = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
                     if (!doOnce) {
-                        camera.lookAt(player.getHitbox().getX(), player.getHitbox().getY());
+                        camera.lookAt(player.getHitbox().xProperty(), player.getHitbox().yProperty());
                         doOnce = true;
                     }
                     entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
@@ -194,18 +199,16 @@ public class Controleur implements Initializable {
     public void playerMovement() {
         if (keyHandler.isSprintPressed() && !player.isRunning()) {
             player.setRunning(true);
-            player.setSpeed(14);
-        }
-
-        if (!keyHandler.isSprintPressed() && player.isRunning()) {
+        } else if (!keyHandler.isSprintPressed() && player.isRunning()) {
             player.setRunning(false);
-            player.setSpeed(7);
         }
 
         if (keyHandler.isLeftPressed()) {
             player.movement(null, keyHandler.isLeftPressed(), false);
         } else if (keyHandler.isRightPressed()) {
             player.movement(null, false, keyHandler.isRightPressed());
+        } else{ // this sucks and we should probably find a way to make it work another way but I'm leaving it here for testing/demonstration purposes
+            player.setAction(player.getActions().get(0));
         }
 
         if (keyHandler.isUpPressed()) {

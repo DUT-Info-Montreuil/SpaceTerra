@@ -2,11 +2,18 @@ package modele;
 
 import controleur.Controleur;
 
+import java.util.ArrayList;
+
 public class Bingus extends Enemy {
 
     private int strenght;
     public Bingus(int x, int y, Terrain terrain) {
-        super(10, 3, new Hitbox(50,50,x,y), "/Sprites/Enemies/Bingus/Bingus.gif", 200, terrain);
+        super(10, 3, new Hitbox(50,50,x,y, false), 200, terrain, new ArrayList<String>(){
+            {
+                add("idle");
+                add("walk");
+            }
+        });
         this.strenght = 3;
     }
 
@@ -40,7 +47,7 @@ public class Bingus extends Enemy {
 
                     case 1:
                         if (leftCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                            this.getHitbox().setX(this.getHitbox().xProperty().intValue() + this.getSpeed());
                             this.setIdleCooldown(this.getIdleCooldown()-1);
 
                             if(this.getIdleCooldown() == 0) {
@@ -58,11 +65,16 @@ public class Bingus extends Enemy {
                         }
                         else
                             this.setIdleCooldown(this.getIdleCooldown() + 1);
+
+                        if(isCanMove())
+                            this.setAction(getActions().get(1));
+                        else
+                            this.setAction(getActions().get(0));
                         break;
 
                     case 2:
                         if (rightCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                            this.getHitbox().setX(this.getHitbox().xProperty().intValue() - this.getSpeed());
                             this.setIdleCooldown(this.getIdleCooldown()-1);
 
                             if(this.getIdleCooldown() == 0) {
@@ -76,6 +88,11 @@ public class Bingus extends Enemy {
                         }
                         else
                             this.setIdleCooldown(this.getIdleCooldown() + 1);
+
+                        if(isCanMove())
+                            this.setAction(getActions().get(1));
+                        else
+                            this.setAction(getActions().get(0));
                         break;
 
                     case 3:
@@ -93,21 +110,25 @@ public class Bingus extends Enemy {
                         }
                         else
                             this.setIdleCooldown(this.getIdleCooldown() + 1);
+
+                        if(isCanMove())
+                            this.setAction(getActions().get(1));
+                        else
+                            this.setAction(getActions().get(0));
                 }
                 break;
 
             case "hunting":
-                if (this.getHitbox().getX().intValue() < player.getHitbox().getX().intValue() - 5) {
+                this.setAction(getActions().get(1));
+
+                if (this.getHitbox().xProperty().intValue() < player.getHitbox().xProperty().intValue() - 5) {
                     if (leftCheck)
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() + this.getSpeed());
+                        this.getHitbox().setX(this.getHitbox().xProperty().intValue() + this.getSpeed());
                 }
-                else if (this.getHitbox().getX().intValue() > player.getHitbox().getX().intValue() + 5) {
+                else if (this.getHitbox().xProperty().intValue() > player.getHitbox().xProperty().intValue() + 5) {
                     if (rightCheck)
-                        this.getHitbox().setX(this.getHitbox().getX().intValue() - this.getSpeed());
+                        this.getHitbox().setX(this.getHitbox().xProperty().intValue() - this.getSpeed());
                 }
-
-
-
                 break;
 
             default:

@@ -1,85 +1,58 @@
 package modele;
 
 public class Block {
-    private int x;
-    private int y;
+    private int gridX;
+    private int gridY;
+    private int dataId;
 
     private String ressource;
 
+    private Hitbox hitbox;
 
-    private Tile tile;
-
-    private int hitX; // hitBox pos in relation to its Tile
-    private int hitY;
     private static int idCount = 0;
     private String id;
-
-    private Terrain terrain;
-
-    public String getId() {
-        return id;
-    }
 
     private int health;
     private int pickDef;
     private int axeDef;
 
-    public int getHealth() {
-        return health;
-    }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
 
-    public Block(Tile tile, int x, int y, Terrain terrain) {
-        this.x = x;
-        this.y = y;
-        this.tile = tile;
-        hitX = x + tile.getHitbox().getX().intValue();
-        hitY = y + tile.getHitbox().getY().intValue();
+    public Block(BlockLoader blockLoader, int gridX, int gridY) {
+        this.gridX = gridX;
+        this.gridY = gridY;
+        hitbox = new Hitbox(blockLoader.getHitbox().getWidth(), blockLoader.getHitbox().getHeight(), gridX + blockLoader.getHitbox().xProperty().intValue(), gridY + blockLoader.getHitbox().yProperty().intValue(), blockLoader.getHitbox().isSolid());
         this.id = "block" + idCount++;
-        this.terrain = terrain;
-        ressource = this.getTile().getRessource();
+        ressource = blockLoader.getRessource();
+        this.dataId = blockLoader.getId();
         resourceStats();
     }
 
-    public Block(ItemBlock item, int x, int y, Terrain terrain){
-        this.terrain = terrain;
-        this.x = x;
-        this.y = y;
+    public Block(ItemBlock item, int gridX, int gridY, Terrain terrain){
+        this.gridX = gridX;
+        this.gridY = gridY;
+        BlockLoader blockLoader = null;
         if(item.getTypeItem().name().equalsIgnoreCase("Dirt")) {
-            this.tile = terrain.getTileset().getTiles().get(18);
+            blockLoader = terrain.getBlocLoaders().get(18);
         } else if (item.getTypeItem().name().equalsIgnoreCase("Wood")) {
-            this.tile = terrain.getTileset().getTiles().get(35);
+            blockLoader = terrain.getBlocLoaders().get(35);
         } else if(item.getTypeItem().name().equalsIgnoreCase("Stone")){
-            this.tile = terrain.getTileset().getTiles().get(42);
+            blockLoader = terrain.getBlocLoaders().get(42);
         }
-        hitX = x + tile.getHitbox().getX().intValue();
-        hitY = y + tile.getHitbox().getY().intValue();
+        hitbox = new Hitbox(blockLoader.getHitbox().getWidth(), blockLoader.getHitbox().getHeight(), gridX + blockLoader.getHitbox().getX(), gridY + blockLoader.getHitbox().getY(), true);
+
         this.id = "block" + idCount++;
-        ressource = this.getTile().getRessource();
+        dataId = blockLoader.getId();
+        ressource = blockLoader.getRessource();
         resourceStats();
     }
 
-    public int getX() {
-        return x;
+    public int getGridX() {
+        return gridX;
     }
 
-    public int getY() {
-        return y;
-    }
-
-    public Tile getTile() {
-        return tile;
-    }
-
-    public int getHitX() {
-        return hitX;
-    }
-
-    public int getHitY() {
-        return hitY;
+    public int getGridY() {
+        return gridY;
     }
 
     public Item getRessourceAsItem(){
@@ -161,5 +134,29 @@ public class Block {
 
     public int getAxeDef() {
         return axeDef;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getRessource() {
+        return ressource;
+    }
+
+    public Hitbox getHitbox() {
+        return hitbox;
+    }
+
+    public int getDataId() {
+        return dataId;
     }
 }

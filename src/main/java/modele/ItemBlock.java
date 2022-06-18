@@ -15,7 +15,7 @@ public class ItemBlock extends Item{
     public void use() {
         if (Controleur.terrain.checkDistancePosition(player, playerMouse.getX(), playerMouse.getY())) {
             Block bPlace = new Block(this, (MouseHandler.mouseX.getValue()/32) * 32, (MouseHandler.mouseY.getValue()/ 32) * 32, Controleur.terrain);
-            if (Controleur.terrain.placeBlock(bPlace.getHitX(), bPlace.getHitY(), bPlace)) {
+            if (Controleur.terrain.placeBlock((int)bPlace.getHitbox().getX(), (int)bPlace.getHitbox().getY(), bPlace)) {
                 if (Controleur.playerMouse.item != null){
                     Controleur.playerMouse.decrementeItemQuantity(1);
                 }
