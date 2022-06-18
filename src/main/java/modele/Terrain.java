@@ -3,14 +3,7 @@ package modele;
 import controleur.Controleur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -21,7 +14,7 @@ public class Terrain {
     private ObservableList<Block> solidBlocks;
 
     private ArrayList<Layer> layers;
-    private ArrayList<BlocLoader> blocLoaders;
+    private ArrayList<BlockLoader> blockLoaders;
     private int height, width; // in tiles
     private int tileWidth, tileHeight;
 
@@ -38,7 +31,7 @@ public class Terrain {
 
     public void loadData(JsonGameLoader data){
         this.layers = data.getLayers();
-        this.blocLoaders = data.getTiles();
+        this.blockLoaders = data.getTiles();
         this.height = data.getHeight();
         this.width = data.getWidth();
         this.tileWidth = data.getTileWidth();
@@ -66,13 +59,13 @@ public class Terrain {
                         if (data[t] == 0 && l == 0) {
                             blocks.set(i, null);
                         } else {
-                            Iterator tilesIterator = blocLoaders.iterator();
+                            Iterator tilesIterator = blockLoaders.iterator();
 
                             while (tilesIterator.hasNext()) {
-                                BlocLoader currBlocLoader = (BlocLoader) tilesIterator.next();
+                                BlockLoader currBlockLoader = (BlockLoader) tilesIterator.next();
 
-                                if (data[t] == currBlocLoader.getId()) {
-                                    Block b = new Block(currBlocLoader, x, y);
+                                if (data[t] == currBlockLoader.getId()) {
+                                    Block b = new Block(currBlockLoader, x, y);
                                     blocks.set(i, b);
                                     System.out.println("Loaded Block : " + i);
                                     if (b.getHitbox().isSolid()) {
@@ -153,8 +146,8 @@ public class Terrain {
         return layers;
     }
 
-    public ArrayList<BlocLoader> getBlocLoaders() {
-        return blocLoaders;
+    public ArrayList<BlockLoader> getBlocLoaders() {
+        return blockLoaders;
     }
 
     public int getHeight() {

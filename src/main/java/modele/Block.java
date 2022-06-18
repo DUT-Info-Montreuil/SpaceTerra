@@ -18,32 +18,32 @@ public class Block {
 
 
 
-    public Block(BlocLoader blocLoader, int gridX, int gridY) {
+    public Block(BlockLoader blockLoader, int gridX, int gridY) {
         this.gridX = gridX;
         this.gridY = gridY;
-        hitbox = new Hitbox(blocLoader.getHitbox().getWidth(), blocLoader.getHitbox().getHeight(), gridX + blocLoader.getHitbox().xProperty().intValue(), gridY + blocLoader.getHitbox().yProperty().intValue(), true);
+        hitbox = new Hitbox(blockLoader.getHitbox().getWidth(), blockLoader.getHitbox().getHeight(), gridX + blockLoader.getHitbox().xProperty().intValue(), gridY + blockLoader.getHitbox().yProperty().intValue(), blockLoader.getHitbox().isSolid());
         this.id = "block" + idCount++;
-        ressource = blocLoader.getRessource();
-        this.dataId = blocLoader.getId();
+        ressource = blockLoader.getRessource();
+        this.dataId = blockLoader.getId();
         resourceStats();
     }
 
     public Block(ItemBlock item, int gridX, int gridY, Terrain terrain){
         this.gridX = gridX;
         this.gridY = gridY;
-        BlocLoader blocLoader = null;
+        BlockLoader blockLoader = null;
         if(item.getTypeItem().name().equalsIgnoreCase("Dirt")) {
-            blocLoader = terrain.getBlocLoaders().get(18);
+            blockLoader = terrain.getBlocLoaders().get(18);
         } else if (item.getTypeItem().name().equalsIgnoreCase("Wood")) {
-            blocLoader = terrain.getBlocLoaders().get(35);
+            blockLoader = terrain.getBlocLoaders().get(35);
         } else if(item.getTypeItem().name().equalsIgnoreCase("Stone")){
-            blocLoader = terrain.getBlocLoaders().get(42);
+            blockLoader = terrain.getBlocLoaders().get(42);
         }
-        hitbox = new Hitbox(blocLoader.getHitbox().getWidth(), blocLoader.getHitbox().getHeight(), gridX + blocLoader.getHitbox().getX(), gridY + blocLoader.getHitbox().getY(), true);
+        hitbox = new Hitbox(blockLoader.getHitbox().getWidth(), blockLoader.getHitbox().getHeight(), gridX + blockLoader.getHitbox().getX(), gridY + blockLoader.getHitbox().getY(), true);
 
         this.id = "block" + idCount++;
-        dataId = blocLoader.getId();
-        ressource = blocLoader.getRessource();
+        dataId = blockLoader.getId();
+        ressource = blockLoader.getRessource();
         resourceStats();
     }
 

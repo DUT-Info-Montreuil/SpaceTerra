@@ -6,15 +6,15 @@ import org.json.simple.JSONObject;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class BlocLoader {
+public class BlockLoader {
 
     private int id;
     private Hitbox hitbox;
     private String ressource;
 
 
-    public BlocLoader(JSONObject tile){
-        id = (((Long)tile.get("id")).intValue()) + 1; // On ajoute 1 parce que les id commence a 0 mais 0 = vide dans le data des layers
+    public BlockLoader(JSONObject tile){
+        id = (((Long)tile.get("id")).intValue()) + 1; // add 1 because it starts at 0
         hitbox = new Hitbox((JSONObject) ((JSONArray)((JSONObject) tile.get("objectgroup")).get("objects")).get(0));
         JSONArray properties = (JSONArray)tile.get("properties");
         JSONObject ressourceObject = (JSONObject) properties.get(0);

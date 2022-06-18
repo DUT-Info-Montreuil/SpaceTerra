@@ -19,7 +19,7 @@ public class JsonGameLoader {
     private JSONObject map;
     private HashMap<Integer, String> tileImages;
     private ArrayList<Layer> layers;
-    private ArrayList<BlocLoader> tiles;
+    private ArrayList<BlockLoader> tiles;
     private int height, width;
     private int tileWidth, tileHeight;
 
@@ -77,7 +77,7 @@ public class JsonGameLoader {
         while(tilesIterator.hasNext()){
             JSONObject currentTile = tilesIterator.next();
             tileImages.put((((Long)currentTile.get("id")).intValue()) + 1, String.valueOf(getClass().getResource("/Sprites/TileSet/" + findTileFileName(currentTile))));
-            tiles.add(new BlocLoader(currentTile));
+            tiles.add(new BlockLoader(currentTile));
         }
         System.out.println("All Tiles loaded");
     }
@@ -95,7 +95,7 @@ public class JsonGameLoader {
         return layers;
     }
 
-    public ArrayList<BlocLoader> getTiles() {
+    public ArrayList<BlockLoader> getTiles() {
         return tiles;
     }
 

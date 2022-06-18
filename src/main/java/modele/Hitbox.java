@@ -87,6 +87,7 @@ public class Hitbox {
     public void setY(double y) {
         this.y.setValue(y);
     }
+
     @Override
     public String toString() {
         return "Hitbox{" +
