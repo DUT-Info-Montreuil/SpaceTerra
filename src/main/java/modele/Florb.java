@@ -14,6 +14,7 @@ public class Florb extends Enemy{
                 add("idle");
             }
         });
+        this.setFlying(true);
     }
 
 
