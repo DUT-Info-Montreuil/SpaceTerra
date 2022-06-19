@@ -39,7 +39,7 @@ public class Player extends Entity {
         }
 
         if(rightCheck){
-            if (this.getHitbox().getX() <= this.getTerrain().getWidth() * 32 - 30) {
+            if (this.getHitbox().getX() <= this.getTerrain().getWidth() * getTerrain().getTileWidth() - 30) {
                 if (!sideRightCollisions())
                     getHitbox().setX(this.getHitbox().getX() + getSpeed());
 
