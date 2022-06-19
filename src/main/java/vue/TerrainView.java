@@ -5,18 +5,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import modele.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TerrainView {
     private Pane panneau;
-
-    private ArrayList<Entity> entities;
     private HashMap<Integer, Image> tileImages;
 
-    public TerrainView(Pane panneau, ArrayList<Entity> ent, HashMap<Integer, String> imagesPath) {
+    public TerrainView(Pane panneau, HashMap<Integer, String> imagesPath) {
         this.panneau = panneau;
-        this.entities = ent;
         initImages(imagesPath);
     }
 

@@ -32,7 +32,7 @@ public class Controleur implements Initializable {
 
     public static Player player;
     private KeyHandler keyHandler;
-    private ArrayList<Entity> entities;
+    private Environnement env;
     private ArrayList<EntityView> entViews;
     private  Timeline timelineEntity;
     private MouseHandler mouseHandler;
@@ -48,21 +48,20 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        debugger = new DebugView(panneauDeJeu);
-        entities = new ArrayList<>();
-        entViews = new ArrayList<>();
+
         Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
+        JsonGameLoader loader = new JsonGameLoader("src/main/resources/Map/bigTest.json");
         camera = new GameCam2D(panneauDeJeu);
         scene.setCamera(camera);
 
-        JsonGameLoader loader = new JsonGameLoader("src/main/resources/Map/bigTest.json");
         terrain = new Terrain(loader);
-        terrainView = new TerrainView(panneauDeJeu, entities, loader.getTileImages());
+        env = new Environnement(terrain);
+        env.init();
+        player = env.getPlayer();
+        terrainView = new TerrainView(panneauDeJeu, loader.getTileImages());
         terrainView.readMap(terrain);
+        entViews = new ArrayList<>();
 
-
-        player = new Player(3500, 2030, terrain);
-        entities.add(player);
         createEntities();
 
         playerInventoryView = new PlayerInventoryView(panneauDeJeu);
@@ -92,19 +91,13 @@ public class Controleur implements Initializable {
         deletedSlotView = new DeletedSlotView(panneauDeJeu, playerInventoryView);
 
         createTimelines();
+        debugger = new DebugView(panneauDeJeu);
     }
 
 
     public void createEntities() {
-        Moobius moobius = new Moobius(terrain,4000, 2030);
-        Bingus bingus = new Bingus(15000, 2030, terrain);
-        Florb florb = new Florb(10000, 1980, terrain);
-        Bib bib = new Bib(5000, 2030, terrain);
-        entities.add(bingus);
-        entities.add(florb);
-        entities.add(bib);
-        entities.add(moobius);
-        for(Entity ent : entities)
+
+        for(Entity ent : env.getEntities())
             entViews.add(new EntityView(ent, panneauDeJeu));
     }
 
@@ -132,7 +125,8 @@ public class Controleur implements Initializable {
         timelineEntity.play();
 
         timelineInventory = new Timeline
-                (new KeyFrame(Duration.millis(20), actionEvent -> {
+                (new KeyFrame(Duration.millis(16.33), actionEvent -> {
+                    playerInventoryObservator.refreshCurrentSlotView();
                     if (mouseHandler.isHasClickedLeft()) {
                         if(playerInventoryView.isDisplay()){
                             playerMouseObservator.leftClickInventory(player.getPlayerInventory(), playerInventoryView, deletedSlotView);
@@ -188,7 +182,6 @@ public class Controleur implements Initializable {
                         player.getPlayerInventory().incrementSlot();
                         mouseHandler.setHasScrollDown(false);
                     }
-                    playerInventoryObservator.refreshCurrentSlotView();
                     verifKeyTyped();
                 }));
 
@@ -234,7 +227,7 @@ public class Controleur implements Initializable {
     }
 
     public void entityLoop() {
-        for (Entity ent : entities) {
+        for (Entity ent : env.getEntities()) {
            if (!(ent instanceof Player)) {
                // if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
                     if (ent.isGrounded()) {
