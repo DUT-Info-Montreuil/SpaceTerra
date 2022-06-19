@@ -3,8 +3,9 @@ package modele;
 import controleur.Controleur;
 import controleur.MouseHandler;
 
-import static controleur.Controleur.player;
 import static controleur.Controleur.playerMouse;
+import static modele.Environment.player;
+import static modele.Environment.terrain;
 
 public class ItemBlock extends Item{
     public ItemBlock(int id) {
@@ -13,9 +14,9 @@ public class ItemBlock extends Item{
 
     @Override
     public void use() {
-        if (Controleur.terrain.checkDistancePosition(player, playerMouse.getX(), playerMouse.getY())) {
-            Block bPlace = new Block(this, (MouseHandler.mouseX.getValue()/32) * 32, (MouseHandler.mouseY.getValue()/ 32) * 32, Controleur.terrain);
-            if (Controleur.terrain.placeBlock((int)bPlace.getHitbox().getX(), (int)bPlace.getHitbox().getY(), bPlace)) {
+        if (terrain.checkDistancePosition(player, playerMouse.getX(), playerMouse.getY())) {
+            Block bPlace = new Block(this, (MouseHandler.mouseX.getValue()/32) * 32, (MouseHandler.mouseY.getValue()/ 32) * 32, terrain);
+            if (terrain.placeBlock((int)bPlace.getHitbox().getX(), (int)bPlace.getHitbox().getY(), bPlace)) {
                 if (Controleur.playerMouse.item != null){
                     Controleur.playerMouse.decrementeItemQuantity(1);
                 }

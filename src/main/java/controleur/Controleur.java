@@ -9,12 +9,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import modele.*;
-import modele.Terrain;
 import modele.Player;
 import vue.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static modele.Environment.player;
+import static modele.Environment.terrain;
 
 public class Controleur implements Initializable {
 
@@ -22,16 +24,14 @@ public class Controleur implements Initializable {
     private Pane panneauDeJeu;
     private TerrainView terrainView;
 
-    public static Terrain terrain;
     PlayerMouseView playerMouseView;
     PlayerMouseObservator playerMouseObservator;
     private Timeline timelineCamera;
     private CraftInventoryView craftInventoryView;
     private Timeline timelineInventory;
 
-    public static Player player;
     private KeyHandler keyHandler;
-    private Environnement env;
+    private Environment env;
     private EntityView entityView;
     private  Timeline timelineEntity;
     private MouseHandler mouseHandler;
@@ -49,18 +49,15 @@ public class Controleur implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        JsonGameLoader loader = new JsonGameLoader("src/main/resources/Map/bigTest.json");
+
         Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
         camera = new GameCam2D(panneauDeJeu);
         scene.setCamera(camera);
-
-        terrain = new Terrain(loader);
-        env = new Environnement(terrain);
+        env = new Environment("src/main/resources/Map/bigTest.json");
         entityView = new EntityView(panneauDeJeu);
         env.getEntities().addListener(new EntityObservator(entityView));
         env.init();
-        player = env.getPlayer();
-        terrainView = new TerrainView(panneauDeJeu, loader.getTileImages());
+        terrainView = new TerrainView(panneauDeJeu, env.getLoader().getTileImages());
         terrainView.readMap(terrain);
 
 

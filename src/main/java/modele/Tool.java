@@ -1,7 +1,7 @@
 package modele;
 
-import static controleur.Controleur.player;
 import static controleur.Controleur.playerMouse;
+import static modele.Environment.player;
 
 public class Tool extends Item{
 

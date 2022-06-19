@@ -1,8 +1,9 @@
 package modele;
 
-import controleur.Controleur;
-
 import java.util.ArrayList;
+
+import static modele.Environment.player;
+import static modele.Environment.terrain;
 
 public class Bingus extends Enemy {
 
@@ -17,31 +18,31 @@ public class Bingus extends Enemy {
 
     @Override
     public void attack() {
-        if(Math.abs(getHitbox().getX() - Controleur.player.getHitbox().getX()) < 10){
-            if(getHitbox().getY() > Controleur.player.getHitbox().getY()){
+        if(Math.abs(getHitbox().getX() - player.getHitbox().getX()) < 10){
+            if(getHitbox().getY() > player.getHitbox().getY()){
                 this.jump();
-                Block bHautGauche =  Controleur.terrain.getBlock((int)this.getHitbox().getX(), (int)this.getHitbox().getY());
-                Block bHautMilieu =  Controleur.terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth()/2, (int)this.getHitbox().getY());
-                Block bHautDroite =  Controleur.terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth(), (int)this.getHitbox().getY());
+                Block bHautGauche =  terrain.getBlock((int)this.getHitbox().getX(), (int)this.getHitbox().getY());
+                Block bHautMilieu =  terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth()/2, (int)this.getHitbox().getY());
+                Block bHautDroite =  terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth(), (int)this.getHitbox().getY());
                 System.out.println(bHautDroite);
                 if(bHautGauche != null || bHautGauche != null || bHautMilieu != null){
                     if(bHautGauche != null){
                         bHautGauche.setHealth(0);
-                        Controleur.terrain.checkDestroyedBlock(bHautGauche);
+                        terrain.checkDestroyedBlock(bHautGauche);
                     }
                     if (bHautDroite != null){
                         bHautDroite.setHealth(0);
-                        Controleur.terrain.checkDestroyedBlock(bHautDroite);
+                        terrain.checkDestroyedBlock(bHautDroite);
                     }
                     if(bHautMilieu != null){
                         bHautMilieu.setHealth(0);
-                        Controleur.terrain.checkDestroyedBlock(bHautMilieu);
+                        terrain.checkDestroyedBlock(bHautMilieu);
                     }
                 }
             }
             else {
-                if(!Controleur.player.isInvicible() && getAttackCooldown() > 0){
-                    Controleur.player.decreaseHealth(5);
+                if(!player.isInvicible() && getAttackCooldown() > 0){
+                    player.decreaseHealth(5);
                     setAttackCooldown(getAttackCooldown() - 1000);
                 }
                 else {
@@ -52,33 +53,33 @@ public class Bingus extends Enemy {
                         setCanAttack(true);
                     }
                 }
-                Controleur.player.launchInvicibleCooldown();
+                player.launchInvicibleCooldown();
             }
         }
         else {
             huntingY();
-            Block bBasGauche = Controleur.terrain.getBlock((int)this.getHitbox().getX() + (this.getSpeed() * this.getIdleDirection()), (int)this.getHitbox().getY() + this.getHitbox().getHeight() / 2);
-            Block bHautGauche = Controleur.terrain.getBlock((int)this.getHitbox().getX() + (this.getSpeed() * this.getIdleDirection()), (int)this.getHitbox().getY());
+            Block bBasGauche = terrain.getBlock((int)this.getHitbox().getX() + (this.getSpeed() * this.getIdleDirection()), (int)this.getHitbox().getY() + this.getHitbox().getHeight() / 2);
+            Block bHautGauche = terrain.getBlock((int)this.getHitbox().getX() + (this.getSpeed() * this.getIdleDirection()), (int)this.getHitbox().getY());
 
-            Block bBasDroite = Controleur.terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth() + (this.getSpeed() * this.getIdleDirection()), (int)this.getHitbox().getY() + this.getHitbox().getHeight() / 2);
-            Block bHautDroite = Controleur.terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth() + (this.getSpeed() * this.getIdleDirection()), (int)this.getHitbox().getY());
-            if (getHitbox().getY() <= Controleur.player.getHitbox().getY() + 220) {
+            Block bBasDroite = terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth() + (this.getSpeed() * this.getIdleDirection()), (int)this.getHitbox().getY() + this.getHitbox().getHeight() / 2);
+            Block bHautDroite = terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth() + (this.getSpeed() * this.getIdleDirection()), (int)this.getHitbox().getY());
+            if (getHitbox().getY() <= player.getHitbox().getY() + 220) {
                 if ((bBasGauche != null && bBasGauche.getHitbox().isSolid()) || (bHautGauche != null && bHautGauche.getHitbox().isSolid()) || (bBasDroite != null && bBasDroite.getHitbox().isSolid()) || (bHautDroite != null && bHautDroite.getHitbox().isSolid())) {
                     if (bBasGauche != null) {
                         bBasGauche.setHealth(0);
-                        Controleur.terrain.checkDestroyedBlock(bBasGauche);
+                        terrain.checkDestroyedBlock(bBasGauche);
                     }
                     if (bHautGauche != null) {
                         bHautGauche.setHealth(0);
-                        Controleur.terrain.checkDestroyedBlock(bHautGauche);
+                        terrain.checkDestroyedBlock(bHautGauche);
                     }
                     if (bHautDroite != null) {
                         bHautDroite.setHealth(0);
-                        Controleur.terrain.checkDestroyedBlock(bHautDroite);
+                        terrain.checkDestroyedBlock(bHautDroite);
                     }
                     if (bBasDroite != null) {
                         bBasDroite.setHealth(0);
-                        Controleur.terrain.checkDestroyedBlock(bBasDroite);
+                        terrain.checkDestroyedBlock(bBasDroite);
                     }
                 } else {
                     this.moveX(getIdleDirection());
@@ -90,17 +91,17 @@ public class Bingus extends Enemy {
 
     @Override
     public void huntingY() {
-        if(getHitbox().getY() <= Controleur.player.getHitbox().getY() + 200){
-            Block bBasGauche =  Controleur.terrain.getBlock((int)this.getHitbox().getX(), (int)this.getHitbox().getY() + this.getHitbox().getHeight() + 32);
-            Block bBasDroite =  Controleur.terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth(), (int)this.getHitbox().getY() + this.getHitbox().getHeight());
+        if(getHitbox().getY() <= player.getHitbox().getY() + 200){
+            Block bBasGauche =  terrain.getBlock((int)this.getHitbox().getX(), (int)this.getHitbox().getY() + this.getHitbox().getHeight() + 32);
+            Block bBasDroite =  terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth(), (int)this.getHitbox().getY() + this.getHitbox().getHeight());
             if(bBasGauche != null || bBasGauche != null){
                 if(bBasGauche != null){
                     bBasGauche.setHealth(0);
-                    Controleur.terrain.checkDestroyedBlock(bBasGauche);
+                    terrain.checkDestroyedBlock(bBasGauche);
                 }
                 if (bBasDroite != null){
                     bBasDroite.setHealth(0);
-                    Controleur.terrain.checkDestroyedBlock(bBasDroite);
+                    terrain.checkDestroyedBlock(bBasDroite);
                 }
             }
         }

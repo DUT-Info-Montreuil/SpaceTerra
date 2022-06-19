@@ -5,6 +5,8 @@ import javafx.scene.layout.Pane;
 import modele.CraftInventory;
 import vue.CraftInventoryView;
 
+import static modele.Environment.player;
+
 public class CraftInventoryObservator extends InventoryObservator {
 
 
@@ -33,7 +35,7 @@ public class CraftInventoryObservator extends InventoryObservator {
         }
         else {
             resultSlotObservator.getResultSlotView().hideSlot();
-            craftInventory.transferInventoryToPlayer(Controleur.player);
+            craftInventory.transferInventoryToPlayer(player);
         }
     }
 

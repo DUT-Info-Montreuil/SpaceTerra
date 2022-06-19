@@ -3,18 +3,22 @@ package modele;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Environnement {
+public class Environment {
 
     private ObservableList<Entity> entities;
-    private Terrain terrain;
+    private JsonGameLoader loader;
+    public static Terrain terrain;
+    public static Player player;
 
-    public Environnement(Terrain terrain) {
+
+    public Environment(String mapPath) {
         entities = FXCollections.observableArrayList();
-        this.terrain = terrain;
+        loader = new JsonGameLoader(mapPath);
+        this.terrain = new Terrain(loader);
     }
 
     public void init() {
-        Player player = new Player(3500, 2030, terrain);
+        player = new Player(3500, 2030, terrain);
         Moobius moobius = new Moobius(terrain,3190, 2030);
         Bingus bingus = new Bingus(15000, 2030, terrain);
         Florb florb = new Florb(10000, 1980, terrain);
@@ -26,8 +30,8 @@ public class Environnement {
         this.getEntities().add(moobius);
     }
 
-    public Player getPlayer() {
-        return (Player) this.getEntities().get(0);
+    public JsonGameLoader getLoader() {
+        return loader;
     }
 
     public ObservableList<Entity> getEntities() {

@@ -1,9 +1,8 @@
 package modele;
 
-import controleur.Controleur;
-
 import java.util.ArrayList;
-import java.util.Random;
+
+import static modele.Environment.player;
 
 public abstract class Enemy extends Entity {
 
@@ -197,7 +196,7 @@ public abstract class Enemy extends Entity {
     }
 
     public void huntingX() {
-        if (this.getHitbox().getX() < Controleur.player.getHitbox().getX()) {
+        if (this.getHitbox().getX() < player.getHitbox().getX()) {
             if (!sideRightCollisions()) {
                 setIdleDirection(1);
                 moveX(getIdleDirection());
