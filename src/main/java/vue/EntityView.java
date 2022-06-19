@@ -52,7 +52,7 @@ public class EntityView {
     }
 
     public void deleteEntity(Entity entity) {
-        pane.getChildren().remove(pane.lookup("E" + entity.getId()));
+        pane.getChildren().remove(pane.lookup("#E" + entity.getId()));
     }
 /*
     public void startTimeline(){
