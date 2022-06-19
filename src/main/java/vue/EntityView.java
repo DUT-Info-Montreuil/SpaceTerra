@@ -16,7 +16,6 @@ public class EntityView {
     private HashMap<String, Image> images;
     private Entity ent;
     private ImageView imgView;
-    private Timeline timeline;
     private String currAction = "";
     private Pane pane;
 
@@ -49,16 +48,5 @@ public class EntityView {
         ent.actionProperty().addListener(property -> {
             imgView.setImage(images.get(((StringProperty)property).getValue()));
         });
-    }
-
-    public void startTimeline(){
-        timeline = new Timeline(new KeyFrame(Duration.millis(16.33), actionEvent -> {
-            if(!currAction.equals(ent.getAction())){
-                currAction = ent.getAction();
-                imgView.setImage(images.get(currAction));
-            }
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
     }
 }

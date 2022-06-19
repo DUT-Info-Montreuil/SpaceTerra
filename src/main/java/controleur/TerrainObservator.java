@@ -25,9 +25,8 @@ public class TerrainObservator implements ListChangeListener<Block> {
             for (Block bAdded : change.getAddedSubList()){
                 this.terrainView.addBlock(bAdded);
             }
-
-            }
         }
     }
+}
 
 
