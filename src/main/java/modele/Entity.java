@@ -14,10 +14,10 @@ public abstract class  Entity {
     private IntegerProperty health;
     private int speed;
     private Hitbox hitbox;
-    private final int jumpHeight = 20;
+    private int jumpHeight;
     public int jumpCount = jumpHeight;
     private boolean isJumping = false;
-    private boolean flying = false;
+    private boolean flying;
     public double gravity = 5;
     private ArrayList<String> actions;
     private StringProperty action = new SimpleStringProperty("idle");
@@ -34,12 +34,15 @@ public abstract class  Entity {
 
     private Terrain terrain;
 
-    public Entity(int health, int speed, Hitbox hitbox, Terrain terrain, ArrayList<String> actions) {
+    public Entity(int health, int speed, Hitbox hitbox, Terrain terrain, int jumpHeight, boolean flying, ArrayList<String> actions) {
         this.health = new SimpleIntegerProperty(health);
         this.speed = speed;
         this.hitbox = hitbox;
         this.terrain = terrain;
         this.actions = actions;
+        this.jumpHeight = jumpHeight;
+        this.jumpCount = jumpHeight;
+        this.flying = flying;
     }
 
     public int getSpeed() {
@@ -59,7 +62,7 @@ public abstract class  Entity {
     }
 
     public void decreaseHealth(int health) {
-        this.health.subtract(health);
+        this.health.setValue(this.health.getValue() - health);
     }
 
     public void increaseHealth(int health) {
@@ -233,7 +236,7 @@ public abstract class  Entity {
 
     }
 
-    public boolean grimpableRight(){
+    public boolean canClimbRight(){
         Block b = terrain.getBlock((int)hitbox.getX() + hitbox.getWidth() + speed, (int)hitbox.getY() + hitbox.getHeight() - 1);
         if(b != null) {
             Block b2 = terrain.getBlock(b.getGridX(), b.getGridY() - b.getHitbox().getHeight() / 2);
@@ -248,7 +251,7 @@ public abstract class  Entity {
 
     }
 
-    public boolean grimpableLeft(){
+    public boolean canClimbLeft(){
         Block b = terrain.getBlock((int)hitbox.getX() - speed, (int)hitbox.getY() + hitbox.getHeight() - 1);
         if(b != null) {
             Block b2 = terrain.getBlock(b.getGridX(), b.getGridY() - b.getHitbox().getHeight() / 2);
@@ -262,7 +265,7 @@ public abstract class  Entity {
         return false;
     }
 
-    public void grimper(int side){
+    public void climb(int side){
         if (side == 1){ //check droite
             Block b = terrain.getBlock((int)hitbox.getX() + hitbox.getWidth() + speed, (int)hitbox.getY() + hitbox.getHeight() - 1);
             if(b != null) {
@@ -334,5 +337,9 @@ public abstract class  Entity {
 
     public void setAction(String a){
         action.setValue(a);
+    }
+
+    public void setJumpHeight(int jumpHeight){
+        this.jumpHeight = jumpHeight;
     }
 }

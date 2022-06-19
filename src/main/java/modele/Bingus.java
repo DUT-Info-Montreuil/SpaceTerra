@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class Bingus extends Enemy {
 
-    private int strenght;
     public Bingus(int x, int y, Terrain terrain) {
         super(10, 3, new Hitbox(50,50,x,y, false), 200, terrain, new ArrayList<String>(){
             {
@@ -17,125 +16,109 @@ public class Bingus extends Enemy {
         this.strenght = 3;
     }
 
-    public int getStrenght() {
-        return strenght;
+
+
+    @Override
+    public void attack() {
+        if(Math.abs(getHitbox().getX().intValue() - Controleur.player.getHitbox().getX().intValue()) < 10){
+            if(getHitbox().getY().intValue() > Controleur.player.getHitbox().getY().intValue()){
+                this.jump();
+                Block bHautGauche =  Controleur.terrain.getBlock(this.getHitbox().getX().intValue(), this.getHitbox().getY().intValue());
+                Block bHautMilieu =  Controleur.terrain.getBlock(this.getHitbox().getX().intValue() + this.getHitbox().getWidth()/2, this.getHitbox().getY().intValue());
+                Block bHautDroite =  Controleur.terrain.getBlock(this.getHitbox().getX().intValue() + this.getHitbox().getWidth(), this.getHitbox().getY().intValue());
+                System.out.println(bHautDroite);
+                if(bHautGauche != null || bHautGauche != null || bHautMilieu != null){
+                    if(bHautGauche != null){
+                        bHautGauche.setPvs(0);
+                        Controleur.terrain.checkDestroyedBlock(bHautGauche);
+                    }
+                    if (bHautDroite != null){
+                        bHautDroite.setPvs(0);
+                        Controleur.terrain.checkDestroyedBlock(bHautDroite);
+                    }
+                    if(bHautMilieu != null){
+                        bHautMilieu.setPvs(0);
+                        Controleur.terrain.checkDestroyedBlock(bHautMilieu);
+                    }
+                }
+            }
+            else {
+                if(!Controleur.player.isInvicible() && getAttackCooldown() > 0){
+                    Controleur.player.decreaseHealth(5);
+                    setAttackCooldown(getAttackCooldown() - 1000);
+                }
+                else {
+                    setCanAttack(false);
+                    if (getAttackCooldown() < 1000 && !isCanAttack()) {
+                        setAttackCooldown(getAttackCooldown() + 5);
+                    } else {
+                        setCanAttack(true);
+                    }
+                }
+                Controleur.player.launchInvicibleCooldown();
+            }
+        }
+        else {
+            huntingY();
+            Block bBasGauche = Controleur.terrain.getBlock(this.getHitbox().getX().intValue() + (this.getSpeed() * this.getIdleDirection()), this.getHitbox().getY().intValue() + this.getHitbox().getHeight() / 2);
+            Block bHautGauche = Controleur.terrain.getBlock(this.getHitbox().getX().intValue() + (this.getSpeed() * this.getIdleDirection()), this.getHitbox().getY().intValue());
+
+            Block bBasDroite = Controleur.terrain.getBlock(this.getHitbox().getX().intValue() + this.getHitbox().getWidth() + (this.getSpeed() * this.getIdleDirection()), this.getHitbox().getY().intValue() + this.getHitbox().getHeight() / 2);
+            Block bHautDroite = Controleur.terrain.getBlock(this.getHitbox().getX().intValue() + this.getHitbox().getWidth() + (this.getSpeed() * this.getIdleDirection()), this.getHitbox().getY().intValue());
+            if (getHitbox().getY().intValue() <= Controleur.player.getHitbox().getY().intValue() + 220) {
+                if ((bBasGauche != null && bBasGauche.getTile().getHitbox().isSolid()) || (bHautGauche != null && bHautGauche.getTile().getHitbox().isSolid()) || (bBasDroite != null && bBasDroite.getTile().getHitbox().isSolid()) || (bHautDroite != null && bHautDroite.getTile().getHitbox().isSolid())) {
+                    if (bBasGauche != null) {
+                        bBasGauche.setPvs(0);
+                        Controleur.terrain.checkDestroyedBlock(bBasGauche);
+                    }
+                    if (bHautGauche != null) {
+                        bHautGauche.setPvs(0);
+                        Controleur.terrain.checkDestroyedBlock(bHautGauche);
+                    }
+                    if (bHautDroite != null) {
+                        bHautDroite.setPvs(0);
+                        Controleur.terrain.checkDestroyedBlock(bHautDroite);
+                    }
+                    if (bBasDroite != null) {
+                        bBasDroite.setPvs(0);
+                        Controleur.terrain.checkDestroyedBlock(bBasDroite);
+                    }
+                } else {
+                    this.moveX(getIdleDirection());
+                }
+            }
+        }
+
     }
 
-    public void setStrenght(int strenght) {
-        this.strenght = strenght;
+
+    @Override
+    public void huntingY() {
+            if(getHitbox().getY().intValue() <= Controleur.player.getHitbox().getY().intValue() + 200){
+                Block bBasGauche =  Controleur.terrain.getBlock(this.getHitbox().getX().intValue(), this.getHitbox().getY().intValue() + this.getHitbox().getHeight() + 32);
+                Block bBasDroite =  Controleur.terrain.getBlock(this.getHitbox().getX().intValue() + this.getHitbox().getWidth(), this.getHitbox().getY().intValue() + this.getHitbox().getHeight());
+                if(bBasGauche != null || bBasGauche != null){
+                    if(bBasGauche != null){
+                        bBasGauche.setPvs(0);
+                        Controleur.terrain.checkDestroyedBlock(bBasGauche);
+                    }
+                    if (bBasDroite != null){
+                        bBasDroite.setPvs(0);
+                        Controleur.terrain.checkDestroyedBlock(bBasDroite);
+                    }
+                }
+
+
+        }
+
     }
 
     @Override
-    public void movement(Player player, boolean leftCheck, boolean rightCheck) {
-        int range = this.getRange();
-        int rangeMultiplier;
-
-        if (this.isPlayerDetected())
-            rangeMultiplier = 2;
-
-        else
-            rangeMultiplier = 1;
-
-        this.detectPlayer(player, rangeMultiplier);
-
-        switch(this.getState()){
-            case "idle":
-                switch(this.getIdleDirection()){
-                    case 0:
-                        this.setIdleDirection(Controleur.randomNum(1,3));
-                        break;
-
-                    case 1:
-                        if (leftCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            this.getHitbox().setX(this.getHitbox().xProperty().intValue() + this.getSpeed());
-                            this.setIdleCooldown(this.getIdleCooldown()-1);
-
-                            if(this.getIdleCooldown() == 0) {
-                                this.setCanMove(false);
-                                this.setIdleCooldown(this.getIdleCooldown() + 1);
-                            }
-                        }
-                        else if(this.getIdleCooldown() == 0) {
-                            this.setCanMove(false);
-                            this.setIdleCooldown(this.getIdleCooldown() + 1);
-                        }
-                        else if (!isCanMove() && getIdleCooldown() == 50) {
-                            setCanMove(true);
-                            this.setIdleDirection(0);
-                        }
-                        else
-                            this.setIdleCooldown(this.getIdleCooldown() + 1);
-
-                        if(isCanMove())
-                            this.setAction(getActions().get(1));
-                        else
-                            this.setAction(getActions().get(0));
-                        break;
-
-                    case 2:
-                        if (rightCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
-                            this.getHitbox().setX(this.getHitbox().xProperty().intValue() - this.getSpeed());
-                            this.setIdleCooldown(this.getIdleCooldown()-1);
-
-                            if(this.getIdleCooldown() == 0) {
-                                this.setCanMove(false);
-                                this.setIdleCooldown(this.getIdleCooldown() + 1);
-                            }
-                        }
-                        else if (!isCanMove() && getIdleCooldown() == 50) {
-                            setCanMove(true);
-                            this.setIdleDirection(0);
-                        }
-                        else
-                            this.setIdleCooldown(this.getIdleCooldown() + 1);
-
-                        if(isCanMove())
-                            this.setAction(getActions().get(1));
-                        else
-                            this.setAction(getActions().get(0));
-                        break;
-
-                    case 3:
-                        if(this.isCanMove()) {
-                            this.setIdleCooldown(this.getIdleCooldown() - 1);
-                            if(this.getIdleCooldown() == 0) {
-                                this.setCanMove(false);
-                                this.setIdleCooldown(this.getIdleCooldown() + 1);
-                            }
-                        }
-
-                        else if (!isCanMove() && getIdleCooldown() == 50) {
-                            setCanMove(true);
-                            this.setIdleDirection(0);
-                        }
-                        else
-                            this.setIdleCooldown(this.getIdleCooldown() + 1);
-
-                        if(isCanMove())
-                            this.setAction(getActions().get(1));
-                        else
-                            this.setAction(getActions().get(0));
-                }
-                break;
-
-            case "hunting":
-                this.setAction(getActions().get(1));
-
-                if (this.getHitbox().xProperty().intValue() < player.getHitbox().xProperty().intValue() - 5) {
-                    if (leftCheck)
-                        this.getHitbox().setX(this.getHitbox().xProperty().intValue() + this.getSpeed());
-                }
-                else if (this.getHitbox().xProperty().intValue() > player.getHitbox().xProperty().intValue() + 5) {
-                    if (rightCheck)
-                        this.getHitbox().setX(this.getHitbox().xProperty().intValue() - this.getSpeed());
-                }
-                break;
-
-            default:
-                break;
-        }
-        //System.out.println(getIdleCooldown());
-        //System.out.println(getIdleDirection());
-
+    public void action() {
+        this.jump();
     }
+
+
 }
+
+

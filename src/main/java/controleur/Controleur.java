@@ -102,10 +102,10 @@ public class Controleur implements Initializable {
 
 
     public void createEntities() {
-        Bingus bingus = new Bingus(3500, 2030, terrain);
-        Florb florb = new Florb(3500, 2000, terrain);
-        Bib bib = new Bib(4000, 2030, terrain);
         Moobius moobius = new Moobius(terrain,4000, 2030);
+        Bingus bingus = new Bingus(15000, 2030, terrain);
+        Florb florb = new Florb(10000, 1980, terrain);
+        Bib bib = new Bib(5000, 2030, terrain);
         entities.add(bingus);
         entities.add(florb);
         entities.add(bib);
@@ -200,6 +200,7 @@ public class Controleur implements Initializable {
 
 
     public void playerMovement() {
+        player.checkDie();
         if (keyHandler.isSprintPressed() && !player.isRunning()) {
             player.setRunning(true);
         } else if (!keyHandler.isSprintPressed() && player.isRunning()) {
@@ -207,9 +208,9 @@ public class Controleur implements Initializable {
         }
 
         if (keyHandler.isLeftPressed()) {
-            player.movement(null, keyHandler.isLeftPressed(), false);
+            player.movement(null, true, false);
         } else if (keyHandler.isRightPressed()) {
-            player.movement(null, false, keyHandler.isRightPressed());
+            player.movement(null, false, true);
         } else{ // this sucks and we should probably find a way to make it work another way but I'm leaving it here for testing/demonstration purposes
             player.setAction(player.getActions().get(0));
         }
@@ -241,20 +242,24 @@ public class Controleur implements Initializable {
             }
             //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
             else {
-                if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
+               // if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
                     if (ent.isGrounded()) {
                         ent.setGravity(5);
                         ent.jump();
-                    } else if (ent.isJumping())
+                    } else if (ent.isJumping()){
+                        if(ent.upCollisions()){
+                            ent.stopJump();
+                        }
+                    }
                         ent.jump();
-                } else {
+               // } else {
                     if (ent.isJumping()) {
-                        ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
+                        ent.movement(player, false, false);
                         ent.stopJump();
                     }
-                }
+               // }
 
-                ent.movement(player, !ent.sideLeftCollision(), !ent.sideRightCollisions());
+                ent.movement(player, false, false);
                 ent.sideLeftCollision();
                 ent.sideRightCollisions();
             }
@@ -305,13 +310,5 @@ public class Controleur implements Initializable {
             player.getPlayerInventory().setCurrSlotNumber(9);
             keyHandler.setSlotTenTyped(false);
         }
-    }
-
-    public static int randomNum(int min, int max) {
-        if (min == max)
-            return max;
-        int range = max - min + 1;
-        int rand = (int) (Math.random() * range) + min;
-        return rand;
     }
 }

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Player extends Entity {
     private boolean isRunning = false;
-
-
     private PlayerInventory playerInventory;
 
+    private boolean isInvicible;
 
+    private int invicibleCooldown;
     private CraftInventory craftInventory;
 
 
@@ -19,30 +19,32 @@ public class Player extends Entity {
                 add("walk");
             }
         });
+        //super(20, 7, new Hitbox(20, 38, x, y), "/Sprites/MC/MCSpace_Idle_right.gif", terrain, 20, false);
         playerInventory = new PlayerInventory(50);
         craftInventory = new CraftInventory(9);
+        this.isInvicible = false;
+        this.invicibleCooldown = 10;
     }
 
     @Override
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
-        if(this.getHitbox().xProperty().getValue() >= 10){
-            if (leftCheck) {
-                if(!sideLeftCollision())
-                    getHitbox().setX(this.getHitbox().xProperty().intValue() - getSpeed());
+        if(leftCheck){
+            if (this.getHitbox().getX().getValue() >= 10) {
+                if (!sideLeftCollision())
+                    getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
 
-                else if(grimpableLeft())
-                    grimper(2);
+                else if (canClimbLeft())
+                    climb(2);
             }
         }
 
-        if(this.getHitbox().xProperty().getValue() <= this.getTerrain().getWidth()*32-30){
-            if (rightCheck){
-                if(!sideRightCollisions())
-                    getHitbox().setX(this.getHitbox().xProperty().intValue() + getSpeed());
+        if(rightCheck){
+            if (this.getHitbox().getX().getValue() <= this.getTerrain().getWidth() * 32 - 30) {
+                if (!sideRightCollisions())
+                    getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
 
-                else if(grimpableRight())
-                    grimper(1);
-
+                else if (canClimbRight())
+                    climb(1);
             }
         }
     }
@@ -50,15 +52,15 @@ public class Player extends Entity {
     // haut du personnage = yProperty.intValue(); bas du personnage = yProperty.intValue() + height
 
 
-    public Item drop(){
+    public Item drop() {
         return this.playerInventory.removeFromCurrSlot();
     }
 
-    public void pick(Item item){
+    public void pick(Item item) {
         this.playerInventory.addIntoNextEmptySlot(item);
     }
 
-    public void pick(Item item, int quantity){
+    public void pick(Item item, int quantity) {
         this.playerInventory.addIntoNextEmptySlot(item, quantity);
     }
 
@@ -102,4 +104,32 @@ public class Player extends Entity {
             }
         }
     }
+    public boolean isInvicible() {
+        return isInvicible;
+    }
+
+    public void setInvicible(boolean invicible) {
+        isInvicible = invicible;
+    }
+
+    public void launchInvicibleCooldown() {
+        if (this.invicibleCooldown > 0) {
+            isInvicible = true;
+            invicibleCooldown--;
+           // System.out.println(invicibleCooldown);
+        } else {
+            this.isInvicible = false;
+            this.invicibleCooldown = 10;
+        }
+    }
+
+    public void checkDie(){
+        if(this.getHealth().getValue() <= 0){
+            this.getHitbox().setX(2500);
+            this.getHitbox().setY(2030);
+            this.setHealth(20);
+        }
+
+    }
+
 }
