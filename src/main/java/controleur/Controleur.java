@@ -22,35 +22,29 @@ public class Controleur implements Initializable {
     @FXML
     private Pane panneauDeJeu;
     private TerrainView terrainView;
+
     public static Terrain terrain;
     PlayerMouseView playerMouseView;
-
     PlayerMouseObservator playerMouseObservator;
-    private Timeline timeline;
-
+    private Timeline timelineCamera;
     private CraftInventoryView craftInventoryView;
+    private Timeline timelineInventory;
 
-    private Timeline timelineClick;
     public static Player player;
     private KeyHandler keyHandler;
     private ArrayList<Entity> entities;
     private ArrayList<EntityView> entViews;
+    private  Timeline timelineEntity;
     private MouseHandler mouseHandler;
-
     private PlayerInventoryView playerInventoryView;
     private GameCam2D camera;
-
     private PlayerInventoryObservator playerInventoryObservator;
-
     private CraftInventoryObservator craftInventoryObservator;
-
     private ResultSlotObservator resultSlotObservator;
-
     public static PlayerMouse playerMouse;
-
     public static DebugView debugger;
-
     private DeletedSlotView deletedSlotView;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -119,31 +113,25 @@ public class Controleur implements Initializable {
 
     public void createTimelines() {
         // 16.33 = 60 fps
-        timeline = new Timeline
+        timelineCamera = new Timeline
                 (new KeyFrame(Duration.millis(16.33), actionEvent -> {
                     if (!doOnce) {
                         camera.lookAt(player.getHitbox().xProperty(), player.getHitbox().yProperty());
                         doOnce = true;
                     }
-                    entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
-                    playerMovement();
-
-                    playerInventoryObservator.refreshCurrentSlotView();
-                    if (mouseHandler.isHasScrollUp()) {
-                        player.getPlayerInventory().decrementSlot();
-                        mouseHandler.setHasScrollUp(false);
-                    } else if (mouseHandler.isHasScrollDown()) {
-                        player.getPlayerInventory().incrementSlot();
-                        mouseHandler.setHasScrollDown(false);
-                    }
-
-
-                    verifKeyTyped();
                 }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        timelineCamera.setCycleCount(Timeline.INDEFINITE);
+        timelineCamera.play();
+        timelineEntity = new Timeline
+                (new KeyFrame(Duration.millis(16.33), actionEvent -> {
+                    entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
+                    keyPlayerMovement();
+                    player.checkDie();
+                }));
+        timelineEntity.setCycleCount(Timeline.INDEFINITE);
+        timelineEntity.play();
 
-        timelineClick = new Timeline
+        timelineInventory = new Timeline
                 (new KeyFrame(Duration.millis(20), actionEvent -> {
                     if (mouseHandler.isHasClickedLeft()) {
                         if(playerInventoryView.isDisplay()){
@@ -193,14 +181,23 @@ public class Controleur implements Initializable {
                         }
                     }
                     playerMouseObservator.displayItemName(player.getPlayerInventory(), playerInventoryView);
+                    if (mouseHandler.isHasScrollUp()) {
+                        player.getPlayerInventory().decrementSlot();
+                        mouseHandler.setHasScrollUp(false);
+                    } else if (mouseHandler.isHasScrollDown()) {
+                        player.getPlayerInventory().incrementSlot();
+                        mouseHandler.setHasScrollDown(false);
+                    }
+                    playerInventoryObservator.refreshCurrentSlotView();
+                    verifKeyTyped();
                 }));
-        timelineClick.setCycleCount(Timeline.INDEFINITE);
-        timelineClick.play();
+
+        timelineInventory.setCycleCount(Timeline.INDEFINITE);
+        timelineInventory.play();
     }
 
 
-    public void playerMovement() {
-        player.checkDie();
+    public void keyPlayerMovement() {
         if (keyHandler.isSprintPressed() && !player.isRunning()) {
             player.setRunning(true);
         } else if (!keyHandler.isSprintPressed() && player.isRunning()) {
@@ -238,10 +235,7 @@ public class Controleur implements Initializable {
 
     public void entityLoop() {
         for (Entity ent : entities) {
-            if (ent instanceof Player) {
-            }
-            //checkSideBlock(player); // empeche le joueur de re rentrer dans un block apres s'etre fait sortir. aka enpeche de spammer le saut en se collant a un mur
-            else {
+           if (!(ent instanceof Player)) {
                // if (ent.sideLeftCollision() || ent.sideRightCollisions()) {
                     if (ent.isGrounded()) {
                         ent.setGravity(5);
@@ -258,22 +252,19 @@ public class Controleur implements Initializable {
                         ent.stopJump();
                     }
                // }
-
+               if (!ent.isFlying())
+                   ent.applyGrav();
                 ent.movement(player, false, false);
                 ent.sideLeftCollision();
                 ent.sideRightCollisions();
             }
-
-            if (!ent.isGrounded()) {
-                if (ent instanceof Player) {
-                    if (!player.isJumping()) {
-                        player.applyGrav();
-                    }
-                } else {
-                    if (!ent.isFlying())
-                        ent.applyGrav();
-                }
-            }
+           else {
+               if (!ent.isGrounded()) {
+                   if (!player.isJumping()) {
+                       player.applyGrav();
+                   }
+               }
+           }
         }
     }
 
