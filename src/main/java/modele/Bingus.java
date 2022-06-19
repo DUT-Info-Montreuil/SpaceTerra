@@ -87,29 +87,25 @@ public class Bingus extends Enemy {
                 }
             }
         }
-
     }
 
 
     @Override
     public void huntingY() {
-            if(getHitbox().getY() <= Controleur.player.getHitbox().getY() + 200){
-                Block bBasGauche =  Controleur.terrain.getBlock((int)this.getHitbox().getX(), (int)this.getHitbox().getY() + this.getHitbox().getHeight() + 32);
-                Block bBasDroite =  Controleur.terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth(), (int)this.getHitbox().getY() + this.getHitbox().getHeight());
-                if(bBasGauche != null || bBasGauche != null){
-                    if(bBasGauche != null){
-                        bBasGauche.setHealth(0);
-                        Controleur.terrain.checkDestroyedBlock(bBasGauche);
-                    }
-                    if (bBasDroite != null){
-                        bBasDroite.setHealth(0);
-                        Controleur.terrain.checkDestroyedBlock(bBasDroite);
-                    }
+        if(getHitbox().getY() <= Controleur.player.getHitbox().getY() + 200){
+            Block bBasGauche =  Controleur.terrain.getBlock((int)this.getHitbox().getX(), (int)this.getHitbox().getY() + this.getHitbox().getHeight() + 32);
+            Block bBasDroite =  Controleur.terrain.getBlock((int)this.getHitbox().getX() + this.getHitbox().getWidth(), (int)this.getHitbox().getY() + this.getHitbox().getHeight());
+            if(bBasGauche != null || bBasGauche != null){
+                if(bBasGauche != null){
+                    bBasGauche.setHealth(0);
+                    Controleur.terrain.checkDestroyedBlock(bBasGauche);
                 }
-
-
+                if (bBasDroite != null){
+                    bBasDroite.setHealth(0);
+                    Controleur.terrain.checkDestroyedBlock(bBasDroite);
+                }
+            }
         }
-
     }
 
     @Override

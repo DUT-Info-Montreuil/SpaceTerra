@@ -19,7 +19,6 @@ public class Moobius extends Animal{
             case 0:
                 this.setDirection(randomDirection());
                 break;
-
             case 1:
                 if (leftCheck && this.getIdleCooldown() <= 50 && this.isCanMove()) {
                     this.getHitbox().setX(this.getHitbox().getX() + this.getSpeed());

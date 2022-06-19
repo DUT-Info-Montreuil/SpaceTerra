@@ -68,7 +68,6 @@ public class Florb extends Enemy{
                 this.setAttackCooldown(0);
             }
             Controleur.player.launchInvicibleCooldown();
-
         }
         else {
             setCanAttack(false);

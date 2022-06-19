@@ -27,7 +27,6 @@ public class Bib extends Enemy{
     @Override
     public void attack() {
         if (this.getAttackCooldown() > 0 && isCanAttack()) {
-            System.out.println(getIdleDirection());
             setAttackCooldown(getAttackCooldown() - 20);
             if (this.isGrounded() && !isJumping()) {
                 this.jump();
