@@ -7,6 +7,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public abstract class  Entity {
@@ -286,6 +287,11 @@ public abstract class  Entity {
     public void stopJump() {
         this.setJumpCount(this.getJumpHeight());
         this.setJumping(false);
+    }
+
+    public int randomDirection() {
+        Random r = new Random();
+        return r.nextInt(3) - 1;
     }
 
     public int getJumpHeight() {

@@ -5,11 +5,6 @@ import controleur.Controleur;
 import java.util.ArrayList;
 import java.util.Random;
 
-
-import controleur.Controleur;
-
-import java.util.Random;
-
 public abstract class Enemy extends Entity {
 
     private int range;
@@ -137,7 +132,7 @@ public abstract class Enemy extends Entity {
                     }
                 }
             } else {
-                this.setIdleDirection(this.proba());
+                this.setIdleDirection(this.randomDirection());
             }
 
         } else {
@@ -191,10 +186,6 @@ public abstract class Enemy extends Entity {
         this.canAttack = canAttack;
     }
 
-    public int proba() {
-        Random r = new Random();
-        return r.nextInt(3) - 1;
-    }
 
     public void moveX(int direction) {
         // if (this.getIdleCooldown() <= 50 && this.isCanMove()) {

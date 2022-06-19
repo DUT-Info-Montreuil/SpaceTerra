@@ -7,8 +7,9 @@ public abstract class Animal extends Entity{
     private int direction = 0;
     private int idleCooldown = 50;
     private boolean canMove = true;
-    public Animal(int health, int speed, Hitbox hitbox, Terrain terrain, ArrayList<String> actions) {
-        super(health, speed, hitbox, terrain, actions);
+    public Animal(int health, int speed, Hitbox hitbox, Terrain terrain, int jumpHeight, boolean flying, ArrayList<String> actions) {
+            //public Entity(int health, int speed, Hitbox hitbox, Terrain terrain, int jumpHeight, boolean flying, ArrayList<String> actions)
+            super(health, speed, hitbox, terrain, jumpHeight, flying, actions);
     }
 
     public int getDirection() {

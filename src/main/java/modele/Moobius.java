@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Moobius extends Animal{
     public Moobius(Terrain terrain,int x, int y) {
-        super(20, 5, new Hitbox(39,31,x,y, false), terrain, new ArrayList<String>(){
+        super(20, 5, new Hitbox(39,31,x,y, false), terrain, 5, false, new ArrayList<String>(){
             {
                 add("idle");
                 add("walk");
@@ -17,7 +17,7 @@ public class Moobius extends Animal{
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
         switch (this.getDirection()) {
             case 0:
-                this.setDirection(Controleur.randomNum(1, 3));
+                this.setDirection(randomDirection());
                 break;
 
             case 1:
