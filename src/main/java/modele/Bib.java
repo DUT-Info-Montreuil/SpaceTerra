@@ -9,13 +9,12 @@ public class Bib extends Enemy{
     private int strength;
 
     public Bib(int x, int y, Terrain terrain) {
-        super(5, 6, new Hitbox(14,18, x, y, false),250, terrain, new ArrayList<String>(){
+        super(5, 6, new Hitbox(14, 18, x, y, false), 8, 1, terrain, 5, false, new ArrayList<String>(){
             {
                 add("idle");
                 add("walk");
             }
         });
-        this.strength = 1;
     }
 
 
@@ -33,16 +32,16 @@ public class Bib extends Enemy{
             if (this.isGrounded() && !isJumping()) {
                 this.jump();
             } else if (isJumping()) {
-                if (distanceToPosition(Controleur.player.getHitbox().getX().intValue(), Controleur.player.getHitbox().getY().intValue()) == 0 && !Controleur.player.isInvicible()) {
+                if (distanceToPosition((int)Controleur.player.getHitbox().getX(), (int)Controleur.player.getHitbox().getY()) == 0 && !Controleur.player.isInvicible()) {
                     Controleur.player.decreaseHealth(3);
                 }
                 Controleur.player.launchInvicibleCooldown();
                 this.jump();
             }
-            if(getIdleDirection() == 1 && !sideRightCollisions() && this.getHitbox().getX().getValue() <= this.getTerrain().getWidth() * 32 - 30){
+            if(getIdleDirection() == 1 && !sideRightCollisions() && this.getHitbox().getX() <= this.getTerrain().getWidth() * 32 - 30){
                 moveX(1);
             }
-            else if (getIdleDirection() == -1 && !sideLeftCollision() && this.getHitbox().getX().getValue() >= 10){
+            else if (getIdleDirection() == -1 && !sideLeftCollision() && this.getHitbox().getX() >= 10){
                 moveX(-1);
             }
         } else {
@@ -52,9 +51,9 @@ public class Bib extends Enemy{
             } else {
                 setCanAttack(true);
             }
-            if (this.getHitbox().getX().intValue() < Controleur.player.getHitbox().getX().intValue()) {
+            if (this.getHitbox().getX() < Controleur.player.getHitbox().getX()) {
                 this.setIdleDirection(1);
-            } else if (this.getHitbox().getX().intValue() > Controleur.player.getHitbox().getX().intValue()) {
+            } else if (this.getHitbox().getX() > Controleur.player.getHitbox().getX()) {
                 this.setIdleDirection(-1);
             }
         }
