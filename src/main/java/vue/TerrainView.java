@@ -1,90 +1,72 @@
 package vue;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import modele.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TerrainView {
     private Pane panneau;
 
     private ArrayList<Entity> entities;
-    public TerrainView(Pane panneau) {
+    private HashMap<Integer, Image> tileImages;
 
+    public TerrainView(Pane panneau, ArrayList<Entity> ent, HashMap<Integer, String> imagesPath) {
         this.panneau = panneau;
-        this.entities = new ArrayList();
+        this.entities = ent;
+        initImages(imagesPath);
     }
 
-    public void addEntite(Entity entity){
-        this.entities.add(entity);
+    private void initImages(HashMap<Integer, String> imagesPath) {
+        tileImages = new HashMap<>();
+        imagesPath.forEach((k, v) -> {
+            tileImages.put(k, new Image(v));
+            System.out.println("loaded block image " + k + " : " + tileImages.get(k).getUrl());
+        });
     }
 
     public void readMap(Terrain terrain) {
         int id = 0;
         for (Block block : terrain.getBlocks()) {
-            ImageView imgView = new ImageView(block.getTile().getImage());
-            imgView.setId(block.getId());
-            imgView.setX(block.getX());
-            imgView.setY(block.getY());
-            //System.out.println(imgView.getId());
-            panneau.getChildren().add(imgView);
-        }
-    }
-
-    public void readEntity(){
-        for (Entity entity : entities){
-            ImageView imgView = new ImageView(entity.getImage());
-            imgView.xProperty().bind(entity.getHitbox().getX().subtract(entity.getImage().getWidth()/2 - entity.getHitbox().getWidth()/2));
-            imgView.yProperty().bind(entity.getHitbox().getY().subtract(entity.getImage().getHeight() - entity.getHitbox().getHeight()));
-            panneau.getChildren().add(imgView);
-        }
-    }
-
-    public void displayCollision(boolean blocks, boolean entities, boolean playerColl, Terrain terrain, Player player){
-        if(blocks) {
-            for (Block block : terrain.getBlocks()) {
-                Rectangle r = new Rectangle(block.getHitX(), block.getHitY(), block.getTile().getHitbox().getWidth(), block.getTile().getHitbox().getHeight());
-                r.setFill(Color.TRANSPARENT);
-                r.setStroke(Color.BLACK);
-                panneau.getChildren().add(r);
+            try{
+                ImageView imgView = new ImageView(tileImages.get(block.getDataId()));
+                System.out.println("Image : " + tileImages.get(block.getDataId()).toString());
+                imgView.setId(block.getId());
+                imgView.setX(block.getGridX());
+                imgView.setY(block.getGridY());
+                //System.out.println(imgView.getId());
+                panneau.getChildren().add(imgView);
+                System.out.println("Added block image to view");
+            } catch (NullPointerException e){
+                //System.out.println("Image is null");
             }
-        }
-        if(entities) {
-            for (Entity ent : this.entities) {
-                Rectangle r = new Rectangle(ent.getHitbox().getX().intValue(), ent.getHitbox().getY().intValue(), ent.getHitbox().getWidth(), ent.getHitbox().getHeight());
-                r.xProperty().bind(ent.getHitbox().getX());
-                r.yProperty().bind(ent.getHitbox().getY());
-                r.setFill(Color.TRANSPARENT);
-                r.setStroke(Color.RED);
-                panneau.getChildren().add(r);
-            }
-        }
-        if(playerColl){
-            Rectangle r = new Rectangle(player.getHitbox().getX().intValue(), player.getHitbox().getY().intValue(), player.getHitbox().getWidth(), player.getHitbox().getHeight());
-            r.yProperty().bind(player.getHitbox().getY());
-            r.xProperty().bind(player.getHitbox().getX());
-            r.setFill(Color.TRANSPARENT);
-            r.setStroke(Color.GREEN);
-            panneau.getChildren().add(r);
+
         }
     }
-
 
     public void deleteBlock(Block block) {
        // System.out.println("oui5");
-        panneau.getChildren().remove(panneau.lookup("#" + block.getId()));
+        try{
+            panneau.getChildren().remove(panneau.lookup("#" + block.getId()));
+        }catch (Exception e){}
     }
 
-    public void addBlock(Terrain terrain, Block block){
-        ImageView imgView = new ImageView(block.getTile().getImage());
-        imgView.setId(block.getId());
-        imgView.setX(block.getX());
-        imgView.setY(block.getY());
-        //System.out.println(imgView.getId());
-        panneau.getChildren().add(imgView);
+    public void addBlock(Block block){
+        try{
+            ImageView imgView = new ImageView(tileImages.get(block.getDataId()));
+            imgView.setId(block.getId());
+            imgView.setX(block.getGridX());
+            imgView.setY(block.getGridY());
+            //System.out.println(imgView.getId());
+            panneau.getChildren().add(imgView);
+            imgView.toBack();
+        }catch(NullPointerException e){
+
+        }
+
     }
 
 }

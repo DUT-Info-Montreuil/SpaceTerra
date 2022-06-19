@@ -7,12 +7,12 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception {//coucou c'est moi
         Pane root = FXMLLoader.load(getClass().getResource("vueMap.fxml"));
         stage.setScene(root.getScene());
         stage.setResizable(false);
         stage.setTitle("Meilleur jeu du monde");
-        stage.getIcons().add(new Image("/Sprites/Enemies/YinYang.png"));
+        stage.getIcons().add(new Image("Sprites/MC/MCSpace_Idle_left.gif"));
         stage.show();
         root.requestFocus();
     }

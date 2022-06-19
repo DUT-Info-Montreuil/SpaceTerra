@@ -2,7 +2,6 @@ package modele;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class Hitbox {
@@ -11,6 +10,8 @@ public class Hitbox {
     private int width;
     private int height;
     private DoubleProperty x, y;
+
+
 
     public Hitbox(JSONObject hitbox) {
         isSolid = ((String) hitbox.get("type")).equals("collisions");
@@ -22,14 +23,13 @@ public class Hitbox {
         y.setValue(((Long) hitbox.get("y")).intValue());
     }
 
-    public Hitbox(int width, int height, double x, double y){
+    public Hitbox(int width, int height, double x, double y, boolean isSolid){
         this.isSolid = false;
         this.width = width;
         this.height = height;
-        this.x = new SimpleDoubleProperty();
-        this.y = new SimpleDoubleProperty();
-        this.x.setValue(x);
-        this.y.setValue(y);
+        this.x = new SimpleDoubleProperty(x);
+        this.y = new SimpleDoubleProperty(y);
+        this.isSolid = isSolid;
     }
 
     public int getCenterXPos(){
@@ -64,12 +64,20 @@ public class Hitbox {
         return height;
     }
 
-    public DoubleProperty getX() {
+    public DoubleProperty xProperty() {
         return x;
     }
 
-    public DoubleProperty getY() {
+    public DoubleProperty yProperty() {
         return y;
+    }
+
+    public double getX(){
+        return x.getValue();
+    }
+
+    public double getY(){
+        return y.getValue();
     }
 
     public void setX(double x) {
@@ -78,5 +86,16 @@ public class Hitbox {
 
     public void setY(double y) {
         this.y.setValue(y);
+    }
+
+    @Override
+    public String toString() {
+        return "Hitbox{" +
+                "isSolid=" + isSolid +
+                ", width=" + width +
+                ", height=" + height +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

@@ -4,8 +4,22 @@ import javafx.scene.layout.Pane;
 
 
 public class KeyHandler {
-    private boolean rightPressed, leftPressed, upPressed, downPressed;
-    private boolean slotOneTyped, slotTwoTyped, slotThreeTyped, slotFourTyped, slotFiveTyped, slotSixTyped, slotSevenTyped, slotEightTyped, slotNineTyped, slotTenTyped;
+    private boolean rightPressed, leftPressed, upPressed, downPressed,sprintPressed;
+    private boolean slotOneTyped;
+    private boolean slotTwoTyped;
+    private boolean slotThreeTyped;
+    private boolean slotFourTyped;
+    private boolean slotFiveTyped;
+    private boolean slotSixTyped;
+    private boolean slotSevenTyped;
+    private boolean slotEightTyped;
+    private boolean slotNineTyped;
+    private boolean slotTenTyped;
+
+
+
+
+    private boolean inventoryKeyTyped;
 
     public boolean isRightPressed() {
         return rightPressed;
@@ -38,6 +52,7 @@ public class KeyHandler {
         slotThreeTyped = false;
         slotTwoTyped = false;
         slotOneTyped = false;
+        inventoryKeyTyped = false;
         this.pane = pane;
     }
 
@@ -47,7 +62,8 @@ public class KeyHandler {
                 case D -> rightPressed = true;
                 case Q -> leftPressed = true;
                 case S -> downPressed = true;
-                case Z -> upPressed = true;
+                case SPACE -> upPressed = true;
+                case SHIFT -> sprintPressed = true;
             }
        });
    }
@@ -59,7 +75,8 @@ public class KeyHandler {
                 case D -> rightPressed = false;
                 case Q -> leftPressed = false;
                 case S -> downPressed = false;
-                case Z -> upPressed = false;
+                case SHIFT -> sprintPressed = false;
+                case SPACE -> upPressed = false;
             }
         });
     }
@@ -78,6 +95,7 @@ public class KeyHandler {
                 case "_", "8" -> slotEightTyped = true;
                 case "ç", "9" -> slotNineTyped = true;
                 case "à", "0" -> slotTenTyped = true;
+                case "e", "E" -> inventoryKeyTyped = true;
 
             }
         });
@@ -135,6 +153,13 @@ public class KeyHandler {
         return slotTenTyped;
     }
 
+    public boolean isSprintPressed(){ return sprintPressed; }
+
+    public boolean isInventoryKeyTyped() {
+        return inventoryKeyTyped;
+    }
+
+
     public void setRightPressed(boolean rightPressed) {
         this.rightPressed = rightPressed;
     }
@@ -189,5 +214,8 @@ public class KeyHandler {
 
     public void setSlotTenTyped(boolean slotTenTyped) {
         this.slotTenTyped = slotTenTyped;
+    }
+    public void setInventoryKeyTyped(boolean inventoryKeyTyped) {
+        this.inventoryKeyTyped = inventoryKeyTyped;
     }
 }

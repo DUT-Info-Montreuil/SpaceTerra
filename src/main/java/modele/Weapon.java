@@ -2,13 +2,13 @@ package modele;
 
 public class Weapon extends Item{
     private int damage;
-    public Weapon(String id, int maxQuantity, int damage, Tile tile) {
-        super(id, maxQuantity, tile);
+    public Weapon(int id, int damage) {
+        super(id, 1);
         this.damage = damage;
     }
 
     @Override
     public void use() {
-
+        // attack
     }
 }
