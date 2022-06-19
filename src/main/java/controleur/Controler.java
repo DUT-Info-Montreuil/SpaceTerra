@@ -68,7 +68,7 @@ public class Controler implements Initializable {
         terrainView.readMap(terrain);
 
 
-        player = new Player(3500, 2030, terrain);
+        player = new Player(3500, 2080, terrain);
         entities.add(player);
         createEntities();
 
@@ -126,7 +126,7 @@ public class Controler implements Initializable {
                         camera.lookAt(player.getHitbox().xProperty(), player.getHitbox().yProperty());
                         doOnce = true;
                     }
-                    entityLoop(); // Entity loop has to happen befor player movement so that gravity and position fixes are applied before moving
+                    entityLoop(); // Entity loop has to happen before player movement so that gravity and position fixes are applied before moving
                     playerMovement();
 
                     playerInventoryObservator.refreshCurrentSlotView();

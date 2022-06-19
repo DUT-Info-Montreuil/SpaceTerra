@@ -4,18 +4,18 @@ package Junit;
 import modele.JsonGameLoader;
 import modele.Player;
 import modele.Terrain;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class PlayerTest{
 
-    private Terrain testTerrain = new Terrain(new JsonGameLoader("src/main/resources/Map/bigTest.json"));
-    private Player testPlayer = new Player(100, 2030, testTerrain);
+    private final Terrain testTerrain = new Terrain(new JsonGameLoader("src/main/resources/Map/bigTest.json"));
+    private final Player testPlayer = new Player(100, 2080, testTerrain);
 
     @Test
     @DisplayName("Speed changes when sprint")
@@ -24,7 +24,7 @@ public class PlayerTest{
         int sprintSpeed = 14;
         testPlayer.setRunning(false);
         testPlayer.setRunning(true);
-        assertEquals(sprintSpeed, testPlayer.getSpeed());
+        Assertions.assertEquals(sprintSpeed, testPlayer.getSpeed());
     }
 
     @Test
@@ -32,10 +32,19 @@ public class PlayerTest{
     public void moveTest(){
         int firstPosX = (int)testPlayer.getHitbox().getX();
         testPlayer.movement(null, false, true);
-        assertEquals(firstPosX + testPlayer.getSpeed(), (int)testPlayer.getHitbox().getX());
+        Assertions.assertEquals(firstPosX + testPlayer.getSpeed(), (int)testPlayer.getHitbox().getX());
 
         int secondPosX = (int)testPlayer.getHitbox().getX();
         testPlayer.movement(null, true, false);
-        assertEquals(secondPosX - testPlayer.getSpeed(), (int)testPlayer.getHitbox().getX());
+        Assertions.assertEquals(secondPosX - testPlayer.getSpeed(), (int)testPlayer.getHitbox().getX());
+    }
+
+    @Test
+    @DisplayName("Ground collisions test")
+    public void groundTest(){
+        assertTrue(testPlayer.isGrounded());
+        for(int i = 0; i < 10; i++)
+            testPlayer.jump();
+        assertFalse(testPlayer.isGrounded());
     }
 }
