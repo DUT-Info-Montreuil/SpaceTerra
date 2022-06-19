@@ -11,14 +11,10 @@ import javafx.scene.shape.Rectangle;
 public class SlotView {
     private DoubleProperty x;
     private DoubleProperty y;
-
     private Rectangle emptySlotRectangle;
     private ImageView itemView;
-
     private Label quantityLabel;
-
     private Pane panneauDeJeu;
-
     int id;
 
 

@@ -10,9 +10,7 @@ import java.util.Iterator;
 public class Terrain {
 
     private ObservableList<Block> blocks;
-
     private ObservableList<Block> solidBlocks;
-
     private ArrayList<Layer> layers;
     private ArrayList<BlockLoader> blockLoaders;
     private int height, width; // in tiles

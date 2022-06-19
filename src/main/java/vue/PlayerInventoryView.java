@@ -11,8 +11,6 @@ public class PlayerInventoryView extends InventoryView{
 
     private Rectangle currentSlotView;
 
-
-
     public PlayerInventoryView(Pane panneauDeJeu) {
         super(panneauDeJeu);
         currentSlotView = new Rectangle(0,0, 34, 34);

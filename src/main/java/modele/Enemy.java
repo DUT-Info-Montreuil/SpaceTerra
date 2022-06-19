@@ -9,16 +9,12 @@ public abstract class Enemy extends Entity {
 
     private int range;
     private boolean playerDetected;
-
     private int rangeMultiplier;
-
     private boolean canAttack;
-
     private boolean canMove = true;
     // pour state : 0 c'est idle, 1 c'est hunting et 2 c'est attack
     private int state;
     private int idleCooldown;
-
     private int attackCooldown;
     private int idleDirection;
 
@@ -227,6 +223,5 @@ public abstract class Enemy extends Entity {
     public abstract void action();
 
 
-    // System.out.println(getIdleDirection());
 
 }

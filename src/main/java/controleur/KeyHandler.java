@@ -15,11 +15,8 @@ public class KeyHandler {
     private boolean slotEightTyped;
     private boolean slotNineTyped;
     private boolean slotTenTyped;
-
-
-
-
     private boolean inventoryKeyTyped;
+    private Pane pane;
 
     public boolean isRightPressed() {
         return rightPressed;
@@ -32,9 +29,6 @@ public class KeyHandler {
     public boolean isUpPressed() {
         return upPressed;
     }
-
-    private Pane pane;
-
 
 
     public KeyHandler(Pane pane) {
@@ -70,7 +64,6 @@ public class KeyHandler {
 
     private void keyReleased() {
         pane.setOnKeyReleased(e -> {
-            //System.out.println(e.getCode());
             switch (e.getCode()) {
                 case D -> rightPressed = false;
                 case Q -> leftPressed = false;
@@ -83,7 +76,6 @@ public class KeyHandler {
 
     private void keyTyped(){
         pane.setOnKeyTyped(e -> {
-           // System.out.println(e.getCharacter());
             switch (e.getCharacter()){
                 case "&", "1" -> slotOneTyped = true;
                 case "é", "2" -> slotTwoTyped = true;

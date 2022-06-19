@@ -14,7 +14,6 @@ import modele.Player;
 import vue.*;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controleur implements Initializable {
@@ -33,7 +32,7 @@ public class Controleur implements Initializable {
     public static Player player;
     private KeyHandler keyHandler;
     private Environnement env;
-    private ArrayList<EntityView> entViews;
+    private EntityView entityView;
     private  Timeline timelineEntity;
     private MouseHandler mouseHandler;
     private PlayerInventoryView playerInventoryView;
@@ -45,24 +44,25 @@ public class Controleur implements Initializable {
     public static DebugView debugger;
     private DeletedSlotView deletedSlotView;
 
+    private boolean doOnce;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
         JsonGameLoader loader = new JsonGameLoader("src/main/resources/Map/bigTest.json");
+        Scene scene = new Scene(panneauDeJeu, 1000, 1000, Color.DARKBLUE);
         camera = new GameCam2D(panneauDeJeu);
         scene.setCamera(camera);
 
         terrain = new Terrain(loader);
         env = new Environnement(terrain);
+        entityView = new EntityView(panneauDeJeu);
+        env.getEntities().addListener(new EntityObservator(entityView));
         env.init();
         player = env.getPlayer();
         terrainView = new TerrainView(panneauDeJeu, loader.getTileImages());
         terrainView.readMap(terrain);
-        entViews = new ArrayList<>();
 
-        createEntities();
 
         playerInventoryView = new PlayerInventoryView(panneauDeJeu);
         craftInventoryView = new CraftInventoryView(panneauDeJeu);
@@ -70,7 +70,6 @@ public class Controleur implements Initializable {
         keyHandler.keyManager();
         mouseHandler = new MouseHandler(panneauDeJeu);
         mouseHandler.mouseManager();
-
 
         playerMouse = new PlayerMouse(null);
         playerMouse.xProperty().bind(mouseHandler.getMouseXProperty());
@@ -92,17 +91,12 @@ public class Controleur implements Initializable {
 
         createTimelines();
         debugger = new DebugView(panneauDeJeu);
+        doOnce = false;
+
     }
 
 
-    public void createEntities() {
 
-        for(Entity ent : env.getEntities())
-            entViews.add(new EntityView(ent, panneauDeJeu));
-    }
-
-
-    private boolean doOnce = false;
 
     public void createTimelines() {
         // 16.33 = 60 fps

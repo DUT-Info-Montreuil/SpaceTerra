@@ -4,18 +4,13 @@ public class Block {
     private int gridX;
     private int gridY;
     private int dataId;
-
     private String ressource;
-
     private Hitbox hitbox;
-
     private static int idCount = 0;
     private String id;
-
     private int health;
     private int pickDef;
     private int axeDef;
-
 
 
     public Block(BlockLoader blockLoader, int gridX, int gridY) {

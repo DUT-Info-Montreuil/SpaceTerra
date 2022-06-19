@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 public class Environnement {
 
     private ObservableList<Entity> entities;
-
     private Terrain terrain;
 
     public Environnement(Terrain terrain) {
@@ -16,7 +15,7 @@ public class Environnement {
 
     public void init() {
         Player player = new Player(3500, 2030, terrain);
-        Moobius moobius = new Moobius(terrain,4000, 2030);
+        Moobius moobius = new Moobius(terrain,3190, 2030);
         Bingus bingus = new Bingus(15000, 2030, terrain);
         Florb florb = new Florb(10000, 1980, terrain);
         Bib bib = new Bib(5000, 2030, terrain);

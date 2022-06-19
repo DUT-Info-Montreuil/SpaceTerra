@@ -10,7 +10,6 @@ public class PlayerView {
     private Player player;
     Pane panneauDeJeu;
 
-
     public PlayerView(Player player, Pane panneauDeJeu){
         this.player = player;
         this.panneauDeJeu = panneauDeJeu;

@@ -5,9 +5,7 @@ import java.util.ArrayList;
 public class Player extends Entity {
     private boolean isRunning = false;
     private PlayerInventory playerInventory;
-
     private boolean isInvicible;
-
     private int invicibleCooldown;
     private CraftInventory craftInventory;
 
@@ -116,7 +114,6 @@ public class Player extends Entity {
         if (this.invicibleCooldown > 0) {
             isInvicible = true;
             invicibleCooldown--;
-           // System.out.println(invicibleCooldown);
         } else {
             this.isInvicible = false;
             this.invicibleCooldown = 10;

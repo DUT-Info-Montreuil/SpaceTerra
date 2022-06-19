@@ -12,53 +12,58 @@ import modele.Entity;
 import java.util.HashMap;
 
 public class EntityView {
-
-    private HashMap<String, Image> images;
-    private Entity ent;
     private ImageView imgView;
-    private Timeline timeline;
-    private String currAction = "";
+    private String currAction;
     private Pane pane;
 
-    public EntityView(Entity entity, Pane pane){
-        ent = entity;
-        imgView = new ImageView();
-        images = new HashMap<>();
-        for(String state : ent.getActions()){
-            try{ // Gets image eg : Bingus_idle.gif
-                images.put(state, new Image(String.valueOf(getClass().getResource("/Sprites/Entities/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + state + ".gif"))));
-            }catch (IllegalArgumentException e){
-                System.out.println("Couldn't find Image");
-            }
-            try{ // Gets sprites if they have a right version eg : Player_idle_right.gif
-                images.put(state, new Image(String.valueOf(getClass().getResource("/Sprites/Entities/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + state + "right.gif"))));
-            }catch (IllegalArgumentException e){
-                System.out.println("Couldn't find Image");
-            }
-            try{ // Gets sprites if they have a left version eg : Player_run_left.gif
-                images.put(state, new Image(String.valueOf(getClass().getResource("/Sprites/Entities/" + ent.getClass().getSimpleName() + "/" + ent.getClass().getSimpleName() + "_" + state + "left.gif"))));
-            }catch (IllegalArgumentException e){
-                System.out.println("Couldn't find Image");
-            }
-        }
-        this.imgView.xProperty().bind(ent.getHitbox().xProperty().subtract(images.get("idle").getWidth()/2 - ent.getHitbox().getWidth() / 2));
-        this.imgView.yProperty().bind(ent.getHitbox().yProperty().subtract(images.get("idle").getHeight() - ent.getHitbox().getHeight()));
-        System.out.println(images.size());
-        pane.getChildren().add(imgView);
-        imgView.setImage(images.get(ent.getAction()));
-        ent.actionProperty().addListener(property -> {
-            imgView.setImage(images.get(((StringProperty)property).getValue()));
-        });
+    public EntityView(Pane pane){
+        this.imgView = new ImageView();
+        this.pane = pane;
+        this.currAction = " ";
     }
 
+    public void addEntity(Entity entity) {
+        imgView = new ImageView();
+        imgView.setId(entity.getId());
+        if (entity != null) {
+            for(String state : entity.getActions()){
+                try{ // Gets image eg : Bingus_idle.gif
+                    imgView = new ImageView(new Image(String.valueOf(getClass().getResource("/Sprites/Entities/" + entity.getClass().getSimpleName() + "/" + entity.getClass().getSimpleName() + "_" + state + ".gif"))));
+                }catch (IllegalArgumentException e){
+                    System.out.println("Couldn't find Image");
+                }
+                try{ // Gets sprites if they have a right version eg : Player_idle_right.gif
+                    imgView = new ImageView(new Image(String.valueOf(getClass().getResource("/Sprites/Entities/" + entity.getClass().getSimpleName() + "/" + entity.getClass().getSimpleName() + "_" + state + "right.gif"))));
+                }catch (IllegalArgumentException e){
+                    System.out.println("Couldn't find Image");
+                }
+                try{ // Gets sprites if they have a left version eg : Player_run_left.gif
+                    imgView = new ImageView(new Image(String.valueOf(getClass().getResource("/Sprites/Entities/" + entity.getClass().getSimpleName() + "/" + entity.getClass().getSimpleName() + "_" + state + "left.gif"))));
+                }catch (IllegalArgumentException e){
+                    System.out.println("Couldn't find Image");
+                }
+            }
+        }
+        this.imgView.xProperty().bind(entity.getHitbox().xProperty().subtract(entity.getHitbox().getWidth()* 3/4));
+        this.imgView.yProperty().bind(entity.getHitbox().yProperty().subtract(entity.getHitbox().getHeight()/3-2));
+        this.imgView.setId(entity.getId());
+        //System.out.println(images.size());
+        pane.getChildren().add(imgView);
+    }
+
+    public void deleteEntity(Entity entity) {
+        pane.getChildren().remove(pane.lookup("E" + entity.getId()));
+    }
+/*
     public void startTimeline(){
         timeline = new Timeline(new KeyFrame(Duration.millis(16.33), actionEvent -> {
-            if(!currAction.equals(ent.getAction())){
+            if(!currAction.equals(.getAction())){
                 currAction = ent.getAction();
-                imgView.setImage(images.get(currAction));
+                //imgView.setImage(imgView.get(currAction));
             }
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
+ */
 }

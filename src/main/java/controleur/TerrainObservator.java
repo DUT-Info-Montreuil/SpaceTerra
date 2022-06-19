@@ -10,7 +10,6 @@ public class TerrainObservator implements ListChangeListener<Block> {
 
     private TerrainView terrainView;
 
-
     public TerrainObservator(TerrainView terrainView) {
         super();
         this.terrainView = terrainView;
@@ -22,12 +21,12 @@ public class TerrainObservator implements ListChangeListener<Block> {
             for (Block bDeleted : change.getRemoved()) {
                 this.terrainView.deleteBlock(bDeleted);
             }
-            for (Block bAdded : change.getAddedSubList()){
+            for (Block bAdded : change.getAddedSubList()) {
                 this.terrainView.addBlock(bAdded);
             }
 
-            }
         }
     }
+}
 
 

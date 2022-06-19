@@ -11,8 +11,6 @@ public class Hitbox {
     private int height;
     private DoubleProperty x, y;
 
-
-
     public Hitbox(JSONObject hitbox) {
         isSolid = ((String) hitbox.get("type")).equals("collisions");
         width = ((Long) hitbox.get("width")).intValue();

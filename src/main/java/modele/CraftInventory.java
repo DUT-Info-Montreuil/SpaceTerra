@@ -8,10 +8,8 @@ import java.util.*;
 public class CraftInventory  extends Inventory{
 
     private ObjectProperty<Slot> resultSlot;
-
     private HashMap<String, ArrayList<Item>> recipesName;
     private HashMap<ArrayList<Item>, Item> craftRecipes;
-
     private int nbItemCrafted;
 
     public CraftInventory(int maxInventorySize) {

@@ -23,7 +23,7 @@ public class CraftInventoryObservator extends InventoryObservator {
             }
             else {
                 resultSlotObservator.getResultSlotView().displaySlot();
-                resultSlotObservator.resultSlotView.getQuantityLabel().setText(String.valueOf(craftInventory.getResultSlot().getItemQuantity()));
+                resultSlotObservator.getResultSlotView().getQuantityLabel().setText(String.valueOf(craftInventory.getResultSlot().getItemQuantity()));
                 resultSlotObservator.getResultSlotView().displayLabel();
                 if(resultSlotObservator.getResultSlotView().getItemView() == null){
                     resultSlotObservator.getResultSlotView().setItemView(new ImageView(craftInventory.getResultSlot().getItem().getTypeItem().getImage()));

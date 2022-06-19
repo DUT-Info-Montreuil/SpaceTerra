@@ -10,9 +10,7 @@ import java.util.ArrayList;
 public abstract class InventoryView {
 
     public static Pane panneauDeJeu;
-
     private boolean display;
-
     private ArrayList<SlotView> slotViews;
 
 

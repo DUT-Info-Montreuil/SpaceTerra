@@ -9,12 +9,9 @@ public class HpBarView {
     private Pane panneauDeJeu;
     private Rectangle pvBar;
     private Rectangle pvBarOutLine;
-
     private Entity ent;
-
     private int x;
     private int y;
-
     private int maxHp;
 
 

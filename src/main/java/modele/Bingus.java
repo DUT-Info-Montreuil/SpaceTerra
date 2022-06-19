@@ -15,8 +15,6 @@ public class Bingus extends Enemy {
         });
     }
 
-
-
     @Override
     public void attack() {
         if(Math.abs(getHitbox().getX() - Controleur.player.getHitbox().getX()) < 10){

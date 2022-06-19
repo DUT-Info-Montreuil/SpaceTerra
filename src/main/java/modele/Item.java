@@ -7,13 +7,10 @@ public abstract class Item {
         return id;
     }
     private TypeItem typeItem;
-
     private int id = -1;
-
     public int getMaxQuantity() {
         return maxQuantity;
     }
-
     private int maxQuantity;
 
 

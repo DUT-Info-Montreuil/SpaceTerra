@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class Florb extends Enemy{
 
 
-
     public Florb(int x, int y, Terrain terrain) {
         super(10, 1, new Hitbox(22, 16, x, y, false), 12, 3, terrain, 0, true, new ArrayList<String>(){
             {

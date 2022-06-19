@@ -8,8 +8,8 @@ import vue.SlotView;
 
 
 public class ResultSlotObservator {
-    Slot resultSlot;
-    SlotView resultSlotView;
+    private Slot resultSlot;
+    private SlotView resultSlotView;
 
 
     public ResultSlotObservator(int id, CraftInventory craftInventory, Pane panneauDeJeu, CraftInventoryView craftInventoryView){

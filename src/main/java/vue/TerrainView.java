@@ -20,7 +20,7 @@ public class TerrainView {
         tileImages = new HashMap<>();
         imagesPath.forEach((k, v) -> {
             tileImages.put(k, new Image(v));
-            System.out.println("loaded block image " + k + " : " + tileImages.get(k).getUrl());
+            //System.out.println("loaded block image " + k + " : " + tileImages.get(k).getUrl());
         });
     }
 
@@ -29,13 +29,13 @@ public class TerrainView {
         for (Block block : terrain.getBlocks()) {
             try{
                 ImageView imgView = new ImageView(tileImages.get(block.getDataId()));
-                System.out.println("Image : " + tileImages.get(block.getDataId()).toString());
+                //System.out.println("Image : " + tileImages.get(block.getDataId()).toString());
                 imgView.setId(block.getId());
                 imgView.setX(block.getGridX());
                 imgView.setY(block.getGridY());
                 //System.out.println(imgView.getId());
                 panneau.getChildren().add(imgView);
-                System.out.println("Added block image to view");
+                //System.out.println("Added block image to view");
             } catch (NullPointerException e){
                 //System.out.println("Image is null");
             }

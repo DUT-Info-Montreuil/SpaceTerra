@@ -12,6 +12,7 @@ import java.util.Random;
 
 public abstract class  Entity {
 
+    private String id;
     private IntegerProperty health;
     private int speed;
     private Hitbox hitbox;
@@ -22,18 +23,15 @@ public abstract class  Entity {
     public double gravity = 5;
     private ArrayList<String> actions;
     private StringProperty action = new SimpleStringProperty("idle");
-
     public int getActionRange() {
         return actionRange;
     }
-
     public int actionRange = 4;
-
     public Terrain getTerrain() {
         return terrain;
     }
-
     private Terrain terrain;
+    private static int compteur = 0;
 
     public Entity(int health, int speed, Hitbox hitbox, Terrain terrain, int jumpHeight, boolean flying, ArrayList<String> actions) {
         this.health = new SimpleIntegerProperty(health);
@@ -44,6 +42,12 @@ public abstract class  Entity {
         this.jumpHeight = jumpHeight;
         this.jumpCount = jumpHeight;
         this.flying = flying;
+        this.id = "E" + compteur;
+        compteur++;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public int getSpeed() {

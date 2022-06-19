@@ -10,22 +10,14 @@ import javafx.scene.layout.Pane;
 public class MouseHandler {
 
     private Pane pane;
-
     public static IntegerProperty mouseX;
-
     public static IntegerProperty mouseY;
-
     private boolean hasPressedLeft;
     private boolean hasPressedRight;
-
     private boolean hasClickedLeft;
-
     private boolean hasClickedRight;
-
     private boolean hasScrollUp;
-
     private boolean hasScrollDown;
-
 
     public MouseHandler(Pane pane) {
 

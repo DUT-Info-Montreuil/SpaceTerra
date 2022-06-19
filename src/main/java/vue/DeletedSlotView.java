@@ -30,8 +30,8 @@ public class DeletedSlotView {
         trashCan.toFront();
     }
 
-    public void display(boolean diplay){
-        if(diplay){
+    public void display(boolean display){
+        if(display){
             deletedRectangle.setVisible(true);
         }
         else {

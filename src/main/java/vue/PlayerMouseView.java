@@ -15,12 +15,9 @@ import java.awt.*;
 
 public class PlayerMouseView {
     private Label itemQuantityLabel;
-
     private Label itemNameLabel;
     private ImageView itemView;
-
     Pane panneauDeJeu;
-
 
     public PlayerMouseView(Pane panneauDeJeu) {
         this.panneauDeJeu = panneauDeJeu;

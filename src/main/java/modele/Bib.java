@@ -6,8 +6,6 @@ import java.util.ArrayList;
 
 public class Bib extends Enemy{
 
-    private int strength;
-
     public Bib(int x, int y, Terrain terrain) {
         super(5, 6, new Hitbox(14, 18, x, y, false), 8, 1, terrain, 5, false, new ArrayList<String>(){
             {
@@ -17,12 +15,10 @@ public class Bib extends Enemy{
         });
     }
 
-
     @Override
     public void action() {
         jump();
     }
-
 
     @Override
     public void attack() {

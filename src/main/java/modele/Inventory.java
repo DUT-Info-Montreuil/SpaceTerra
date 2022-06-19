@@ -9,7 +9,6 @@ public abstract class Inventory {
     private ObservableList<Slot> slots;
     private int maxInventorySize;
 
-
     public int getCurrInventorySize() {
         return currInventorySize;
     }
