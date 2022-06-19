@@ -17,7 +17,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class Controleur implements Initializable {
+// Controler class takes care of a lot of the initializing of the game mostly due to a lack of time
+public class Controler implements Initializable {
 
     @FXML
     private Pane panneauDeJeu;

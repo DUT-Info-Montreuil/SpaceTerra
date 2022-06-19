@@ -1,6 +1,6 @@
 package modele;
 
-import controleur.Controleur;
+import controleur.Controler;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class Florb extends Enemy{
 
     @Override
     public void action() {
-        Block b = Controleur.terrain.getBlock((int)getHitbox().getX(), (int)getHitbox().getY() + 350);
+        Block b = Controler.terrain.getBlock((int)getHitbox().getX(), (int)getHitbox().getY() + 350);
         if (b != null && b.getHitbox().isSolid()) {
             moveY(-1);
         }
@@ -28,7 +28,7 @@ public class Florb extends Enemy{
     }
 
     public void moveY(int vertDirection) {
-        Block b = Controleur.terrain.getBlock((int)this.getHitbox().getX(), (int)this.getHitbox().getY() + this.getSpeed());
+        Block b = Controler.terrain.getBlock((int)this.getHitbox().getX(), (int)this.getHitbox().getY() + this.getSpeed());
         if(b == null || !b.getHitbox().isSolid()){
             this.getHitbox().setY(this.getHitbox().getY()+ this.getSpeed() * vertDirection);
         }
@@ -39,7 +39,7 @@ public class Florb extends Enemy{
 
 
     public void huntingY() {
-        Block b = Controleur.terrain.getBlock((int)getHitbox().getX(), (int)getHitbox().getY() + 200);
+        Block b = Controler.terrain.getBlock((int)getHitbox().getX(), (int)getHitbox().getY() + 200);
         if (b != null && b.getHitbox().isSolid()) {
             moveY(-1);
         }
@@ -51,23 +51,23 @@ public class Florb extends Enemy{
     @Override
     public void attack() {
         this.setSpeed(2);
-        if (this.getHitbox().getX() < Controleur.player.getHitbox().getX()) {
+        if (this.getHitbox().getX() < Controler.player.getHitbox().getX()) {
             this.setIdleDirection(1);
-        } else if (this.getHitbox().getX() > Controleur.player.getHitbox().getX()) {
+        } else if (this.getHitbox().getX() > Controler.player.getHitbox().getX()) {
             this.setIdleDirection(-1);
         }
         if(this.getAttackCooldown() > 0 && isCanAttack()){
             this.moveY(1);
             moveX(getIdleDirection());
             setAttackCooldown(getAttackCooldown() - 7);
-            if ((distanceToPosition((int)Controleur.player.getHitbox().getX(), (int)Controleur.player.getHitbox().getY()) == 0 && !Controleur.player.isInvicible())) {
-                Controleur.player.decreaseHealth(2);
+            if ((distanceToPosition((int) Controler.player.getHitbox().getX(), (int) Controler.player.getHitbox().getY()) == 0 && !Controler.player.isInvicible())) {
+                Controler.player.decreaseHealth(2);
                 this.setAttackCooldown(50);
             }
-            else if(this.getHitbox().getY() == Controleur.player.getHitbox().getY()){
+            else if(this.getHitbox().getY() == Controler.player.getHitbox().getY()){
                 this.setAttackCooldown(0);
             }
-            Controleur.player.launchInvicibleCooldown();
+            Controler.player.launchInvicibleCooldown();
         }
         else {
             setCanAttack(false);

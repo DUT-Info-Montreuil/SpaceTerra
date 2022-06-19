@@ -1,7 +1,5 @@
 package modele;
 
-import controleur.Controleur;
-
 import java.util.ArrayList;
 
 public class Moobius extends Animal{

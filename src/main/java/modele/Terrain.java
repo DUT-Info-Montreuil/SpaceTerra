@@ -1,6 +1,6 @@
 package modele;
 
-import controleur.Controleur;
+import controleur.Controler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -125,9 +125,9 @@ public class Terrain {
 
     public boolean checkDestroyedBlock(Block b){
             if (b.getHealth() <= 0) {
-                Controleur.terrain.deleteBlock(b);
+                Controler.terrain.deleteBlock(b);
                 if (b.getHitbox().isSolid()) {
-                    Controleur.terrain.deleteSolidBlock(b);
+                    Controler.terrain.deleteSolidBlock(b);
                 }
                 return true;
             }

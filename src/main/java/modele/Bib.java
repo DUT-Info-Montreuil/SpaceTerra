@@ -1,6 +1,6 @@
 package modele;
 
-import controleur.Controleur;
+import controleur.Controler;
 
 import java.util.ArrayList;
 
@@ -31,10 +31,10 @@ public class Bib extends Enemy{
             if (this.isGrounded() && !isJumping()) {
                 this.jump();
             } else if (isJumping()) {
-                if (distanceToPosition((int)Controleur.player.getHitbox().getX(), (int)Controleur.player.getHitbox().getY()) == 0 && !Controleur.player.isInvicible()) {
-                    Controleur.player.decreaseHealth(3);
+                if (distanceToPosition((int) Controler.player.getHitbox().getX(), (int) Controler.player.getHitbox().getY()) == 0 && !Controler.player.isInvicible()) {
+                    Controler.player.decreaseHealth(3);
                 }
-                Controleur.player.launchInvicibleCooldown();
+                Controler.player.launchInvicibleCooldown();
                 this.jump();
             }
             if(getIdleDirection() == 1 && !sideRightCollisions() && this.getHitbox().getX() <= this.getTerrain().getWidth() * 32 - 30){
@@ -50,9 +50,9 @@ public class Bib extends Enemy{
             } else {
                 setCanAttack(true);
             }
-            if (this.getHitbox().getX() < Controleur.player.getHitbox().getX()) {
+            if (this.getHitbox().getX() < Controler.player.getHitbox().getX()) {
                 this.setIdleDirection(1);
-            } else if (this.getHitbox().getX() > Controleur.player.getHitbox().getX()) {
+            } else if (this.getHitbox().getX() > Controler.player.getHitbox().getX()) {
                 this.setIdleDirection(-1);
             }
         }

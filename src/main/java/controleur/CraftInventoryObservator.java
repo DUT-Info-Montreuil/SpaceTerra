@@ -33,7 +33,7 @@ public class CraftInventoryObservator extends InventoryObservator {
         }
         else {
             resultSlotObservator.getResultSlotView().hideSlot();
-            craftInventory.transferInventoryToPlayer(Controleur.player);
+            craftInventory.transferInventoryToPlayer(Controler.player);
         }
     }
 
