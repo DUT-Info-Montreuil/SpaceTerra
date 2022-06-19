@@ -22,7 +22,7 @@ public class DeletedSlotView {
         deletedRectangle.toFront();
         deletedRectangle.setVisible(false);
 
-        ImageView trashCan = new ImageView(new Image("Sprites/Items/dirtItem.png")); // Image temp
+        ImageView trashCan = new ImageView(new Image("Sprites/Icons/Trashcan.png")); // Image temp
         trashCan.xProperty().bind(deletedRectangle.xProperty().subtract(trashCan.getImage().getWidth()/2 - deletedRectangle.getWidth() / 2));
         trashCan.yProperty().bind(deletedRectangle.yProperty().subtract(trashCan.getImage().getHeight()/2 - deletedRectangle.getHeight() / 2));
         trashCan.visibleProperty().bind(deletedRectangle.visibleProperty());
