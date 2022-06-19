@@ -17,8 +17,6 @@ public abstract class Enemy extends Entity {
     private boolean canAttack;
 
     private boolean canMove = true;
-    public Enemy(int vie, int vitesse, Hitbox hitbox, int range, Terrain terrain, ArrayList<String> actions) {
-        super(vie, vitesse, hitbox, terrain, actions);
     // pour state : 0 c'est idle, 1 c'est hunting et 2 c'est attack
     private int state;
     private int idleCooldown;
@@ -28,10 +26,8 @@ public abstract class Enemy extends Entity {
 
     private int strenght;
 
-    private boolean canMove;
-
     public Enemy(int vie, int vitesse, Hitbox hitbox, int range, Terrain terrain, ArrayList<String> actions) {
-            super(vie, vitesse, hitbox, terrain, actions);
+        super(vie, vitesse, hitbox, terrain, jumpHeight, flying, actions);
         this.range = range;
         this.state = 0;
         this.idleCooldown = 0;

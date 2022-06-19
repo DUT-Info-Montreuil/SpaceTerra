@@ -13,7 +13,7 @@ public class Player extends Entity {
 
 
     public Player(int x, int y, Terrain terrain){
-        super(20, 7, new Hitbox(20,38,x,y, false), terrain, new ArrayList<String>(){
+        super(20, 7, new Hitbox(20,38,x,y, false), terrain, 20, false, new ArrayList<String>(){
             {
                 add("idle");
                 add("walk");
@@ -29,9 +29,9 @@ public class Player extends Entity {
     @Override
     public void movement(Player player, boolean leftCheck, boolean rightCheck) {
         if(leftCheck){
-            if (this.getHitbox().getX().getValue() >= 10) {
+            if (this.getHitbox().getX() >= 10) {
                 if (!sideLeftCollision())
-                    getHitbox().setX(this.getHitbox().getX().intValue() - getSpeed());
+                    getHitbox().setX(this.getHitbox().getX() - getSpeed());
 
                 else if (canClimbLeft())
                     climb(2);
@@ -39,9 +39,9 @@ public class Player extends Entity {
         }
 
         if(rightCheck){
-            if (this.getHitbox().getX().getValue() <= this.getTerrain().getWidth() * 32 - 30) {
+            if (this.getHitbox().getX() <= this.getTerrain().getWidth() * 32 - 30) {
                 if (!sideRightCollisions())
-                    getHitbox().setX(this.getHitbox().getX().intValue() + getSpeed());
+                    getHitbox().setX(this.getHitbox().getX() + getSpeed());
 
                 else if (canClimbRight())
                     climb(1);
