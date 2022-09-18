@@ -17,4 +17,6 @@ Vous incarnez une aventurière de l'espace qui apreès s'être crashée sur une 
 - Récoltez des ressources.
 - Fabriquez de l'équipement.
 
+Pour plus d'info rendez vous sur le [wiki](https://github.com/DUT-Info-Montreuil/SpaceTerra/wiki").
+
 (le jeu n'est pas complet car tache trop grande pour la limite de temps)
