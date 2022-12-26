@@ -13,7 +13,7 @@
 Faire un jeu(le plus de mécaniques possibles dans la limite de temps) Terraria-like en javaFX où la séparation Modèle-Vue-Controleur est respectée en 7 semaines.
 
 ## Le jeu
-Vous incarnez une aventurière de l'espace qui apreès s'être crashée sur une planette inconnue, doit trouver un moyen de s'échapper de celle-ci.
+Vous incarnez une aventurière de l'espace qui après s'être crashée sur une planette inconnue, doit trouver un moyen de s'échapper de celle-ci.
 - Récoltez des ressources.
 - Fabriquez de l'équipement.
 
